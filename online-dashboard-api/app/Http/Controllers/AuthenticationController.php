@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Laravel\Passport\RefreshTokenRepository;
 use Nyholm\Psr7\Factory\Psr17Factory;
@@ -45,6 +46,11 @@ class AuthenticationController extends Controller
             }
 
             Auth::login($user);
+
+            // Start a session manually
+            if (! Session::isStarted()) {
+                Session::start();
+            }
 
             // Success response with tokens
             return response()->json([
@@ -93,6 +99,11 @@ class AuthenticationController extends Controller
             // Login the user
             Auth::login($user);
 
+            // Start a session manually
+            if (! Session::isStarted()) {
+                Session::start();
+            }
+
             //success response if tokens are generated successfully
             return response()->json([
                 'message' => 'Sccessufully logged in',
@@ -115,6 +126,11 @@ class AuthenticationController extends Controller
     // Revoke the access token
     public function logout(Request $request)
     {
+        //destroying the session
+        Session::invalidate();
+
+        //regenerate the session ID to prevent session fixation attacks
+        Session::regenerateToken();
 
         info('inside the logout');
         $user = Auth::user();
