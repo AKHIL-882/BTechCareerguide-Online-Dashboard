@@ -1,23 +1,21 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\ForgetPasswordController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+Route::post('signup', [AuthenticationController::class, 'signup']);
 
+Route::post('login', [AuthenticationController::class, 'login']);
 
-Route::post('signup', [AuthenticationController::class, 'signup']) ;
+Route::middleware(['auth:api', 'api'])->group(function () {
 
-Route::post('login', [AuthenticationController::class, 'login']) ;
+    Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']);
 
-Route::middleware(['auth:api', 'api'])->group(function() {
+    Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
 
-    Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']) ;
+});
 
-    Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']) ;
+Route::post('reset-password', [ForgetPasswordController::class, 'resetPassword']);
 
-}) ;
-
+Route::post('update-password', [ForgetPasswordController::class, 'updatePassword']);

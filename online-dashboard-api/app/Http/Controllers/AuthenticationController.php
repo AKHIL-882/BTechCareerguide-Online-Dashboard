@@ -30,11 +30,9 @@ class AuthenticationController extends Controller
             //generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
 
-            info($user) ;
+            info($user);
 
-
-            info($tokenData) ;
-
+            info($tokenData);
 
             //check if token generation failed
             if (! $tokenData) {
@@ -117,7 +115,7 @@ class AuthenticationController extends Controller
     // Revoke the access token
     public function logout(Request $request)
     {
-        
+
         info('inside the logout');
         $user = Auth::user();
         info($user);
