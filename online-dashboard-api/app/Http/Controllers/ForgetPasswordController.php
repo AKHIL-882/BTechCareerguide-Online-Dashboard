@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
+use App\Http\Responses\ApiResponse;
 use App\Models\ForgetPasswordTokens;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\Response;
 
 class ForgetPasswordController extends Controller
 {
@@ -18,7 +20,8 @@ class ForgetPasswordController extends Controller
 
         $user->initiatePasswordReset();
 
-        return response()->json(['message' => 'Reset link sent to your email'], 200);
+        return ApiResponse::message('Reset link sent to your email')
+            ->response(Response::HTTP_OK);
 
     }
 
@@ -27,19 +30,16 @@ class ForgetPasswordController extends Controller
         $token = $request->token;
 
         //Find the token record
-
         $forgetPasswordToken = ForgetPasswordTokens::where('token', $token)->firstOrFail();
 
         if (! $forgetPasswordToken) {
-            return response()->json([
-                'message' => 'Invalid password reset request',
-            ], 422);
+            return ApiResponse::message('Invalid password reset request')
+                ->response(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $result = $forgetPasswordToken->updatePassword($request->password);
 
-        return response()->json([
-            'message' => $result['message'],
-        ], $result['status'] ? 200 : 422);
+        return ApiResponse::message($result['message'])
+            ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }
