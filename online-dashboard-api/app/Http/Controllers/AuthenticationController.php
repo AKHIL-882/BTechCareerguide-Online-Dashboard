@@ -21,12 +21,15 @@ class AuthenticationController extends Controller
     {
 
         try {
-            //creating a new user
-            $user = User::create([
-                'name' => $request->name,
+
+            $data = [
+                'name' => $request->name ,
                 'email' => $request->email,
-                'password' => $request->password,
-            ]);
+                'password' => $request->password
+            ] ;
+            
+            //creating a new user
+            $user = User::createUser($data) ;
 
             //generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
@@ -58,6 +61,10 @@ class AuthenticationController extends Controller
                 'expires_in' => $tokenData['expires_in'],
                 'user' => $user,
             ], 201);
+            // write function to render the default keys -> func1()
+            // write fuction mergeresponse => which takes params () =>  func1()
+            // return ApiResponse::displayResponse($tokenData)->responseOK();
+            // return ApiResponse::setMessage("asdfasdf")->mergeResponse($tokenData)->responseOk();
         } catch (Throwable $e) {
             // Handle exceptions
             return response()->json([
@@ -139,7 +146,6 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository = app(RefreshTokenRepository::class);
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
-
 
             return response()->json(['message' => 'Successfully logged out'], 200);
         } else {
