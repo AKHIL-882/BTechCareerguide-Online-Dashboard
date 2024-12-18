@@ -28,8 +28,7 @@ class ForgetPasswordTokens extends Model
     public function updatepassword(string $password)
     {
 
-        info($this->expiration);
-
+        
         //check if the token has expired
         if (Carbon::parse($this->expiration)->isPast()) {
             return response()->json(['error' => 'Password reset token has expired'], 422);

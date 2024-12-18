@@ -31,9 +31,6 @@ class AuthenticationController extends Controller
             //generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
 
-            info($user);
-
-            info($tokenData);
 
             //check if token generation failed
             if (! $tokenData) {
@@ -132,9 +129,7 @@ class AuthenticationController extends Controller
         //regenerate the session ID to prevent session fixation attacks
         Session::regenerateToken();
 
-        info('inside the logout');
         $user = Auth::user();
-        info($user);
         $tokens = Auth::user()->tokens;
         // Check if user exists and has an active token
         if ($user && $tokens) {
@@ -145,8 +140,6 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            //logout the user
-            // Auth::logout();
 
             return response()->json(['message' => 'Successfully logged out'], 200);
         } else {
