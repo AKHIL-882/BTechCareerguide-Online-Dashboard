@@ -118,4 +118,6 @@ return [
 
     'oauth_token_uri' => 'http://127.0.0.1:8000/oauth/token',
 
+    'reset_password_expiry_time_limit' => 5,
+
 ];

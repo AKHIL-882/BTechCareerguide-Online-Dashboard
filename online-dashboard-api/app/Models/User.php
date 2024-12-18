@@ -59,7 +59,8 @@ class User extends Authenticatable
 
     public function initiatePasswordReset(): void
     {
-        $expiry = Carbon::now()->addMinutes(60);
+        $expiryTimelimit = config('auth.reset_password_expiry_time_limit');
+        $expiry = Carbon::now()->addMinutes($expiryTimelimit);
         $token = str()->random(60);
 
         $this->passwordResetTokens()->create([
