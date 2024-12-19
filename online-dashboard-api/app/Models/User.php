@@ -3,14 +3,20 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Jobs\ProcessResetPasswordMailJob;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -44,5 +50,36 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function passwordResetTokens(): HasMany
+    {
+        return $this->hasMany(ForgetPasswordTokens::class);
+    }
+
+    public function initiatePasswordReset(): void
+    {
+        $expiryTimelimit = config('auth.reset_password_expiry_time_limit');
+        $expiry = Carbon::now()->addMinutes($expiryTimelimit);
+        $token = str()->random(60);
+
+        $this->passwordResetTokens()->create([
+            'email' => $this->email,
+            'token' => $token,
+            'expiration' => $expiry,
+        ]);
+
+        // Dispatch the email job
+        ProcessResetPasswordMailJob::dispatch($this->email, $token, $expiry, $this->name);
+
+    }
+
+    public static function createUser($data): object
+    {
+        return self::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
     }
 }
