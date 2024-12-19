@@ -18,6 +18,8 @@ use Throwable;
 
 class AuthenticationController extends Controller
 {
+
+    // use ApiResponse;
     public function signUp(SignupRequest $request): JsonResponse
     {
 
@@ -35,29 +37,30 @@ class AuthenticationController extends Controller
             //generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
 
+
             //check if token generation failed
-            if (! $tokenData) {
+            if (!$tokenData) {
                 //delete the user if token generation fails
                 $user->delete();
 
-                return ApiResponse::message('Token generation failed')
+                return ApiResponse::setMessage('Token generation failed')
                     ->response(Response::HTTP_BAD_REQUEST);
             }
 
             Auth::login($user);
 
             // Start a session manually
-            if (! Session::isStarted()) {
+            if (!Session::isStarted()) {
                 Session::start();
             }
 
-            return ApiResponse::message('User Created Successfully')
-                ->getTokens($tokenData)
-                ->response(Response::HTTP_CREATED);
+            return ApiResponse::setMessage('User Created Successfully')
+            ->responseTokens($tokenData)
+            ->response(Response::HTTP_CREATED);
 
         } catch (Throwable $e) {
 
-            return ApiResponse::message($e->getMessage())
+            return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
         }
 
@@ -72,8 +75,8 @@ class AuthenticationController extends Controller
             // validate the user
             $user = User::where('email', $credentials['email'])->first();
 
-            if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-                return ApiResponse::message('Unauthenticated')
+            if (!$user || !Hash::check($credentials['password'], $user->password)) {
+                return ApiResponse::setMessage('Unauthenticated')
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
 
@@ -82,7 +85,7 @@ class AuthenticationController extends Controller
 
             //checking if token generation failed
             if (isset($tokenData['error'])) {
-                return ApiResponse::message($tokenData['error'])
+                return ApiResponse::setMessage($tokenData['error'])
                     ->response(Response::HTTP_BAD_REQUEST);
             }
 
@@ -90,17 +93,17 @@ class AuthenticationController extends Controller
             Auth::login($user);
 
             // Start a session manually
-            if (! Session::isStarted()) {
+            if (!Session::isStarted()) {
                 Session::start();
             }
 
             //success response if tokens are generated successfully
-            return ApiResponse::message('Sccessufully logged in')
-                ->getTokens($tokenData)
+            return ApiResponse::setMessage('Sccessufully logged in')
+                ->responseTokens($tokenData)
                 ->response(Response::HTTP_OK);
 
         } catch (Throwable $e) {
-            return ApiResponse::message($e->getMessage())
+            return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
         }
 
@@ -126,11 +129,11 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            return ApiResponse::message('Successfully logged out')
+            return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
 
         } else {
-            return ApiResponse::message('No active access token found for the user')
+            return ApiResponse::setMessage('No active access token found for the user')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
 
@@ -145,12 +148,12 @@ class AuthenticationController extends Controller
             $tokenData = refreshAccessToken($refreshToken);
 
             // Return the response (new access and refresh tokens)
-            return ApiResponse::message('Tokens Successfully created!')
-                ->getTokens($tokenData)
+            return ApiResponse::setMessage('Tokens Successfully created!')
+                ->responseTokens($tokenData)
                 ->response(Response::HTTP_OK);
 
         } catch (Throwable $e) {
-            return ApiResponse::message('The refresh token is invalid or expired')
+            return ApiResponse::setMessage('The refresh token is invalid or expired')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
 

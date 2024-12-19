@@ -20,7 +20,7 @@ class ForgetPasswordController extends Controller
 
         $user->initiatePasswordReset();
 
-        return ApiResponse::message('Reset link sent to your email')
+        return ApiResponse::setMessage('Reset link sent to your email')
             ->response(Response::HTTP_OK);
 
     }
@@ -33,13 +33,13 @@ class ForgetPasswordController extends Controller
         $forgetPasswordToken = ForgetPasswordTokens::where('token', $token)->firstOrFail();
 
         if (! $forgetPasswordToken) {
-            return ApiResponse::message('Invalid password reset request')
+            return ApiResponse::setMessage('Invalid password reset request')
                 ->response(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
         $result = $forgetPasswordToken->updatePassword($request->password);
 
-        return ApiResponse::message($result['message'])
+        return ApiResponse::setMessage($result['message'])
             ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 }

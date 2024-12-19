@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\AuthenticationService\TokensService;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -12,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // $this->app->singleton(TokensService::class, function($app): TokensService {
+        //     return new TokensService() ;
+        // }) ;
     }
 
     /**
