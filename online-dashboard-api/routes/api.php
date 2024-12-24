@@ -21,9 +21,9 @@ Route::middleware(['auth:api', 'api'])->group(function () {
             
             Route::post('update', [JobOpportunityController::class, 'update']);
 
-            Route::post('delete', [JobOpportunityController::class, 'destroy']);
+            Route::delete('delete', [JobOpportunityController::class, 'destroy']);
     
-            Route::post('show', [JobOpportunityController::class, 'show']);
+            Route::get('show', [JobOpportunityController::class, 'show']);
         }) ;
        
     });
