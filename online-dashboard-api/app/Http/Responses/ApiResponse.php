@@ -7,25 +7,22 @@ use Illuminate\Http\JsonResponse;
 class ApiResponse
 {
     protected array $response = [];
+    protected $message;
+    protected array $results = [];
 
-    public static function message(string $message): self
+    public static function setMessage(string $message): self
     {
         $instance = new self;
-        $instance->response['message'] = $message;
-
+        $instance->message = $message;
+        $instance->response['message'] = $instance->message;
         return $instance;
     }
 
-    public static function getTokens($tokenData): self
+    public function mergeResults(array $results = []): self
     {
-
-        $instance = new self;
-        $instance->response['token_type'] = $tokenData['token_type'];
-        $instance->response['access_token'] = $tokenData['access_token'];
-        $instance->response['refresh_token'] = $tokenData['refresh_token'];
-        $instance->response['expires_in'] = $tokenData['expires_in'] ?? 900;
-
-        return $instance;
+        $this->results = array_merge($this->results, $results);
+        $this->response = array_merge($this->response, $this->results);
+        return $this;
     }
 
     public function response($statusCode): JsonResponse
