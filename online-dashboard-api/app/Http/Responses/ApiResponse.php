@@ -16,6 +16,14 @@ class ApiResponse
         return $instance;
     }
 
+    public static function setData($data): self
+    {
+        $instance = new self;
+        $instance->response['data'] = $data;
+
+        return $instance;
+    }
+
     public static function getTokens($tokenData): self
     {
 
