@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('add_jobs', function (Blueprint $table) {
+        Schema::create('job_opportunities', function (Blueprint $table) {
             $table->id();
             $table->string('company_name');
             $table->string('role');

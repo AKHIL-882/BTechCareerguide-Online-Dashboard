@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AddJobsController;
+use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -13,15 +13,19 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
 
     Route::prefix('jobs')->group(function () {
-        Route::post('create-new-job', [AddJobsController::class, 'store']);
 
-        Route::post('update-job/{id}', [AddJobsController::class, 'update']);
+        Route::get('/', [JobOpportunityController::class, 'index']);
+        Route::post('create', [JobOpportunityController::class, 'store']);
 
-        Route::post('delete-job/{id}', [AddJobsController::class, 'destroy']);
+        Route::prefix('{id}')->group(function() {
+            
+            Route::post('update', [JobOpportunityController::class, 'update']);
 
-        Route::post('show-job/{id}', [AddJobsController::class, 'show']);
-
-        Route::get('get-all-jobs', [AddJobsController::class, 'index']);
+            Route::post('delete', [JobOpportunityController::class, 'destroy']);
+    
+            Route::post('show', [JobOpportunityController::class, 'show']);
+        }) ;
+       
     });
 
 });

@@ -5,12 +5,18 @@ namespace App\Models;
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class AddJob extends Model
+class JobOpportunity extends Model
 {
+
+    use HasFactory ;
+
+    protected $table = 'job_opportunities';
+
     protected $fillable = [
         'company_name',
         'role',
@@ -64,11 +70,10 @@ class AddJob extends Model
     {
         try {
             $jobsList = self::all();
-            $jobsListCollection = JobResource::collection($jobsList);
+        return JobResource::collection($jobsList) ;
 
-            return $jobsListCollection;
         } catch (Throwable $e) {
-            return ApiResponse::message($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
+            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
         }
     }
 }

@@ -5,18 +5,18 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateJObRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\AddJob;
+use App\Models\JobOpportunity;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class AddJobsController extends Controller
+class JobOpportunityController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
-        $jobsList = AddJob::getAllJobs();
+        $jobsList = JobOpportunity::getAllJobs();
 
         return ApiResponse::setData($jobsList)->response(Response::HTTP_OK);
 
@@ -32,9 +32,9 @@ class AddJobsController extends Controller
      */
     public function store(CreateJObRequest $request): JsonResponse
     {
-        AddJob::createJob($request);
+        JobOpportunity::createJob($request);
 
-        return ApiResponse::message('new job created successfully')->response(Response::HTTP_CREATED);
+        return ApiResponse::setMessage('new job created successfully')->response(Response::HTTP_CREATED);
     }
 
     /**
@@ -42,7 +42,7 @@ class AddJobsController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $job = AddJob::showJob($id);
+        $job = JobOpportunity::showJob($id);
 
         return ApiResponse::setData($job)->response(Response::HTTP_OK);
     }
@@ -60,9 +60,9 @@ class AddJobsController extends Controller
      */
     public function update(UpdateJobRequest $request, string $id): JsonResponse
     {
-        AddJob::updateJob($request, $id);
+        JobOpportunity::updateJob($request, $id);
 
-        return ApiResponse::message('job updated successfuly')->response(Response::HTTP_OK);
+        return ApiResponse::setMessage('job updated successfuly')->response(Response::HTTP_OK);
     }
 
     /**
@@ -70,8 +70,8 @@ class AddJobsController extends Controller
      */
     public function destroy(string $id)
     {
-        AddJob::destroyJob($id);
+        JobOpportunity::destroyJob($id);
 
-        return ApiResponse::message('job deleted successfully')->response(Response::HTTP_NO_CONTENT);
+        return ApiResponse::setMessage('job deleted successfully')->response(Response::HTTP_NO_CONTENT);
     }
 }
