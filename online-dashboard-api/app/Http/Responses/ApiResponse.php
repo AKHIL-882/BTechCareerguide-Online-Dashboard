@@ -7,7 +7,9 @@ use Illuminate\Http\JsonResponse;
 class ApiResponse
 {
     protected array $response = [];
+
     protected $message;
+
     protected array $results = [];
 
     public static function setMessage(string $message): self
@@ -15,6 +17,7 @@ class ApiResponse
         $instance = new self;
         $instance->message = $message;
         $instance->response['message'] = $instance->message;
+
         return $instance;
     }
 
@@ -30,6 +33,7 @@ class ApiResponse
     {
         $this->results = array_merge($this->results, $results);
         $this->response = array_merge($this->response, $this->results);
+
         return $this;
     }
 

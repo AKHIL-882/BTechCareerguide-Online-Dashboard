@@ -32,7 +32,7 @@ class ForgetPasswordController extends Controller
         //Find the token record
         $forgetPasswordToken = ForgetPasswordTokens::where('token', $token)->firstOrFail();
 
-        if (!$forgetPasswordToken) {
+        if (! $forgetPasswordToken) {
             return ApiResponse::setMessage('Invalid password reset request')
                 ->response(Response::HTTP_UNPROCESSABLE_ENTITY);
         }

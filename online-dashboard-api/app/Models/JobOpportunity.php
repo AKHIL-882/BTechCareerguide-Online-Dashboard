@@ -12,8 +12,7 @@ use Throwable;
 
 class JobOpportunity extends Model
 {
-
-    use HasFactory ;
+    use HasFactory;
 
     protected $table = 'job_opportunities';
 
@@ -70,7 +69,8 @@ class JobOpportunity extends Model
     {
         try {
             $jobsList = self::all();
-        return JobResource::collection($jobsList) ;
+
+            return JobResource::collection($jobsList);
 
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);

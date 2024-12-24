@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\JobOpportunityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -17,15 +17,15 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         Route::get('/', [JobOpportunityController::class, 'index']);
         Route::post('create', [JobOpportunityController::class, 'store']);
 
-        Route::prefix('{id}')->group(function() {
-            
+        Route::prefix('{id}')->group(function () {
+
             Route::post('update', [JobOpportunityController::class, 'update']);
 
             Route::delete('delete', [JobOpportunityController::class, 'destroy']);
-    
+
             Route::get('show', [JobOpportunityController::class, 'show']);
-        }) ;
-       
+        });
+
     });
 
 });
