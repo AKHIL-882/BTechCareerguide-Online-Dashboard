@@ -33,7 +33,7 @@ class JobOpportunityController extends Controller
     {
         JobOpportunity::createJob($request);
 
-        return ApiResponse::setMessage('new job created successfully')->response(Response::HTTP_CREATED);
+        return ApiResponse::setMessage('New job created successfully')->response(Response::HTTP_CREATED);
     }
 
     /**
@@ -61,7 +61,7 @@ class JobOpportunityController extends Controller
     {
         JobOpportunity::updateJob($request, $id);
 
-        return ApiResponse::setMessage('job updated successfuly')->response(Response::HTTP_OK);
+        return ApiResponse::setMessage('Job updated successfuly')->response(Response::HTTP_OK);
     }
 
     /**
@@ -71,6 +71,6 @@ class JobOpportunityController extends Controller
     {
         JobOpportunity::destroyJob($id);
 
-        return ApiResponse::setMessage('job deleted successfully')->response(Response::HTTP_OK);
+        return ApiResponse::setMessage('Job deleted successfully')->response(Response::HTTP_OK);
     }
 }

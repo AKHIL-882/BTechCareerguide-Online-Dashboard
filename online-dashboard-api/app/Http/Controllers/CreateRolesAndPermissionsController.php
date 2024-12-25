@@ -15,7 +15,7 @@ class CreateRolesAndPermissionsController extends Controller
             $userRole = Role::create(['name' => 'user']);
             $AdminRole = Role::create(['name' => 'admin']);
 
-            return ApiResponse::setMessage('user and admin roles created successfully')->response(Response::HTTP_OK);
+            return ApiResponse::setMessage('User and Admin roles created successfully')->response(Response::HTTP_OK);
         } catch (Throwable $e) {
             return ApiResponse::setMessage('Roles creation failed')->response(Response::HTTP_BAD_REQUEST);
         }
