@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\JobOpportunityController;
+use App\Http\Controllers\ProjectsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -11,6 +12,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']);
 
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
+
 
     Route::prefix('jobs')->group(function () {
 
@@ -27,6 +29,22 @@ Route::middleware(['auth:api', 'api'])->group(function () {
         });
 
     });
+
+
+    Route::prefix('projects')->group(function() {
+        Route::get('/', [ProjectsController::class, 'index']) ;
+        Route::post('create', [ProjectsController::class, 'store']) ;
+
+        Route::prefix('{id}')->group(function() {
+
+            Route::put('update', [ProjectsController::class, 'update']) ;
+
+            Route::delete('delete', [ProjectsController::class, 'destroy']) ;
+
+            Route::get('show', [ProjectsController::class, 'show']) ;
+        }) ;
+    }) ;
+
 
 });
 
