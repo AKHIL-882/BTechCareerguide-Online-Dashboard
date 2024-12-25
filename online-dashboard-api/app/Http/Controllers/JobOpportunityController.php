@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateJObRequest;
-use App\Http\Requests\UpdateJobRequest;
+use App\Http\Requests\JobOpportuinityRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\JobOpportunity;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -30,7 +29,7 @@ class JobOpportunityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CreateJObRequest $request): JsonResponse
+    public function store(JobOpportuinityRequest $request): JsonResponse
     {
         JobOpportunity::createJob($request);
 
@@ -58,7 +57,7 @@ class JobOpportunityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJobRequest $request, string $id): JsonResponse
+    public function update(JobOpportuinityRequest $request, string $id): JsonResponse
     {
         JobOpportunity::updateJob($request, $id);
 
@@ -72,6 +71,6 @@ class JobOpportunityController extends Controller
     {
         JobOpportunity::destroyJob($id);
 
-        return ApiResponse::setMessage('job deleted successfully')->response(Response::HTTP_NO_CONTENT);
+        return ApiResponse::setMessage('job deleted successfully')->response(Response::HTTP_OK);
     }
 }

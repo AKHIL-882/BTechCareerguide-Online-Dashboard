@@ -19,7 +19,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
         Route::prefix('{id}')->group(function () {
 
-            Route::post('update', [JobOpportunityController::class, 'update']);
+            Route::put('update', [JobOpportunityController::class, 'update']);
 
             Route::delete('delete', [JobOpportunityController::class, 'destroy']);
 
