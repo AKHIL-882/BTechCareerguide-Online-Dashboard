@@ -94,8 +94,7 @@ Middleware:
 auth:api
 api
 
-
-4. update
+5. update
 Endpoint: api/jobs/{id}/update
 Method: POST
 Description: to update a job opportunity
@@ -103,8 +102,7 @@ Middleware:
 auth:api
 api
 
-
-5. delete
+6. delete
 Endpoint: api/jobs/{id}/delete
 Method: DELETE
 Description: to delete a job opportunity
@@ -112,15 +110,60 @@ Middleware:
 auth:api
 api
 
-
-
-5. show
+7. show
 Endpoint: api/jobs/{id}/show
 Method: GET
 Description: to show a job opportunity
 Middleware:
 auth:api
 api
+
+
+8. projects 
+Endpoint: api/projects
+Method: GET 
+Description: Returns all projects
+Middleware:
+auth:api
+api
+
+9. create
+Endpoint: api/projects/create
+Method: POST
+Description: to create a new project
+Middleware:
+auth:api
+api
+
+
+10. update
+Endpoint: api/projects/{id}/update
+Method: POST
+Description: to update a project
+Middleware:
+auth:api
+api
+
+
+11. delete
+Endpoint: api/projects/{id}/delete
+Method: DELETE
+Description: to delete a project
+Middleware:
+auth:api
+api
+
+12. show
+Endpoint: api/projects/{id}/show
+Method: GET
+Description: to show a project
+Middleware:
+auth:api
+api
+
+
+
+
 
 
 Guest Routes (For Unauthenticated Users)
