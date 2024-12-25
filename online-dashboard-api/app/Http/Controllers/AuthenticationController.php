@@ -36,7 +36,7 @@ class AuthenticationController extends Controller
             $tokenData = generateAccessToken($user, $request->password);
 
             //check if token generation failed
-            if (!$tokenData) {
+            if (! $tokenData) {
                 //delete the user if token generation fails
                 $user->delete();
 
@@ -47,7 +47,7 @@ class AuthenticationController extends Controller
             Auth::login($user);
 
             // Start a session manually
-            if (!Session::isStarted()) {
+            if (! Session::isStarted()) {
                 Session::start();
             }
 
@@ -73,7 +73,7 @@ class AuthenticationController extends Controller
             // validate the user
             $user = User::where('email', $credentials['email'])->first();
 
-            if (!$user || !Hash::check($credentials['password'], $user->password)) {
+            if (! $user || ! Hash::check($credentials['password'], $user->password)) {
                 return ApiResponse::setMessage('Unauthenticated')
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
@@ -91,7 +91,7 @@ class AuthenticationController extends Controller
             Auth::login($user);
 
             // Start a session manually
-            if (!Session::isStarted()) {
+            if (! Session::isStarted()) {
                 Session::start();
             }
 
