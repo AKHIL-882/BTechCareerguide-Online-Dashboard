@@ -31,7 +31,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/jobs" element={<Jobs jobs={jobsData} />} />
+        <Route path="/jobs" element={<Jobs/>} />
         <Route path="/projects" element={<ProjectHome />} />
         <Route path="/company-qa" element={<CompanyQA />} />
       </Routes>

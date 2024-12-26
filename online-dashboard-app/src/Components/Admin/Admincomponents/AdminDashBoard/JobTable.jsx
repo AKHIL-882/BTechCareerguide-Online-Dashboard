@@ -19,7 +19,7 @@ const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
         <tbody>
           {currentJobs.map((job) => (
             <tr key={job.id} className="border-b hover:bg-gray-50">
-              <td className="py-2 px-4">{job.companyName}</td>
+              <td className="py-2 px-4">{job.company_name}</td>
               <td className="py-2 px-4">{job.role}</td>
               <td className="py-2 px-4">{job.qualifications.join(", ")}</td>
               <td className="py-2 px-4">{job.batches.join(", ")}</td>

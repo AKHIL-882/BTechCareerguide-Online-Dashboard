@@ -45,7 +45,7 @@ const AddJobForm = () => {
           id="companyName"
           label="Company Name"
           type="text"
-          value={formData.companyName}
+          value={formData.company_name}
           onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
           placeholder="Enter company name"
         />
