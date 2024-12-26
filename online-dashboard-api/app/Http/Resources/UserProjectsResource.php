@@ -26,13 +26,12 @@ class UserProjectsResource extends JsonResource
 
     public function getFile($document_name): mixed
     {
-        if (Storage::disk('public')->exists('userProjectFiles/'.$document_name)) {
-
-            return Storage::disk('public')->get('userProjectFiles/'.$document_name);
-
-            // return response()->file(storage_path('app/public/userProjectFiles/' . $document_name));
+        $fileName = basename($document_name);
+        if (Storage::disk('public')->exists('userProjectFiles/'.$fileName)) {
+            return Storage::disk('public')->url('userProjectFiles/'.$fileName);
         } else {
             return 'File Not Found';
         }
     }
+    
 }
