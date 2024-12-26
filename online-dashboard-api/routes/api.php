@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\AdminProjectsController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\JobOpportunityController;
-use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\UserProjectsController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -12,7 +13,6 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']);
 
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
-
 
     Route::prefix('jobs')->group(function () {
 
@@ -30,21 +30,33 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     });
 
+    Route::prefix('admin-projects')->group(function () {
+        Route::get('/', [AdminProjectsController::class, 'index']);
+        Route::post('create', [AdminProjectsController::class, 'store']);
 
-    Route::prefix('projects')->group(function() {
-        Route::get('/', [ProjectsController::class, 'index']) ;
-        Route::post('create', [ProjectsController::class, 'store']) ;
+        Route::prefix('{id}')->group(function () {
 
-        Route::prefix('{id}')->group(function() {
+            Route::put('update', [AdminProjectsController::class, 'update']);
 
-            Route::put('update', [ProjectsController::class, 'update']) ;
+            Route::delete('delete', [AdminProjectsController::class, 'destroy']);
 
-            Route::delete('delete', [ProjectsController::class, 'destroy']) ;
+            Route::get('show', [AdminProjectsController::class, 'show']);
+        });
+    });
 
-            Route::get('show', [ProjectsController::class, 'show']) ;
-        }) ;
-    }) ;
+    Route::prefix('user-projects')->group(function () {
+        Route::get('/', [UserProjectsController::class, 'index']);
+        Route::post('create', [UserProjectsController::class, 'store']);
 
+        Route::prefix('{id}')->group(function () {
+
+            Route::put('update', [UserProjectsController::class, 'update']);
+
+            Route::delete('delete', [UserProjectsController::class, 'destroy']);
+
+            Route::get('show', [UserProjectsController::class, 'show']);
+        });
+    });
 
 });
 
