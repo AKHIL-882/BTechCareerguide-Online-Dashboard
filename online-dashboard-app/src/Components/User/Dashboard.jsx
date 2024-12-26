@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { logoutUser } from "../../Api.jsx";
-import dummyJobs from "../Temp/DummyJobs.jsx"
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Projects from "./Projects";
-import Jobs from "./Jobs";
 import JobsTable from "./JobsTable.jsx";
-
+import axios from "axios";
 
 const Dashboard = () => {
   const [jobs, setJobs] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const latestJobs = dummyJobs.slice(0, 4);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleLogout = async () => {
     const data = JSON.parse(localStorage.getItem("data"));
@@ -24,7 +21,7 @@ const Dashboard = () => {
     }
 
     try {
-      const isLoggedOut = await logout(accessToken);
+      const isLoggedOut = await logoutUser(accessToken);
       if (isLoggedOut) {
         localStorage.removeItem("data");
         alert("You have logged out successfully!");
@@ -35,19 +32,33 @@ const Dashboard = () => {
     }
   };
 
-  // const loadJobs = async (page) => {
-  //   try {
-  //     const data = await fetchJobs(page);
-  //     setJobs(data.data);
-  //     setTotalPages(data.totalPages);
-  //   } catch {
-  //     alert("Failed to load jobs. Please try again.");
-  //   }
-  // };
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem("data"));
+        const accessToken = data ? data.access_token : null;
 
-  // useEffect(() => {
-  //   loadJobs(currentPage);
-  // }, [currentPage]);
+        if (!accessToken) {
+          setError("No token found. Please log in again.");
+          return;
+        }
+
+        const response = await axios.get("http://127.0.0.1:8000/api/jobs", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setJobs(response.data.data); // Assuming `data.data` contains the jobs array
+      } catch (err) {
+        setError("Failed to fetch jobs. Please try again.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -55,18 +66,23 @@ const Dashboard = () => {
       <div className="flex flex-1">
         <Sidebar handleLogout={handleLogout} />
         <main className="flex-1">
-        <div className="p-4">
+          <div className="p-4">
             <Projects />
           </div>
           <div className="mt-2">
-            {/* Add margin-top to create space */}
-            <JobsTable jobs={latestJobs} className="p-4" />
+            <h1 className="text-3xl font-bold mb-6 text-center">Available Jobs</h1>
+            {loading ? (
+              <p className="text-center">Loading jobs...</p>
+            ) : error ? (
+              <p className="text-center text-red-500">{error}</p>
+            ) : (
+              <JobsTable jobs={jobs.slice(0, 4)} className="p-4" />
+            )}
           </div>
         </main>
       </div>
     </div>
   );
-  
 };
 
 export default Dashboard;

@@ -70,7 +70,6 @@ const HomePage = () => {
       });
 
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("data", JSON.stringify(data));
