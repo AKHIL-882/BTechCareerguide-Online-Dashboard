@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom"; 
+import { signup } from "../../Api";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -12,32 +13,18 @@ const HomePage = () => {
   });
 
   const [message, setMessage] = useState("");
-  const navigate = useNavigate(); // Initialize navigate
+  const [isLogin, setIsLogin] = useState(false);  // State to toggle between login and signup
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:8000/api/signup",
-        {
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          password: formData.password,
-          password_confirmation: formData.confirmPassword,
-        },
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await signup(formData);
 
       if (response.data.success) {
         setMessage("Account created successfully!");
@@ -48,8 +35,6 @@ const HomePage = () => {
           password: "",
           confirmPassword: "",
         });
-
-        // Redirect to the Dashboard after successful signup
         navigate("/dashboard");
       } else {
         setMessage(response.data.message || "Signup failed. Try again!");
@@ -70,14 +55,46 @@ const HomePage = () => {
     }
   };
 
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("data", JSON.stringify(data));
+        navigate("/dashboard"); // Redirect to dashboard
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="flex justify-between items-center px-6 py-4 bg-white shadow">
         <div className="text-2xl font-bold">
           <img src="logo.PNG" alt="Logo" className="h-10 w-40" />
         </div>
-        <a href="#login" className="text-lg text-black hover:text-yellow-500 transition">
-          Login
+        <a
+          href="#login"
+          onClick={() => setIsLogin(!isLogin)}  // Toggle to login form
+          className="text-lg text-black hover:text-yellow-500 transition"
+        >
+            {!isLogin ? "Login" : "Create Account"}
         </a>
       </header>
 
@@ -109,22 +126,24 @@ const HomePage = () => {
 
         <div className="flex-1 max-w-md p-6 border border-gray-300 rounded-lg shadow-md bg-gray-50 flex flex-col justify-center">
           <h2 className="text-2xl font-semibold text-center mb-4 text-gray-800">
-            Create Account
+            {isLogin ? "Login" : "Create Account"}
           </h2>
           {message && (
             <div className="text-center text-sm text-red-500 mb-4">
               {message}
             </div>
           )}
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="name"
-              placeholder="Name"
-              value={formData.name}
-              onChange={handleChange}
-              className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+          <form className="space-y-4" onSubmit={isLogin ? handleLoginSubmit : handleSignupSubmit}>
+            {!isLogin && (
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={formData.name}
+                onChange={handleChange}
+                className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
             <input
               type="email"
               name="email"
@@ -133,14 +152,16 @@ const HomePage = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <input
-              type="text"
-              name="phone"
-              placeholder="Phone Number"
-              value={formData.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            {!isLogin && (
+              <input
+                type="text"
+                name="phone"
+                placeholder="Phone Number"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
             <input
               type="password"
               name="password"
@@ -149,26 +170,36 @@ const HomePage = () => {
               onChange={handleChange}
               className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm Password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            {!isLogin && (
+              <input
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirm Password"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            )}
             <button
               type="submit"
               className="w-full px-4 py-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
             >
-              Create Account
+              {isLogin ? "Login" : "Create Account"}
             </button>
           </form>
+          <div className="text-center mt-4">
+            <span
+              onClick={() => setIsLogin(!isLogin)} 
+              className="text-sm text-blue-600 cursor-pointer hover:text-blue-700"
+            >
+              {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
+            </span>
+          </div>
         </div>
       </main>
 
       <footer className="text-center py-4 bg-gray-100 border-t border-gray-300 text-sm text-gray-600 mt-auto">
-        &copy; {new Date().getFullYear()} All rights reserved.
+        &copy; {new Date().getFullYear()} All rights reserved - ProjPort
       </footer>
     </div>
   );

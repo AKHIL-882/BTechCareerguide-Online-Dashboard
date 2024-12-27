@@ -33,5 +33,4 @@ class UserProjectsResource extends JsonResource
             return 'File Not Found';
         }
     }
-    
 }

@@ -2,17 +2,22 @@
 
 namespace App\Models;
 
+use App\Enums\ProjectStatus;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
+    use HasFactory;
+
     protected $table = 'projects';
 
     protected $fillable = [
         'company_name',
         'youtube_video_link',
         'payment_link',
+        'user_id',
         'is_admin_project',
         'project_name',
         'technical_skills',
@@ -26,6 +31,7 @@ class Project extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'status' => ProjectStatus::class,
     ];
 
     public function user(): BelongsTo

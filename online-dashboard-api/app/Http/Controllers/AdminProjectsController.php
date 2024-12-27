@@ -75,4 +75,9 @@ class AdminProjectsController extends Controller
 
         return ApiResponse::setMessage('Project deleted successfully')->response(Response::HTTP_OK);
     }
+
+    public function showUserProjects($id)
+    {
+        // write code here
+    }
 }

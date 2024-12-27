@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('company_name')->nullable();
             $table->text('youtube_video_link')->nullable();
             $table->text('payment_link')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->text('project_name')->nullable();
             $table->string('technical_skills')->nullable();
             $table->text('project_description')->nullable();

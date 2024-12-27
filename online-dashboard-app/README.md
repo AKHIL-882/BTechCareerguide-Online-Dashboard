@@ -8,3 +8,8 @@
 
 ## npm install react-router-dom ==> for redirecting
  
+## npm install @fortawesome/react-fontawesome ==> for react-fontawesome
+
+## npm install @fortawesome/free-solid-svg-icons ==> for free-solid-icons
+
+## npm i react-icons ==> for react-icons
