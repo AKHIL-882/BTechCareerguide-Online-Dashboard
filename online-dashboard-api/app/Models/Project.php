@@ -21,7 +21,8 @@ class Project extends Model
 
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
+        'status' => ProjectStatus::class
     ] ;
 
     public static function extractRequestData($request): array {
@@ -52,8 +53,7 @@ class Project extends Model
     }
 
     public static function getAllProjects(): AnonymousResourceCollection {
-        $projectsList = self::all() ;
-
+        $projectsList = self::orderBy('created_at', 'desc')->get();
         return ProjectsResource::collection($projectsList) ;
 
     }

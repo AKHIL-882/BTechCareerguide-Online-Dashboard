@@ -6,35 +6,36 @@ import MainLayout from "./Components/Admin/Adminpages/MainLayout";
 import AdminProjects from "./Components/Admin/Adminpages/AdminProjects";
 import AdminCompanyQa from "./Components/Admin/Adminpages/AdminCompanyQa";
 import ProtectedRoute from "./Components/ProtectedRoute";
-import Jobs from "./Components/User/Jobs"
+import Jobs from "./Components/User/Jobs";
 import ProjectHome from "./Components/User/ProjectHome";
-import jobsData from "./Components/Temp/DummyJobs";
 import CompanyQA from "./Components/User/CompanyQA";
+import { AuthProvider } from "./Components/AuthContext";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/admin" element={<MainLayout />}>
-          <Route path="/admin" element={<AdminDashBoard />} />
-          <Route path="/admin/projects" element={<AdminProjects />} />
-          <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
-        </Route>
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-
-            </ProtectedRoute>
-          }
-        />
-        <Route path="/jobs" element={<Jobs/>} />
-        <Route path="/projects" element={<ProjectHome />} />
-        <Route path="/company-qa" element={<CompanyQA />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin" element={<MainLayout />}>
+            <Route path="/admin" element={<AdminDashBoard />} />
+            <Route path="/admin/projects" element={<AdminProjects />} />
+            <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
+          </Route>
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/projects" element={<ProjectHome />} />
+          <Route path="/company-qa" element={<CompanyQA />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
