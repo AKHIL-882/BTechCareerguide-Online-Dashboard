@@ -36,14 +36,19 @@ const JobsTable = ({ jobs, className = "" }) => {
               <td className="p-3">{job.batch}</td>
               <td className="p-3">{job.qualification}</td>
               <td className="p-3">
-                <a
-                  href={job.apply_link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-indigo-600 hover:underline"
+
+                <button
+                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                 >
-                  Apply
-                </a>
+                  <a
+                    href={job.apply_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-black-600 hover:underline red"
+                  >
+                    Apply
+                  </a>
+                </button>
               </td>
             </tr>
           ))}
@@ -89,40 +94,4 @@ const JobsTable = ({ jobs, className = "" }) => {
 };
 
 export default JobsTable;
-
-// import React from "react";
-
-// const JobsTable = ({ jobs }) => (
-//   <table className="table-auto w-full border-collapse border border-gray-300">
-//     <thead>
-//       <tr>
-//         <th className="border border-gray-300 px-4 py-2">ID</th>
-//         <th className="border border-gray-300 px-4 py-2">Company Name</th>
-//         <th className="border border-gray-300 px-4 py-2">Role</th>
-//         <th className="border border-gray-300 px-4 py-2">Batch</th>
-//         <th className="border border-gray-300 px-4 py-2">Qualification</th>
-//         <th className="border border-gray-300 px-4 py-2">Apply Link</th>
-//       </tr>
-//     </thead>
-//     <tbody>
-//       {jobs.map((job) => (
-//         <tr key={job.id}>
-//           <td className="border border-gray-300 px-4 py-2">{job.id}</td>
-//           <td className="border border-gray-300 px-4 py-2">{job.company_name}</td>
-//           <td className="border border-gray-300 px-4 py-2">{job.role}</td>
-//           <td className="border border-gray-300 px-4 py-2">{job.batch}</td>
-//           <td className="border border-gray-300 px-4 py-2">{job.qualification}</td>
-//           <td className="border border-gray-300 px-4 py-2">
-//             <a href={job.apply_link} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-//               Apply
-//             </a>
-//           </td>
-//         </tr>
-//       ))}
-//     </tbody>
-//   </table>
-// );
-
-// export default JobsTable;
-
 

@@ -31,19 +31,25 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     });
 
 
-    Route::prefix('projects')->group(function() {
-        Route::get('/', [ProjectsController::class, 'index']) ;
-        Route::post('create', [ProjectsController::class, 'store']) ;
+    Route::prefix('projects')->group(function () {
+        Route::get('/', [ProjectsController::class, 'index']);
+        Route::post('create', [ProjectsController::class, 'store']);
 
-        Route::prefix('{id}')->group(function() {
+        Route::prefix('{id}')->group(function () {
 
-            Route::put('update', [ProjectsController::class, 'update']) ;
+            Route::put('update', [ProjectsController::class, 'update']);
 
-            Route::delete('delete', [ProjectsController::class, 'destroy']) ;
+            Route::delete('delete', [ProjectsController::class, 'destroy']);
 
-            Route::get('show', [ProjectsController::class, 'show']) ;
-        }) ;
-    }) ;
+            Route::get('show', [ProjectsController::class, 'show']);
+        });
+    });
+
+    Route::prefix('users')->group(function () {
+        Route::prefix('{id}')->group(function () {
+            Route::get('projects', [ProjectsController::class, 'showUserProjects']);
+        } );
+    });
 
 
 });

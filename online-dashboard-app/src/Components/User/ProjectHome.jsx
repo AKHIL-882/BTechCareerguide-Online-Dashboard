@@ -192,6 +192,7 @@ const ProjectHome = ({ handleLogout }) => {
                                                 <th className="border px-4 py-2">Title</th>
                                                 <th className="border px-4 py-2">Technology</th>
                                                 <th className="border px-4 py-2">Status</th>
+                                                <th className="border px-4 py-2">Payment Link </th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -201,6 +202,7 @@ const ProjectHome = ({ handleLogout }) => {
                                                     <td className="border px-4 py-2">{project.title}</td>
                                                     <td className="border px-4 py-2">{project.technology}</td>
                                                     <td className="border px-4 py-2">{project.status}</td>
+                                                    <td className="border px-4 py-2">{project.payment_link}</td>
                                                 </tr>
                                             ))}
                                         </tbody>

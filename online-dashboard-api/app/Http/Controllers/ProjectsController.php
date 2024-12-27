@@ -71,4 +71,9 @@ class ProjectsController extends Controller
         Project::destroyProject($id) ;
         return ApiResponse::setMessage('Project deleted successfully')->response(Response::HTTP_OK) ;
     }
+
+    public function showUserProjects($id)
+    {
+        // write code here
+    }
 }
