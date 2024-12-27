@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProjectsRequest;
+use App\Http\Requests\AdminProjectsRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\Project;
-use Illuminate\Http\Request;
+use App\Models\AdminProject;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProjectsController extends Controller
+class AdminProjectsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
-        $projects = Project::getAllProjects() ;
-        return ApiResponse::setData($projects)->response(Response::HTTP_OK) ;
+        $projects = AdminProject::getAllProjects();
+
+        return ApiResponse::setData($projects)->response(Response::HTTP_OK);
     }
 
     /**
@@ -31,10 +31,11 @@ class ProjectsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProjectsRequest $request): JsonResponse
+    public function store(AdminProjectsRequest $request): JsonResponse
     {
-        Project::createProject($request) ;
-        return ApiResponse::setMessage('New Project created successfully')->response(Response::HTTP_CREATED) ;
+        AdminProject::createProject($request);
+
+        return ApiResponse::setMessage('New Project created successfully')->response(Response::HTTP_CREATED);
     }
 
     /**
@@ -42,8 +43,9 @@ class ProjectsController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $project = Project::showProject($id) ;
-        return ApiResponse::setData($project)->response(Response::HTTP_OK) ;
+        $project = AdminProject::showProject($id);
+
+        return ApiResponse::setData($project)->response(Response::HTTP_OK);
     }
 
     /**
@@ -57,10 +59,11 @@ class ProjectsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProjectsRequest $request, string $id): JsonResponse
+    public function update(AdminProjectsRequest $request, string $id): JsonResponse
     {
-        Project::updateProject($request, $id) ;
-        return ApiResponse::setMessage('Project updated successfully')->response(Response::HTTP_OK) ;
+        AdminProject::updateProject($request, $id);
+
+        return ApiResponse::setMessage('Project updated successfully')->response(Response::HTTP_OK);
     }
 
     /**
@@ -68,8 +71,9 @@ class ProjectsController extends Controller
      */
     public function destroy(string $id): JsonResponse
     {
-        Project::destroyProject($id) ;
-        return ApiResponse::setMessage('Project deleted successfully')->response(Response::HTTP_OK) ;
+        AdminProject::destroyProject($id);
+
+        return ApiResponse::setMessage('Project deleted successfully')->response(Response::HTTP_OK);
     }
 
     public function showUserProjects($id)

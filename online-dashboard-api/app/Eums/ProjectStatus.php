@@ -7,7 +7,7 @@ namespace App\Enums;
  *
  * @column status
  */
-final class PaymentStatus extends BaseEnum
+final class ProjectStatus extends BaseEnum
 {
     public const Accepted = 0;
 
@@ -17,7 +17,7 @@ final class PaymentStatus extends BaseEnum
 
     public const Success = 3;
 
-    public const Rejected  = 4;
+    public const Rejected = 4;
 
     public const PaymentSuccess = 5;
 

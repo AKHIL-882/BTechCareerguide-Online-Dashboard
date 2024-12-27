@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->hasMany(ForgetPasswordTokens::class);
     }
 
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class);
+    }
+
     public function initiatePasswordReset(): void
     {
         $expiryTimelimit = config('auth.reset_password_expiry_time_limit');
