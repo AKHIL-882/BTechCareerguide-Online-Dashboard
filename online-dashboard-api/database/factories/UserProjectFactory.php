@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class UserProjectFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => 1,
+            'user_id' => User::inRandomOrder()->first()->id,
             'project_name' => fake()->name(),
             'technical_skills' => 'React|Node|Laravel',
             'project_description' => fake()->text(),

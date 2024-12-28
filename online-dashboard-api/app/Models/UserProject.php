@@ -20,6 +20,7 @@ class UserProject extends Project
             'project_description' => $request->project_description,
             'days_to_complete' => $request->days_to_complete,
             'document_name' => $filePath,
+            'user_id' => $request->user_id,
         ];
     }
 
