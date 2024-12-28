@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
-import dummyJobs from "../Temp/DummyJobs.jsx";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import Projects from "./Projects.jsx";
 import axios from "axios";
+
+const STATUS_MAP = {
+    0: "Accepted",
+    1: "Pending",
+    2: "Building",
+    3: "Success",
+    4: "Rejected",
+    5: "Payment Success",
+    6: "Refund",
+};
 
 const ProjectHome = ({ handleLogout }) => {
     const [projects, setProjects] = useState([]);
@@ -18,14 +27,8 @@ const ProjectHome = ({ handleLogout }) => {
     });
     const [selectedFile, setSelectedFile] = useState(null);
 
-    const dummyProjectData = [
-        { id: 1, title: "Project 1", technology: "React, Node.js", description: "Sample project.", status: "In Progress" },
-        { id: 2, title: "Project 2", technology: "Laravel, Vue.js", description: "Laravel project.", status: "Completed" },
-        { id: 3, title: "Project 3", technology: "Angular, Firebase", description: "Angular project.", status: "Pending" },
-    ];
-
     useEffect(() => {
-        setProjects(dummyProjectData);
+        fetchProjects();
     }, []);
 
     const handleInputChange = (e) => {
@@ -96,6 +99,30 @@ const ProjectHome = ({ handleLogout }) => {
         }
     };
 
+    const fetchProjects = async () => {
+        try {
+            const data = JSON.parse(localStorage.getItem("data"));
+            const accessToken = data ? data.access_token : null;
+
+            if (!accessToken) {
+                alert("No token found. Please log in again.");
+                return;
+            }
+
+            const response = await axios.get("http://127.0.0.1:8000/api/user-projects", {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+
+            // Update the projects state with the fetched data
+            setProjects(response.data.data);
+        } catch (error) {
+            console.error("Error fetching projects:", error);
+            alert("Failed to fetch projects. Please try again later.");
+        }
+    };
+
     const handleUploadPaymentClick = () => {
         setShowPaymentForm(true);
         setShowForm(false);
@@ -106,6 +133,7 @@ const ProjectHome = ({ handleLogout }) => {
         setShowProjects(true);
         setShowForm(false);
         setShowPaymentForm(false);
+        fetchProjects();
     };
 
     const handleShowRequestNewProject = () => {
@@ -270,21 +298,33 @@ const ProjectHome = ({ handleLogout }) => {
                                     <table className="table-auto w-full border-collapse border border-gray-200">
                                         <thead>
                                             <tr>
-                                                <th className="border px-4 py-2">ID</th>
-                                                <th className="border px-4 py-2">Title</th>
-                                                <th className="border px-4 py-2">Technology</th>
+                                                <th className="border px-4 py-2">Project Name</th>
+                                                <th className="border px-4 py-2">Technical Skills</th>
+                                                <th className="border px-4 py-2">Description</th>
                                                 <th className="border px-4 py-2">Status</th>
-                                                <th className="border px-4 py-2">Payment Link </th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {projects.map((project) => (
-                                                <tr key={project.id}>
-                                                    <td className="border px-4 py-2">{project.id}</td>
-                                                    <td className="border px-4 py-2">{project.title}</td>
-                                                    <td className="border px-4 py-2">{project.technology}</td>
-                                                    <td className="border px-4 py-2">{project.status}</td>
-                                                    <td className="border px-4 py-2">{project.payment_link}</td>
+                                            {projects.map((project, index) => (
+                                                <tr key={index}>
+                                                    <td className="border px-4 py-2">{project.project_name}</td>
+                                                    <td className="border px-4 py-2">{project.technical_skills}</td>
+                                                    <td className="border px-4 py-2">{project.project_description}</td>
+                                                    <td className="border px-4 py-2">
+                                                        <button
+                                                            className={`px-4 py-2 rounded text-white font-semibold ${project.project_status === "Pending"
+                                                                    ? "bg-yellow-500"
+                                                                    : project.project_status === "Completed"
+                                                                        ? "bg-green-500"
+                                                                        : project.project_status === "In Progress"
+                                                                            ? "bg-blue-500"
+                                                                            : "bg-gray-500"
+                                                                }`}
+                                                        >
+                                                            {STATUS_MAP[project.project_status]}
+                                                        </button>
+                                                    </td>
+
                                                 </tr>
                                             ))}
                                         </tbody>
@@ -292,6 +332,7 @@ const ProjectHome = ({ handleLogout }) => {
                                 </div>
                             </div>
                         )}
+
                     </div>
                 </main>
             </div>
