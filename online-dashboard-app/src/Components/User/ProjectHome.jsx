@@ -3,41 +3,115 @@ import dummyJobs from "../Temp/DummyJobs.jsx";
 import Header from "./Header.jsx";
 import Sidebar from "./Sidebar.jsx";
 import Projects from "./Projects.jsx";
+import axios from "axios";
 
 const ProjectHome = ({ handleLogout }) => {
     const [projects, setProjects] = useState([]);
-    const [userProjects, setUserProjects] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [showProjects, setShowProjects] = useState(true);
-    const [showPaymentForm, setShowPaymentForm] = useState(false); 
+    const [showPaymentForm, setShowPaymentForm] = useState(false);
+    const [formData, setFormData] = useState({
+        project_name: "",
+        days_to_complete: "",
+        technical_skills: "",
+        project_description: "",
+    });
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const dummyProjectData = [
-        { id: 1, title: "Project 1", technology: "React, Node.js", description: "Sample project with React and Node.js.", status: "In Progress" },
-        { id: 2, title: "Project 2", technology: "Laravel, Vue.js", description: "Full-stack project using Laravel and Vue.js.", status: "Completed" },
-        { id: 3, title: "Project 3", technology: "Angular, Firebase", description: "Angular project with Firebase backend.", status: "Pending" },
+        { id: 1, title: "Project 1", technology: "React, Node.js", description: "Sample project.", status: "In Progress" },
+        { id: 2, title: "Project 2", technology: "Laravel, Vue.js", description: "Laravel project.", status: "Completed" },
+        { id: 3, title: "Project 3", technology: "Angular, Firebase", description: "Angular project.", status: "Pending" },
     ];
 
     useEffect(() => {
         setProjects(dummyProjectData);
-        setUserProjects(dummyProjectData);
     }, []);
 
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formPayload = new FormData();
+
+        const data = JSON.parse(localStorage.getItem("data"));
+        const userId = data ? data.user_id : null;
+
+        formPayload.append("project_name", formData.title);
+        formPayload.append("days_to_complete", formData.days);
+        formPayload.append("technical_skills", formData.technology);
+        formPayload.append("project_description", formData.description);
+        formPayload.append("user_id", userId);
+
+        if (selectedFile) {
+            formPayload.append("file", selectedFile);
+        }
+
+        // Debugging: Log payload
+        for (const [key, value] of formPayload.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+
+        try {
+            const data = JSON.parse(localStorage.getItem("data"));
+            const accessToken = data ? data.access_token : null;
+
+            if (!accessToken) {
+                setError("No token found. Please log in again.");
+                return;
+            }
+            const response = await axios.post(
+                "http://127.0.0.1:8000/api/user-projects/create",
+                formPayload,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+
+            alert("Project request submitted successfully!");
+            console.log("Response:", response.data);
+
+            // Reset form and state
+            setShowForm(false);
+            setShowProjects(true);
+        } catch (error) {
+            console.error("Error submitting project:", error);
+
+            if (error.response) {
+                console.log("Validation Errors:", error.response.data.errors); // Log server validation errors
+                alert("Failed to submit project request. Please check your input.");
+            } else {
+                alert("Failed to submit project request. Please try again later.");
+            }
+        }
+    };
+
     const handleUploadPaymentClick = () => {
-        setShowPaymentForm(true); 
-        setShowForm(false); 
-        setShowProjects(false); 
+        setShowPaymentForm(true);
+        setShowForm(false);
+        setShowProjects(false);
     };
 
     const handleShowProjectsClick = () => {
-        setShowProjects(true); 
+        setShowProjects(true);
         setShowForm(false);
-        setShowPaymentForm(false); 
+        setShowPaymentForm(false);
     };
 
     const handleShowRequestNewProject = () => {
-        setShowForm(true); 
-        setShowProjects(false); 
-        setShowPaymentForm(false); 
+        setShowForm(true);
+        setShowProjects(false);
+        setShowPaymentForm(false);
     };
 
     return (
@@ -72,31 +146,34 @@ const ProjectHome = ({ handleLogout }) => {
                             </div>
                         </div>
 
-                        {/* Request New Project Form */}
                         {showForm && (
                             <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto">
                                 <h2 className="text-lg font-semibold">Submission Request</h2>
-                                <p className="text-sm text-gray-500 mt-2">
-                                    Ensure all the details entered are correct!!
-                                </p>
-                                <form>
-                                    {/* Project Title */}
-                                    <div className="flex justify-between mt-6">
-                                        <div className="w-3/5">
+                                <form onSubmit={handleSubmit}>
+                                    {/* Row for Project Title and Days to Complete */}
+                                    <div className="mt-4 flex gap-4">
+                                        <div className="flex-1">
                                             <label className="block text-gray-700">Project Title</label>
                                             <input
                                                 type="text"
+                                                name="title"
+                                                value={formData.title}
+                                                onChange={handleInputChange}
                                                 className="border border-gray-300 p-2 rounded-md w-full"
                                                 placeholder="Project Title"
+                                                required
                                             />
                                         </div>
-                                        <div className="w-1/3">
+                                        <div className="flex-1">
                                             <label className="block text-gray-700">Days to Complete</label>
                                             <select
+                                                name="days"
+                                                value={formData.days}
+                                                onChange={handleInputChange}
                                                 className="border border-gray-300 p-2 rounded-md w-full"
-                                                defaultValue="Days"
+                                                required
                                             >
-                                                <option disabled>Days</option>
+                                                <option value="">Select Days</option>
                                                 <option value="7">7</option>
                                                 <option value="14">14</option>
                                                 <option value="30">30</option>
@@ -104,56 +181,62 @@ const ProjectHome = ({ handleLogout }) => {
                                         </div>
                                     </div>
 
-                                    {/* Technology */}
+                                    {/* Other fields */}
                                     <div className="mt-4">
-                                        <label className="block text-gray-700">
-                                            Technology to be used (Comma Separated) | Ex: React JS, Laravel
-                                        </label>
+                                        <label className="block text-gray-700">Technology</label>
                                         <input
                                             type="text"
+                                            name="technology"
+                                            value={formData.technology}
+                                            onChange={handleInputChange}
                                             className="border border-gray-300 p-2 rounded-md w-full"
                                             placeholder="Technologies"
+                                            required
                                         />
                                     </div>
-
-                                    {/* Project Description */}
                                     <div className="mt-4">
                                         <label className="block text-gray-700">Project Description</label>
                                         <textarea
+                                            name="description"
+                                            value={formData.description}
+                                            onChange={handleInputChange}
                                             className="border border-gray-300 p-2 rounded-md w-full"
                                             rows="4"
-                                            placeholder="Project Description"
+                                            placeholder="Description"
+                                            required
                                         ></textarea>
+                                    </div>
+                                    <div className="mt-4">
+                                        <label className="block text-gray-700">Upload File</label>
+                                        <input
+                                            type="file"
+                                            onChange={handleFileChange}
+                                            className="border border-gray-300 p-2 rounded-md w-full"
+                                            required
+                                        />
                                     </div>
 
                                     {/* Buttons */}
                                     <div className="mt-6 flex justify-between items-center">
                                         <button
-                                            type="button"
+                                            type="submit"
                                             className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
                                         >
-                                            Upload File
+                                            Submit Request
                                         </button>
-                                        <div className="space-x-4">
-                                            <button
-                                                type="button"
-                                                className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
-                                            >
-                                                Cancel
-                                            </button>
-                                            <button
-                                                type="submit"
-                                                className="bg-blue-700 text-white py-2 px-4 rounded-md hover:bg-blue-800"
-                                            >
-                                                Send Request
-                                            </button>
-                                        </div>
+                                        <button
+                                            type="button"
+                                            className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
+                                            onClick={() => setShowForm(false)}
+                                        >
+                                            Cancel
+                                        </button>
                                     </div>
                                 </form>
                             </div>
                         )}
 
-                        {/* Payment Upload Form */}
+
                         {showPaymentForm && (
                             <div className="mt-8 border p-6 rounded-lg bg-white shadow-lg">
                                 <h2 className="text-lg font-semibold">Upload Payment Screenshot</h2>
@@ -178,7 +261,6 @@ const ProjectHome = ({ handleLogout }) => {
                             </div>
                         )}
 
-                        {/* Projects Section */}
                         {showProjects && (
                             <div className="mt-8">
                                 <h2 className="text-lg font-semibold mb-4">Projects</h2>

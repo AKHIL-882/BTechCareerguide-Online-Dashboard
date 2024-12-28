@@ -44,7 +44,10 @@ class AdminProject extends Project
 
     public static function getAllProjects(): AnonymousResourceCollection
     {
-        $projectsList = self::where('is_admin_project', '=', 1)->orderBy('created_at', 'desc')->get();
+        $projectsList = self::where('is_admin_project', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(3)
+            ->get();
 
         return AdminProjectsResource::collection($projectsList);
 

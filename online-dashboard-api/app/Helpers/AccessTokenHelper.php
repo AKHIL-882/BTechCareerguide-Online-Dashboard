@@ -50,6 +50,7 @@ if (! function_exists('generateAccessToken')) {
 
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
+            $tokenData['user_id'] = $user->id;
 
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
