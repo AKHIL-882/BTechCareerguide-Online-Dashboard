@@ -1,9 +1,11 @@
 import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  const location = useLocation();
   const [auth, setAuth] = useState(() => {
     // Initialize auth state from localStorage
     const storedAuth = localStorage.getItem("data");
@@ -26,20 +28,16 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // Check if data exists and is valid on load
     const storedAuth = localStorage.getItem("data");
     if (storedAuth) {
       const parsedAuth = JSON.parse(storedAuth);
       if (parsedAuth.expiresAt > Date.now()) {
         setAuth(parsedAuth);
       } else {
-        // Token expired, do not clear localStorage on refresh
-        console.warn("Token expired but retained for manual logout.");
         setAuth({ token: null, expiresAt: null });
-        navigate("/#login"); 
       }
     }
-  }, []);
+  }, [location]);
 
   useEffect(() => {
     if (auth.token) {

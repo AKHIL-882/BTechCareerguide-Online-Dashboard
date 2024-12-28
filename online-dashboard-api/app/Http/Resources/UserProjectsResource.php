@@ -21,6 +21,8 @@ class UserProjectsResource extends JsonResource
             'project_description' => $this->project_description,
             'days_to_complete' => $this->days_to_complete,
             'document_name' => $this->getFile($this->document_name),
+            'project_status' => $this->project_status,
+            'payment_status' => $this->payment_status,
         ];
     }
 
