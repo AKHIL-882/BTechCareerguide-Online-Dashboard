@@ -5,7 +5,9 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\JobOpportunityController;
+use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\UserProjectsController;
+use App\Models\Payment;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -57,6 +59,18 @@ Route::middleware(['auth:api', 'api'])->group(function () {
             Route::get('show', [UserProjectsController::class, 'show']);
         });
     });
+
+    //show all projects for payments this will give you the user specific and admin projects 
+    Route::get('all-projects', [UserProjectsController::class, 'showAllProjectsForPayment']) ;
+
+    //upload payement screenshot 
+    Route::post('payment-request', [PaymentsController::class, 'store']) ;
+
+    //show-all-payment-requests
+    Route::get('show-all-payment-request', [PaymentsController::class, 'index']) ;
+
+
+    
 
 });
 
