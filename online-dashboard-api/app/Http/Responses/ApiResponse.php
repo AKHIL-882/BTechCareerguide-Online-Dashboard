@@ -26,6 +26,7 @@ class ApiResponse
         $instance = new self;
         $instance->response['data'] = $data;
 
+
         return $instance;
     }
 

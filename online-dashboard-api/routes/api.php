@@ -15,64 +15,11 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']);
 
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
-
-    Route::prefix('jobs')->group(function () {
-
-        Route::get('/', [JobOpportunityController::class, 'index']);
-        Route::post('create', [JobOpportunityController::class, 'store']);
-
-        Route::prefix('{id}')->group(function () {
-
-            Route::put('update', [JobOpportunityController::class, 'update']);
-
-            Route::delete('delete', [JobOpportunityController::class, 'destroy']);
-
-            Route::get('show', [JobOpportunityController::class, 'show']);
-        });
-
-    });
-
-    Route::prefix('admin-projects')->group(function () {
-        Route::get('/', [AdminProjectsController::class, 'index']);
-        Route::post('create', [AdminProjectsController::class, 'store']);
-
-        Route::prefix('{id}')->group(function () {
-
-            Route::put('update', [AdminProjectsController::class, 'update']);
-
-            Route::delete('delete', [AdminProjectsController::class, 'destroy']);
-
-            Route::get('show', [AdminProjectsController::class, 'show']);
-        });
-    });
-
-    Route::prefix('user-projects')->group(function () {
-        Route::get('/', [UserProjectsController::class, 'index']);
-        Route::post('create', [UserProjectsController::class, 'store']);
-
-        Route::prefix('{id}')->group(function () {
-
-            Route::put('update', [UserProjectsController::class, 'update']);
-
-            Route::delete('delete', [UserProjectsController::class, 'destroy']);
-
-            Route::get('show', [UserProjectsController::class, 'show']);
-        });
-    });
-
-    //show all projects for payments this will give you the user specific and admin projects 
-    Route::get('all-projects', [UserProjectsController::class, 'showAllProjectsForPayment']) ;
-
-    //upload payement screenshot 
-    Route::post('payment-request', [PaymentsController::class, 'store']) ;
-
-    //show-all-payment-requests
-    Route::get('show-all-payment-request', [PaymentsController::class, 'index']) ;
-
-
-    
+  
 
 });
+
+
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {
 
@@ -84,3 +31,10 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
 
 });
+
+
+// Admin routes
+require __DIR__ . '/admin.php';
+
+// User routes
+require __DIR__ . '/user.php';

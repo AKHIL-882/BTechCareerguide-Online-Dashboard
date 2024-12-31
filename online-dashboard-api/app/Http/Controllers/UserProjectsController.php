@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\CustomerEvents;
 use App\Http\Requests\UserProjectsRequest;
 use App\Http\Responses\ApiResponse;
+use App\Models\CustomerEventLog;
 use App\Models\Project;
 use App\Models\UserProject;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +24,7 @@ class UserProjectsController extends Controller
     public function store(UserProjectsRequest $request): JsonResponse
     {
         UserProject::createProject($request);
-
+        CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::ProjectRequested)) ;
         return ApiResponse::setMessage('New Project created successfully')->response(Response::HTTP_CREATED);
     }
 

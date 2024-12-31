@@ -26,8 +26,8 @@ class PaymentResource extends JsonResource
     public function getFile($document_name): mixed
     {
         $fileName = basename($document_name);
-        if (Storage::disk('public')->exists('userProjectFiles/'.$fileName)) {
-            return Storage::disk('public')->url('userProjectFiles/'.$fileName);
+        if (Storage::disk('public')->exists('userPaymentFiles/'.$fileName)) {
+            return Storage::disk('public')->url('userPaymentFiles/'.$fileName);
         } else {
             return 'File Not Found';
         }
