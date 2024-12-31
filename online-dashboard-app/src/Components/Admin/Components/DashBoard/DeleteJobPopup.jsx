@@ -11,7 +11,7 @@ const DeleteJobPopup = ({ job, handleClose, handleDelete }) => {
       <div className="bg-white p-6 rounded-lg shadow-lg w-[600px]"> {/* Increased width here */}
         <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Delete Job</h2>
         <p className="text-gray-700 mb-4">
-          Are you sure you want to delete the job posting for <strong>{job.companyName}</strong>?
+          Are you sure you want to delete the job posting for <strong>{job.company_name}</strong>?
         </p>
         <div className="flex justify-between space-x-2 mt-4">
           <button
