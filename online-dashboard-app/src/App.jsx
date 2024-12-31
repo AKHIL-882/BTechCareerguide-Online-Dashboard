@@ -1,10 +1,11 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Components/HomePage/Home";
 import Dashboard from "./Components/User/Dashboard";
-import AdminDashBoard from "./Components/Admin/Adminpages/AdminDashBoard";
-import MainLayout from "./Components/Admin/Adminpages/MainLayout";
-import AdminProjects from "./Components/Admin/Adminpages/AdminProjects";
-import AdminCompanyQa from "./Components/Admin/Adminpages/AdminCompanyQa";
+import AdminDashBoard from "./Components/Admin/Pages/AdminDashBoard";
+import MainLayout from "./Components/Admin/Pages/MainLayout";
+import AdminJobs from "./Components/Admin/Pages/AdminJobs";
+import AdminProjects from "./Components/Admin/Pages/AdminProjects";
+import AdminCompanyQa from "./Components/Admin/Pages/AdminCompanyQa";
 import ProtectedRoute from "./Components/ProtectedRoute";
 import Jobs from "./Components/User/Jobs";
 import ProjectHome from "./Components/User/ProjectHome";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin" element={<MainLayout />}>
             <Route path="/admin" element={<AdminDashBoard />} />
+            <Route path="/admin/jobs" element={<AdminJobs/>}/>
             <Route path="/admin/projects" element={<AdminProjects />} />
             <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
           </Route>

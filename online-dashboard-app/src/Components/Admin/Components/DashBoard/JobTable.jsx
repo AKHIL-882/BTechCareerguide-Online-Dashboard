@@ -3,15 +3,14 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-lg">
       <table className="min-w-full bg-white border-none hidden sm:table">
-        <thead className="bg-blue-50">
+        <thead className="bg-blue-50 text-violet-600">
           <tr>
             <th className="py-2 px-4 text-left">Company Name</th>
             <th className="py-2 px-4 text-left">Role</th>
             <th className="py-2 px-4 text-left">Qualifications</th>
             <th className="py-2 px-4 text-left">Batches</th>
-            <th className="py-2 px-4 text-left">Experience</th>
             <th className="py-2 px-4 text-left">URL</th>
             <th className="py-2 px-4 text-left">Actions</th>
           </tr>
@@ -21,12 +20,11 @@ const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
             <tr key={job.id} className="border-b hover:bg-gray-50">
               <td className="py-2 px-4">{job.company_name}</td>
               <td className="py-2 px-4">{job.role}</td>
-              <td className="py-2 px-4">{job.qualifications.join(", ")}</td>
-              <td className="py-2 px-4">{job.batches.join(", ")}</td>
-              <td className="py-2 px-4">{job.experience} years</td>
+              <td className="py-2 px-4">{job.qualification.split(",").join(", ")}</td>
+              <td className="py-2 px-4">{job.batch.split(",").join(", ")}</td>
               <td className="py-2 px-4">
                 <a
-                  href={job.url}
+                  href={job.apply_link}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
@@ -34,7 +32,7 @@ const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
                   View Job
                 </a>
               </td>
-              <td className="py-2 px-4 flex space-x-2">
+              <td className="py-2 px-4 flex space-x-6">
                 {/* Edit Button */}
                 <button
                   onClick={() => handleEdit(job.id)}

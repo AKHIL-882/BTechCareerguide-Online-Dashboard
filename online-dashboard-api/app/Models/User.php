@@ -89,7 +89,6 @@ class User extends Authenticatable
         ]);
 
         $user->assignRole('user');
-
         return $user;
     }
 }

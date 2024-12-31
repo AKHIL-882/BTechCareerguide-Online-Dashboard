@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import InputField from "./InputField";
 import DropDownCheckBox from "./DropDownCheckBox";
+import { useCreateJob } from "../../../../Api";
+import Spinner from "../Spinner";
 
-const AddJobForm = () => {
+const AddJobForm = ({addJob}) => {
   const [formData, setFormData] = useState({
     companyName: "",
     role: "",
     qualifications: [],
     batches: [],
-    experience: "",
     url: "",
   });
   const [showQualifications, setShowQualifications] = useState(false);
@@ -27,26 +28,30 @@ const AddJobForm = () => {
     });
   };
 
-  const handleExperienceChange = (e) => {
-    const experience = e.target.value;
-    setFormData({ ...formData, experience });
-  };
+  const { loading, error, createJob} = useCreateJob();
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form Data:", formData);
+    e.preventDefault(); 
+    createJob(formData,setFormData,addJob);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full bg-blue-50 p-6 space-y-4 rounded-lg my-4 shadow-lg">
-      <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Add a Job</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="w-full bg-blue-50 p-6 space-y-4 rounded-lg my-4 shadow-lg"
+    >
+      <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">
+        Add Job
+      </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <InputField
           id="companyName"
           label="Company Name"
           type="text"
-          value={formData.company_name}
-          onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+          value={formData.companyName}
+          onChange={(e) =>
+            setFormData({ ...formData, companyName: e.target.value })
+          }
           placeholder="Enter company name"
         />
         <InputField
@@ -60,10 +65,10 @@ const AddJobForm = () => {
         <DropDownCheckBox
           label="Qualifications"
           options={[
-            { value: "bachelor", label: "Bachelor's" },
-            { value: "master", label: "Master's" },
-            { value: "phd", label: "PhD" },
-            { value: "diploma", label: "Diploma" },
+            { value: "Bachelor's", label: "Bachelor's" },
+            { value: "Master's", label: "Master's" },
+            { value: "PhD", label: "PhD" },
+            { value: "Diploma", label: "Diploma" },
           ]}
           selectedValues={formData.qualifications}
           onChange={(e, value) => handleChange(e, "qualifications", value)}
@@ -84,14 +89,6 @@ const AddJobForm = () => {
           toggleDropdown={() => setShowBatches(!showBatches)}
         />
         <InputField
-          id="experience"
-          label="Experience (in years)"
-          type="text"
-          value={formData.experience}
-          onChange={handleExperienceChange}
-          placeholder="Enter experience in years"
-        />
-        <InputField
           id="url"
           label="URL"
           type="url"
@@ -100,8 +97,20 @@ const AddJobForm = () => {
           placeholder="Enter job URL"
         />
       </div>
-      <button type="submit" className="bg-blue-500 text-white px-4 py-2 w-full rounded-md hover:bg-blue-600 transition text-sm font-medium">
-        Add Job
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 w-full rounded-md hover:bg-blue-600 transition text-sm font-medium"
+      >
+        {loading ? (
+          <p className="flex items-center justify-center">
+          <Spinner loading={loading} color={'#800080'} size={20}/>
+          <span className="pl-1">Adding job...</span>
+        </p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          "add Job"
+        )}
       </button>
     </form>
   );
