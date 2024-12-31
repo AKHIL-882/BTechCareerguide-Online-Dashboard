@@ -1,6 +1,7 @@
 <?php
 
-
+use App\Http\Controllers\AdminProjectsController;
+use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\UserProjectsController;
 use App\Http\Middleware\UserRoleMiddleware;
@@ -26,6 +27,16 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
         });
     });
 
+    Route::prefix('jobs')->group(function () {
+
+        Route::get('/', [JobOpportunityController::class, 'index']);
+    });
+
+
+    Route::prefix('admin-projects')->group(function () {
+
+        Route::get('/', [AdminProjectsController::class, 'index']);
+    });
 
     //show all projects for payments this will give you the user specific and admin projects 
     Route::get('all-projects', [UserProjectsController::class, 'showAllProjectsForPayment']) ;
