@@ -14,10 +14,6 @@ if (! function_exists('generateAccessToken')) {
         $psr17Factory = new Psr17Factory;
 
         $oauth_token_uri = config('auth.oauth_token_uri');
-        info($oauth_token_uri);
-        info(config('passport.password_client.secret'));
-        info(config('passport.password_client.id'));
-        info($user);
         // Create a ServerRequestInterface instance with required parameters
         $serverRequest = $psr17Factory->createServerRequest(
             'POST',
@@ -30,7 +26,6 @@ if (! function_exists('generateAccessToken')) {
             'password' => $password,
             'scope' => '',
         ]);
-        info($serverRequest);
         // Handle the token request and get the response
         $response = $accessTokenController->issueToken($serverRequest);
         $responseContent = $response->getContent();

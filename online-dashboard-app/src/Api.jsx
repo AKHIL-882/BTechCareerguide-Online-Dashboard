@@ -168,7 +168,6 @@ export const useCreateJob = () => {
           },
         }
       );
-      console.log(response);
       const newJob={
           id:new Date().getTime(),
           company_name: formData.companyName,

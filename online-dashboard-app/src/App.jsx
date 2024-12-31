@@ -15,7 +15,7 @@ import { AuthProvider } from "./Components/AuthContext";
 function App() {
   return (
     <Router>
-      {/* <AuthProvider> */}
+      <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
@@ -37,7 +37,7 @@ function App() {
           <Route path="/projects" element={<ProjectHome />} />
           <Route path="/company-qa" element={<CompanyQA />} />
         </Routes>
-      {/* </AuthProvider> */}
+      </AuthProvider>
     </Router>
   );
 }
