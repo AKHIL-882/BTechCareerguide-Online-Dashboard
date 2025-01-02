@@ -18,8 +18,11 @@ final class CustomerEventStatus extends BaseEnum
     {
         return match($value) {
             self::Success => "User Action Successfull",
-            self::Failure => "User Action Failed"
+            self::Failure => "User Action Failed",
+            default => parent::getDescription($value)
         } ;
+
+        
     }
     
 }

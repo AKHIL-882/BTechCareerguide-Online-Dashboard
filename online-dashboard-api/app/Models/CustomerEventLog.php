@@ -12,19 +12,17 @@ class CustomerEventLog extends Model
         'user_id',
         'action', 
         'status', 
-        'email',
-        'error_message'
+        'email'
     ] ;
 
 
-    public static function createLog($action, $errorMessage = null) 
+    public static function createLog($action, $user=null) 
     {
         self::create([
-            'user_id' => Auth::user()->id,
-            'email' => Auth::user()->email,
+            'user_id' => Auth::user()?->id ?? $user->id,
+            'email' => Auth::user()?->id ?? $user->email,
             'action' => json_encode($action),
-            'status' => CustomerEventStatus::Success,
-            // 'error_message' => $errorMessage
+            'status' => CustomerEventStatus::Success
         ]) ;
     }
 }

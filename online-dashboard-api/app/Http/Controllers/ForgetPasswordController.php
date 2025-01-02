@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEvents;
+use App\Enums\CustomerEventLogType;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Responses\ApiResponse;
@@ -42,7 +42,6 @@ class ForgetPasswordController extends Controller
 
         $result = $forgetPasswordToken->updatePassword($request->password);
 
-        CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::PasswordChanged)) ;
 
         return ApiResponse::setMessage($result['message'])
             ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);

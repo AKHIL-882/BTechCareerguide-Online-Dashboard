@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEvents;
+use App\Enums\CustomerEventLogType;
+use App\Http\Requests\PaymentRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\CustomerEventLog;
 use App\Models\Payment;
@@ -32,10 +33,9 @@ class PaymentsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(PaymentRequest $request): JsonResponse
     {
         Payment::createPayment($request) ;
-        CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::PaymentScreenshotUploaded)) ;
         return ApiResponse::setMessage("Payment Successfully uploaded")->response(Response::HTTP_CREATED) ;
     }
 

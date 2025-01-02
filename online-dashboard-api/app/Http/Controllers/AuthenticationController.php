@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEvents;
+use App\Enums\CustomerEventLogType;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RefreshRequest;
 use App\Http\Requests\SignupRequest;
@@ -52,11 +52,8 @@ class AuthenticationController extends Controller
             if (! Session::isStarted()) {
                 Session::start();
             }
-
-            CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::AccountCreated)) ;
-
+            $tokenData['user_email'] = $user->email;
             return ApiResponse::setMessage('User Created Successfully')
-                ->mergeResults($data)
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_CREATED);
 
@@ -99,7 +96,7 @@ class AuthenticationController extends Controller
                 Session::start();
             }
 
-            CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::Login)) ;
+            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login)) ;
 
             //success response if tokens are generated successfully
             return ApiResponse::setMessage('Sccessufully logged in')
@@ -133,7 +130,7 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            CustomerEventLog::createLog(CustomerEvents::getDescription(CustomerEvents::Logout)) ;
+            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Logout)) ;
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);

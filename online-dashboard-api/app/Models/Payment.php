@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerEventLogType;
 use App\Http\Resources\PaymentResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +43,8 @@ class Payment extends Model
             'project_id' => $request->project_id,
             'payment_document_name' => $filePath
         ]) ;
+
+        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::PaymentScreenshotUploaded)) ;
     }
 
 

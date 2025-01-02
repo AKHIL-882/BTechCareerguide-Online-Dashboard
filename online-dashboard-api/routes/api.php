@@ -1,13 +1,9 @@
 <?php
 
-use App\Http\Controllers\AdminProjectsController;
+
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
-use App\Http\Controllers\JobOpportunityController;
-use App\Http\Controllers\PaymentsController;
-use App\Http\Controllers\UserProjectsController;
-use App\Models\Payment;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {

@@ -7,7 +7,7 @@ namespace App\Enums;
  *
  * @column status
  */
-final class CustomerEvents extends BaseEnum
+final class CustomerEventLogType extends BaseEnum
 {
     public const Login = 0;
 
@@ -35,10 +35,11 @@ final class CustomerEvents extends BaseEnum
             self::PasswordChanged => "User Password Changed",
             self::JobApplied => "User Applied for a job",
             self::ProjectRequested => "User Requested for a Project",
-            self::PaymentScreenshotUploaded => "User PaymentScreenshotUploaded",
+            self::PaymentScreenshotUploaded => "User Payment Screenshot Uploaded",
             self::CodingQuestionRequested => "User Requested for Coding question solution",
             self::AccountCreated => "User Created a Account",
-            self::AccountDeleted => "User Deleted a Account"
+            self::AccountDeleted => "User Deleted a Account",
+            default =>  parent::getDescription($value)
         } ;
     }
     
