@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Enums\CustomerEventLogType;
+use App\Http\Responses\ApiResponse;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class ForgetPasswordTokens extends Model
 {
@@ -30,7 +33,7 @@ class ForgetPasswordTokens extends Model
 
         //check if the token has expired
         if (Carbon::parse($this->expiration)->isPast()) {
-            return response()->json(['error' => 'Password reset token has expired'], 422);
+            return ApiResponse::setMessage('Password reset token has expired')->response(Response::HTTP_UNPROCESSABLE_ENTITY) ;
         }
 
         //Fetch the associated user and update the password
@@ -40,6 +43,8 @@ class ForgetPasswordTokens extends Model
 
         //delete the token after successful update
         $this->delete();
+
+        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::PasswordChanged)) ;
 
         return ['status' => true,
             'message' => 'Password updated Succesfully'];

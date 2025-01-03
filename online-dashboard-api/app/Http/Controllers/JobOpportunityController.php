@@ -31,9 +31,8 @@ class JobOpportunityController extends Controller
      */
     public function store(JobOpportunityRequest $request): JsonResponse
     {
-        JobOpportunity::createJob($request);
-
-        return ApiResponse::setMessage('New job created successfully')->response(Response::HTTP_CREATED);
+        $jobOpportunity = JobOpportunity::createJob($request);
+        return ApiResponse::setMessage('New job created successfully')->mergeResults(['job_id' => $jobOpportunity->id])->response(Response::HTTP_CREATED);
     }
 
     /**

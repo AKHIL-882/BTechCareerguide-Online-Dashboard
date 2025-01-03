@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\ForgetPasswordTokens;
 use App\Models\User;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ForgetPasswordController extends Controller
 {
-    public function resetPassword(ResetPasswordRequest $request)
+    public function resetPassword(ResetPasswordRequest $request): JsonResponse
     {
 
         $email = $request->email;
@@ -25,7 +27,7 @@ class ForgetPasswordController extends Controller
 
     }
 
-    public function updatePassword(UpdatePasswordRequest $request)
+    public function updatePassword(UpdatePasswordRequest $request): JsonResponse
     {
         $token = $request->token;
 
@@ -38,6 +40,7 @@ class ForgetPasswordController extends Controller
         }
 
         $result = $forgetPasswordToken->updatePassword($request->password);
+
 
         return ApiResponse::setMessage($result['message'])
             ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);
