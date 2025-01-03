@@ -7,7 +7,7 @@ namespace App\Enums;
  *
  * @column status
  */
-final class CustomerEventStatus extends BaseEnum
+final class Status extends BaseEnum
 {
     public const Success = 0;
 

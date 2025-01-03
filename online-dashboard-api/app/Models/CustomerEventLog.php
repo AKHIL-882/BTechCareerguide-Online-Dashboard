@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerEventStatus;
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,7 +22,7 @@ class CustomerEventLog extends Model
             'user_id' => Auth::user()?->id ?? $user->id,
             'email' => Auth::user()?->id ?? $user->email,
             'action' => json_encode($action),
-            'status' => CustomerEventStatus::Success
+            'status' => Status::Success
         ]) ;
     }
 }

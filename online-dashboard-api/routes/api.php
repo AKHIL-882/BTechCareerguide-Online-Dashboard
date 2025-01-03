@@ -4,6 +4,7 @@
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\GithubController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -27,6 +28,9 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
 
 });
+
+
+Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']) ;
 
 
 // Admin routes

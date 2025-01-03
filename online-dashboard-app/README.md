@@ -13,3 +13,7 @@
 ## npm install @fortawesome/free-solid-svg-icons ==> for free-solid-icons
 
 ## npm i react-icons ==> for react-icons
+
+## npm i react-toastify ==> For popup notifications 
+
+## npm i react-spinners ==> For loading spinner

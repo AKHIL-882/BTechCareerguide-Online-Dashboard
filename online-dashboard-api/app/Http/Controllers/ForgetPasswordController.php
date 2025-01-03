@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEventLogType;
+
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\CustomerEventLog;
 use App\Models\ForgetPasswordTokens;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\JsonResponse;

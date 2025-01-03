@@ -22,10 +22,10 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
       {/* Previous Button */}
       <button
         onClick={() => handlePageChange(currentPage - 1)}
-        className="px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50 text-sm"
+        className="px-3 py-1 mx-1 bg-violet-600 text-white rounded-md hover:bg-violet-500 disabled:opacity-50 text-sm"
         disabled={currentPage === 1}
       >
-        Previous
+        Prev
       </button>
 
       {/* Page Numbers */}
@@ -36,7 +36,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
             onClick={() => handlePageChange(page)}
             className={`px-3 py-1 mx-1 rounded-md text-sm ${
               currentPage === page
-                ? "bg-blue-500 text-white"
+                ? "bg-violet-500 text-white"
                 : "bg-gray-300 text-gray-700 hover:bg-gray-400"
             }`}
           >
@@ -48,7 +48,7 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
       {/* Next Button */}
       <button
         onClick={() => handlePageChange(currentPage + 1)}
-        className="px-3 py-1 mx-1 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 disabled:opacity-50 text-sm"
+        className="px-3 py-1 mx-1 bg-violet-600 text-white rounded-md hover:bg-violet-500 disabled:opacity-50 text-sm"
         disabled={currentPage === totalPages}
       >
         Next

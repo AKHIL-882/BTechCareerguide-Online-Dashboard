@@ -4,12 +4,11 @@ import DropDownCheckBox from "./DropDownCheckBox";
 
 const EditJobPopup = ({ job, handleClose, handleSave }) => {
   const [formData, setFormData] = useState({
-    companyName: "",
+    company_name: "",
     role: "",
-    qualifications: [],  // This will store the selected qualifications
-    batches: [],
-    experience: "",
-    url: "",
+    qualification: [],  // This will store the selected qualifications
+    batch: [],
+    apply_link: "",
   });
   const [showQualifications, setShowQualifications] = useState(false);
   const [showBatches, setShowBatches] = useState(false);
@@ -17,12 +16,12 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
   useEffect(() => {
     if (job) {
       setFormData({
-        companyName: job.companyName,
+        id:job.id,
+        company_name: job.company_name,
         role: job.role,
-        qualifications: job.qualifications || [],  // Ensure qualifications are set correctly
-        batches: job.batches || [],
-        experience: job.experience,
-        url: job.url,
+        qualification: job.qualification.split(",")|| [],  // Ensure qualifications are set correctly
+        batch: job.batch.split(",")|| [],
+        apply_link: job.apply_link,
       });
     }
   }, [job]);
@@ -39,15 +38,10 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
       return { ...prev, [field]: updatedValues };
     });
   };
-
-  const handleExperienceChange = (e) => {
-    const experience = e.target.value;
-    setFormData({ ...formData, experience });
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    handleSave(formData);  // Pass the updated form data to the parent
+    handleSave(formData);
+    // Pass the updated form data to the parent
   };
 
   return (
@@ -57,11 +51,11 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
         <form onSubmit={handleSubmit} className="w-full bg-blue-50 p-6 space-y-4 rounded-lg my-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputField
-              id="companyName"
+              id="company_name"
               label="Company Name"
               type="text"
-              value={formData.companyName}
-              onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+              value={formData.company_name}
+              onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
               placeholder="Enter company name"
             />
             <InputField
@@ -81,39 +75,31 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
                 { value: "PhD", label: "PhD" },
                 { value: "Diploma", label: "Diploma" },
               ]}
-              selectedValues={formData.qualifications}  // Ensure selected values are properly passed
-              onChange={(e, value) => handleChange(e, "qualifications", value)}  // Properly update qualifications array
+              selectedValues={formData.qualification}  // Ensure selected values are properly passed
+              onChange={(e, value) => handleChange(e, "qualification", value)}  // Properly update qualifications array
               showDropdown={showQualifications}
               toggleDropdown={() => setShowQualifications(!showQualifications)}
             />
             {/* Batches Dropdown */}
             <DropDownCheckBox
-              label="Batches"
+              label="Batch"
               options={[
                 { value: "2022", label: "2022" },
                 { value: "2023", label: "2023" },
                 { value: "2024", label: "2024" },
                 { value: "2025", label: "2025" },
               ]}
-              selectedValues={formData.batches}
-              onChange={(e, value) => handleChange(e, "batches", value)}
+              selectedValues={formData.batch}
+              onChange={(e, value) => handleChange(e, "batch", value)}
               showDropdown={showBatches}
               toggleDropdown={() => setShowBatches(!showBatches)}
             />
             <InputField
-              id="experience"
-              label="Experience (in years)"
-              type="text"
-              value={formData.experience}
-              onChange={handleExperienceChange}
-              placeholder="Enter experience in years"
-            />
-            <InputField
-              id="url"
-              label="URL"
+              id="apply_link"
+              label="apply_link"
               type="url"
-              value={formData.url}
-              onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+              value={formData.apply_link}
+              onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
               placeholder="Enter job URL"
             />
           </div>

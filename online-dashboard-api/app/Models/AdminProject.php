@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\AdminProjectsResource;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class AdminProject extends Project
 {
@@ -14,6 +15,7 @@ class AdminProject extends Project
             'youtube_video_link' => $request->youtube_video_link,
             'payment_link' => $request->payment_link,
             'is_admin_project' => true,
+            'user_id' => Auth::user()->id
         ];
     }
 
