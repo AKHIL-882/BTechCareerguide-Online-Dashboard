@@ -11,6 +11,7 @@ import Jobs from "./Components/User/Jobs";
 import ProjectHome from "./Components/User/ProjectHome";
 import CompanyQA from "./Components/User/CompanyQA";
 import { AuthProvider } from "./Components/AuthContext";
+import UserMainLayout from "./Components/User/UserMainLayout";
 
 function App() {
   return (
@@ -18,24 +19,26 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
           <Route path="/admin" element={<MainLayout />}>
             <Route path="/admin" element={<AdminDashBoard />} />
-            <Route path="/admin/jobs" element={<AdminJobs/>}/>
+            <Route path="/admin/jobs" element={<AdminJobs />} />
             <Route path="/admin/projects" element={<AdminProjects />} />
             <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
           </Route>
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="/projects" element={<ProjectHome />} />
-          <Route path="/company-qa" element={<CompanyQA />} />
+          <Route path="/user" element={<UserMainLayout />}>
+            <Route
+              path="/user"
+              element={
+                // <ProtectedRoute>
+                  <Dashboard />
+                // </ProtectedRoute>
+              }
+            />
+            <Route path="/user/jobs" element={<Jobs />} />
+            <Route path="/user/projects" element={<ProjectHome />} />
+            <Route path="/user/company-qa" element={<CompanyQA />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </Router>

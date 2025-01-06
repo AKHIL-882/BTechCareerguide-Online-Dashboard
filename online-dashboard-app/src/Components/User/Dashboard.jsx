@@ -1,87 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { logoutUser } from "../../Api.jsx";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
 import Projects from "./Projects";
 import JobsTable from "./JobsTable.jsx";
-import axios from "axios";
+import { Link } from "react-router-dom";
+import Spinner from "../Admin/Components/Spinner.jsx";
+import { useFetchJobs } from "../../Api.jsx";
 
 const Dashboard = () => {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const handleLogout = async () => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    const accessToken = data ? data.access_token : null;
-
-    if (!accessToken) {
-      alert("No token found. Please log in again.");
-      return;
-    }
-
-    try {
-      const isLoggedOut = await logoutUser(accessToken);
-      if (isLoggedOut) {
-        localStorage.removeItem("data");
-        alert("You have logged out successfully!");
-        window.location.href = "/";
-      }
-    } catch {
-      alert("An error occurred while logging out. Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const data = JSON.parse(localStorage.getItem("data"));
-        const accessToken = data ? data.access_token : null;
-
-        if (!accessToken) {
-          setError("No token found. Please log in again.");
-          return;
-        }
-
-        const response = await axios.get("http://127.0.0.1:8000/api/jobs", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setJobs(response.data.data); // Assuming `data.data` contains the jobs array
-      } catch (err) {
-        setError("Failed to fetch jobs. Please try again.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
+  const {jobListings,loading, error } = useFetchJobs();
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header handleLogout={handleLogout} />
-      <div className="flex flex-1">
-        <Sidebar handleLogout={handleLogout} />
-        <main className="flex-1">
-          <div className="p-4">
-            <Projects />
-          </div>
-          <div className="mt-2">
-            <h1 className="text-3xl font-bold mb-6 text-center">Available Jobs</h1>
-            {loading ? (
-              <p className="text-center">Loading jobs...</p>
-            ) : error ? (
-              <p className="text-center text-red-500">{error}</p>
-            ) : (
-              <JobsTable jobs={jobs.slice(0, 4)} className="p-4" />
-            )}
-          </div>
-        </main>
+    <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+      <div className="p-4">
+        <Projects />
       </div>
-    </div>
+      <div className="mt-2">
+        <h1 className="text-xl font-bold ml-4 lg:mb-2 lg:ml-0 text-white bg-gradient-to-r from-blue-500 rounded pl-2 ">
+          Recent Jobs
+        </h1>
+        {loading ? (
+          <p className="flex items-center justify-center p-5">
+            <Spinner loading={loading} color={"#0000FF"} size={20} />
+            <span className="pl-1">Recentjobs...</span>
+          </p>
+        ) : error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          <JobsTable jobs={jobListings.slice(0, 4)} className="p-4" />
+        )}
+      </div>
+      {!error && !loading && jobListings ? (
+        <Link to={"/user/jobs"}>
+          <div className="bg-indigo-500 p-2 my-2 rounded-xl hover:opacity-80 ">
+            <p className="text-center text-white cursor-pointer">
+              Browse All Jobs
+            </p>
+          </div>
+        </Link>
+      ) : (
+        ""
+      )}
+    </main>
   );
 };
 

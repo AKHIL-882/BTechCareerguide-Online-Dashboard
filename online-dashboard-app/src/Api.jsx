@@ -169,7 +169,7 @@ export const useCreateJob = () => {
         }
       );
       const newJob={
-          id:new Date().getTime(),
+          id:response.data.job_id,
           company_name: formData.companyName,
           role: formData.role,
           qualification: formData.qualifications.sort().join(','),
@@ -233,19 +233,3 @@ export const useDeleteJob = () => {
   return { deleteJob, loading, error };
 };
 
-
-
-
-
-
-// export const fetchJobs = async (page = 1) => {
-//   try {
-//     const response = await axios.get(`${API_BASE_URL}/jobs`, {
-//       params: { page },
-//     });
-//     return response.data; // Assumes API returns data in { data: [], totalPages: X }
-//   } catch (error) {
-//     console.error("Error fetching jobs:", error);
-//     throw error;
-//   }
-// };

@@ -9,7 +9,7 @@ import ScrollToTopButton from "../Components/ScrollToTopButton";
 const MainLayout = () => {
     return (
       <>
-      <ScrollToTopButton/>
+      <ScrollToTopButton colorcode="bg-violet-800"/>
         <Header />
         <div className="flex">
         <SidebarFixed/>
