@@ -7,7 +7,7 @@ use App\Http\Middleware\AdminRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
 
-Route::middleware(['auth:api', 'api'])->group(function () {
+Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(function () {
 
 
     Route::prefix('jobs')->group(function () {

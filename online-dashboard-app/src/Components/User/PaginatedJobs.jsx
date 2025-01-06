@@ -27,7 +27,7 @@ const PaginatedJobs = ({ jobs }) => {
           onClick={() => setCurrentPage(currentPage + 1)}
           className="px-4 py-2 mx-2 bg-indigo-500 text-white rounded disabled:opacity-50"
         >
-          Nextooo
+          Next
         </button>
       </div>
     </div>

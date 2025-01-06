@@ -86,7 +86,6 @@ const JobsTable = ({ jobs, className = "" }) => {
           </tbody>
         </table>
       </div>
-
       {/* Card view for smaller screens */}
       <div className="block md:hidden">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

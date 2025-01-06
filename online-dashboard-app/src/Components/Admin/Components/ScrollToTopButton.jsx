@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaAngleDoubleUp } from "react-icons/fa"; // Import the up arrow icon from react-icons
 
-const ScrollToTopButton = ({ colorcode }) => {
+const ScrollToTopButton = ({ colorCode }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   // Detect scroll position
@@ -32,7 +32,7 @@ const ScrollToTopButton = ({ colorcode }) => {
     isVisible && (
       <button
         onClick={scrollToTop}
-        className={`${colorcode} fixed bottom-2 right-2 p-2 rounded-full  text-white border-0 cursor-pointer flex justify-center items-center shadow-lg z-50`}
+        className={`${colorCode} fixed bottom-2 right-2 p-2 rounded-full  text-white border-0 cursor-pointer flex justify-center items-center shadow-lg z-50`}
       >
         <FaAngleDoubleUp size={20} />
       </button>
