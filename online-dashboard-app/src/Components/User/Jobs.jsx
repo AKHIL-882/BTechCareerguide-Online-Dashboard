@@ -1,53 +1,25 @@
-import React, { useEffect, useState } from "react";
-import Header from "./Header.jsx";
-import Sidebar from "./Sidebar.jsx";
 import JobsTable from "./JobsTable.jsx";
-import axios from "axios";
+import Spinner from "../Admin/Components/Spinner.jsx";
+import { useFetchJobs } from "../../Api.jsx";
 
 const Jobs = ({ handleLogout }) => {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      const data = JSON.parse(localStorage.getItem("data"));
-      const accessToken = data ? data.access_token : null;
-      try {
-        const response = await axios.get("http://127.0.0.1:8000/api/jobs",{
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        setJobs(response.data.data); // Assuming the API response structure has "data" key
-      } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
+ const {jobListings,loading, error } = useFetchJobs();
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header handleLogout={handleLogout} />
-      <div className="flex flex-1">
-        <Sidebar handleLogout={handleLogout} />
-        <main className="flex-1 p-6">
-          <h1 className="text-3xl font-bold mb-6 text-center">Available Jobs</h1>
-          {loading ? (
-            <p className="text-center">Loading jobs...</p>
-          ) : error ? (
-            <p className="text-center text-red-500">{error}</p>
-          ) : (
-            <JobsTable jobs={jobs} />
-          )}
-        </main>
-      </div>
-    </div>
+    <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+      <h1 className="text-xl font-bold mb-2 lg:mb-2 lg:ml-0 text-white bg-gradient-to-r from-blue-500 rounded pl-2 ">
+        Available Jobs
+      </h1>
+      {loading ? (
+        <p className="flex items-center justify-center p-5">
+          <Spinner loading={loading} color={"#0000FF"} size={20} />
+          <span className="pl-1">Jobs...</span>
+        </p>
+      ) : error ? (
+        <p className="text-center text-red-500">{error}</p>
+      ) : (
+        <JobsTable jobs={jobListings} />
+      )}
+    </main>
   );
 };
 

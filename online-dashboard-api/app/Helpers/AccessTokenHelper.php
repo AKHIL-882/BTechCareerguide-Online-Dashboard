@@ -56,7 +56,7 @@ if (! function_exists('generateAccessToken')) {
         } catch (Throwable $e) {
             //deleteuser when tokengeneration fails
             $user->delete();
-
+            // info($e->getMessage());
             return null; // in case of exception
         }
     }

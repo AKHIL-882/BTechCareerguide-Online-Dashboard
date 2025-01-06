@@ -143,22 +143,18 @@ const ProjectHome = ({ handleLogout }) => {
     };
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <Header handleLogout={handleLogout} />
-            <div className="flex flex-1">
-                <Sidebar handleLogout={handleLogout} />
-                <main className="flex-1 p-6">
-                    <div className="p-4">
-                        <div className="mt-4 flex justify-between mb-4">
-                            <div className="flex space-x-4">
+                <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen">
+                    {/* <div className="p-4"> */}
+                        <div className="mt-4 md:flex justify-between mb-4">
+                            <div className="md:flex md:space-x-4 mb-1 md:mb-0">
                                 <button
-                                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                                    className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full md:w-auto mb-1 md:mb-0"
                                     onClick={handleShowRequestNewProject}
                                 >
                                     Request New Project
                                 </button>
                                 <button
-                                    className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
+                                    className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto"
                                     onClick={handleShowProjectsClick}
                                 >
                                     Show Projects
@@ -166,7 +162,7 @@ const ProjectHome = ({ handleLogout }) => {
                             </div>
                             <div className="flex">
                                 <button
-                                    className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600"
+                                    className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto"
                                     onClick={handleUploadPaymentClick}
                                 >
                                     Upload Payment Screenshot
@@ -333,10 +329,8 @@ const ProjectHome = ({ handleLogout }) => {
                             </div>
                         )}
 
-                    </div>
+                    {/* </div> */}
                 </main>
-            </div>
-        </div>
     );
 };
 
