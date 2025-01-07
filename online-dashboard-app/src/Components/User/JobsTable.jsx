@@ -16,7 +16,7 @@ const JobsTable = ({ jobs, className = "" }) => {
     const handleResize = () => {
       setPageNumbersToShow(window.innerWidth < 640 ? 3 : 7); // 3 for small screens, 7 for large screens
     };
-    
+
     handleResize(); // Set initial value
     window.addEventListener("resize", handleResize);
 
@@ -68,7 +68,9 @@ const JobsTable = ({ jobs, className = "" }) => {
                 <td className="p-3">{job.company_name}</td>
                 <td className="p-3">{job.role}</td>
                 <td className="p-3">{job.batch.split(",").join(", ")}</td>
-                <td className="p-3">{job.qualification.split(",").join(", ")}</td>
+                <td className="p-3">
+                  {job.qualification.split(",").join(", ")}
+                </td>
                 <td className="p-3">
                   <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
                     <a
@@ -90,11 +92,20 @@ const JobsTable = ({ jobs, className = "" }) => {
       <div className="block md:hidden">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {currentJobs.map((job) => (
-            <div key={job.id} className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition">
-              <h2 className="text-xl font-semibold text-indigo-600">{job.company_name}</h2>
+            <div
+              key={job.id}
+              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition"
+            >
+              <h2 className="text-xl font-semibold text-indigo-600">
+                {job.company_name}
+              </h2>
               <p className="text-sm text-gray-900">{job.role}</p>
-              <p className="mt-2 text-sm text-gray-800">{job.batch.split(",").join(", ")}</p>
-              <p className="mt-2 text-sm text-gray-800">{job.qualification.split(",").join(", ")}</p>
+              <p className="mt-2 text-sm text-gray-800">
+                {job.batch.split(",").join(", ")}
+              </p>
+              <p className="mt-2 text-sm text-gray-800">
+                {job.qualification.split(",").join(", ")}
+              </p>
               <a
                 href={job.apply_link}
                 target="_blank"
@@ -153,5 +164,3 @@ const JobsTable = ({ jobs, className = "" }) => {
 };
 
 export default JobsTable;
-
-

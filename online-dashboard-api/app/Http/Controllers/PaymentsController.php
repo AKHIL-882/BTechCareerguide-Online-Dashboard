@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEventLogType;
 use App\Http\Requests\PaymentRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\CustomerEventLog;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,8 +16,9 @@ class PaymentsController extends Controller
      */
     public function index(): JsonResponse
     {
-        $paymentList = Payment::showAllPaymentRequest() ;
-        return ApiResponse::setData($paymentList)->response(Response::HTTP_OK) ;
+        $paymentList = Payment::showAllPaymentRequest();
+
+        return ApiResponse::setData($paymentList)->response(Response::HTTP_OK);
     }
 
     /**
@@ -35,8 +34,9 @@ class PaymentsController extends Controller
      */
     public function store(PaymentRequest $request): JsonResponse
     {
-        Payment::createPayment($request) ;
-        return ApiResponse::setMessage("Payment Successfully uploaded")->response(Response::HTTP_CREATED) ;
+        Payment::createPayment($request);
+
+        return ApiResponse::setMessage('Payment Successfully uploaded')->response(Response::HTTP_CREATED);
     }
 
     /**

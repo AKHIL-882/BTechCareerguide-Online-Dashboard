@@ -16,7 +16,7 @@ class AllProjectsResource extends JsonResource
     {
         return [
             'project_name' => $this->company_name ?? $this->project_name,
-            'project_id' => $this->id 
+            'project_id' => $this->id,
         ];
 
     }

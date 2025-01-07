@@ -41,15 +41,17 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function payments(): HasMany {
-        return $this->hasMany(Payment::class) ;
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
     }
 
-    public static function showAllProjects($userId) {
+    public static function showAllProjects($userId)
+    {
         $projects = self::where('user_id', $userId)
-        ->orWhere('is_admin_project', true) 
-        ->orderBy('created_at', 'desc')->get() ;
+            ->orWhere('is_admin_project', true)
+            ->orderBy('created_at', 'desc')->get();
 
-        return AllProjectsResource::collection($projects) ;
+        return AllProjectsResource::collection($projects);
     }
 }

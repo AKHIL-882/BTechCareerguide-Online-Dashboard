@@ -38,7 +38,10 @@ const Header = () => {
 
         <div className="lg:flex items-center space-x-6">
           <button className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition">
-            <span className="hidden md:block">Logout</span><span className="sm:hidden"><FaLockOpen/></span>
+            <span className="hidden md:block">Logout</span>
+            <span className="sm:hidden">
+              <FaLockOpen />
+            </span>
           </button>
         </div>
       </nav>

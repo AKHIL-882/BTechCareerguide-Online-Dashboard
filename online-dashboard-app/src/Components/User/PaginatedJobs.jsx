@@ -8,7 +8,7 @@ const PaginatedJobs = ({ jobs }) => {
 
   const displayedJobs = jobs.slice(
     (currentPage - 1) * jobsPerPage,
-    currentPage * jobsPerPage
+    currentPage * jobsPerPage,
   );
 
   return (

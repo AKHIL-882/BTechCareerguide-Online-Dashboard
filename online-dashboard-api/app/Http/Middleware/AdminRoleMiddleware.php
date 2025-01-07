@@ -17,9 +17,10 @@ class AdminRoleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::user()->hasRole('admin')) {
+        if (Auth::user()->hasRole('admin')) {
             return $next($request);
         }
+
         return ApiResponse::setMessage('Unauthorized')->response(Response::HTTP_FORBIDDEN);
     }
 }

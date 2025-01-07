@@ -6,9 +6,7 @@ use App\Http\Controllers\PaymentsController;
 use App\Http\Middleware\AdminRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
-
 Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(function () {
-
 
     Route::prefix('jobs')->group(function () {
 
@@ -26,8 +24,6 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
 
     });
 
-
-
     Route::prefix('admin-projects')->group(function () {
 
         Route::get('/', [AdminProjectsController::class, 'index']);
@@ -43,11 +39,7 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
         });
     });
 
-
-    //show-all-payment-requests
-    Route::get('show-all-payment-request', [PaymentsController::class, 'index']) ;
-
-
-   
+    // show-all-payment-requests
+    Route::get('show-all-payment-request', [PaymentsController::class, 'index']);
 
 });

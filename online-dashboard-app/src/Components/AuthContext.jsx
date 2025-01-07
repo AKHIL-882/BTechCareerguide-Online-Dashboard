@@ -9,7 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState(() => {
     // Initialize auth state from localStorage
     const storedAuth = localStorage.getItem("data");
-    return storedAuth ? JSON.parse(storedAuth) : { token: null, expiresAt: null };
+    return storedAuth
+      ? JSON.parse(storedAuth)
+      : { token: null, expiresAt: null };
   });
 
   const navigate = useNavigate();

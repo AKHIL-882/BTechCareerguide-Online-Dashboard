@@ -1,6 +1,6 @@
 import axios from "axios";
-import { useState,useEffect } from "react";
-import { toast } from 'react-toastify';
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
@@ -19,7 +19,7 @@ export const signup = async (formData) => {
         headers: {
           "Content-Type": "multipart/form-data",
         },
-      }
+      },
     );
     return response;
   } catch (error) {
@@ -27,9 +27,9 @@ export const signup = async (formData) => {
   }
 };
 
-
 export const logoutUser = async (accessToken) => {
   try {
+    console.log(accessToken);
     const response = await axios.post(`${API_BASE_URL}/logout`, null, {
       headers: {
         "Content-Type": "application/json",
@@ -71,7 +71,7 @@ export const useFetchJobs = () => {
     fetchJobs();
   }, []);
 
-  return { jobListings,setJobListings, loading, error };
+  return { jobListings, setJobListings, loading, error };
 };
 
 //editjob
@@ -79,7 +79,12 @@ export const useSaveJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const saveJob = async (updatedJob, setJobListings, jobListings, setSelectedJob) => {
+  const saveJob = async (
+    updatedJob,
+    setJobListings,
+    jobListings,
+    setSelectedJob,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data ? data.access_token : null;
 
@@ -105,7 +110,7 @@ export const useSaveJob = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       // Update the job in the UI
@@ -120,8 +125,8 @@ export const useSaveJob = () => {
 
       setJobListings(
         jobListings.map((job) =>
-          job.id === updatedJob.id ? updatedJobData : job
-        )
+          job.id === updatedJob.id ? updatedJobData : job,
+        ),
       );
       toast.success("Job Edited Successfully");
       setSelectedJob(null); // Close the popup after saving
@@ -141,12 +146,12 @@ export const useCreateJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const createJob = async (formData,setFormData,addJob) => {
-    const data = JSON.parse(localStorage.getItem('data'));
+  const createJob = async (formData, setFormData, addJob) => {
+    const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data ? data.access_token : null;
 
     if (!accessToken) {
-      setError('Access token is missing. Please log in again.');
+      setError("Access token is missing. Please log in again.");
       return;
     }
 
@@ -158,24 +163,24 @@ export const useCreateJob = () => {
         {
           company_name: formData.companyName,
           role: formData.role,
-          qualification: formData.qualifications.sort().join(','),
-          batch: formData.batches.sort().join(','),
+          qualification: formData.qualifications.sort().join(","),
+          batch: formData.batches.sort().join(","),
           apply_link: formData.url,
         },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
-      const newJob={
-          id:response.data.job_id,
-          company_name: formData.companyName,
-          role: formData.role,
-          qualification: formData.qualifications.sort().join(','),
-          batch: formData.batches.sort().join(','),
-          apply_link: formData.url,
-      }
+      const newJob = {
+        id: response.data.job_id,
+        company_name: formData.companyName,
+        role: formData.role,
+        qualification: formData.qualifications.sort().join(","),
+        batch: formData.batches.sort().join(","),
+        apply_link: formData.url,
+      };
       addJob(newJob);
       setFormData({
         companyName: "",
@@ -184,16 +189,16 @@ export const useCreateJob = () => {
         batches: [],
         url: "",
       });
-      toast.success('Job Added successfully');
+      toast.success("Job Added successfully");
     } catch (err) {
-      setError('Failed to upload data');
-      console.error('Error uploading data:', err);
+      setError("Failed to upload data");
+      console.error("Error uploading data:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  return { loading, error, createJob};
+  return { loading, error, createJob };
 };
 
 //delete job
@@ -201,7 +206,13 @@ export const useDeleteJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const deleteJob = async (id, jobListings, setJobListings, setShowDeletePopup, setJobToDelete) => {
+  const deleteJob = async (
+    id,
+    jobListings,
+    setJobListings,
+    setShowDeletePopup,
+    setJobToDelete,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data ? data.access_token : null;
 
@@ -232,4 +243,3 @@ export const useDeleteJob = () => {
 
   return { deleteJob, loading, error };
 };
-

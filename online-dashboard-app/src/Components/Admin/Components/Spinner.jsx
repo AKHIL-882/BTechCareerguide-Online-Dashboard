@@ -1,18 +1,18 @@
 import React from "react";
 import CLipLoader from "react-spinners/ClipLoader";
 
-const override={
-display:'block',
-margin:'0'
-}
+const override = {
+  display: "block",
+  margin: "0",
+};
 
-const Spinner = ({loading,color,size}) => {
+const Spinner = ({ loading, color, size }) => {
   return (
     <CLipLoader
-    color={color}
-    loading={loading}
-    cssOverride={override}
-    size={size}
+      color={color}
+      loading={loading}
+      cssOverride={override}
+      size={size}
     />
   );
 };

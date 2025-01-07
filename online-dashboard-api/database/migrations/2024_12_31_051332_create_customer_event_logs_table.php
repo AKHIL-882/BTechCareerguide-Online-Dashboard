@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('customer_event_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade') ;
-            $table->string('email') ;
-            $table->json('action')->nullable() ;
-            $table->string('status')->nullable() ;
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('email');
+            $table->json('action')->nullable();
+            $table->string('status')->nullable();
             // $table->text('error_message')->nullable() ;
             $table->timestamps();
         });

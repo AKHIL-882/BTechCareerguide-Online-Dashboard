@@ -31,7 +31,7 @@ function App() {
               path="/user"
               element={
                 // <ProtectedRoute>
-                  <Dashboard />
+                <Dashboard />
                 // </ProtectedRoute>
               }
             />

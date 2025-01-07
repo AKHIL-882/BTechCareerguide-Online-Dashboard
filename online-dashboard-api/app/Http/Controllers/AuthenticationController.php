@@ -31,15 +31,15 @@ class AuthenticationController extends Controller
                 'password' => $request->password,
             ];
 
-            //creating a new user
+            // creating a new user
             $user = User::createUser($data);
 
-            //generate access token using helper function
+            // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
 
-            //check if token generation failed
+            // check if token generation failed
             if (! $tokenData) {
-                //delete the user if token generation fails
+                // delete the user if token generation fails
                 $user->delete();
 
                 return ApiResponse::setMessage('Token generation failed')
@@ -53,6 +53,7 @@ class AuthenticationController extends Controller
                 Session::start();
             }
             $tokenData['user_email'] = $user->email;
+
             return ApiResponse::setMessage('User Created Successfully')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_CREATED);
@@ -79,10 +80,10 @@ class AuthenticationController extends Controller
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
 
-            //generate access token using helper function
+            // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
 
-            //checking if token generation failed
+            // checking if token generation failed
             if (isset($tokenData['error'])) {
                 return ApiResponse::setMessage($tokenData['error'])
                     ->response(Response::HTTP_BAD_REQUEST);
@@ -96,9 +97,9 @@ class AuthenticationController extends Controller
                 Session::start();
             }
 
-            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login)) ;
+            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login));
 
-            //success response if tokens are generated successfully
+            // success response if tokens are generated successfully
             return ApiResponse::setMessage('Sccessufully logged in')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_OK);
@@ -113,10 +114,10 @@ class AuthenticationController extends Controller
     // Revoke the access token
     public function logout(Request $request)
     {
-        //destroying the session
+        // destroying the session
         Session::invalidate();
 
-        //regenerate the session ID to prevent session fixation attacks
+        // regenerate the session ID to prevent session fixation attacks
         Session::regenerateToken();
 
         $user = Auth::user();
@@ -130,7 +131,7 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Logout)) ;
+            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Logout));
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);

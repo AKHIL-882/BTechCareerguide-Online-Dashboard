@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Responses\ApiResponse;
@@ -17,7 +16,7 @@ class ForgetPasswordController extends Controller
     {
 
         $email = $request->email;
-        //find the user by email
+        // find the user by email
         $user = User::where('email', $email)->firstOrFail();
 
         $user->initiatePasswordReset();
@@ -31,7 +30,7 @@ class ForgetPasswordController extends Controller
     {
         $token = $request->token;
 
-        //Find the token record
+        // Find the token record
         $forgetPasswordToken = ForgetPasswordTokens::where('token', $token)->firstOrFail();
 
         if (! $forgetPasswordToken) {
@@ -40,7 +39,6 @@ class ForgetPasswordController extends Controller
         }
 
         $result = $forgetPasswordToken->updatePassword($request->password);
-
 
         return ApiResponse::setMessage($result['message'])
             ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);

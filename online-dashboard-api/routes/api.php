@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
@@ -12,11 +11,8 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::match(['post', 'get'], '/logout', [AuthenticationController::class, 'logout']);
 
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
-  
 
 });
-
-
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {
 
@@ -29,12 +25,10 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
 
 });
 
-
-Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']) ;
-
+Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
 
 // Admin routes
-require __DIR__ . '/admin.php';
+require __DIR__.'/admin.php';
 
 // User routes
-require __DIR__ . '/user.php';
+require __DIR__.'/user.php';

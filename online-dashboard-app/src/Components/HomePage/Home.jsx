@@ -22,7 +22,7 @@ const HomePage = () => {
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState); // Toggle the showPassword state
-  }
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -55,7 +55,7 @@ const HomePage = () => {
             .map((key) => errors[key].join(", "))
             .join(" ");
         setMessage(
-          errorMessage || "Validation failed. Please check your inputs."
+          errorMessage || "Validation failed. Please check your inputs.",
         );
       } else {
         setMessage("An error occurred. Please try again.");
