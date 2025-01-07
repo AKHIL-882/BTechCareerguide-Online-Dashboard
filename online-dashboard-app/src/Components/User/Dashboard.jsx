@@ -5,7 +5,7 @@ import Spinner from "../Admin/Components/Spinner.jsx";
 import { useFetchJobs } from "../../Api.jsx";
 
 const Dashboard = () => {
-  const {jobListings,loading, error } = useFetchJobs();
+  const { jobListings, loading, error } = useFetchJobs();
   return (
     <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
       <div className="p-4">

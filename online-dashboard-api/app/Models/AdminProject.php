@@ -15,7 +15,7 @@ class AdminProject extends Project
             'youtube_video_link' => $request->youtube_video_link,
             'payment_link' => $request->payment_link,
             'is_admin_project' => true,
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
         ];
     }
 

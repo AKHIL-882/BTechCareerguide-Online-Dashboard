@@ -4,7 +4,7 @@ import DropDownCheckBox from "./DropDownCheckBox";
 import { useCreateJob } from "../../../../Api";
 import Spinner from "../Spinner";
 
-const AddJobForm = ({addJob}) => {
+const AddJobForm = ({ addJob }) => {
   const [formData, setFormData] = useState({
     companyName: "",
     role: "",
@@ -28,11 +28,11 @@ const AddJobForm = ({addJob}) => {
     });
   };
 
-  const { loading, error, createJob} = useCreateJob();
+  const { loading, error, createJob } = useCreateJob();
 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
-    createJob(formData,setFormData,addJob);
+    e.preventDefault();
+    createJob(formData, setFormData, addJob);
   };
 
   return (
@@ -103,9 +103,9 @@ const AddJobForm = ({addJob}) => {
       >
         {loading ? (
           <p className="flex items-center justify-center">
-          <Spinner loading={loading} color={'#800080'} size={20}/>
-          <span className="pl-1">Adding job...</span>
-        </p>
+            <Spinner loading={loading} color={"#800080"} size={20} />
+            <span className="pl-1">Adding job...</span>
+          </p>
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (

@@ -20,7 +20,9 @@ const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
             <tr key={job.id} className="border-b hover:bg-gray-50">
               <td className="py-2 px-4">{job.company_name}</td>
               <td className="py-2 px-4">{job.role}</td>
-              <td className="py-2 px-4">{job.qualification.split(",").join(", ")}</td>
+              <td className="py-2 px-4">
+                {job.qualification.split(",").join(", ")}
+              </td>
               <td className="py-2 px-4">{job.batch.split(",").join(", ")}</td>
               <td className="py-2 px-4">
                 <a

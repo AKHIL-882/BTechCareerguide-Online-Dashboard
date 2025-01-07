@@ -32,7 +32,7 @@ class UserProject extends Project
         $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
 
         self::create(self::extractRequestData($request, $filePath));
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::ProjectRequested)) ;
+        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::ProjectRequested));
     }
 
     public static function updateProject($request, $id)

@@ -31,20 +31,20 @@ class ForgetPasswordTokens extends Model
     public function updatepassword(string $password)
     {
 
-        //check if the token has expired
+        // check if the token has expired
         if (Carbon::parse($this->expiration)->isPast()) {
-            return ApiResponse::setMessage('Password reset token has expired')->response(Response::HTTP_UNPROCESSABLE_ENTITY) ;
+            return ApiResponse::setMessage('Password reset token has expired')->response(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        //Fetch the associated user and update the password
+        // Fetch the associated user and update the password
         $user = User::findOrFail($this->user_id);
         $user->password = Hash::make($password);
         $user->save();
 
-        //delete the token after successful update
+        // delete the token after successful update
         $this->delete();
 
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::PasswordChanged)) ;
+        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::PasswordChanged));
 
         return ['status' => true,
             'message' => 'Password updated Succesfully'];

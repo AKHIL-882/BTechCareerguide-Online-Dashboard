@@ -30,7 +30,10 @@ const Pagination = ({ currentPage, totalPages, handlePageChange }) => {
 
       {/* Page Numbers */}
       <div className="flex space-x-2">
-        {Array.from({ length: paginationEnd - paginationStart + 1 }, (_, i) => i + paginationStart).map((page) => (
+        {Array.from(
+          { length: paginationEnd - paginationStart + 1 },
+          (_, i) => i + paginationStart,
+        ).map((page) => (
           <button
             key={page}
             onClick={() => handlePageChange(page)}

@@ -6,7 +6,7 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     role: "",
-    qualification: [],  // This will store the selected qualifications
+    qualification: [], // This will store the selected qualifications
     batch: [],
     apply_link: "",
   });
@@ -16,11 +16,11 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
   useEffect(() => {
     if (job) {
       setFormData({
-        id:job.id,
+        id: job.id,
         company_name: job.company_name,
         role: job.role,
-        qualification: job.qualification.split(",")|| [],  // Ensure qualifications are set correctly
-        batch: job.batch.split(",")|| [],
+        qualification: job.qualification.split(",") || [], // Ensure qualifications are set correctly
+        batch: job.batch.split(",") || [],
         apply_link: job.apply_link,
       });
     }
@@ -47,15 +47,22 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 bg-gray-600 bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-[600px]">
-        <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Edit Job</h2>
-        <form onSubmit={handleSubmit} className="w-full bg-blue-50 p-6 space-y-4 rounded-lg my-4">
+        <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">
+          Edit Job
+        </h2>
+        <form
+          onSubmit={handleSubmit}
+          className="w-full bg-blue-50 p-6 space-y-4 rounded-lg my-4"
+        >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <InputField
               id="company_name"
               label="Company Name"
               type="text"
               value={formData.company_name}
-              onChange={(e) => setFormData({ ...formData, company_name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, company_name: e.target.value })
+              }
               placeholder="Enter company name"
             />
             <InputField
@@ -63,7 +70,9 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
               label="Role"
               type="text"
               value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, role: e.target.value })
+              }
               placeholder="Enter role"
             />
             {/* Qualifications Dropdown */}
@@ -75,8 +84,8 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
                 { value: "PhD", label: "PhD" },
                 { value: "Diploma", label: "Diploma" },
               ]}
-              selectedValues={formData.qualification}  // Ensure selected values are properly passed
-              onChange={(e, value) => handleChange(e, "qualification", value)}  // Properly update qualifications array
+              selectedValues={formData.qualification} // Ensure selected values are properly passed
+              onChange={(e, value) => handleChange(e, "qualification", value)} // Properly update qualifications array
               showDropdown={showQualifications}
               toggleDropdown={() => setShowQualifications(!showQualifications)}
             />
@@ -99,7 +108,9 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
               label="apply_link"
               type="url"
               value={formData.apply_link}
-              onChange={(e) => setFormData({ ...formData, apply_link: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, apply_link: e.target.value })
+              }
               placeholder="Enter job URL"
             />
           </div>

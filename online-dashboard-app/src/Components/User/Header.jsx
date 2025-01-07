@@ -4,7 +4,7 @@ import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 const Header = ({ handleLogout, toggleSidebar }) => {
   // Local state to track whether sidebar is open or closed
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+  console.log(handleLogout);
   // Toggle the sidebar and change the icon
   const handleToggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -47,4 +47,3 @@ const Header = ({ handleLogout, toggleSidebar }) => {
 };
 
 export default Header;
-

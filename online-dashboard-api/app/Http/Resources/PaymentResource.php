@@ -16,11 +16,11 @@ class PaymentResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "user_name" => $this->project->user->name,
-            "user_email" => $this->project->user->email,
-            "project_name" => $this->project->company_name ?? $this->project->project_name,
-            "payment_document_name" => $this->getFile($this->payment_document_name),
-        ] ;
+            'user_name' => $this->project->user->name,
+            'user_email' => $this->project->user->email,
+            'project_name' => $this->project->company_name ?? $this->project->project_name,
+            'payment_document_name' => $this->getFile($this->payment_document_name),
+        ];
     }
 
     public function getFile($document_name): mixed

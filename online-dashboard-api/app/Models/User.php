@@ -14,7 +14,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
-use App\Models\CustomerEventLog;
 
 class User extends Authenticatable
 {
@@ -92,8 +91,7 @@ class User extends Authenticatable
 
         $user->assignRole('user');
 
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::AccountCreated), $user) ;
-
+        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::AccountCreated), $user);
 
         return $user;
     }

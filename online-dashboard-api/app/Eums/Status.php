@@ -13,16 +13,13 @@ final class Status extends BaseEnum
 
     public const Failure = 1;
 
-
     public static function getDescription($value): string
     {
-        return match($value) {
-            self::Success => "User Action Successfull",
-            self::Failure => "User Action Failed",
+        return match ($value) {
+            self::Success => 'User Action Successfull',
+            self::Failure => 'User Action Failed',
             default => parent::getDescription($value)
-        } ;
+        };
 
-        
     }
-    
 }

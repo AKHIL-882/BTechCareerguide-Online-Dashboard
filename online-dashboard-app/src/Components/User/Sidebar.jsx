@@ -5,7 +5,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
   <aside
     className={`h-full pt-16 fixed top-0 left-0 w-1/2 bg-white shadow-md p-5 transform transition-transform duration-300 ease-in-out ${
       isOpen ? "translate-x-0" : "-translate-x-full"
-    } lg:fixed lg:h-screen lg:w-1/6 lg:translate-x-0 lg:z-10`} 
+    } lg:fixed lg:h-screen lg:w-1/6 lg:translate-x-0 lg:z-10`}
   >
     {/* Close button for mobile */}
     <button
