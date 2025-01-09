@@ -19,3 +19,5 @@
 ## npm i react-toastify ==> For popup notifications
 
 ## npm i react-spinners ==> For loading spinner
+
+## npm install react-fast-marquee --save ==> for marquee
