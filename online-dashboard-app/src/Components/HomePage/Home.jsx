@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../../Api";
 import Spinner from "../Admin/Components/Spinner";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useLogin } from "../../Api";
+import ComapanyMarquee from "./ComapanyMarquee";
+import OfferingSection from "./OfferingSection";
+import Testimonials from "./Testimonials";
+import Community from "./Community";
+import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +20,14 @@ const HomePage = () => {
   });
 
   const [message, setMessage] = useState("");
-  const [isLogin, setIsLogin] = useState(false); // State to toggle between login and signup
+  const { handleLogin, loading } = useLogin();
+  const [isLogin, setIsLogin] = useState(false);
   const [clicked, setClicked] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
-    setShowPassword((prevState) => !prevState); // Toggle the showPassword state
+    setShowPassword((prevState) => !prevState);
   };
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -64,38 +70,14 @@ const HomePage = () => {
     }
   };
 
-  const handleLoginSubmit = async (e) => {
+  const handleLoginSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const response = await fetch("http://127.0.0.1:8000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("data", JSON.stringify(data));
-        navigate("/user"); // Redirect to dashboard
-      } else {
-        alert(data.message || "Login failed");
-      }
-    } catch (error) {
-      console.error("Error logging in:", error);
-      alert("An error occurred. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+    handleLogin(formData);
   };
   return (
+
     <div className="min-h-screen flex flex-col">
+      <ScrollToTopButton colorCode="bg-blue-600" />s
       <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-white shadow w-full z-50 fixed">
         <div className="text-2xl font-bold">
           <img src="logo.PNG" alt="Logo" className="h-10 w-40" />
@@ -109,7 +91,7 @@ const HomePage = () => {
         </a>
       </header>
 
-      <main className="flex flex-wrap flex-col-reverse lg:flex-row justify-between items-stretch px-6 py-10 gap-6 pt-20">
+      <main className="flex flex-wrap flex-col-reverse lg:flex-row justify-between items-stretch px-6 gap-6 pt-24 bg-gray-50">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 flex-1 h-full">
           {[...Array(6)].map((_, index) => (
             <div
@@ -259,7 +241,10 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-
+      <OfferingSection/>
+      <ComapanyMarquee/>
+      <Testimonials/>
+      <Community/>
       <footer className="text-center py-4 bg-gray-100 border-t border-gray-300 text-sm text-gray-600 mt-auto">
         &copy; {new Date().getFullYear()} All rights reserved - ProjPort
       </footer>

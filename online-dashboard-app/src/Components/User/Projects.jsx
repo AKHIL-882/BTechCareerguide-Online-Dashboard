@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Spinner from "../Admin/Components/Spinner";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -36,7 +37,10 @@ const Projects = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading projects...</p>;
+    return <p className="flex items-center justify-center p-5">
+    <Spinner loading={loading} color={"#0000FF"} size={20} />
+    <span className="pl-1">Projects...</span>
+  </p>
   }
 
   if (error) {
@@ -45,12 +49,12 @@ const Projects = () => {
 
   return (
     <section>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {projects.map((project, index) => (
-          <div key={index} className="bg-white shadow-md rounded-lg p-3">
+          <div key={index} className="bg-white shadow-md rounded-lg p-3 border border-1">
             <h4 className="font-semibold text-lg">{project.company_name}</h4>
             <iframe
-              className="mt-2 rounded-lg"
+              className="mt-2 rounded-lg border border-1"
               width="100%"
               height="150px" // Reduced height
               src={project.youtube_video_link.replace(

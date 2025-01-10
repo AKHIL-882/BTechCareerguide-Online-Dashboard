@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Sidebar from "./Sidebar";
-import Header from "./Header";
 
 const CompanyQA = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,17 +10,17 @@ const CompanyQA = ({ handleLogout }) => {
   ];
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2">
-      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto">
+    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen">
+      <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-screen top-10">
         <h2 className="text-xl font-semibold text-center mb-6">
           Company Coding Round Solutions
         </h2>
         <p className="text-sm text-gray-500 text-center mb-4">
-          List of Company Questions and Solutions
+          Coming soon...
         </p>
 
         <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse border border-gray-300">
+          {/* <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-gray-100">
                 <th className="border border-gray-300 px-4 py-2 text-left">
@@ -54,10 +52,10 @@ const CompanyQA = ({ handleLogout }) => {
                 </tr>
               ))}
             </tbody>
-          </table>
+          </table> */}
         </div>
 
-        <div className="flex justify-between items-center mt-4">
+        {/* <div className="flex justify-between items-center mt-4">
           <button
             className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -85,7 +83,7 @@ const CompanyQA = ({ handleLogout }) => {
           >
             Next
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

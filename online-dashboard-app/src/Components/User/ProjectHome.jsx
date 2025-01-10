@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header.jsx";
-import Sidebar from "./Sidebar.jsx";
 import Projects from "./Projects.jsx";
 import axios from "axios";
 
@@ -78,7 +76,7 @@ const ProjectHome = ({ handleLogout }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       alert("Project request submitted successfully!");
@@ -115,7 +113,7 @@ const ProjectHome = ({ handleLogout }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       // Update the projects state with the fetched data
@@ -146,18 +144,18 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen">
+    <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen ">
       {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full md:w-auto mb-1 md:mb-0"
+            className="font-semibold bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full md:w-auto mb-1 md:mb-0"
             onClick={handleShowRequestNewProject}
           >
             Request New Project
           </button>
           <button
-            className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto"
+            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto"
             onClick={handleShowProjectsClick}
           >
             Show Projects
@@ -165,7 +163,7 @@ const ProjectHome = ({ handleLogout }) => {
         </div>
         <div className="flex">
           <button
-            className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto"
+            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto"
             onClick={handleUploadPaymentClick}
           >
             Upload Payment Screenshot
@@ -174,11 +172,11 @@ const ProjectHome = ({ handleLogout }) => {
       </div>
 
       {showForm && (
-        <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto">
+        <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto w-full">
           <h2 className="text-lg font-semibold">Submission Request</h2>
           <form onSubmit={handleSubmit}>
             {/* Row for Project Title and Days to Complete */}
-            <div className="mt-4 flex gap-4">
+            <div className="mt-4 flex flex-col md:flex-row gap-4">
               <div className="flex-1">
                 <label className="block text-gray-700">Project Title</label>
                 <input
@@ -197,7 +195,7 @@ const ProjectHome = ({ handleLogout }) => {
                   name="days"
                   value={formData.days}
                   onChange={handleInputChange}
-                  className="border border-gray-300 p-2 rounded-md w-full"
+                  className="border border-gray-300 p-2 rounded-md w-4/6 lg:w-full "
                   required
                 >
                   <option value="">Select Days</option>
@@ -270,7 +268,7 @@ const ProjectHome = ({ handleLogout }) => {
             Please select the project and upload your payment screenshot.
           </p>
           <div className="mt-4">
-            <select className="border-gray-300 p-2 rounded-md w-full mb-4">
+            <select className="border-gray-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-green-50">
               <option>Select Project</option>
               {projects.map((project) => (
                 <option key={project.id} value={project.id}>
@@ -283,23 +281,27 @@ const ProjectHome = ({ handleLogout }) => {
             </button>
             <button
               className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 ml-4"
-              onClick={() => setShowPaymentForm(false)}
+              onClick={() =>{setShowPaymentForm(false);
+                setShowProjects(true);
+              }
+              }
             >
               Cancel
             </button>
           </div>
         </div>
       )}
-
       {showProjects && (
         <div className="mt-8">
           <h2 className="text-lg font-semibold mb-4">Projects</h2>
           <Projects />
-          <div className="mt-8">
-            <h3 className="text-md font-semibold mb-4">Project Table</h3>
+
+          {/* Table view for larger screens */}
+          <div className="hidden lg:block mt-8">
+            <h3 className="text-md font-semibold mb-4">Requested Projects</h3>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
-                <tr>
+                <tr className="bg-blue-100 whitespace-nowrap">
                   <th className="border px-4 py-2">Project Name</th>
                   <th className="border px-4 py-2">Technical Skills</th>
                   <th className="border px-4 py-2">Description</th>
@@ -335,6 +337,41 @@ const ProjectHome = ({ handleLogout }) => {
                 ))}
               </tbody>
             </table>
+          </div>
+
+          {/* Card view for mobile screens */}
+
+          <div className="lg:hidden mt-8">
+            <h3 className="text-lg font-semibold mb-4">Requested Projects</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {projects.map((project, index) => (
+                <div
+                  key={index}
+                  className="bg-white shadow-md rounded-lg p-4 border border-1"
+                >
+                  <div className="flex justify-between items-center">
+                    <h4 className="font-semibold text-lg">
+                      {project.project_name}
+                    </h4>
+                    <button
+                      className={`px-4 py-1 rounded text-white font-semibold ${
+                        project.project_status === "Pending"
+                          ? "bg-yellow-500"
+                          : project.project_status === "Completed"
+                            ? "bg-green-500"
+                            : project.project_status === "In Progress"
+                              ? "bg-blue-500"
+                              : "bg-gray-500"
+                      }`}
+                    >
+                      {STATUS_MAP[project.project_status]}
+                    </button>
+                  </div>
+                  <p className="mt-2 text-sm">{project.technical_skills}</p>
+                  <p className="mt-2 text-sm">{project.project_description}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

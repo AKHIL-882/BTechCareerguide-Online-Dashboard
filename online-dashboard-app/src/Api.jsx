@@ -1,8 +1,48 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+//userlogin
+export const useLogin = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogin = async (formData) => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("data", JSON.stringify(data));
+        navigate("/user"); // Redirect to dashboard
+      } else {
+        alert(data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+      alert("An error occurred. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handleLogin, loading };
+};
+
 
 export const signup = async (formData) => {
   try {
@@ -243,3 +283,4 @@ export const useDeleteJob = () => {
 
   return { deleteJob, loading, error };
 };
+
