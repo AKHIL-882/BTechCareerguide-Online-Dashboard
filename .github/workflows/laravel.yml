@@ -63,21 +63,3 @@ jobs:
       run: |
         cd online-dashboard-api && ./vendor/bin/pint --verbose
 
-    - name: Commit Changes (if Pint fixes applied)
-      if: ${{ github.event_name == 'push' }} && ${{ steps.pint.outcome == 'success' }}
-      run: |
-        # Configure git user
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-
-        # Add, commit, and push changes to the same branch
-        git add .
-        git commit -m "Apply Pint fixes"
-
-        # Extract branch name from GITHUB_REF and push to that branch
-        branch_name=${GITHUB_REF#refs/heads/}
-        
-        # Push using the GITHUB_TOKEN for authentication
-        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:$branch_name
-
-
