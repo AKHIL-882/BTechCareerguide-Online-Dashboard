@@ -363,3 +363,196 @@ export const useDeleteJob = () => {
 
   return { deleteJob, loading, error };
 };
+
+//projects listing
+export const useFetchProjects = () => {
+  const [projectsListings, setProjectsListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const data = JSON.parse(localStorage.getItem("data"));
+      const accessToken = data ? data.access_token : null;
+      console.log(accessToken);
+      try {
+        const response = await axios.get(`${API_BASE_URL}/admin-projects
+          `, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        setProjectsListings(response.data.data.reverse());
+      } catch (err) {
+        setError("Failed to fetch jobs. Please try again later.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  return { projectsListings, setProjectsListings, loading, error };
+};
+
+
+//add project
+export const useCreateProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const createProject = async (formData, setFormData, addProject) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    setLoading(true); // Set loading state to true
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/admin-projects/create`,
+        {
+          company_name: formData.project_name,
+          youtube_video_link: formData.youtube_link,
+          payment_link: formData.payment_link,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      const newProject = {
+        id: new Date(),
+        company_name: formData.project_name,
+        youtube_video_link: formData.youtube_link,
+        payment_link: formData.payment_link,
+      };
+      addProject(newProject);
+      setFormData({
+        project_name: "",
+        payment_link: "",
+        youtube_link: "",
+      });
+      toast.success("Project Added successfully");
+    } catch (err) {
+      setError("Failed to upload data");
+      console.error("Error uploading data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, error, createProject };
+};
+
+//editproject
+export const useSaveProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const saveProject = async (
+    updatedProject,
+    setProjectsListings,
+    projectsListings,
+    setSelectedProject,
+  ) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      // API call to update the job
+      const response = await axios.put(
+        `${API_BASE_URL}/admin-projects/${updatedProject.id}/update`,
+        {
+          company_name: updatedJob.company_name,
+          payment_link: updatedJob.payment_link,
+          youtube_video_link: updatedJob.youtube_link,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      // Update the job in the UI
+      const updatedProjectData = {
+        id: updatedProject.id,
+        company_name: updatedProject.company_name,
+        payment_link: updatedProject.payment_link,
+        youtube_video_link: updatedProject.youtube_link,
+      };
+
+      setProjectsListings(
+        projectsListings.map((project) =>
+          job.id === updatedProject.id ? updatedProjectData : project,
+        ),
+      );
+      toast.success("Project Edited Successfully");
+      setSelectedProject(null); // Close the popup after saving
+    } catch (err) {
+      setError("Failed to save the Project. Please try again later.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { saveProject, loading, error };
+};
+
+//deleteproject
+export const useDeleteProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const deleteProject = async (
+    id,
+    projectsListings,
+    setProjectsListings,
+    setShowDeletePopup,
+    setProjectToDelete,
+  ) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await axios.delete(`${API_BASE_URL}/admin-projects/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setProjectsListings(projectsListings.filter((project) => project.id !== id));
+      setShowDeletePopup(false);
+      setProjectToDelete(null);
+      toast.success("Project deleted successfully");
+    } catch (err) {
+      setError("Failed to delete the project. Please try again later.");
+      console.error("Error deleting project:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { deleteProject, loading, error };
+};
