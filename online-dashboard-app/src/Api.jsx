@@ -90,9 +90,23 @@ export const useLogin = () => {
 
       const data = await response.json();
       if (response.ok) {
-        localStorage.setItem("isLoggedIn", true);
+        const { roles, access_token, refresh_token } = data;
+        // todo:: get all the data outside the scope of storage
+        // Save necessary data in localStorage
         localStorage.setItem("data", JSON.stringify(data));
-        navigate("/user"); // Redirect to dashboard
+        localStorage.setItem("isLoggedIn", true);
+        localStorage.setItem("access_token", access_token);
+        localStorage.setItem("refresh_token", refresh_token);
+        localStorage.setItem("roles", roles);
+
+        // Redirect based on roles
+        if (roles === "admin") {
+          navigate("/admin");
+        } else if (roles === "user") {
+          navigate("/user");
+        } else {
+          alert("Role not recognized.");
+        }
       } else {
         alert(data.message || "Login failed");
       }
@@ -106,6 +120,7 @@ export const useLogin = () => {
 
   return { handleLogin, loading };
 };
+
 
 export const signup = async (formData) => {
   try {
@@ -163,6 +178,7 @@ export const useFetchJobs = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
+        console.log(response);
         setJobListings(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
