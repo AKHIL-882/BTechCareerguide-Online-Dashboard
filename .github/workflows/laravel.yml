@@ -8,7 +8,6 @@ on:
 
 jobs:
   laravel-tests:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -30,37 +29,41 @@ jobs:
           ${{ runner.os }}-composer-
 
     - name: Install Dependencies
-      run:
-          cd online-dashboard-api && composer install --no-progress --prefer-dist;
-          
+      run: |
+        cd online-dashboard-api && composer install --no-progress --prefer-dist
+
     - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      run: |
+        cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
 
     - name: Generate Application Key
-      run: php artisan key:generate
+      run: |
+        cd online-dashboard-api && php artisan key:generate
 
     - name: Set Directory Permissions
-      run: chmod -R 777 storage bootstrap/cache
+      run: |
+        cd online-dashboard-api && chmod -R 777 storage bootstrap/cache
 
     - name: Create SQLite Database
       run: |
-        mkdir -p database
-        touch database/database.sqlite
+        cd online-dashboard-api && mkdir -p database && touch database/database.sqlite
 
     - name: Run Tests
       env:
         DB_CONNECTION: sqlite
-        DB_DATABASE: database/database.sqlite
-      run: php artisan test
+        DB_DATABASE: online-dashboard-api/database/database.sqlite
+      run: |
+        cd online-dashboard-api && php artisan test
 
     - name: Run Pint (Code Style Fixer)
-      run: ./vendor/bin/pint --verbose
+      run: |
+        cd online-dashboard-api && ./vendor/bin/pint --verbose
 
     - name: Commit Changes (if Pint fixes applied)
       if: ${{ github.event_name == 'push' }} && ${{ steps.pint.outcome == 'success' }}
       run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
-        git add .
-        git commit -m "Apply Pint fixes"
-        git push
+        cd online-dashboard-api && git config --global user.name "GitHub Actions"
+        cd online-dashboard-api && git config --global user.email "actions@github.com"
+        cd online-dashboard-api && git add .
+        cd online-dashboard-api && git commit -m "Apply Pint fixes"
+        cd online-dashboard-api && git push
