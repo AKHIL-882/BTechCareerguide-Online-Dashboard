@@ -13,19 +13,23 @@ const Testimonials = () => {
   const testimonials = [
     {
       name: "John Doe",
-      testimonial: "This service is amazing! It really helped our business grow.",
+      testimonial:
+        "This service is amazing! It really helped our business grow.",
     },
     {
       name: "Jane Smith",
-      testimonial: "Highly recommended! The team is professional and responsive.",
+      testimonial:
+        "Highly recommended! The team is professional and responsive.",
     },
     {
       name: "Mark Wilson",
-      testimonial: "Great value for the price. I’m extremely satisfied with the results.",
+      testimonial:
+        "Great value for the price. I’m extremely satisfied with the results.",
     },
     {
       name: "Sarah Lee",
-      testimonial: "Fantastic experience. Will definitely use this service again.",
+      testimonial:
+        "Fantastic experience. Will definitely use this service again.",
     },
     {
       name: "Michael Brown",
@@ -33,13 +37,16 @@ const Testimonials = () => {
     },
     {
       name: "Emily Davis",
-      testimonial: "I love the customer support! They really take care of their clients.",
+      testimonial:
+        "I love the customer support! They really take care of their clients.",
     },
   ];
 
   return (
     <div className="py-16 px-4 bg-gray-50 text-center">
-      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-12">What Our Students Say</h2>
+      <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-12">
+        What Our Students Say
+      </h2>
       <div className="flex flex-wrap justify-center gap-8">
         {testimonials.map((testimonial, index) => (
           <TestimonialCard key={index} {...testimonial} />

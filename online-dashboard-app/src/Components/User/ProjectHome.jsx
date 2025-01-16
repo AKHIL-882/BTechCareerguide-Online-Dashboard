@@ -76,7 +76,7 @@ const ProjectHome = ({ handleLogout }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       alert("Project request submitted successfully!");
@@ -113,7 +113,7 @@ const ProjectHome = ({ handleLogout }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       // Update the projects state with the fetched data
@@ -281,10 +281,10 @@ const ProjectHome = ({ handleLogout }) => {
             </button>
             <button
               className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 ml-4"
-              onClick={() =>{setShowPaymentForm(false);
+              onClick={() => {
+                setShowPaymentForm(false);
                 setShowProjects(true);
-              }
-              }
+              }}
             >
               Cancel
             </button>

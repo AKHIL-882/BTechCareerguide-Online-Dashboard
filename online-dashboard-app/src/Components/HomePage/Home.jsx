@@ -75,7 +75,6 @@ const HomePage = () => {
     handleLogin(formData);
   };
   return (
-
     <div className="min-h-screen flex flex-col">
       <ScrollToTopButton colorCode="bg-blue-600" />s
       <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-white shadow w-full z-50 fixed">
@@ -90,7 +89,6 @@ const HomePage = () => {
           {!isLogin ? "Login" : "Create Account"}
         </a>
       </header>
-
       <main className="flex flex-wrap flex-col-reverse lg:flex-row justify-between items-stretch px-6 gap-6 pt-24 bg-gray-50">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 flex-1 h-full">
           {[...Array(6)].map((_, index) => (
@@ -241,10 +239,10 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-      <OfferingSection/>
-      <ComapanyMarquee/>
-      <Testimonials/>
-      <Community/>
+      <OfferingSection />
+      <ComapanyMarquee />
+      <Testimonials />
+      <Community />
       <footer className="text-center py-4 bg-gray-100 border-t border-gray-300 text-sm text-gray-600 mt-auto">
         &copy; {new Date().getFullYear()} All rights reserved - ProjPort
       </footer>

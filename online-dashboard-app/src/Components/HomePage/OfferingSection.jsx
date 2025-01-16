@@ -1,5 +1,10 @@
 import React from "react";
-import { FaBriefcase, FaProjectDiagram, FaBuilding, FaCode } from "react-icons/fa";
+import {
+  FaBriefcase,
+  FaProjectDiagram,
+  FaBuilding,
+  FaCode,
+} from "react-icons/fa";
 
 const OfferingCard = ({ icon, title, description }) => (
   <div className="bg-white p-6 rounded-lg shadow-lg max-w-xs w-full text-center transform transition-all duration-300 hover:scale-105 hover:shadow-xl border bottom-1">
@@ -14,7 +19,9 @@ const OfferingCard = ({ icon, title, description }) => (
 const OfferingSection = () => {
   return (
     <div className="py-16 px-4 bg-gray-50 text-center">
-      <h2 className="text-2xl font-bold text-gray-800 mb-10">What We Are Offering</h2>
+      <h2 className="text-2xl font-bold text-gray-800 mb-10">
+        What We Are Offering
+      </h2>
       <div className="flex flex-wrap justify-center gap-8">
         <OfferingCard
           icon={<FaBriefcase size={30} />}
