@@ -62,8 +62,8 @@ jobs:
     - name: Commit Changes (if Pint fixes applied)
       if: ${{ github.event_name == 'push' }} && ${{ steps.pint.outcome == 'success' }}
       run: |
-        cd online-dashboard-api && git config --global user.name "GitHub Actions"
-        cd online-dashboard-api && git config --global user.email "actions@github.com"
-        cd online-dashboard-api && git add .
-        cd online-dashboard-api && git commit -m "Apply Pint fixes"
-        cd online-dashboard-api && git push
+        git config --global user.name "GitHub Actions"
+        git config --global user.email "actions@github.com"
+        git add .
+        git commit -m "Apply Pint fixes"
+        git push
