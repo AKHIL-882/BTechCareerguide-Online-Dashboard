@@ -4,6 +4,70 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
+const TOKEN_REFRESH_LIMIT = 3;
+const REFRESH_THRESHOLD = 30 * 1000;
+
+export const useTokenManager = () => {
+  const navigate = useNavigate();
+  const scheduleTokenRefresh = (accessTokenExpiry, refreshToken) => {
+    const timeUntilRefresh = accessTokenExpiry - Date.now() - REFRESH_THRESHOLD;
+
+    if (timeUntilRefresh > 0) {
+      setTimeout(async () => {
+        const refreshCount =
+          parseInt(localStorage.getItem("refreshCount")) || 0;
+
+        if (refreshCount >= TOKEN_REFRESH_LIMIT) {
+          console.warn("Refresh token limit reached. Logging out.");
+          localStorage.clear();
+          navigate("/login");
+          return;
+        }
+
+        try {
+          const response = await axios.post(`${API_BASE_URL}/refresh-token`, {
+            refresh_token: refreshToken,
+          });
+
+          const { access_token, refresh_token, expires_in } = response.data;
+
+          localStorage.setItem("access_token", access_token);
+          localStorage.setItem("refresh_token", refresh_token);
+          localStorage.setItem(
+            "accessTokenExpiry",
+            Date.now() + expires_in * 1000,
+          );
+
+          localStorage.setItem("refreshCount", refreshCount + 1);
+          scheduleTokenRefresh(Date.now() + expires_in * 1000, refresh_token);
+        } catch (error) {
+          console.error("Error refreshing token:", error);
+          localStorage.clear();
+          navigate("/login");
+        }
+      }, timeUntilRefresh);
+    } else {
+      console.warn("Token refresh time has passed or is too short.");
+    }
+  };
+
+  const initializeTokenManagement = () => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const expiresIn = data ? parseInt(data.expires_in) : null;
+    const refreshToken = data ? data.refresh_token : null;
+
+    if (expiresIn && refreshToken) {
+      scheduleTokenRefresh(expiresIn, refreshToken);
+    } else {
+      console.warn(
+        "Access token expiry or refresh token not found. Redirecting to login.",
+      );
+      navigate("/#login");
+    }
+  };
+
+  return { initializeTokenManagement };
+};
 
 //userlogin
 export const useLogin = () => {
@@ -43,7 +107,6 @@ export const useLogin = () => {
   return { handleLogin, loading };
 };
 
-
 export const signup = async (formData) => {
   try {
     const response = await axios.post(
@@ -76,6 +139,7 @@ export const logoutUser = async (accessToken) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
+    localStorage.setItem("isLoggedIn", false);
     return response;
   } catch (error) {
     console.error("Logout API Error:", error);
@@ -283,4 +347,3 @@ export const useDeleteJob = () => {
 
   return { deleteJob, loading, error };
 };
-

@@ -54,7 +54,7 @@ class AuthenticationController extends Controller
             }
             $tokenData['user_email'] = $user->email;
 
-            return ApiResponse::setMessage('User Created Successfully')
+            return ApiResponse::setMessage('Account Created Successfully')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_CREATED);
 
