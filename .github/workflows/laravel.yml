@@ -1,10 +1,10 @@
-name: Laravel
+name: Laravel CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "*" ] # Runs on every push, regardless of branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "*" ] # Runs for every pull request on any branch
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -62,4 +62,3 @@ jobs:
     - name: Run Pint (Code Style Fixer)
       run: |
         cd online-dashboard-api && ./vendor/bin/pint --verbose
-
