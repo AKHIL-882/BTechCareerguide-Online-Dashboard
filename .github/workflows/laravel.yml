@@ -72,5 +72,8 @@ jobs:
 
         # Extract branch name from GITHUB_REF and push to that branch
         branch_name=${GITHUB_REF#refs/heads/}
-        git push origin HEAD:$branch_name
+        
+        # Push using the GITHUB_TOKEN for authentication
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:$branch_name
+
 
