@@ -26,22 +26,28 @@ function App() {
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/dashboard" element={<Dashboard />} /> */}
-        <Route path="/admin" element={<MainLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute allowedRole="admin">
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/admin" element={<AdminDashBoard />} />
           <Route path="/admin/jobs" element={<AdminJobs />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
         </Route>
-        <Route path="/user" element={<UserMainLayout />}>
-          <Route
-            path="/user"
-            element={
-              // <ProtectedRoute>
-              <Dashboard />
-              // </ProtectedRoute>
-            }
-          />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute allowedRole="user">
+              <UserMainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/user" element={<Dashboard />} />
           <Route path="/user/jobs" element={<Jobs />} />
           <Route path="/user/projects" element={<ProjectHome />} />
           <Route path="/user/company-qa" element={<CompanyQA />} />

@@ -68,47 +68,48 @@ class AuthenticationController extends Controller
 
     public function login(LoginRequest $request): JsonResponse
     {
-
         try {
             $credentials = request(['email', 'password']);
-
-            // validate the user
+    
+            // Validate the user
             $user = User::where('email', $credentials['email'])->first();
-
+    
             if (! $user || ! Hash::check($credentials['password'], $user->password)) {
                 return ApiResponse::setMessage('Unauthenticated')
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
-
-            // generate access token using helper function
+    
+            // Generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-
-            // checking if token generation failed
+    
+            // Checking if token generation failed
             if (isset($tokenData['error'])) {
                 return ApiResponse::setMessage($tokenData['error'])
                     ->response(Response::HTTP_BAD_REQUEST);
             }
-
-            // Login the user
+    
+            // Log in the user
             Auth::login($user);
-
+    
             // Start a session manually
             if (! Session::isStarted()) {
                 Session::start();
             }
-
+    
             CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login));
-
-            // success response if tokens are generated successfully
-            return ApiResponse::setMessage('Sccessufully logged in')
-                ->mergeResults($tokenData)
+    
+            // Fetch the user's roles
+            $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
+    
+            // Success response if tokens are generated successfully
+            return ApiResponse::setMessage('Successfully logged in')
+                ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
                 ->response(Response::HTTP_OK);
-
+    
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 
     // Revoke the access token

@@ -1,15 +1,18 @@
-import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
+import React from "react";
+import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute = ({ children }) => {
-  const isAuthenticated =
-    localStorage.getItem("data") &&
-    JSON.parse(localStorage.getItem("data")).access_token;
-  const { auth } = useContext(AuthContext);
+const ProtectedRoute = ({ children, allowedRole }) => {
+  const userRole = localStorage.getItem("roles");
+  const location = useLocation();
 
-  if (!isAuthenticated || !auth.token || auth.expiresAt <= Date.now()) {
+  if (!userRole) {
     return <Navigate to="/" replace />;
+  }
+
+  if (userRole !== allowedRole) {
+    alert("Cannot access this resource. Logging out.");
+    localStorage.clear(); // Clear session
+    return <Navigate to="/" replace state={{ from: location }} />;
   }
 
   return children;
