@@ -7,7 +7,12 @@ import DeleteProjectPopup from "./DeleteProjectPopup";
 import { useSaveProject, useDeleteProject } from "../../../../Api";
 import Spinner from "../Spinner";
 
-const ProjectListing = ({ projectsListings, setProjectsListings, loading, error }) => {
+const ProjectListing = ({
+  projectsListings,
+  setProjectsListings,
+  loading,
+  error,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProject, setSelectedProject] = useState(null); // State to hold selected Project for editing
   const [showDeletePopup, setShowDeletePopup] = useState(false); // State to manage delete popup visibility
@@ -16,7 +21,10 @@ const ProjectListing = ({ projectsListings, setProjectsListings, loading, error 
   // Get the projects for the current page
   const indexOfLastProject = currentPage * ProjectsPerPage;
   const indexOfFirstProject = indexOfLastProject - ProjectsPerPage;
-  const currentProjects = projectsListings.slice(indexOfFirstProject, indexOfLastProject);
+  const currentProjects = projectsListings.slice(
+    indexOfFirstProject,
+    indexOfLastProject,
+  );
   const totalPages = Math.ceil(projectsListings.length / ProjectsPerPage);
 
   const handleEdit = (id) => {
@@ -37,7 +45,12 @@ const ProjectListing = ({ projectsListings, setProjectsListings, loading, error 
 
   const { saveProject } = useSaveProject();
   const handleSaveProject = (updatedProject) => {
-    saveProject(updatedProject, setProjectsListings, projectsListings, setSelectedProject);
+    saveProject(
+      updatedProject,
+      setProjectsListings,
+      projectsListings,
+      setSelectedProject,
+    );
   };
 
   const handlePageChange = (page) => {
@@ -60,7 +73,9 @@ const ProjectListing = ({ projectsListings, setProjectsListings, loading, error 
     <div className="mx-auto p-4 rounded-lg shadow-lg">
       <h1 className="text-xl font-bold mb-4 text-gray-900">
         Project Listings{" "}
-        <span className="text-sm text-gray-800">({projectsListings.length})</span>
+        <span className="text-sm text-gray-800">
+          ({projectsListings.length})
+        </span>
       </h1>
 
       {/* Project Table (Desktop View) */}

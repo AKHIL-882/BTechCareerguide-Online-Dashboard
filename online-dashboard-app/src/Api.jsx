@@ -121,7 +121,6 @@ export const useLogin = () => {
   return { handleLogin, loading };
 };
 
-
 export const signup = async (formData) => {
   try {
     const response = await axios.post(
@@ -376,12 +375,15 @@ export const useFetchProjects = () => {
       const accessToken = data ? data.access_token : null;
       console.log(accessToken);
       try {
-        const response = await axios.get(`${API_BASE_URL}/admin-projects
-          `, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
+        const response = await axios.get(
+          `${API_BASE_URL}/admin_projects
+          `,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
           },
-        });
+        );
         setProjectsListings(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
@@ -396,7 +398,6 @@ export const useFetchProjects = () => {
 
   return { projectsListings, setProjectsListings, loading, error };
 };
-
 
 //add project
 export const useCreateProject = () => {
@@ -415,7 +416,7 @@ export const useCreateProject = () => {
     setLoading(true); // Set loading state to true
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/admin-projects/create`,
+        `${API_BASE_URL}/admin_projects/create`,
         {
           company_name: formData.project_name,
           youtube_video_link: formData.youtube_link,
@@ -472,10 +473,9 @@ export const useSaveProject = () => {
 
     try {
       setLoading(true);
-
       // API call to update the job
       const response = await axios.put(
-        `${API_BASE_URL}/admin-projects/${updatedProject.id}/update`,
+        `${API_BASE_URL}/admin_projects/${updatedProject.id}/update`,
         {
           company_name: updatedJob.company_name,
           payment_link: updatedJob.payment_link,
@@ -536,13 +536,15 @@ export const useDeleteProject = () => {
 
     try {
       setLoading(true);
-      await axios.delete(`${API_BASE_URL}/admin-projects/${id}/delete`, {
+      await axios.delete(`${API_BASE_URL}/admin_projects/${id}/delete`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
 
-      setProjectsListings(projectsListings.filter((project) => project.id !== id));
+      setProjectsListings(
+        projectsListings.filter((project) => project.id !== id),
+      );
       setShowDeletePopup(false);
       setProjectToDelete(null);
       toast.success("Project deleted successfully");

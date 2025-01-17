@@ -5,15 +5,15 @@ import { useFetchProjects } from "../../../Api";
 const AdminProjects = () => {
   const { projectsListings, setProjectsListings, loading, error } =
     useFetchProjects();
-    const addProject = (newProject) => {
-      setProjectsListings((prevProjects) => [newProject, ...prevProjects]);
-    };
+  const addProject = (newProject) => {
+    setProjectsListings((prevProjects) => [newProject, ...prevProjects]);
+  };
   return (
     <div className="pt-16 pb-5 px-4 lg:pl-60 w-screen">
       <h1 className="lg:hidden font-bold text-white bg-gradient-to-r from-violet-600 pl-2 mt-2 rounded-md">
         Projects
       </h1>
-      <AddProjects addProject={addProject}  />
+      <AddProjects addProject={addProject} />
       <ProJectListing
         projectsListings={projectsListings}
         setProjectsListings={setProjectsListings}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import InputField from "../DashBoard/InputField"
+import InputField from "../DashBoard/InputField";
 import { useCreateProject } from "../../../../Api";
 import Spinner from "../Spinner";
 
@@ -41,7 +41,9 @@ const AddProjects = ({ addProject }) => {
           label="Youtube Link"
           type="url"
           value={formData.youtube_link}
-          onChange={(e) => setFormData({ ...formData, youtube_link: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, youtube_link: e.target.value })
+          }
           placeholder="Enter Youtube Link"
         />
         <InputField
@@ -49,7 +51,9 @@ const AddProjects = ({ addProject }) => {
           label="Payment url"
           type="url"
           value={formData.payment_link}
-          onChange={(e) => setFormData({ ...formData, payment_link: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, payment_link: e.target.value })
+          }
           placeholder="Enter Payment URL"
         />
       </div>

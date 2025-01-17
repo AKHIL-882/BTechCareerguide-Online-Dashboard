@@ -24,7 +24,7 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
 
     });
 
-    Route::prefix('admin-projects')->group(function () {
+    Route::prefix('admin_projects')->group(function () {
 
         Route::get('/', [AdminProjectsController::class, 'index']);
         Route::post('create', [AdminProjectsController::class, 'store']);
@@ -40,6 +40,6 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
     });
 
     // show-all-payment-requests
-    Route::get('show-all-payment-request', [PaymentsController::class, 'index']);
+    Route::get('show_all_payment_request', [PaymentsController::class, 'index']);
 
 });

@@ -56,7 +56,7 @@ const EditProjectPopup = ({ project, handleClose, handleSave }) => {
               }
               placeholder="Enter Pyament_link"
             />
-            
+
             <InputField
               id="youtube_link"
               label="youtube link"

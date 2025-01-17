@@ -15,7 +15,10 @@ const ProjectTable = ({ currentProjects, handleEdit, openDeletePopup }) => {
         </thead>
         <tbody>
           {currentProjects.map((project) => (
-            <tr key={project.company_name} className="border-b hover:bg-gray-50">
+            <tr
+              key={project.company_name}
+              className="border-b hover:bg-gray-50"
+            >
               <td className="py-2 px-4">{project.company_name}</td>
               <td className="py-2 px-4">{project.payment_link}</td>
               <td className="py-2 px-4">
