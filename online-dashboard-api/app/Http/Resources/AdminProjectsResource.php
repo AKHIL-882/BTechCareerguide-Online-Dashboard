@@ -15,6 +15,7 @@ class AdminProjectsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id' => $this->id,
             'company_name' => $this->company_name,
             'youtube_video_link' => $this->youtube_video_link,
             'payment_link' => $this->payment_link,
