@@ -384,7 +384,7 @@ export const useFetchProjects = () => {
             },
           },
         );
-        setProjectsListings(response.data.data.reverse());
+        setProjectsListings(response.data.data);
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
         console.error(err);
@@ -429,7 +429,7 @@ export const useCreateProject = () => {
         },
       );
       const newProject = {
-        id: new Date(),
+        id: formData.id,
         company_name: formData.project_name,
         youtube_video_link: formData.youtube_link,
         payment_link: formData.payment_link,
@@ -477,9 +477,9 @@ export const useSaveProject = () => {
       const response = await axios.put(
         `${API_BASE_URL}/admin_projects/${updatedProject.id}/update`,
         {
-          company_name: updatedJob.company_name,
-          payment_link: updatedJob.payment_link,
-          youtube_video_link: updatedJob.youtube_link,
+          company_name: updatedProject.company_name,
+          payment_link: updatedProject.payment_link,
+          youtube_video_link: updatedProject.youtube_link,
         },
         {
           headers: {
@@ -498,7 +498,7 @@ export const useSaveProject = () => {
 
       setProjectsListings(
         projectsListings.map((project) =>
-          job.id === updatedProject.id ? updatedProjectData : project,
+          project.id === updatedProject.id ? updatedProjectData : project,
         ),
       );
       toast.success("Project Edited Successfully");
