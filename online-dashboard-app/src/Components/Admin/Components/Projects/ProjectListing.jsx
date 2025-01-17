@@ -14,59 +14,61 @@ const ProjectListing = ({
   error,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedProject, setSelectedProject] = useState(null); // State to hold selected Project for editing
-  const [showDeletePopup, setShowDeletePopup] = useState(false); // State to manage delete popup visibility
-  const [projectToDelete, setProjectToDelete] = useState(null); // Project to be deleted
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [projectToDelete, setProjectToDelete] = useState(null);
+
   const ProjectsPerPage = 10;
-  // Get the projects for the current page
+  const totalPages = Math.ceil(projectsListings.length / ProjectsPerPage);
+
   const indexOfLastProject = currentPage * ProjectsPerPage;
   const indexOfFirstProject = indexOfLastProject - ProjectsPerPage;
   const currentProjects = projectsListings.slice(
     indexOfFirstProject,
-    indexOfLastProject,
+    indexOfLastProject
   );
-  const totalPages = Math.ceil(projectsListings.length / ProjectsPerPage);
+
+  const { deleteProject } = useDeleteProject();
+  const { saveProject } = useSaveProject();
 
   const handleEdit = (id) => {
     const projectToEdit = projectsListings.find((project) => project.id === id);
-    setSelectedProject(projectToEdit); // Set the selected project for editing
+    setSelectedProject(projectToEdit);
   };
 
-  const { deleteProject } = useDeleteProject();
   const handleDelete = (id) => {
     deleteProject(
       id,
       projectsListings,
       setProjectsListings,
       setShowDeletePopup,
-      setProjectToDelete,
+      setProjectToDelete
     );
   };
 
-  const { saveProject } = useSaveProject();
   const handleSaveProject = (updatedProject) => {
     saveProject(
       updatedProject,
       setProjectsListings,
       projectsListings,
-      setSelectedProject,
+      setSelectedProject
     );
   };
 
   const handlePageChange = (page) => {
-    if (page > 0 && page <= totalPages) {
+    if (page >= 1 && page <= totalPages) {
       setCurrentPage(page);
     }
   };
 
   const openDeletePopup = (project) => {
-    setProjectToDelete(project); // Set the project to be deleted
-    setShowDeletePopup(true); // Open the delete popup
+    setProjectToDelete(project);
+    setShowDeletePopup(true);
   };
 
   const closeDeletePopup = () => {
-    setShowDeletePopup(false); // Close the delete popup without making changes
-    setProjectToDelete(null); // Reset the project to delete
+    setShowDeletePopup(false);
+    setProjectToDelete(null);
   };
 
   return (
@@ -78,7 +80,6 @@ const ProjectListing = ({
         </span>
       </h1>
 
-      {/* Project Table (Desktop View) */}
       {loading ? (
         <p className="flex items-center justify-center p-5">
           <Spinner loading={loading} color={"#800080"} size={20} />
@@ -91,24 +92,22 @@ const ProjectListing = ({
           <ProjectTable
             currentProjects={currentProjects}
             handleEdit={handleEdit}
-            openDeletePopup={openDeletePopup} // Pass openDeletePopup to trigger the delete popup
+            openDeletePopup={openDeletePopup}
           />
           <ProjectCard
             currentProjects={currentProjects}
             handleEdit={handleEdit}
-            openDeletePopup={openDeletePopup} // Pass openDeletePopup to trigger the delete popup
+            openDeletePopup={openDeletePopup}
           />
         </>
       )}
 
-      {/* Pagination */}
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         handlePageChange={handlePageChange}
       />
 
-      {/* Edit Project Popup Modal */}
       {selectedProject && (
         <EditProjectPopup
           project={selectedProject}
@@ -117,12 +116,11 @@ const ProjectListing = ({
         />
       )}
 
-      {/* Delete Project Popup Modal */}
       {showDeletePopup && (
         <DeleteProjectPopup
           project={projectToDelete}
           handleClose={closeDeletePopup}
-          handleDelete={handleDelete}
+          handleDelete={() => handleDelete(projectToDelete.id)}
         />
       )}
     </div>

@@ -62,10 +62,7 @@ const Projects = () => {
               className="mt-2 rounded-lg border border-1"
               width="100%"
               height="150px" // Reduced height
-              src={project.youtube_video_link.replace(
-                "youtu.be/",
-                "www.youtube.com/embed/",
-              )}
+              src={project.youtube_video_link}
               title="YouTube video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen

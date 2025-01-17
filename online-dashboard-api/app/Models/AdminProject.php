@@ -46,12 +46,35 @@ class AdminProject extends Project
 
     public static function getAllProjects(): AnonymousResourceCollection
     {
-        $projectsList = self::where('is_admin_project', 1)
-            ->orderBy('created_at', 'desc')
-            ->take(3)
-            ->get();
+        $query = self::applyRoleBasedFilter(self::orderBy('created_at', 'desc'));
+
+        $projectsList = $query->get();
 
         return AdminProjectsResource::collection($projectsList);
+    }
 
+    private static function getUserRole(): ?string
+    {
+        $user = Auth::user();
+
+        // Ensure the user is authenticated and has roles
+        if ($user && $user->roles) {
+            return $user->roles->pluck('name')->first(); // Assuming roles is a collection
+        }
+
+        return null;
+    }
+
+    private static function applyRoleBasedFilter($query)
+    {
+        $role = self::getUserRole();
+
+        if ($role === 'user') {
+            $query->take(3);
+        } elseif ($role === 'admin') {
+            $query->where('is_admin_project', 1);
+        }
+
+        return $query;
     }
 }

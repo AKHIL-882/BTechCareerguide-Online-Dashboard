@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\GithubController;
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
+use App\Http\Controllers\ForgetPasswordController;
+use App\Http\Controllers\GithubController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
 

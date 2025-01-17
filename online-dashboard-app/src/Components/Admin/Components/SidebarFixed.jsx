@@ -9,7 +9,7 @@ import {
 
 const SidebarFixed = () => {
   return (
-    <div className="fixed hidden lg:block w-2/12 h-full bg-blue-50 top-14">
+    <div className="fixed hidden lg:block w-56 h-full bg-blue-50 top-14">
       <NavLink
         to="/admin"
         end

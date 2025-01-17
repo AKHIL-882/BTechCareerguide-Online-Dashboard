@@ -7,7 +7,6 @@ use App\Http\Controllers\UserProjectsController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('jobs')->group(function () {
 
     Route::get('/', [JobOpportunityController::class, 'index']);
