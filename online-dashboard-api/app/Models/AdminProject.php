@@ -72,7 +72,7 @@ class AdminProject extends Project
         if ($role === 'user') {
             $query->take(3);
         } elseif ($role === 'admin') {
-            $query->where('is_admin_project', 1);
+            $query->where('is_admin_project', [0,1]);
         }
 
         return $query;

@@ -22,6 +22,7 @@ class UserProject extends Project
             'days_to_complete' => $request->days_to_complete,
             'document_name' => $filePath,
             'user_id' => Auth::user()->id,
+            'is_admin_project' => 0
         ];
     }
 

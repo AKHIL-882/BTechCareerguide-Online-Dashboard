@@ -14,6 +14,7 @@ import { AuthProvider } from "./Components/AuthContext";
 import UserMainLayout from "./Components/User/UserMainLayout";
 import { useEffect } from "react";
 import { useTokenManager } from "./Api";
+import UserProjectsPage from "./Components/Admin/Pages/UserProjectsPage";
 
 function App() {
   const { initializeTokenManagement } = useTokenManager();
@@ -38,6 +39,7 @@ function App() {
           <Route path="/admin/jobs" element={<AdminJobs />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
+          <Route path="/admin/user-projects" element={<UserProjectsPage />} />
         </Route>
         <Route
           path="/user"
