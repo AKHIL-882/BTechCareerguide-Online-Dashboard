@@ -44,18 +44,6 @@ const SidebarFixed = () => {
       >
         <FaTasks className="mr-2" /> Projects
       </NavLink>
-
-      <NavLink
-        to="/admin/user-projects"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200 "
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaSubscript className="mr-2" /> User Projects
-      </NavLink>
-
       <NavLink
         to="/admin/companyqa"
         className={({ isActive }) =>

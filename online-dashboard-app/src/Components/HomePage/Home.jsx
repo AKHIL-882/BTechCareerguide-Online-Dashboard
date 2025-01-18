@@ -7,8 +7,8 @@ import { useLogin } from "../../Api";
 import ComapanyMarquee from "./ComapanyMarquee";
 import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
-import Community from "./Community";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
+import StatsSection from "./StatasSection";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -61,7 +61,7 @@ const HomePage = () => {
             .map((key) => errors[key].join(", "))
             .join(" ");
         setMessage(
-          errorMessage || "Validation failed. Please check your inputs.",
+          errorMessage || "Validation failed. Please check your inputs."
         );
       } else {
         setMessage("An error occurred. Please try again.");
@@ -77,70 +77,57 @@ const HomePage = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTopButton colorCode="bg-blue-600" />s
-      <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-white shadow w-full z-50 fixed">
+      <header className="flex justify-between items-center px-6 md:py-4 py-3  bg-violet-800 w-full z-50 fixed">
         <div className="text-2xl font-bold">
-          <img src="logo.PNG" alt="Logo" className="h-10 w-40" />
+          {/* <img src="logo.PNG" alt="Logo" className="h-10 w-40" /> */}
+          <h1 className="text-white">ProjPort</h1>
         </div>
         <a
           href="#login"
           onClick={() => setIsLogin(!isLogin)} // Toggle to login form
-          className="text-lg text-black hover:text-yellow-500 transition border border-blue-500 rounded-full px-2"
+          className="text-slate-50 hover:text-white transition border-[2px] px-3 py-1 rounded-md border-gray-300 hover:border-gray-50"
         >
           {!isLogin ? "Login" : "Create Account"}
         </a>
+        {/* Unlock Your Career [Potential/Passion/Future/Path] */}
       </header>
-      <main className="flex flex-wrap flex-col-reverse lg:flex-row justify-between items-stretch px-6 gap-6 pt-24 bg-gray-50">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 flex-1 h-full">
-          {[...Array(6)].map((_, index) => (
-            <div
-              key={index}
-              className="border border-gray-300 rounded-lg p-6 text-center shadow-md bg-white hover:scale-105 transform transition h-[240px]"
-            >
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9fYpAwSjlhJtxH-zSeCBCHkH8VvettdaxCvQjpgEPI4Pyaii4GUKNsIBtZWyKdhNka0U&usqp=CAU"
-                alt={`Job ${index + 1}`}
-                className="w-20 h-14 mx-auto rounded mb-4"
-              />
-              <h3 className="text-xl font-semibold text-gray-800">
-                Job Title {index + 1}
-              </h3>
-              <p className="text-gray-600 text-sm mt-2">
-                Job description for card {index + 1} goes here.
-              </p>
-              <a
-                href="#apply"
-                className="inline-block mt-4 px-4 py-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
-                onClick={(e) => {
-                  e.preventDefault(); // Prevent default anchor behavior
-                  window.scrollTo({
-                    top: 0, // Scroll to the top of the page
-                    behavior: "smooth", // Smooth scroll
-                  });
-                  setClicked(true); // Set the clicked state to true
-                }}
-              >
-                Apply
-              </a>
-            </div>
-          ))}
+      <main className="flex flex-col lg:flex-row justify-between items-center px-6 mt-8 md:mt-10 py-6 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 md:h-screen">
+        {/* Left Section */}
+        <div className="w-full lg:w-6/12 h-full lg:pt-36 flex flex-col items-center text-center lg:items-start lg:text-left pb-4 md:pb-0">
+          <div className="space-y-3">
+            <h1 className="text-4xl lg:text-5xl font-bold text-slate-50">
+              Unlock Your Career Potential
+            </h1>
+            <h1 className="text-2xl lg:text-3xl text-slate-50">
+              Jobs, Projects, and Company Coding Q&A Await!
+            </h1>
+            <p className="text-gray-50 text-sm lg:text-base">
+              Step into a world of opportunities where learning meets growth.
+              Discover resources tailored to help you build skills and achieve
+              your career dreams.
+            </p>
+            <button className="font-semibold text-violet-900 p-2 px-6 border-2 border-gray-300 hover:border-slate-50 hover:text-slate-50">
+              Get Started
+            </button>
+            <button className="font-semibold text-slate-50 p-2 px-6 border-2 ml-2  border-gray-300 hover:border-slate-50 hover:text-slate-50">
+              YouTube
+            </button>
+          </div>
         </div>
 
+        {/* Right Section */}
         <div
-          className={`flex-1 max-w-md p-6 border ${
+          className={`flex-1 w-full max-w-md p-6 border ${
             clicked ? "border-blue-500 md:border-2 border-1" : "border-gray-300"
-          } rounded-lg shadow-md bg-gray-50 flex flex-col justify-center`}
+          } rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center`}
         >
-          {clicked && (
-            <>
-              <h2 className="text-2xl font-semibold text-center mb-2 text-gray-800">
-                Hi there!
-              </h2>
-              <h3 className="font-semibold text-center mb-1 text-gray-800 text-sm">
-                Welcome to ProjPort, so happy to see you!
-              </h3>
-            </>
-          )}
-          <h2 className="text-2xl font-semibold text-center mb-2 text-gray-800">
+          <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50">
+            Hi there!
+          </h2>
+          <h3 className="font-semibold text-center mb-1 text-slate-50 text-sm">
+            Welcome to ProjPort, so happy to see you!
+          </h3>
+          <h2 className="text-2xl font-semibold text-center mb-4 text-slate-50">
             {isLogin ? "Login" : "Create Account"}
           </h2>
           {message && (
@@ -181,24 +168,20 @@ const HomePage = () => {
               />
             )}
             <div className="relative w-full mx-auto mt-10">
-              {/* Input field for password */}
               <input
-                type={showPassword ? "text" : "password"} // Toggle between text and password
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
-
-              {/* Button with eye icon to toggle password visibility */}
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
                 className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}{" "}
-                {/* Change icon based on state */}
               </button>
             </div>
             {!isLogin && (
@@ -213,7 +196,7 @@ const HomePage = () => {
             )}
             <button
               type="submit"
-              className="w-full px-4 py-2 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition"
+              className="w-full px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded hover:bg-blue-700 transition"
             >
               {loading ? (
                 <p className="flex items-center justify-center">
@@ -230,7 +213,7 @@ const HomePage = () => {
           <div className="text-center mt-4">
             <span
               onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-blue-600 cursor-pointer hover:text-blue-700"
+              className="text-sm text-gray-50 cursor-pointer hover:text-gray-200"
             >
               {isLogin
                 ? "Don't have an account? Register"
@@ -240,9 +223,9 @@ const HomePage = () => {
         </div>
       </main>
       <OfferingSection />
+      <StatsSection/>
       <ComapanyMarquee />
       <Testimonials />
-      <Community />
       <footer className="text-center py-4 bg-gray-100 border-t border-gray-300 text-sm text-gray-600 mt-auto">
         &copy; {new Date().getFullYear()} All rights reserved - ProjPort
       </footer>

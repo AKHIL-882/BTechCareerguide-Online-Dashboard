@@ -87,13 +87,6 @@ const Sidebar = ({ toggleSidebar }) => {
           <span className="pl-2">Projects</span>
         </Link>
         <Link
-          to="/admin/user-projects"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaSubscript />
-          <span className="pl-2">User Projects</span>
-        </Link>
-        <Link
           to="/admin/companyqa"
           className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
         >

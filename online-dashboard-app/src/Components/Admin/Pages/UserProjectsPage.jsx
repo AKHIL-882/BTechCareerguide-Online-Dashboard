@@ -8,13 +8,10 @@ const UserProjectsPage = () => {
   const [selectedProjectId, setSelectedProjectId] = useState(null); // Track the selected project
   const itemsPerPage = 5;
 
-  console.log(projectsListings);
-
   // Filter projects where is_admin_project is 0
   const filteredProjects = projectsListings.filter(
     (project) => project.is_admin_project === 0
   );
-  console.log(filteredProjects);
 
   // Sort the filtered projects in descending order by a field (e.g., project ID or creation date)
   const sortedProjects = filteredProjects.sort((a, b) => b.id - a.id);
@@ -30,13 +27,17 @@ const UserProjectsPage = () => {
   };
 
   const handleDocumentPreview = (projectId, documentName) => {
-    // Toggle document preview for the selected project
     if (selectedProjectId === projectId) {
-      setSelectedProjectId(null); // Close preview if the same project is clicked again
+      setSelectedProjectId(null);
     } else {
-      setSelectedProjectId(projectId); // Show preview for the selected project
+      setSelectedProjectId(projectId);
       setPreviewDocument(documentName);
     }
+  };
+
+  const handleStatusChange = (projectId, status) => {
+    console.log(`Project ID: ${projectId}, New Status: ${status}`);
+    // Add your status change logic here if required
   };
 
   if (loading) {
@@ -48,10 +49,12 @@ const UserProjectsPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="p-6 bg-white shadow-lg rounded-lg w-full max-w-5xl ml-20">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="p-6 bg-white shadow-lg rounded-lg w-full">
         <h1 className="text-2xl font-semibold mb-6 text-center">User Projects</h1>
-        <div className="overflow-x-auto rounded-lg">
+        
+        {/* Table for larger screens */}
+        <div className="overflow-x-auto rounded-lg hidden sm:block">
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-blue-50">
@@ -77,14 +80,12 @@ const UserProjectsPage = () => {
                     <td className="border border-gray-300 px-4 py-2">{project.technical_skills}</td>
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       {project.document_name ? (
-                        <>
-                          <button
-                            onClick={() => handleDocumentPreview(project.id, project.document_name)}
-                            className="text-blue-600 underline"
-                          >
-                            View Document
-                          </button>
-                        </>
+                        <button
+                          onClick={() => handleDocumentPreview(project.id, project.document_name)}
+                          className="text-blue-600 underline"
+                        >
+                          View Document
+                        </button>
                       ) : (
                         "N/A"
                       )}
@@ -92,7 +93,9 @@ const UserProjectsPage = () => {
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       <select
                         value={project.project_status}
-                        onChange={(e) => {/* Handle status change if needed */}}
+                        onChange={(e) =>
+                          handleStatusChange(project.id, e.target.value)
+                        }
                         className="border px-4 py-2"
                       >
                         <option value="0">Accepted</option>
@@ -105,32 +108,51 @@ const UserProjectsPage = () => {
                       </select>
                     </td>
                   </tr>
-
-                  {/* Document Preview Below the Row */}
-                  {selectedProjectId === project.id && previewDocument && (
-                    <tr>
-                      <td colSpan="7" className="border border-gray-300 px-4 py-2 text-center">
-                        {previewDocument.endsWith(".pdf") ? (
-                          <iframe
-                            src={previewDocument}
-                            className="w-full h-96 border"
-                            title="Document Preview"
-                          />
-                        ) : (
-                          <img
-                            src={previewDocument}
-                            alt="Document Preview"
-                            className="max-w-full"
-                          />
-                        )}
-                      </td>
-                    </tr>
-                  )}
                 </React.Fragment>
               ))}
             </tbody>
           </table>
         </div>
+
+        {/* Cards for smaller screens */}
+        <div className="sm:hidden">
+          {currentItems.map((project) => (
+            <div key={project.id} className="border rounded-lg p-4 mb-4 shadow-md bg-white">
+              <h2 className="font-semibold text-lg mb-2">{project.project_name}</h2>
+              <p className="text-sm text-gray-600">{project.project_description}</p>
+              <p className="text-sm text-gray-600">Days to Complete: {project.days_to_complete}</p>
+              <p className="text-sm text-gray-600">Technical Skills: {project.technical_skills}</p>
+              {project.document_name ? (
+                <button
+                  onClick={() => handleDocumentPreview(project.id, project.document_name)}
+                  className="text-blue-600 underline text-sm mt-2"
+                >
+                  View Document
+                </button>
+              ) : (
+                <p className="text-sm text-gray-600">Document: N/A</p>
+              )}
+              <div className="mt-4">
+                <select
+                  value={project.project_status}
+                  onChange={(e) =>
+                    handleStatusChange(project.id, e.target.value)
+                  }
+                  className="border px-2 py-1 text-sm w-8/12"
+                >
+                  <option value="0">Accepted</option>
+                  <option value="1">Pending</option>
+                  <option value="2">Building</option>
+                  <option value="3">Success</option>
+                  <option value="4">Rejected</option>
+                  <option value="5">Payment Success</option>
+                  <option value="6">Refund</option>
+                </select>
+              </div>
+            </div>
+          ))}
+        </div>
+
         {/* Pagination */}
         <div className="flex justify-center items-center mt-4">
           {Array.from({ length: totalPages }, (_, i) => (

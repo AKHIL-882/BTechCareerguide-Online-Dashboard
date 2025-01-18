@@ -1,5 +1,6 @@
 import React from "react";
 import DashBoardCardList from "../Components/DashBoard/DashBoardCardList";
+import UserProjectsPage from "./UserProjectsPage";
 
 const AdminDashBoard = () => {
   return (
@@ -8,6 +9,7 @@ const AdminDashBoard = () => {
         Dashboard
       </h1>
       <DashBoardCardList />
+      <UserProjectsPage/>
     </div>
   );
 };
