@@ -11,7 +11,7 @@ import "swiper/css/autoplay";
 const testimonials = [
   {
     message: "This platform has transformed my career. The guidance and resources are invaluable!",
-    name: "Elon musk",
+    name: "Elon Musk",
     role: "Software Engineer at Google",
     image: "https://cdn-icons-png.flaticon.com/128/4140/4140039.png",
   },
@@ -68,8 +68,8 @@ const Testimonials = () => {
       >
         {testimonials.map((testimonial, index) => (
           <SwiperSlide key={index}>
-            <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
-              <p className="text-gray-700 italic mb-4">
+            <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto h-[200px] flex flex-col justify-between">
+              <p className="text-gray-700 italic mb-4 flex-grow">
                 <span className="text-violet-800 font-bold text-2xl">"</span>
                 {testimonial.message}
                 <span className="text-violet-800 font-bold text-2xl">"</span>
@@ -95,4 +95,3 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
-
