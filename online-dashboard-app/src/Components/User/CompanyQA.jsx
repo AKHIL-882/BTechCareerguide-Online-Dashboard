@@ -15,7 +15,9 @@ const CompanyQA = ({ handleLogout }) => {
         <h2 className="text-xl font-semibold text-center mb-6">
           Company Coding Round Solutions
         </h2>
-        <p className="text-sm text-gray-500 text-center mb-4">Coming soon...</p>
+        <p className="text-sm text-gray-500 text-center mb-4">
+          Coming soon...
+        </p>
 
         <div className="overflow-x-auto">
           {/* <table className="table-auto w-full border-collapse border border-gray-300">

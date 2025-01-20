@@ -9,6 +9,7 @@ import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import StatsSection from "./StatasSection";
+import Footer from "./Footer";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -76,7 +77,7 @@ const HomePage = () => {
   };
   return (
     <div className="min-h-screen flex flex-col">
-      <ScrollToTopButton colorCode="bg-blue-600" />s
+      <ScrollToTopButton colorCode="bg-violet-800"/>
       <header className="flex justify-between items-center px-6 md:py-4 py-3  bg-violet-800 w-full z-50 fixed">
         <div className="text-2xl font-bold">
           {/* <img src="logo.PNG" alt="Logo" className="h-10 w-40" /> */}
@@ -91,7 +92,7 @@ const HomePage = () => {
         </a>
         {/* Unlock Your Career [Potential/Passion/Future/Path] */}
       </header>
-      <main className="flex flex-col lg:flex-row justify-between items-center px-6 mt-8 md:mt-10 py-6 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 md:h-screen">
+      <main className="flex flex-col lg:flex-row justify-between items-center px-6 mt-8 md:mt-10 py-8 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen">
         {/* Left Section */}
         <div className="w-full lg:w-6/12 h-full lg:pt-36 flex flex-col items-center text-center lg:items-start lg:text-left pb-4 md:pb-0">
           <div className="space-y-3">
@@ -117,7 +118,7 @@ const HomePage = () => {
 
         {/* Right Section */}
         <div
-          className={`flex-1 w-full max-w-md p-6 border ${
+          className={`flex-1 w-full max-w-md p-6 border mt-2 ${
             clicked ? "border-blue-500 md:border-2 border-1" : "border-gray-300"
           } rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center`}
         >
@@ -224,9 +225,10 @@ const HomePage = () => {
       </main>
       <OfferingSection />
       <StatsSection/>
-      <ComapanyMarquee />
       <Testimonials />
-      <footer className="text-center py-4 bg-gray-100 border-t border-gray-300 text-sm text-gray-600 mt-auto">
+      <ComapanyMarquee />
+      <Footer/>
+      <footer className="text-center py-4 bg-violet-700  text-sm text-white mt-auto">
         &copy; {new Date().getFullYear()} All rights reserved - ProjPort
       </footer>
     </div>

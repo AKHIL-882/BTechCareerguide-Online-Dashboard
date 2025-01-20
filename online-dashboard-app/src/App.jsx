@@ -39,7 +39,7 @@ function App() {
           <Route path="/admin/jobs" element={<AdminJobs />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
-          <Route path="/admin/user-projects" element={<UserProjectsPage />} />
+          {/* <Route path="/admin/user-projects" element={<UserProjectsPage />} /> */}
         </Route>
         <Route
           path="/user"
