@@ -93,9 +93,9 @@ const HomePage = () => {
         </a>
         {/* Unlock Your Career [Potential/Passion/Future/Path] */}
       </header>
-      <main className="flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 mt-8 md:mt-10 py-8 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-[800px] lg:mt-30 sm:mt-72">
+      <main className="flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 mt-8 md:mt-10 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen lg:mt-30">
         {/* Left Section */}
-        <div className="w-full lg:w-6/12 h-full lg:pt-36 flex flex-col items-center text-center lg:items-start lg:text-left pb-4 md:pb-0 lg:mt-60">
+        <div className="w-full lg:w-6/12 h-full flex flex-col items-center text-center lg:text-left pb-4 md:pb-0 justify-center">
           <div className="space-y-3 mt-12 lg:mt-0"> {/* Added margin-top for small screens */}
             <h1 className="text-4xl lg:text-5xl font-bold text-slate-50">
               Unlock Your Career Potential

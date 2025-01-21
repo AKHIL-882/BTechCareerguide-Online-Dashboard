@@ -38,7 +38,7 @@ const testimonials = [
 const Testimonials = () => {
   return (
     <div className="py-16 px-4 bg-violet-100 text-center">
-      <h2 className="text-3xl sm:text-4xl font-bold text-blue-950 mb-6 relative">
+      <h2 className="text-3xl sm:text-4xl font-bold text-blue-950 mb-6 relative p-2">
         Testimonials
         <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-16 h-1 bg-violet-600"></span>
       </h2>
