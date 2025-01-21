@@ -11,12 +11,12 @@ const Header = ({ handleLogout, toggleSidebar }) => {
   };
 
   return (
-    <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-white shadow w-full z-50 fixed">
+    <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-violet-800  shadow w-full z-50 fixed">
       {/* Hamburger Icon for Mobile (Left side) */}
       <div className="flex items-center ">
         <button
           onClick={handleToggleSidebar}
-          className="block lg:hidden text-xl text-gray-600 pr-2"
+          className="block lg:hidden text-xl text-white pr-2"
         >
           {/* Conditionally render hamburger or cross icon */}
           {isSidebarOpen ? (
@@ -25,20 +25,17 @@ const Header = ({ handleLogout, toggleSidebar }) => {
             <FaBars className="text-2xl" />
           )}
         </button>
-        <img src="logo.PNG" alt="Logo" className="lg:h-10 lg:w-40 h-7 w-28 " />
+        <h1 className="text-white text-2xl font-bold">ProjPort</h1>
       </div>
 
       {/* Logout Button */}
       <button
         onClick={handleLogout}
-        className="bg-red-500 text-white md:px-4 md:py-2 px-2 py-1 rounded hover:bg-red-600 transition"
+        className=" text-white md:px-4 md:py-2 px-2 py-1 rounded hover:text-gray-100 transition"
       >
-        <span className="hidden md:flex justify-center items-center">
-          <FaSignOutAlt />
-          <p className="pl-1">Logout</p>
-        </span>
-        <span className="sm:hidden">
-          <FaSignOutAlt />
+        <span className="md:flex justify-center items-center">
+          <FaSignOutAlt size={20} />
+          <p className="pl-1 font-semibold hidden sm:block">Logout</p>
         </span>
       </button>
     </header>

@@ -16,13 +16,13 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
       <i className="fa fa-times" aria-hidden="true"></i>
     </button>
 
-    <nav className="space-y-2">
+    <nav className="">
         <NavLink
           to="/user"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-2 ${
-              isActive ? "bg-blue-200 text-blue-900" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-blue-100 hover:text-blue-500 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 ${
+              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           end
         >
@@ -33,9 +33,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
         <NavLink
           to="/user/jobs"
           className={({ isActive }) =>
-            `flex items-center space-x-1 w-full px-4 py-2 ${
-              isActive ? "bg-blue-200 text-blue-900" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-blue-100 hover:text-blue-500 transition duration-300 ease-in-out`
+            `flex items-center space-x-1 w-full px-4 py-3 ${
+              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
         >
           <i className="fa fa-graduation-cap pl-2" aria-hidden="true"></i>
@@ -45,9 +45,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
         <NavLink
           to="/user/projects"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-2 ${
-              isActive ? "bg-blue-200 text-blue-900" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-blue-100 hover:text-blue-500 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 ${
+              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
         >
           <i className="fa fa-trophy pl-2" aria-hidden="true"></i>
@@ -57,9 +57,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
         <NavLink
           to="/user/company-qa"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-2 ${
-              isActive ? "bg-blue-200 text-blue-900" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-blue-100 hover:text-blue-500 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 ${
+              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
         >
           <i className="fa fa-question-circle pl-2" aria-hidden="true"></i>

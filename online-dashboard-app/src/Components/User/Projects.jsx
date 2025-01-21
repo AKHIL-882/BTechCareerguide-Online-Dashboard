@@ -55,11 +55,11 @@ const Projects = () => {
         {projects.map((project, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-lg p-3 border border-1"
+            className="bg-white shadow-md rounded-lg p-3"
           >
-            <h4 className="font-semibold text-lg">{project.company_name}</h4>
+            <h4 className="font-semibold text-lg text-gray-800">{project.company_name}</h4>
             <iframe
-              className="mt-2 rounded-lg border border-1"
+              className="mt-2 rounded-lg "
               width="100%"
               height="150px" // Reduced height
               src={project.youtube_video_link}

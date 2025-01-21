@@ -38,7 +38,7 @@ const UserMainLayout = () => {
   };
   return (
     <>
-      <ScrollToTopButton colorCode="bg-blue-600" />
+      <ScrollToTopButton colorCode="bg-violet-800" />
       <Header handleLogout={handleLogout} toggleSidebar={toggleSidebar} />
       <div className="flex">
         <Sidebar
