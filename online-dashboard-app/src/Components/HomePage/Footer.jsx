@@ -30,15 +30,15 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-violet-800 text-white py-12 px-6"> {/* Increased padding */}
-      <div className="container mx-auto w-full flex flex-col lg:flex-row justify-between items-start space-y-8 lg:space-y-0">
+    <footer className="bg-violet-800 text-white py-12 px-6">
+      <div className="container mx-auto w-full flex flex-col lg:flex-row justify-between items-center lg:items-start text-center lg:text-left space-y-8 lg:space-y-0">
         {/* Left Section */}
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2">ProjPort</h1>
-          <p className="text-sm mb-4 max-w-md">
+          <p className="text-sm mb-4 max-w-md mx-auto lg:mx-0">
             ProjPort is a leading platform for all your project management and development needs. We help you turn ideas into reality with innovative and efficient solutions.
           </p>
-          <div className="flex space-x-6">
+          <div className="flex justify-center lg:justify-start space-x-6">
             <a href="https://facebook.com" className="text-xl hover:text-violet-600 transition-colors duration-300">
               <FaFacebook />
             </a>
@@ -55,9 +55,9 @@ const Footer = () => {
         </div>
 
         {/* Right Section */}
-        <div className="flex-1 lg:flex lg:space-x-12 justify-between w-full">
+        <div className="flex-1 flex flex-col lg:flex-row lg:space-x-12 items-center lg:items-start w-full">
           {sections.map((section, index) => (
-            <div key={index} className="flex-1">
+            <div key={index} className="flex-1 text-center lg:text-left">
               <h4 className="font-bold mb-2">{section.title}</h4>
               <ul>
                 {section.links.map((link, index) => (
