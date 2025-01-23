@@ -177,7 +177,6 @@ export const useFetchJobs = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(response);
         setJobListings(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");

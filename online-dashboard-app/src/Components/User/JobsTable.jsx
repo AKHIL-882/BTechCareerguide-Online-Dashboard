@@ -3,7 +3,7 @@ import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 7;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3); // Default to 3 for smaller screens
 
   const indexOfLastJob = currentPage * itemsPerPage;

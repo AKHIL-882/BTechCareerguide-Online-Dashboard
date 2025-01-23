@@ -12,8 +12,13 @@ import {
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
   return (
-    <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+    <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50">
       <div className="py-1">
+      <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+          <FaBriefcase className="text-violet-600 w-6 h-6 mb-2" />
+          <span className="mb-1">Latest Projects</span>
+          <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+        </h2>
         <Projects />
       </div>
       <div className="mt-2">
@@ -30,7 +35,7 @@ const Dashboard = () => {
         ) : error ? (
           <p className="text-center text-red-500">{error}</p>
         ) : (
-          <JobsTable jobs={jobListings.slice(0, 4)} className="p-4" />
+          <JobsTable jobs={jobListings.slice(0, 3)} className="p-4" />
         )}
       </div>
       {!error && !loading && jobListings ? (

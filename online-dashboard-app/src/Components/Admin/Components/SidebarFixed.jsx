@@ -54,6 +54,16 @@ const SidebarFixed = () => {
       >
         <FaRegComments className="mr-2" /> Company Q/A
       </NavLink>
+      <NavLink
+        to="/admin/materials"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-3 text-blue-800 bg-blue-200"
+            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
+        }
+      >
+        <FaRegComments className="mr-2" /> Materials
+      </NavLink>
     </div>
   );
 };

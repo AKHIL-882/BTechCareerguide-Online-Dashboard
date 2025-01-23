@@ -93,6 +93,13 @@ const Sidebar = ({ toggleSidebar }) => {
           <FaRegComments />
           <span className="pl-2">Company Q/A</span>
         </Link>
+        <Link
+          to="/admin/materials"
+          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
+        >
+          <FaRegComments />
+          <span className="pl-2">Materials</span>
+        </Link>
       </div>
     </div>
   );

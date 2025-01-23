@@ -49,6 +49,11 @@ const Projects = () => {
   if (error) {
     return <p>Error fetching projects: {error}</p>;
   }
+  console.log(projects)
+  const transformToEmbedURL = (url) => {
+    const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+    return `https://www.youtube.com/embed/${videoId}`;
+  };
 
   return (
     <section>
@@ -89,12 +94,25 @@ const Projects = () => {
               </div>
             </div>
             <iframe
-              className="w-full h-40 rounded-md"
-              src="https://www.youtube.com/embed/padFUwY-VqY?si=OsrPfa83grwERNSy"
+              className="mt-2 rounded-lg "
+              width="100%"
+              height="150px" // Reduced height
+              src={transformToEmbedURL(project.youtube_video_link)}
               title="YouTube video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
+            <div className="flex justify-between mt-3">
+              <span className="text-red-500"><a href={project.youtube_video_link} target="blank">YouTube</a></span>
+              <a
+                href={project.payment_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500"
+              >
+                Get Code
+              </a>
+            </div>
           </div>
         ))}
       </div>

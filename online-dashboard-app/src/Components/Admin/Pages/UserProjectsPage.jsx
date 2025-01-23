@@ -49,7 +49,7 @@ const UserProjectsPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <div className="p-6 bg-white shadow-lg rounded-lg w-full">
         <h1 className="text-2xl font-semibold mb-6 text-center">User Projects</h1>
         
