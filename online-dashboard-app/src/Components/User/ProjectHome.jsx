@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
+import {
+  FaTrophy,
+  FaAngleDoubleRight,
+  FaProjectDiagram,
+  FaEye,
+  FaList,
+  FaListAlt,
+  FaAngellist,
+  FaListOl,
+  FaRegLightbulb,
+  FaClipboardList,
+  FaMoneyBill,
+  FaMoneyCheck,
+  FaRegMoneyBillAlt,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
 import axios from "axios";
 
 const STATUS_MAP = {
@@ -76,7 +92,7 @@ const ProjectHome = ({ handleLogout }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       alert("Project request submitted successfully!");
@@ -113,7 +129,7 @@ const ProjectHome = ({ handleLogout }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
       // Update the projects state with the fetched data
@@ -144,29 +160,32 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen ">
+    <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen bg-slate-50 ">
       {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
           <button
-            className="font-semibold bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full md:w-auto mb-1 md:mb-0"
+            className="font-semibold bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-500 w-full md:w-auto mb-1 md:mb-0 flex justify-between items-center"
             onClick={handleShowRequestNewProject}
           >
             Request New Project
+            <FaProjectDiagram size={18} className="md:ml-2" />
           </button>
           <button
-            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto"
+            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto flex justify-between items-center"
             onClick={handleShowProjectsClick}
           >
             Show Projects
+            <FaList size={18} className="md:ml-2" />
           </button>
         </div>
         <div className="flex">
           <button
-            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto"
+            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto flex justify-between items-center"
             onClick={handleUploadPaymentClick}
           >
             Upload Payment Screenshot
+            <FaMoneyCheckAlt size={18} className="md:ml-2" />
           </button>
         </div>
       </div>
@@ -252,7 +271,10 @@ const ProjectHome = ({ handleLogout }) => {
               <button
                 type="button"
                 className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
-                onClick={() => setShowForm(false)}
+                onClick={() => {setShowForm(false);
+                setShowProjects(true);
+                }
+              }
               >
                 Cancel
               </button>
@@ -293,15 +315,23 @@ const ProjectHome = ({ handleLogout }) => {
       )}
       {showProjects && (
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Projects</h2>
+          <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+            <FaTrophy className="text-violet-600 w-5 h-5 mb-1.5" />
+            <span className="mb-1">Projects</span>
+            <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+          </h2>
           <Projects />
 
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-            <h3 className="text-md font-semibold mb-4">Requested Projects</h3>
+            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
+              <span className="mb-1">Your Projects</span>
+              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+            </h2>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-blue-100 whitespace-nowrap">
+                <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap">
                   <th className="border px-4 py-2">Project Name</th>
                   <th className="border px-4 py-2">Technical Skills</th>
                   <th className="border px-4 py-2">Description</th>
@@ -342,7 +372,11 @@ const ProjectHome = ({ handleLogout }) => {
           {/* Card view for mobile screens */}
 
           <div className="lg:hidden mt-8">
-            <h3 className="text-lg font-semibold mb-4">Requested Projects</h3>
+            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
+              <span className="mb-1">Your Projects</span>
+              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {projects.map((project, index) => (
                 <div

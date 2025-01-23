@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaArrowAltCircleRight,FaArrowAltCircleLeft } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -102,7 +102,7 @@ const JobsTable = ({ jobs, className = "" }) => {
           {currentJobs.map((job) => (
             <div
               key={job.id}
-              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition"
+              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition hover:bg-violet-100 odd:bg-white even:bg-gray-50"
             >
               <h2 className="text-xl font-semibold text-indigo-600">
                 {job.company_name}
@@ -118,7 +118,7 @@ const JobsTable = ({ jobs, className = "" }) => {
                 href={job.apply_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                className="mt-4 inline-block bg-gradient-to-r from-violet-800 to-blue-600 text-white py-2 px-4 rounded-md shadow-md transform transition duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-600 hover:to-violet-800"
               >
                 Apply
               </a>
@@ -143,7 +143,8 @@ const JobsTable = ({ jobs, className = "" }) => {
             disabled={currentPage === 1}
             className="px-4 bg-gray-100 text-violet-800 rounded-full  disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
           >
-            <FaArrowAltCircleLeft/><span className="pl-1">Prev</span> 
+            <FaArrowAltCircleLeft />
+            <span className="pl-1">Prev</span>
           </button>
 
           {/* Page Number Buttons */}
@@ -151,7 +152,7 @@ const JobsTable = ({ jobs, className = "" }) => {
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
-              className={`px-3 py-2 ${currentPage === pageNumber ? "bg-violet-800 text-gray-100" : ""} rounded-full text-sm`}
+              className={`px-3 py-2 ${currentPage === pageNumber ? "bg-violet-800 text-gray-100" : ""} rounded-full text-sm hover:bg-gray-300 hover:border-gray-900`}
             >
               {pageNumber}
             </button>
@@ -163,7 +164,7 @@ const JobsTable = ({ jobs, className = "" }) => {
             disabled={currentPage === totalPages}
             className="px-4 bg-gray-100 text-violet-800 rounded-full disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
           >
-            <span className="pr-1">Next</span> <FaArrowAltCircleRight/>
+            <span className="pr-1">Next</span> <FaArrowAltCircleRight />
           </button>
         </div>
       )}
