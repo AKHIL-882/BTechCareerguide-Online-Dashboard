@@ -102,17 +102,6 @@ const Projects = () => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             ></iframe>
-            <div className="flex justify-between mt-3">
-              <span className="text-red-500"><a href={project.youtube_video_link} target="blank">YouTube</a></span>
-              <a
-                href={project.payment_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500"
-              >
-                Get Code
-              </a>
-            </div>
           </div>
         ))}
       </div>
