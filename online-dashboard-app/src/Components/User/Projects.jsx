@@ -49,7 +49,7 @@ const Projects = () => {
   if (error) {
     return <p>Error fetching projects: {error}</p>;
   }
-  console.log(projects)
+
   const transformToEmbedURL = (url) => {
     const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
     return `https://www.youtube.com/embed/${videoId}`;

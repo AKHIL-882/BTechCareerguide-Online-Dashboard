@@ -26,6 +26,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
 
             Route::get('show', [UserProjectsController::class, 'show']);
         });
+
+        Route::post('search', [UserProjectsController::class, 'search']);
     });
 
     Route::prefix('admin-projects')->group(function () {
