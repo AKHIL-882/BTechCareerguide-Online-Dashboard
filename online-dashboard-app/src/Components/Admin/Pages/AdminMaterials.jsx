@@ -8,7 +8,7 @@ const AdminMaterials = () => {
       <h1 className="lg:hidden font-bold text-white bg-gradient-to-r from-violet-600 pl-2 mt-2 rounded-md">
         Materials
       </h1>
-      <AddProjects/>
+      <AddProjects />
     </div>
   );
 };

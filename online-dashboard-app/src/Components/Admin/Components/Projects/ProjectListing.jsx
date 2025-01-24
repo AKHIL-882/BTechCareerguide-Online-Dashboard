@@ -25,7 +25,7 @@ const ProjectListing = ({
   const indexOfFirstProject = indexOfLastProject - ProjectsPerPage;
   const currentProjects = projectsListings.slice(
     indexOfFirstProject,
-    indexOfLastProject
+    indexOfLastProject,
   );
 
   const { deleteProject } = useDeleteProject();
@@ -42,7 +42,7 @@ const ProjectListing = ({
       projectsListings,
       setProjectsListings,
       setShowDeletePopup,
-      setProjectToDelete
+      setProjectToDelete,
     );
   };
 
@@ -51,7 +51,7 @@ const ProjectListing = ({
       updatedProject,
       setProjectsListings,
       projectsListings,
-      setSelectedProject
+      setSelectedProject,
     );
   };
 

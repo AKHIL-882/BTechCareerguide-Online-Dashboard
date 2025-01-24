@@ -17,7 +17,7 @@ const CountUp = ({ end, duration }) => {
         setCount(Math.floor(start));
       }
     }, 1000 / 10); // This will update 60 times per second (for smooth animation)
-    
+
     return () => clearInterval(interval); // Cleanup on unmount
   }, [end, duration]);
 
@@ -58,4 +58,3 @@ const StatsSection = () => {
 };
 
 export default StatsSection;
-

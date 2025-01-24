@@ -10,19 +10,22 @@ import "swiper/css/autoplay";
 // Testimonial data
 const testimonials = [
   {
-    message: "This platform has transformed my career. The guidance and resources are invaluable!",
+    message:
+      "This platform has transformed my career. The guidance and resources are invaluable!",
     name: "Elon Musk",
     role: "Software Engineer at Google",
     image: "https://cdn-icons-png.flaticon.com/128/4140/4140039.png",
   },
   {
-    message: "I couldn't be happier with the project solutions. Highly recommended!",
+    message:
+      "I couldn't be happier with the project solutions. Highly recommended!",
     name: "Sunita Williams",
     role: "Product Manager at Meta",
     image: "https://cdn-icons-png.flaticon.com/128/4140/4140060.png",
   },
   {
-    message: "The coding Q&A feature is a game-changer. Solved all my coding problems with ease!",
+    message:
+      "The coding Q&A feature is a game-changer. Solved all my coding problems with ease!",
     name: "Alice Johnson",
     role: "Data Scientist at Amazon",
     image: "https://cdn-icons-png.flaticon.com/128/4140/4140039.png",
@@ -84,7 +87,9 @@ const Testimonials = () => {
                   <h4 className="text-violet-800 font-bold text-sm sm:text-base">
                     {testimonial.name}
                   </h4>
-                  <p className="text-gray-500 text-xs sm:text-sm">{testimonial.role}</p>
+                  <p className="text-gray-500 text-xs sm:text-sm">
+                    {testimonial.role}
+                  </p>
                 </div>
               </div>
             </div>

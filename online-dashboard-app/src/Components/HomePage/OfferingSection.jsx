@@ -5,7 +5,7 @@ import {
   FaCode,
   FaChalkboardTeacher,
   FaLightbulb,
-  FaPlayCircle
+  FaPlayCircle,
 } from "react-icons/fa";
 
 const OfferingCard = ({ icon, title, description }) => (
@@ -32,33 +32,35 @@ const OfferingSection = () => {
     {
       icon: <FaBriefcase size={30} />,
       title: "Jobs",
-      description: "Explore exciting job opportunities with leading companies."
+      description: "Explore exciting job opportunities with leading companies.",
     },
     {
       icon: <FaProjectDiagram size={30} />,
       title: "Projects",
-      description: "Request a project and get it at a reasonable cost."
+      description: "Request a project and get it at a reasonable cost.",
     },
     {
       icon: <FaCode size={30} />,
       title: "Coding QA",
-      description: "Get company coding solutions at a reasonable cost."
+      description: "Get company coding solutions at a reasonable cost.",
     },
     {
       icon: <FaChalkboardTeacher size={30} />,
       title: "Career Guidance",
-      description: "Receive expert advice to shape your career and achieve your goals."
+      description:
+        "Receive expert advice to shape your career and achieve your goals.",
     },
     {
       icon: <FaLightbulb size={30} />,
       title: "Upskilling Sessions",
-      description: "Participate in interactive sessions to enhance your skills."
+      description:
+        "Participate in interactive sessions to enhance your skills.",
     },
     {
       icon: <FaPlayCircle size={30} />,
       title: "Course Materials",
-      description: "Access comprehensive course videos and materials anytime."
-    }
+      description: "Access comprehensive course videos and materials anytime.",
+    },
   ];
 
   return (

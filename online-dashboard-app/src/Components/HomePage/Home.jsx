@@ -63,7 +63,7 @@ const HomePage = () => {
             .map((key) => errors[key].join(", "))
             .join(" ");
         setMessage(
-          errorMessage || "Validation failed. Please check your inputs."
+          errorMessage || "Validation failed. Please check your inputs.",
         );
       } else {
         setMessage("An error occurred. Please try again.");
@@ -96,7 +96,9 @@ const HomePage = () => {
       <main className="flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 mt-8 md:mt-10 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen lg:mt-30">
         {/* Left Section */}
         <div className="w-full lg:w-6/12 h-full flex flex-col items-center text-center lg:text-left pb-4 md:pb-0 justify-center">
-          <div className="space-y-3 mt-12 lg:mt-0"> {/* Added margin-top for small screens */}
+          <div className="space-y-3 mt-12 lg:mt-0">
+            {" "}
+            {/* Added margin-top for small screens */}
             <h1 className="text-4xl lg:text-5xl font-bold text-slate-50">
               Unlock Your Career Potential
             </h1>
@@ -117,11 +119,11 @@ const HomePage = () => {
           </div>
         </div>
 
-
         {/* Right Section */}
         <div
-          className={`flex-1 w-full max-w-md p-6 border mt-2 ${clicked ? "border-blue-500 md:border-2 border-1" : "border-gray-300"
-            } rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20`}
+          className={`flex-1 w-full max-w-md p-6 border mt-2 ${
+            clicked ? "border-blue-500 md:border-2 border-1" : "border-gray-300"
+          } rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20`}
         >
           <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50">
             Hi there!

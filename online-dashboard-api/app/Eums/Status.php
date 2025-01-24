@@ -10,8 +10,9 @@ namespace App\Enums;
 final class Status extends BaseEnum
 {
     public const Success = 0;
+
     public const Failure = 1;
-    
+
     public const Due = 3;
 
     public static function getDescription($value): string

@@ -10,7 +10,7 @@ const UserProjectsPage = () => {
 
   // Filter projects where is_admin_project is 0
   const filteredProjects = projectsListings.filter(
-    (project) => project.is_admin_project === 0
+    (project) => project.is_admin_project === 0,
   );
 
   // Sort the filtered projects in descending order by a field (e.g., project ID or creation date)
@@ -19,7 +19,7 @@ const UserProjectsPage = () => {
   const totalPages = Math.ceil(sortedProjects.length / itemsPerPage);
   const currentItems = sortedProjects.slice(
     (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+    currentPage * itemsPerPage,
   );
 
   const handlePageChange = (page) => {
@@ -51,18 +51,28 @@ const UserProjectsPage = () => {
   return (
     <div className="flex items-center justify-center">
       <div className="p-6 bg-white shadow-lg rounded-lg w-full">
-        <h1 className="text-2xl font-semibold mb-6 text-center">User Projects</h1>
-        
+        <h1 className="text-2xl font-semibold mb-6 text-center">
+          User Projects
+        </h1>
+
         {/* Table for larger screens */}
         <div className="overflow-x-auto rounded-lg hidden sm:block">
           <table className="table-auto w-full border-collapse border border-gray-300">
             <thead>
               <tr className="bg-blue-50">
                 <th className="border border-gray-300 px-4 py-2">#</th>
-                <th className="border border-gray-300 px-4 py-2">Project Name</th>
-                <th className="border border-gray-300 px-4 py-2">Description</th>
-                <th className="border border-gray-300 px-4 py-2">Days to Complete</th>
-                <th className="border border-gray-300 px-4 py-2">Technical Skills</th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Project Name
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Description
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Days to Complete
+                </th>
+                <th className="border border-gray-300 px-4 py-2">
+                  Technical Skills
+                </th>
                 <th className="border border-gray-300 px-4 py-2">Document</th>
                 <th className="border border-gray-300 px-4 py-2">Status</th>
               </tr>
@@ -74,14 +84,27 @@ const UserProjectsPage = () => {
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       {index + 1 + (currentPage - 1) * itemsPerPage}
                     </td>
-                    <td className="border border-gray-300 px-4 py-2">{project.project_name}</td>
-                    <td className="border border-gray-300 px-4 py-2">{project.project_description}</td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">{project.days_to_complete}</td>
-                    <td className="border border-gray-300 px-4 py-2">{project.technical_skills}</td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {project.project_name}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {project.project_description}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2 text-center">
+                      {project.days_to_complete}
+                    </td>
+                    <td className="border border-gray-300 px-4 py-2">
+                      {project.technical_skills}
+                    </td>
                     <td className="border border-gray-300 px-4 py-2 text-center">
                       {project.document_name ? (
                         <button
-                          onClick={() => handleDocumentPreview(project.id, project.document_name)}
+                          onClick={() =>
+                            handleDocumentPreview(
+                              project.id,
+                              project.document_name,
+                            )
+                          }
                           className="text-blue-600 underline"
                         >
                           View Document
@@ -117,14 +140,27 @@ const UserProjectsPage = () => {
         {/* Cards for smaller screens */}
         <div className="sm:hidden">
           {currentItems.map((project) => (
-            <div key={project.id} className="border rounded-lg p-4 mb-4 shadow-md bg-white">
-              <h2 className="font-semibold text-lg mb-2">{project.project_name}</h2>
-              <p className="text-sm text-gray-600">{project.project_description}</p>
-              <p className="text-sm text-gray-600">Days to Complete: {project.days_to_complete}</p>
-              <p className="text-sm text-gray-600">Technical Skills: {project.technical_skills}</p>
+            <div
+              key={project.id}
+              className="border rounded-lg p-4 mb-4 shadow-md bg-white"
+            >
+              <h2 className="font-semibold text-lg mb-2">
+                {project.project_name}
+              </h2>
+              <p className="text-sm text-gray-600">
+                {project.project_description}
+              </p>
+              <p className="text-sm text-gray-600">
+                Days to Complete: {project.days_to_complete}
+              </p>
+              <p className="text-sm text-gray-600">
+                Technical Skills: {project.technical_skills}
+              </p>
               {project.document_name ? (
                 <button
-                  onClick={() => handleDocumentPreview(project.id, project.document_name)}
+                  onClick={() =>
+                    handleDocumentPreview(project.id, project.document_name)
+                  }
                   className="text-blue-600 underline text-sm mt-2"
                 >
                   View Document

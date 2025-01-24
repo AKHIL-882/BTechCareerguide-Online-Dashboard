@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from 'react-icons/fa';
+import React from "react";
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   const sections = [
@@ -8,25 +8,25 @@ const Footer = () => {
       links: [
         { name: "Web Development", url: "#web-development" },
         { name: "App Development", url: "#app-development" },
-        { name: "UI/UX Design", url: "#ui-ux-design" }
-      ]
+        { name: "UI/UX Design", url: "#ui-ux-design" },
+      ],
     },
     {
       title: "Company",
       links: [
         { name: "About Us", url: "#about-us" },
         { name: "Careers", url: "#careers" },
-        { name: "Contact", url: "#contact" }
-      ]
+        { name: "Contact", url: "#contact" },
+      ],
     },
     {
       title: "Support",
       links: [
         { name: "FAQ", url: "#faq" },
         { name: "Help Center", url: "#help-center" },
-        { name: "Privacy Policy", url: "#privacy-policy" }
-      ]
-    }
+        { name: "Privacy Policy", url: "#privacy-policy" },
+      ],
+    },
   ];
 
   return (
@@ -36,19 +36,33 @@ const Footer = () => {
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-2">ProjPort</h1>
           <p className="text-sm mb-4 max-w-md mx-auto lg:mx-0">
-            ProjPort is a leading platform for all your project management and development needs. We help you turn ideas into reality with innovative and efficient solutions.
+            ProjPort is a leading platform for all your project management and
+            development needs. We help you turn ideas into reality with
+            innovative and efficient solutions.
           </p>
           <div className="flex justify-center lg:justify-start space-x-6">
-            <a href="https://facebook.com" className="text-xl hover:text-violet-600 transition-colors duration-300">
+            <a
+              href="https://facebook.com"
+              className="text-xl hover:text-violet-600 transition-colors duration-300"
+            >
               <FaFacebook />
             </a>
-            <a href="https://twitter.com" className="text-xl hover:text-violet-600 transition-colors duration-300">
+            <a
+              href="https://twitter.com"
+              className="text-xl hover:text-violet-600 transition-colors duration-300"
+            >
               <FaTwitter />
             </a>
-            <a href="https://linkedin.com" className="text-xl hover:text-violet-600 transition-colors duration-300">
+            <a
+              href="https://linkedin.com"
+              className="text-xl hover:text-violet-600 transition-colors duration-300"
+            >
               <FaLinkedin />
             </a>
-            <a href="https://instagram.com" className="text-xl hover:text-violet-600 transition-colors duration-300">
+            <a
+              href="https://instagram.com"
+              className="text-xl hover:text-violet-600 transition-colors duration-300"
+            >
               <FaInstagram />
             </a>
           </div>

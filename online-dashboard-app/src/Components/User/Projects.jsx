@@ -20,7 +20,7 @@ const Projects = () => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -51,7 +51,7 @@ const Projects = () => {
   }
 
   const transformToEmbedURL = (url) => {
-    const videoId = url.split('v=')[1]?.split('&')[0] || url.split('/').pop();
+    const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
     return `https://www.youtube.com/embed/${videoId}`;
   };
 

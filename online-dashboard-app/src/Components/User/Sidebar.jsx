@@ -17,54 +17,54 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
     </button>
 
     <nav className="">
-        <NavLink
-          to="/user"
-          className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
-          }
-          end
-        >
-          <i className="fa fa-tachometer pl-2" aria-hidden="true"></i>
-          <span>Dashboard</span>
-        </NavLink>
+      <NavLink
+        to="/user"
+        className={({ isActive }) =>
+          `flex items-center space-x-2 w-full px-4 py-3 ${
+            isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+          } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+        }
+        end
+      >
+        <i className="fa fa-tachometer pl-2" aria-hidden="true"></i>
+        <span>Dashboard</span>
+      </NavLink>
 
-        <NavLink
-          to="/user/jobs"
-          className={({ isActive }) =>
-            `flex items-center space-x-1 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
-          }
-        >
-          <i className="fa fa-graduation-cap pl-2" aria-hidden="true"></i>
-          <span>Jobs</span>
-        </NavLink>
+      <NavLink
+        to="/user/jobs"
+        className={({ isActive }) =>
+          `flex items-center space-x-1 w-full px-4 py-3 ${
+            isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+          } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+        }
+      >
+        <i className="fa fa-graduation-cap pl-2" aria-hidden="true"></i>
+        <span>Jobs</span>
+      </NavLink>
 
-        <NavLink
-          to="/user/projects"
-          className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
-          }
-        >
-          <i className="fa fa-trophy pl-2" aria-hidden="true"></i>
-          <span>Projects</span>
-        </NavLink>
+      <NavLink
+        to="/user/projects"
+        className={({ isActive }) =>
+          `flex items-center space-x-2 w-full px-4 py-3 ${
+            isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+          } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+        }
+      >
+        <i className="fa fa-trophy pl-2" aria-hidden="true"></i>
+        <span>Projects</span>
+      </NavLink>
 
-        <NavLink
-          to="/user/company-qa"
-          className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
-          }
-        >
-          <i className="fa fa-question-circle pl-2" aria-hidden="true"></i>
-          <span>Company Q/A</span>
-        </NavLink>
+      <NavLink
+        to="/user/company-qa"
+        className={({ isActive }) =>
+          `flex items-center space-x-2 w-full px-4 py-3 ${
+            isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+          } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+        }
+      >
+        <i className="fa fa-question-circle pl-2" aria-hidden="true"></i>
+        <span>Company Q/A</span>
+      </NavLink>
     </nav>
   </aside>
 );

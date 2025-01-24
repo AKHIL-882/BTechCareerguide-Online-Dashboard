@@ -61,8 +61,9 @@ class Project extends Model
     public function scopeFilterBySearch($query, $searchItem)
     {
         if ($searchItem) {
-            $query->where('project_name', 'like', '%' . $searchItem . '%')->orWhere('company_name', 'like', '%' . $searchItem . '%');
+            $query->where('project_name', 'like', '%'.$searchItem.'%')->orWhere('company_name', 'like', '%'.$searchItem.'%');
         }
+
         return $query;
     }
 
@@ -73,8 +74,8 @@ class Project extends Model
         }
 
         return self::query()
-                ->filterBySearch($request->input('search_item'))
-                ->orderBy('created_at', 'desc')
-                ->get();
+            ->filterBySearch($request->input('search_item'))
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 }
