@@ -9,13 +9,14 @@ const REFRESH_THRESHOLD = 30 * 1000;
 
 export const useTokenManager = () => {
   const navigate = useNavigate();
-  const scheduleTokenRefresh = (accessTokenExpiry, refreshToken) => {
+  const scheduleTokenRefresh = (accessTokenExpiry) => {
     const timeUntilRefresh = accessTokenExpiry - Date.now() - REFRESH_THRESHOLD;
 
     if (timeUntilRefresh > 0) {
       setTimeout(async () => {
-        const refreshCount =
-          parseInt(localStorage.getItem("refreshCount")) || 0;
+        const data = JSON.parse(localStorage.getItem("data"));
+        const refreshCount = parseInt(data.refresh_count) || 0;
+        const refresh_token = data.refresh_token;
 
         if (refreshCount >= TOKEN_REFRESH_LIMIT) {
           console.warn("Refresh token limit reached. Logging out.");
@@ -26,19 +27,22 @@ export const useTokenManager = () => {
 
         try {
           const response = await axios.post(`${API_BASE_URL}/refresh-token`, {
-            refresh_token: refreshToken,
+            refresh_token: refresh_token,
           });
 
           const { access_token, refresh_token, expires_in } = response.data;
 
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
-          localStorage.setItem(
-            "accessTokenExpiry",
-            Date.now() + expires_in * 1000,
-          );
+          const data = JSON.parse(localStorage.getItem("data")) || {};
+          const updatedData = {
+            ...data,
+            access_token,
+            refresh_token,
+            expires_in,
+            refresh_count: refreshCount + 1,
+          };
 
-          localStorage.setItem("refreshCount", refreshCount + 1);
+          localStorage.setItem("data", JSON.stringify(updatedData));
+
           scheduleTokenRefresh(Date.now() + expires_in * 1000, refresh_token);
         } catch (error) {
           console.error("Error refreshing token:", error);
@@ -54,10 +58,9 @@ export const useTokenManager = () => {
   const initializeTokenManagement = () => {
     const data = JSON.parse(localStorage.getItem("data"));
     const expiresIn = data ? parseInt(data.expires_in) : null;
-    const refreshToken = data ? data.refresh_token : null;
 
-    if (expiresIn && refreshToken) {
-      scheduleTokenRefresh(expiresIn, refreshToken);
+    if (expiresIn) {
+      scheduleTokenRefresh(expiresIn);
     } else {
       console.warn(
         "Access token expiry or refresh token not found. Redirecting to login.",
@@ -91,15 +94,10 @@ export const useLogin = () => {
       const data = await response.json();
       if (response.ok) {
         const { roles, access_token, refresh_token } = data;
-        // todo:: get all the data outside the scope of storage
-        // Save necessary data in localStorage
+
         localStorage.setItem("data", JSON.stringify(data));
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("refresh_token", refresh_token);
         localStorage.setItem("roles", roles);
 
-        // Redirect based on roles
         if (roles === "admin") {
           navigate("/admin");
         } else if (roles === "user") {
