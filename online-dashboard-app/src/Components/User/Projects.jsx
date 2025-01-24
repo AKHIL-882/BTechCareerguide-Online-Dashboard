@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../Admin/Components/Spinner";
-import { FaYoutube, FaCode } from "react-icons/fa";
+import SearchProjects from "./SearchProjects";
+import {
+  FaYoutube,
+  FaCode,
+  FaTrophy,
+  FaAngleDoubleRight,
+} from "react-icons/fa";
 
-const Projects = () => {
+const Projects = ({ isDashBoard}) => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
   useEffect(() => {
     // Fetch projects from the API
     const fetchProjects = async () => {
@@ -26,7 +31,9 @@ const Projects = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const responseData = await response.json();
-        setProjects(responseData.data);
+        isDashBoard
+        ? setProjects(responseData.data.slice(0, 3))
+        : setProjects(responseData.data);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -49,14 +56,25 @@ const Projects = () => {
   if (error) {
     return <p>Error fetching projects: {error}</p>;
   }
-
   const transformToEmbedURL = (url) => {
     const videoId = url.split("v=")[1]?.split("&")[0] || url.split("/").pop();
     return `https://www.youtube.com/embed/${videoId}`;
   };
-
   return (
     <section>
+      {!isDashBoard && (
+        <div className="flex justify-between items-center">
+          {/* Header Section */}
+          <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+            <div className="flex items-center space-x-2">
+              <FaTrophy className="text-violet-600 w-5 h-5 mb-1.5" />
+              <span className="mb-1">Projects</span>
+            </div>
+            <FaAngleDoubleRight className="text-violet-600 w-5 h-5" />
+          </h2>
+          <SearchProjects setProjects={setProjects}/>
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {projects.map((project, index) => (
           <div key={index} className="bg-white shadow-md rounded-lg p-1 ">
@@ -93,15 +111,17 @@ const Projects = () => {
                 </a>
               </div>
             </div>
-            <iframe
-              className="mt-2 rounded-lg "
-              width="100%"
-              height="150px" // Reduced height
-              src={transformToEmbedURL(project.youtube_video_link)}
-              title="YouTube video"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-            ></iframe>
+            {isDashBoard && (
+              <iframe
+                className="mt-2 rounded-lg "
+                width="100%"
+                height="150px" // Reduced height
+                src={transformToEmbedURL(project.youtube_video_link)}
+                title="YouTube video"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            )}
           </div>
         ))}
       </div>

@@ -555,3 +555,42 @@ export const useDeleteProject = () => {
 
   return { deleteProject, loading, error };
 };
+
+//searchProjects
+export const useSearchProjects = () => {
+  // const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const searchProject = async (searchValue, setProjects) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    // setLoading(true); // Set loading state to true
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/user-projects/search`,
+        {
+          search_item:searchValue
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      setProjects(response.data);
+    } catch (err) {
+      setError("Failed to search item");
+      console.error("Error while searching data:", err);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  return { error,searchProject };
+};

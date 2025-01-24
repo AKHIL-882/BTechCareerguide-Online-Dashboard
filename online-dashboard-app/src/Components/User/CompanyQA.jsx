@@ -10,7 +10,7 @@ const CompanyQA = ({ handleLogout }) => {
   ];
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2">
+    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen">
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-screen">
         <h2 className="text-xl font-semibold text-center mb-6">
           Company Coding Round Solutions

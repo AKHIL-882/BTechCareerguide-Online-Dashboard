@@ -40,7 +40,7 @@ const UserMainLayout = () => {
     <>
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header handleLogout={handleLogout} toggleSidebar={toggleSidebar} />
-      <div className="flex">
+      <div className="flex bg-slate-50">
         <Sidebar
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}

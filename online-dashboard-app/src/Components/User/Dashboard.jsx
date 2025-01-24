@@ -7,19 +7,20 @@ import {
   FaBriefcase,
   FaAngleDoubleRight,
   FaAngleDoubleLeft,
+  FaProjectDiagram,
 } from "react-icons/fa";
 
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
   return (
-    <main className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50">
+    <main className="m-3 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
       <div className="py-1">
         <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
-          <FaBriefcase className="text-violet-600 w-6 h-6 mb-2" />
+          <FaProjectDiagram className="text-violet-600 w-6 h-6 mb-2" />
           <span className="mb-1">Latest Projects</span>
           <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
         </h2>
-        <Projects />
+        <Projects isDashBoard={true} />
       </div>
       <div className="mt-2">
         <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
