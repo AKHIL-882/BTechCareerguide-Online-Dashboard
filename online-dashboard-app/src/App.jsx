@@ -12,17 +12,9 @@ import ProjectHome from "./Components/User/ProjectHome";
 import CompanyQA from "./Components/User/CompanyQA";
 import { AuthProvider } from "./Components/AuthContext";
 import UserMainLayout from "./Components/User/UserMainLayout";
-import { useEffect } from "react";
-import { useTokenManager } from "./Api";
 import AdminMaterials from "./Components/Admin/Pages/AdminMaterials";
 
 function App() {
-  const { initializeTokenManagement } = useTokenManager();
-
-  useEffect(() => {
-    initializeTokenManagement();
-  }, []);
-
   return (
     <AuthProvider>
       <Routes>

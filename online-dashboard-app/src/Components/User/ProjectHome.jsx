@@ -181,7 +181,9 @@ const ProjectHome = ({ handleLogout }) => {
 
       {showForm && (
         <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto w-full">
-          <h2 className="text-lg font-semibold text-violet-800">Submission Request</h2>
+          <h2 className="text-lg font-semibold text-violet-800">
+            Submission Request
+          </h2>
           <form onSubmit={handleSubmit}>
             {/* Row for Project Title and Days to Complete */}
             <div className="mt-4 flex flex-col md:flex-row gap-4">
@@ -274,7 +276,9 @@ const ProjectHome = ({ handleLogout }) => {
 
       {showPaymentForm && (
         <div className="mt-8 border p-6 rounded-lg bg-white shadow-lg">
-          <h2 className="text-lg font-semibold text-violet-800">Upload Payment Screenshot</h2>
+          <h2 className="text-lg font-semibold text-violet-800">
+            Upload Payment Screenshot
+          </h2>
           <p className="text-sm text-gray-500">
             Please select the project and upload your payment screenshot.
           </p>
