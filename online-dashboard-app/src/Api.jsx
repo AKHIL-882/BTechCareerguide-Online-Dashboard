@@ -10,7 +10,7 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (formData) => {
+  const handleLogin = async (formData,setValidationError) => {
     setLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/login`, {
@@ -39,7 +39,8 @@ export const useLogin = () => {
           alert("Role not recognized.");
         }
       } else {
-        alert(data.message || "Login failed");
+        setValidationError(data.message || "Login failed");
+        // alert(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Error logging in:", error);

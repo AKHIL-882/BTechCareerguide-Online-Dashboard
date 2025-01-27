@@ -4,12 +4,15 @@ import SearchProjects from "./SearchProjects";
 import {
   FaYoutube,
   FaCode,
+  FaSearch,
   FaTrophy,
   FaAngleDoubleRight,
 } from "react-icons/fa";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
+  const [noSearchedProjects, setNoSearchedProjects] = useState([]);
+  const [isEmptySearch, setIsEmptySearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -25,7 +28,7 @@ const Projects = ({ isDashBoard }) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          },
+          }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -33,7 +36,8 @@ const Projects = ({ isDashBoard }) => {
         const responseData = await response.json();
         isDashBoard
           ? setProjects(responseData.data.slice(0, 3))
-          : setProjects(responseData.data);
+          : (setProjects(responseData.data),
+            setNoSearchedProjects(responseData.data));
       } catch (error) {
         setError(error.message);
       } finally {
@@ -62,6 +66,10 @@ const Projects = ({ isDashBoard }) => {
   };
 
   const flattenedProjects = projects.flat();
+  const noSearchedProjectsfn = () => {
+    setIsEmptySearch(true);
+    setProjects(noSearchedProjects);
+  };
 
   return (
     <section>
@@ -75,11 +83,26 @@ const Projects = ({ isDashBoard }) => {
             </div>
             <FaAngleDoubleRight className="text-violet-600 w-5 h-5" />
           </h2>
-          <SearchProjects setProjects={setProjects} />
+          <SearchProjects
+            setProjects={setProjects}
+            noSearchedProjectsfn={noSearchedProjectsfn}
+          />
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {Array.isArray(flattenedProjects) &&
+        {isEmptySearch && flattenedProjects.length === 0 ? (
+          <div className="flex items-center justify-center col-span-full h-auto">
+          <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
+            <h1 className="text-lg font-semibold text-gray-700 flex justify-center items-center">
+            <FaSearch className="text-gray-400 text-2xl mr-2" /> <span>No Projects Found</span>
+            </h1>
+            <p className="text-sm text-gray-500">
+              We couldn't find any projects. Try searching for something else.
+            </p>
+          </div>
+          </div>
+        ) : (
+          Array.isArray(flattenedProjects) &&
           flattenedProjects.map((project, index) => (
             <div key={index} className="bg-white shadow-md rounded-lg p-1">
               <div className="flex justify-between items-center mb-2">
@@ -127,7 +150,8 @@ const Projects = ({ isDashBoard }) => {
                 ></iframe>
               )}
             </div>
-          ))}
+          ))
+        )}
       </div>
     </section>
   );

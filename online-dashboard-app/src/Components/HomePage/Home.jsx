@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { signup } from "../../Api";
 import Spinner from "../Admin/Components/Spinner";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaCross, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
 import { useLogin } from "../../Api";
 import ComapanyMarquee from "./ComapanyMarquee";
 import OfferingSection from "./OfferingSection";
@@ -11,6 +11,7 @@ import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import StatsSection from "./StatasSection";
 import Footer from "./Footer";
 import HeroStatic from "./HeroStatic";
+import { validate } from "./Validation";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +25,7 @@ const HomePage = () => {
   const [message, setMessage] = useState("");
   const { handleLogin, loading } = useLogin();
   const [isLogin, setIsLogin] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [validationError, setValidationError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -52,7 +53,9 @@ const HomePage = () => {
         });
         navigate("/dashboard");
       } else {
-        setMessage(response.data.message || "Signup failed. Try again!");
+        setValidationError(
+          response.data.message || "Signup failed. Try again!"
+        );
       }
     } catch (error) {
       if (error.response && error.response.status === 422) {
@@ -62,11 +65,11 @@ const HomePage = () => {
           Object.keys(errors)
             .map((key) => errors[key].join(", "))
             .join(" ");
-        setMessage(
-          errorMessage || "Validation failed. Please check your inputs.",
+        setValidationError(
+          errorMessage || "Validation failed. Please check your inputs."
         );
       } else {
-        setMessage("An error occurred. Please try again.");
+        setValidationError("An error occurred. Please try again.");
         console.error(error);
       }
     }
@@ -74,7 +77,10 @@ const HomePage = () => {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    handleLogin(formData);
+    const error = validate(formData.email, formData.password);
+    error
+      ? setValidationError(error)
+      : handleLogin(formData, setValidationError);
   };
   return (
     <div className="min-h-screen flex flex-col">
@@ -86,11 +92,15 @@ const HomePage = () => {
         </div>
         <a
           href="#login"
-          onClick={() => setIsLogin(!isLogin)} // Toggle to login form
+          onClick={() => {
+            setIsLogin(!isLogin); // Toggle to login form
+            window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top
+          }}
           className="text-slate-50 hover:text-white transition border-[2px] px-3 py-1 rounded-md border-gray-300 hover:border-gray-50"
         >
           {!isLogin ? "Login" : "Create Account"}
         </a>
+
         {/* Unlock Your Career [Potential/Passion/Future/Path] */}
       </header>
       <main className="flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 mt-8 md:mt-10 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen lg:mt-30">
@@ -121,16 +131,26 @@ const HomePage = () => {
 
         {/* Right Section */}
         <div
-          className={`flex-1 w-full max-w-md p-6 border mt-2 ${
-            clicked ? "border-blue-500 md:border-2 border-1" : "border-gray-300"
-          } rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20`}
+          className={`flex-1 w-full max-w-md p-6 border mt-2 border-gray-300 rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20`}
         >
-          <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50">
-            Hi there!
-          </h2>
-          <h3 className="font-semibold text-center mb-1 text-slate-50 text-sm">
-            Welcome to ProjPort, so happy to see you!
-          </h3>
+          {validationError ? (
+            <div className="p-4 text-white bg-gray-300 rounded-md bg-opacity-10 flex items-center border border-violet-800">
+              <FaTimes
+                onClick={() => setValidationError(null)}
+                className="text-white mr-2 bg-red-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
+              />
+              <p className="text-red-500">{validationError}</p>
+            </div>
+          ) : (
+            <>
+              <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50">
+                Hi there!
+              </h2>
+              <h3 className="font-semibold text-center mb-1 text-slate-50 text-sm">
+                Welcome to ProjPort, so happy to see you!
+              </h3>
+            </>
+          )}
           <h2 className="text-2xl font-semibold text-center mb-4 text-slate-50">
             {isLogin ? "Login" : "Create Account"}
           </h2>
