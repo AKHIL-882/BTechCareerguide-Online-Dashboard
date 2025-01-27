@@ -286,8 +286,8 @@ const ProjectHome = ({ handleLogout }) => {
             <select className="border-violet-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-violet-200">
               <option>Select Project</option>
               {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
+                <option key={project.id} value={project.project_name}>
+                  {project.project_name}
                 </option>
               ))}
             </select>

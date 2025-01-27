@@ -303,7 +303,6 @@ export const useFetchProjects = () => {
     const fetchProjects = async () => {
       const data = JSON.parse(localStorage.getItem("data"));
       const accessToken = data ? data.access_token : null;
-      console.log(accessToken);
       try {
         const response = await axios.get(
           `${API_BASE_URL}/admin_projects

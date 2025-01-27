@@ -11,20 +11,20 @@ export const AuthProvider = ({ children }) => {
     const storedAuth = localStorage.getItem("data");
     return storedAuth
       ? JSON.parse(storedAuth)
-      : { token: null, expiresAt: null };
+      : { token: null, expiresIn: null };
   });
 
   const navigate = useNavigate();
 
-  const login = (token, expiresIn) => {
-    const expiresAt = Date.now() + expiresIn * 1000;
-    const authData = { token, expiresAt };
+  const login = (token) => {
+    const expiresIn = Date.now() + expiresIn * 1000;
+    const authData = { token, expiresIn };
     setAuth(authData);
     localStorage.setItem("data", JSON.stringify(authData));
   };
 
   const logout = () => {
-    setAuth({ token: null, expiresAt: null });
+    setAuth({ token: null, expiresIn: null });
     localStorage.removeItem("data");
     navigate("/"); // Redirect to home page on logout
   };
@@ -33,17 +33,21 @@ export const AuthProvider = ({ children }) => {
     const storedAuth = localStorage.getItem("data");
     if (storedAuth) {
       const parsedAuth = JSON.parse(storedAuth);
-      if (parsedAuth.expiresAt > Date.now()) {
+      if (parsedAuth.expiresIn < Date.now()) {
         setAuth(parsedAuth);
+        localStorage.removeItem("data");
+        navigate("/");
       } else {
-        setAuth({ token: null, expiresAt: null });
+        setAuth({ token: null, expiresIn: null });
+        // localStorage.removeItem("data");
+        // navigate("/")
       }
     }
   }, [location]);
 
   useEffect(() => {
     if (auth.token) {
-      const timeout = auth.expiresAt - Date.now();
+      const timeout = auth.expiresIn - Date.now();
       if (timeout > 0) {
         const timer = setTimeout(logout, timeout);
         return () => clearTimeout(timer);
