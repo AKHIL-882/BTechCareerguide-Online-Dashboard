@@ -53,7 +53,17 @@ const Sidebar = ({ isOpen, toggleSidebar }) => (
         <i className="fa fa-trophy pl-2" aria-hidden="true"></i>
         <span>Projects</span>
       </NavLink>
-
+      <NavLink
+        to="/user/calender"
+        className={({ isActive }) =>
+          `flex items-center space-x-2 w-full px-4 py-3 ${
+            isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+          } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+        }
+      >
+        <i className="fa fa-heartbeat pl-2" aria-hidden="true"></i>
+        <span>Test Assistance</span>
+      </NavLink>
       <NavLink
         to="/user/company-qa"
         className={({ isActive }) =>
