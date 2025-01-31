@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 import { Outlet } from "react-router-dom";
 import Footer from "../Admin/Components/Footer";
@@ -36,10 +36,15 @@ const UserMainLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
   return (
     <>
       <ScrollToTopButton colorCode="bg-violet-800" />
-      <Header handleLogout={handleLogout} toggleSidebar={toggleSidebar} />
+      <Header
+        handleLogout={handleLogout}
+        toggleSidebar={toggleSidebar}
+        isSidebarOpen={isSidebarOpen} // Pass isSidebarOpen to Header
+      />
       <div className="flex bg-slate-50">
         <Sidebar
           isOpen={isSidebarOpen}

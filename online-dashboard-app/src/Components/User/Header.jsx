@@ -1,21 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
 
-const Header = ({ handleLogout, toggleSidebar }) => {
-  // Local state to track whether sidebar is open or closed
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  // Toggle the sidebar and change the icon
-  const handleToggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-    toggleSidebar(); // Optionally call the parent's toggleSidebar function
-  };
-
+const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
   return (
-    <header className="flex justify-between items-center px-6 md:py-2 py-3  bg-violet-800  shadow w-full z-50 fixed">
+    <header className="flex justify-between items-center px-6 md:py-2 py-3 bg-violet-800 shadow w-full z-50 fixed">
       {/* Hamburger Icon for Mobile (Left side) */}
-      <div className="flex items-center ">
+      <div className="flex items-center">
         <button
-          onClick={handleToggleSidebar}
+          onClick={toggleSidebar}
           className="block lg:hidden text-xl text-white pr-2"
         >
           {/* Conditionally render hamburger or cross icon */}
@@ -31,7 +23,7 @@ const Header = ({ handleLogout, toggleSidebar }) => {
       {/* Logout Button */}
       <button
         onClick={handleLogout}
-        className=" text-white md:px-4 md:py-2 px-2 py-1 rounded hover:text-gray-100 transition"
+        className="text-white md:px-4 md:py-2 px-2 py-1 rounded hover:text-gray-100 transition"
       >
         <span className="md:flex justify-center items-center">
           <FaSignOutAlt size={20} />

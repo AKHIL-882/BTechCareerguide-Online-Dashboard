@@ -40,7 +40,6 @@ export const useLogin = () => {
         }
       } else {
         setValidationError(data.message || "Login failed");
-        // alert(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -53,28 +52,55 @@ export const useLogin = () => {
   return { handleLogin, loading };
 };
 
-export const signup = async (formData) => {
-  try {
-    const response = await axios.post(
-      `${API_BASE_URL}/signup`,
-      {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-        password_confirmation: formData.confirmPassword,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
+//usersignup
+export const useSignup = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSignup = async (formData, setValidationError, setMessage) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/signup`,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
         },
-      },
-    );
-    return response;
-  } catch (error) {
-    throw error;
-  }
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      if (response.data.message==="Account Created Successfully") {
+        setMessage("Account created successfully!"); 
+      } else {
+        setValidationError(response.data.message || "Signup failed. Try again!");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 422) {
+        const errors = error.response.data.errors;
+        const errorMessage =
+          errors &&
+          Object.keys(errors)
+            .map((key) => errors[key].join(", "))
+            .join(" ");
+        setValidationError(errorMessage || "Validation failed. Please check your inputs.");
+      } else {
+        setValidationError("An error occurred. Please try again.");
+        console.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handleSignup, loading };
 };
+
 
 export const logoutUser = async (accessToken) => {
   try {
@@ -304,6 +330,7 @@ export const useFetchProjects = () => {
     const fetchProjects = async () => {
       const data = JSON.parse(localStorage.getItem("data"));
       const accessToken = data ? data.access_token : null;
+      console.log(accessToken);
       try {
         const response = await axios.get(
           `${API_BASE_URL}/admin_projects
