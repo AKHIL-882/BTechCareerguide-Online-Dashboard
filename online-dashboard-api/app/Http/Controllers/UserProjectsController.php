@@ -6,6 +6,7 @@ use App\Http\Requests\UserProjectsRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Project;
 use App\Models\UserProject;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,5 +54,12 @@ class UserProjectsController extends Controller
         $projectsList = Project::showAllProjects($userId);
 
         return ApiResponse::setData($projectsList)->response(Response::HTTP_OK);
+    }
+
+    public function search(Request $request)
+    {
+        $projects = Project::searchProject($request);
+
+        return ApiResponse::setData($projects)->response(Response::HTTP_OK);
     }
 }

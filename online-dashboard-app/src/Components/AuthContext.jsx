@@ -6,50 +6,72 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const [auth, setAuth] = useState(() => {
-    // Initialize auth state from localStorage
     const storedAuth = localStorage.getItem("data");
     return storedAuth
       ? JSON.parse(storedAuth)
-      : { token: null, expiresAt: null };
+      : { token: null, expiresIn: null };
   });
 
-  const navigate = useNavigate();
-
+  /**
+   * Login function
+   * Accepts token and expiresIn (in seconds).
+   */
   const login = (token, expiresIn) => {
-    const expiresAt = Date.now() + expiresIn * 1000;
-    const authData = { token, expiresAt };
+    const expirationTime = Date.now() + expiresIn * 1000; // Calculate expiration time
+    const authData = { token, expiresIn: expirationTime };
     setAuth(authData);
-    localStorage.setItem("data", JSON.stringify(authData));
+    localStorage.setItem("data", JSON.stringify(authData)); // Store in localStorage
   };
 
+  /**
+   * Logout function
+   * Clears auth state and localStorage, redirects user to "/".
+   */
   const logout = () => {
-    setAuth({ token: null, expiresAt: null });
+    setAuth({ token: null, expiresIn: null });
     localStorage.removeItem("data");
-    navigate("/"); // Redirect to home page on logout
+    navigate("/"); // Redirect to home on logout
   };
 
+  /**
+   * Check token expiration on location change.
+   */
   useEffect(() => {
     const storedAuth = localStorage.getItem("data");
     if (storedAuth) {
       const parsedAuth = JSON.parse(storedAuth);
-      if (parsedAuth.expiresAt > Date.now()) {
-        setAuth(parsedAuth);
+
+      // Check if token is expired
+      if (parsedAuth.expiresIn < Date.now()) {
+        logout(); // Expired, log out immediately
       } else {
-        setAuth({ token: null, expiresAt: null });
+        setAuth(parsedAuth); // Valid token, set to state
       }
     }
-  }, [location]);
+  }, [location]); // Run whenever location changes
 
+  /**
+   * Set timeout to automatically log out user when token expires.
+   */
   useEffect(() => {
     if (auth.token) {
-      const timeout = auth.expiresAt - Date.now();
+      const timeout = auth.expiresIn - Date.now(); // Time until expiration
+
       if (timeout > 0) {
-        const timer = setTimeout(logout, timeout);
+        const timer = setTimeout(() => {
+          logout();
+        }, timeout);
+
+        // Clean up timer
         return () => clearTimeout(timer);
+      } else {
+        logout(); // Immediate logout if token already expired
       }
     }
-  }, [auth]);
+  }, [auth]); // Run whenever auth changes
 
   return (
     <AuthContext.Provider value={{ auth, login, logout }}>

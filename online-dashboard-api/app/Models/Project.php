@@ -54,4 +54,28 @@ class Project extends Model
 
         return AllProjectsResource::collection($projects);
     }
+
+    /**
+     * Scope for filtering by project_name.
+     */
+    public function scopeFilterBySearch($query, $searchItem)
+    {
+        if ($searchItem) {
+            $query->where('project_name', 'like', '%'.$searchItem.'%')->orWhere('company_name', 'like', '%'.$searchItem.'%');
+        }
+
+        return $query;
+    }
+
+    public static function searchProject($request)
+    {
+        if (empty($request->input('search_item'))) {
+            return collect([]);
+        }
+
+        return self::query()
+            ->filterBySearch($request->input('search_item'))
+            ->orderBy('created_at', 'desc')
+            ->get();
+    }
 }

@@ -4,6 +4,7 @@ import {
   FaTasks,
   FaRegComments,
   FaTachometerAlt,
+  FaSubscript,
 } from "react-icons/fa";
 import Logo from "./Logo"; // Assuming you have a separate Logo component
 import { Link } from "react-router-dom"; // Importing Link from react-router-dom
@@ -91,6 +92,13 @@ const Sidebar = ({ toggleSidebar }) => {
         >
           <FaRegComments />
           <span className="pl-2">Company Q/A</span>
+        </Link>
+        <Link
+          to="/admin/materials"
+          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
+        >
+          <FaRegComments />
+          <span className="pl-2">Materials</span>
         </Link>
       </div>
     </div>

@@ -5,11 +5,12 @@ import {
   FaTasks,
   FaRegComments,
   FaTachometerAlt,
+  FaSubscript,
 } from "react-icons/fa";
 
 const SidebarFixed = () => {
   return (
-    <div className="fixed hidden lg:block w-2/12 h-full bg-blue-50 top-14">
+    <div className="fixed hidden lg:block w-56 h-full bg-blue-50 top-14">
       <NavLink
         to="/admin"
         end
@@ -43,7 +44,6 @@ const SidebarFixed = () => {
       >
         <FaTasks className="mr-2" /> Projects
       </NavLink>
-
       <NavLink
         to="/admin/companyqa"
         className={({ isActive }) =>
@@ -53,6 +53,16 @@ const SidebarFixed = () => {
         }
       >
         <FaRegComments className="mr-2" /> Company Q/A
+      </NavLink>
+      <NavLink
+        to="/admin/materials"
+        className={({ isActive }) =>
+          isActive
+            ? "flex items-center p-3 text-blue-800 bg-blue-200"
+            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
+        }
+      >
+        <FaRegComments className="mr-2" /> Materials
       </NavLink>
     </div>
   );

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const itemsPerPage = 7;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3); // Default to 3 for smaller screens
 
   const indexOfLastJob = currentPage * itemsPerPage;
@@ -49,12 +50,14 @@ const JobsTable = ({ jobs, className = "" }) => {
   };
 
   return (
-    <div className={`bg-white shadow-md rounded-lg ${className}`}>
+    <div
+      className={`bg-white shadow-md rounded-t-lg ${className} border border-y-2 border-t-violet-800`}
+    >
       {/* Table for larger screens */}
       <div className="hidden md:block">
-        <table className="w-full table-auto">
+        <table className="w-full table-auto border-collapse overflow-hidden rounded-lg shadow-md">
           <thead>
-            <tr className="bg-indigo-100 text-indigo-800 font-semibold">
+            <tr className="bg-violet-200 text-violet-800 font-semibold">
               <th className="p-3 text-left">Company Name</th>
               <th className="p-3 text-left">Role</th>
               <th className="p-3 text-left">Batch</th>
@@ -64,22 +67,27 @@ const JobsTable = ({ jobs, className = "" }) => {
           </thead>
           <tbody>
             {currentJobs.map((job) => (
-              <tr key={job.id} className="border-t hover:bg-gray-50 transition">
-                <td className="p-3">{job.company_name}</td>
-                <td className="p-3">{job.role}</td>
-                <td className="p-3">{job.batch.split(",").join(", ")}</td>
-                <td className="p-3">
+              <tr
+                key={job.id}
+                className="border-t transition hover:bg-violet-100 odd:bg-white even:bg-gray-50"
+              >
+                <td className="p-3 text-gray-700">{job.company_name}</td>
+                <td className="p-3 text-gray-700">{job.role}</td>
+                <td className="p-3 text-gray-700">
+                  {job.batch.split(",").join(", ")}
+                </td>
+                <td className="p-3 text-gray-700">
                   {job.qualification.split(",").join(", ")}
                 </td>
                 <td className="p-3">
-                  <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+                  <button className="bg-gradient-to-r from-violet-800 to-blue-600 text-white py-2 px-4 rounded-md shadow-md transform transition duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-600 hover:to-violet-800">
                     <a
                       href={job.apply_link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-black-600 hover:underline red"
+                      className="flex items-center space-x-2"
                     >
-                      Apply
+                      <span>Apply</span>
                     </a>
                   </button>
                 </td>
@@ -94,7 +102,7 @@ const JobsTable = ({ jobs, className = "" }) => {
           {currentJobs.map((job) => (
             <div
               key={job.id}
-              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition"
+              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition hover:bg-violet-100 odd:bg-white even:bg-gray-50"
             >
               <h2 className="text-xl font-semibold text-indigo-600">
                 {job.company_name}
@@ -110,7 +118,7 @@ const JobsTable = ({ jobs, className = "" }) => {
                 href={job.apply_link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-4 inline-block bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                className="mt-4 inline-block bg-gradient-to-r from-violet-800 to-blue-600 text-white py-2 px-4 rounded-md shadow-md transform transition duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-600 hover:to-violet-800"
               >
                 Apply
               </a>
@@ -133,9 +141,10 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md disabled:bg-gray-300 text-sm sm:text-base"
+            className="px-4 bg-gray-100 text-violet-800 rounded-full  disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
           >
-            Prev
+            <FaArrowAltCircleLeft />
+            <span className="pl-1">Prev</span>
           </button>
 
           {/* Page Number Buttons */}
@@ -143,7 +152,7 @@ const JobsTable = ({ jobs, className = "" }) => {
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
-              className={`px-4 py-2 ${currentPage === pageNumber ? "bg-indigo-600 text-white" : "bg-gray-200"} rounded-md text-sm sm:text-base`}
+              className={`px-3 py-2 ${currentPage === pageNumber ? "bg-violet-800 text-gray-100" : ""} rounded-full text-sm hover:bg-gray-300 hover:border-gray-900`}
             >
               {pageNumber}
             </button>
@@ -153,9 +162,9 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-md disabled:bg-gray-300 text-sm sm:text-base"
+            className="px-4 bg-gray-100 text-violet-800 rounded-full disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
           >
-            Next
+            <span className="pr-1">Next</span> <FaArrowAltCircleRight />
           </button>
         </div>
       )}

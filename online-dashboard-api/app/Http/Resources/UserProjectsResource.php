@@ -23,6 +23,13 @@ class UserProjectsResource extends JsonResource
             'document_name' => $this->getFile($this->document_name),
             'project_status' => $this->project_status,
             'payment_status' => $this->payment_status,
+            'id' => $this->id,
+            'company_name' => $this->company_name,
+            'youtube_video_link' => $this->youtube_video_link,
+            'payment_link' => $this->payment_link,
+            'created_at' => $this->created_at,
+            'user_id' => $this->user->id,
+            'is_admin_project' => $this->is_admin_project,
         ];
     }
 

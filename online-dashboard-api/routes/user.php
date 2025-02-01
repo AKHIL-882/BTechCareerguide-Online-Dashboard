@@ -7,7 +7,6 @@ use App\Http\Controllers\UserProjectsController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
-
 Route::prefix('jobs')->group(function () {
 
     Route::get('/', [JobOpportunityController::class, 'index']);
@@ -27,6 +26,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
 
             Route::get('show', [UserProjectsController::class, 'show']);
         });
+
+        Route::post('search', [UserProjectsController::class, 'search']);
     });
 
     Route::prefix('admin-projects')->group(function () {

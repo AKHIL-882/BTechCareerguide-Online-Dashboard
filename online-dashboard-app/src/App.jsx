@@ -12,16 +12,10 @@ import ProjectHome from "./Components/User/ProjectHome";
 import CompanyQA from "./Components/User/CompanyQA";
 import { AuthProvider } from "./Components/AuthContext";
 import UserMainLayout from "./Components/User/UserMainLayout";
-import { useEffect } from "react";
-import { useTokenManager } from "./Api";
+import AdminMaterials from "./Components/Admin/Pages/AdminMaterials";
+import CalendarBooking from "./Components/User/CalendarBooking";
 
 function App() {
-  const { initializeTokenManagement } = useTokenManager();
-
-  useEffect(() => {
-    initializeTokenManagement();
-  }, []);
-
   return (
     <AuthProvider>
       <Routes>
@@ -38,6 +32,8 @@ function App() {
           <Route path="/admin/jobs" element={<AdminJobs />} />
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
+          <Route path="/admin/materials" element={<AdminMaterials />} />
+          {/* <Route path="/admin/user-projects" element={<UserProjectsPage />} /> */}
         </Route>
         <Route
           path="/user"
@@ -51,6 +47,7 @@ function App() {
           <Route path="/user/jobs" element={<Jobs />} />
           <Route path="/user/projects" element={<ProjectHome />} />
           <Route path="/user/company-qa" element={<CompanyQA />} />
+          <Route path="/user/calender" element={<CalendarBooking />} />
         </Route>
       </Routes>
     </AuthProvider>

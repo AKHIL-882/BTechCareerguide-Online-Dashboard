@@ -70,42 +70,42 @@ class AuthenticationController extends Controller
     {
         try {
             $credentials = request(['email', 'password']);
-    
+
             // Validate the user
             $user = User::where('email', $credentials['email'])->first();
-    
+
             if (! $user || ! Hash::check($credentials['password'], $user->password)) {
                 return ApiResponse::setMessage('Unauthenticated')
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
-    
+
             // Generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-    
+
             // Checking if token generation failed
             if (isset($tokenData['error'])) {
                 return ApiResponse::setMessage($tokenData['error'])
                     ->response(Response::HTTP_BAD_REQUEST);
             }
-    
+
             // Log in the user
             Auth::login($user);
-    
+
             // Start a session manually
             if (! Session::isStarted()) {
                 Session::start();
             }
-    
+
             CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login));
-    
+
             // Fetch the user's roles
             $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
-    
+
             // Success response if tokens are generated successfully
             return ApiResponse::setMessage('Successfully logged in')
                 ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
                 ->response(Response::HTTP_OK);
-    
+
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);

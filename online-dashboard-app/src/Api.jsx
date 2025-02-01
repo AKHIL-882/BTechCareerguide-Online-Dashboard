@@ -4,77 +4,13 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
-const TOKEN_REFRESH_LIMIT = 3;
-const REFRESH_THRESHOLD = 30 * 1000;
-
-export const useTokenManager = () => {
-  const navigate = useNavigate();
-  const scheduleTokenRefresh = (accessTokenExpiry, refreshToken) => {
-    const timeUntilRefresh = accessTokenExpiry - Date.now() - REFRESH_THRESHOLD;
-
-    if (timeUntilRefresh > 0) {
-      setTimeout(async () => {
-        const refreshCount =
-          parseInt(localStorage.getItem("refreshCount")) || 0;
-
-        if (refreshCount >= TOKEN_REFRESH_LIMIT) {
-          console.warn("Refresh token limit reached. Logging out.");
-          localStorage.clear();
-          navigate("/login");
-          return;
-        }
-
-        try {
-          const response = await axios.post(`${API_BASE_URL}/refresh-token`, {
-            refresh_token: refreshToken,
-          });
-
-          const { access_token, refresh_token, expires_in } = response.data;
-
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem("refresh_token", refresh_token);
-          localStorage.setItem(
-            "accessTokenExpiry",
-            Date.now() + expires_in * 1000,
-          );
-
-          localStorage.setItem("refreshCount", refreshCount + 1);
-          scheduleTokenRefresh(Date.now() + expires_in * 1000, refresh_token);
-        } catch (error) {
-          console.error("Error refreshing token:", error);
-          localStorage.clear();
-          navigate("/login");
-        }
-      }, timeUntilRefresh);
-    } else {
-      console.warn("Token refresh time has passed or is too short.");
-    }
-  };
-
-  const initializeTokenManagement = () => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    const expiresIn = data ? parseInt(data.expires_in) : null;
-    const refreshToken = data ? data.refresh_token : null;
-
-    if (expiresIn && refreshToken) {
-      scheduleTokenRefresh(expiresIn, refreshToken);
-    } else {
-      console.warn(
-        "Access token expiry or refresh token not found. Redirecting to login.",
-      );
-      navigate("/#login");
-    }
-  };
-
-  return { initializeTokenManagement };
-};
 
 //userlogin
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (formData) => {
+  const handleLogin = async (formData, setValidationError) => {
     setLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/login`, {
@@ -91,15 +27,10 @@ export const useLogin = () => {
       const data = await response.json();
       if (response.ok) {
         const { roles, access_token, refresh_token } = data;
-        // todo:: get all the data outside the scope of storage
-        // Save necessary data in localStorage
+
         localStorage.setItem("data", JSON.stringify(data));
-        localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("access_token", access_token);
-        localStorage.setItem("refresh_token", refresh_token);
         localStorage.setItem("roles", roles);
 
-        // Redirect based on roles
         if (roles === "admin") {
           navigate("/admin");
         } else if (roles === "user") {
@@ -108,7 +39,7 @@ export const useLogin = () => {
           alert("Role not recognized.");
         }
       } else {
-        alert(data.message || "Login failed");
+        setValidationError(data.message || "Login failed");
       }
     } catch (error) {
       console.error("Error logging in:", error);
@@ -121,28 +52,57 @@ export const useLogin = () => {
   return { handleLogin, loading };
 };
 
+//usersignup
+export const useSignup = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-export const signup = async (formData) => {
-  try {
-    const response = await axios.post(
-      `${API_BASE_URL}/signup`,
-      {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-        password: formData.password,
-        password_confirmation: formData.confirmPassword,
-      },
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
+  const handleSignup = async (formData, setValidationError, setMessage) => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/signup`,
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          password_confirmation: formData.confirmPassword,
         },
-      },
-    );
-    return response;
-  } catch (error) {
-    throw error;
-  }
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      if (response.data.message === "Account Created Successfully") {
+        setMessage("Account created successfully!");
+      } else {
+        setValidationError(
+          response.data.message || "Signup failed. Try again!",
+        );
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 422) {
+        const errors = error.response.data.errors;
+        const errorMessage =
+          errors &&
+          Object.keys(errors)
+            .map((key) => errors[key].join(", "))
+            .join(" ");
+        setValidationError(
+          errorMessage || "Validation failed. Please check your inputs.",
+        );
+      } else {
+        setValidationError("An error occurred. Please try again.");
+        console.error(error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { handleSignup, loading };
 };
 
 export const logoutUser = async (accessToken) => {
@@ -178,7 +138,6 @@ export const useFetchJobs = () => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        console.log(response);
         setJobListings(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
@@ -362,4 +321,249 @@ export const useDeleteJob = () => {
   };
 
   return { deleteJob, loading, error };
+};
+
+//projects listing
+export const useFetchProjects = () => {
+  const [projectsListings, setProjectsListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const data = JSON.parse(localStorage.getItem("data"));
+      const accessToken = data ? data.access_token : null;
+      console.log(accessToken);
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/admin_projects
+          `,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+        );
+        const responseData = await response.json();
+        const projectsData = Array.isArray(responseData.data)
+          ? responseData.data
+          : [];
+        isDashBoard
+          ? setProjects(projectsData.slice(0, 3))
+          : setProjects(projectsData);
+      } catch (err) {
+        setError("Failed to fetch jobs. Please try again later.");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  return { projectsListings, setProjectsListings, loading, error };
+};
+
+//add project
+export const useCreateProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const createProject = async (formData, setFormData, addProject) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    setLoading(true); // Set loading state to true
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/admin_projects/create`,
+        {
+          company_name: formData.project_name,
+          youtube_video_link: formData.youtube_link,
+          payment_link: formData.payment_link,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      const newProject = {
+        id: formData.id,
+        company_name: formData.project_name,
+        youtube_video_link: formData.youtube_link,
+        payment_link: formData.payment_link,
+      };
+      addProject(newProject);
+      setFormData({
+        project_name: "",
+        payment_link: "",
+        youtube_link: "",
+      });
+      toast.success("Project Added successfully");
+    } catch (err) {
+      setError("Failed to upload data");
+      console.error("Error uploading data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, error, createProject };
+};
+
+//editproject
+export const useSaveProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const saveProject = async (
+    updatedProject,
+    setProjectsListings,
+    projectsListings,
+    setSelectedProject,
+  ) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      // API call to update the job
+      const response = await axios.put(
+        `${API_BASE_URL}/admin_projects/${updatedProject.id}/update`,
+        {
+          company_name: updatedProject.company_name,
+          payment_link: updatedProject.payment_link,
+          youtube_video_link: updatedProject.youtube_link,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+
+      // Update the job in the UI
+      const updatedProjectData = {
+        id: updatedProject.id,
+        company_name: updatedProject.company_name,
+        payment_link: updatedProject.payment_link,
+        youtube_video_link: updatedProject.youtube_link,
+      };
+
+      setProjectsListings(
+        projectsListings.map((project) =>
+          project.id === updatedProject.id ? updatedProjectData : project,
+        ),
+      );
+      toast.success("Project Edited Successfully");
+      setSelectedProject(null); // Close the popup after saving
+    } catch (err) {
+      setError("Failed to save the Project. Please try again later.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { saveProject, loading, error };
+};
+
+//deleteproject
+export const useDeleteProject = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const deleteProject = async (
+    id,
+    projectsListings,
+    setProjectsListings,
+    setShowDeletePopup,
+    setProjectToDelete,
+  ) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await axios.delete(`${API_BASE_URL}/admin_projects/${id}/delete`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      setProjectsListings(
+        projectsListings.filter((project) => project.id !== id),
+      );
+      setShowDeletePopup(false);
+      setProjectToDelete(null);
+      toast.success("Project deleted successfully");
+    } catch (err) {
+      setError("Failed to delete the project. Please try again later.");
+      console.error("Error deleting project:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { deleteProject, loading, error };
+};
+
+//searchProjects
+export const useSearchProjects = () => {
+  // const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const searchProject = async (searchValue, setProjects) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      return;
+    }
+
+    // setLoading(true); // Set loading state to true
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/user-projects/search`,
+        {
+          search_item: searchValue,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      );
+      const responseData = await response;
+      const projectsData = Array.isArray(responseData.data)
+        ? responseData.data
+        : [responseData.data.data];
+      setProjects(projectsData);
+    } catch (err) {
+      setError("Failed to search item");
+      console.error("Error while searching data:", err);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  return { error, searchProject };
 };

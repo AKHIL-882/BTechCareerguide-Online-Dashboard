@@ -21,3 +21,5 @@
 ## npm i react-spinners ==> For loading spinner
 
 ## npm install react-fast-marquee --save ==> for marquee
+
+## npm i swiper => for Testimonials swiper

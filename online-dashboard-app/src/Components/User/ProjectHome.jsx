@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
+import {
+  FaAngleDoubleRight,
+  FaProjectDiagram,
+  FaList,
+  FaMoneyCheckAlt,
+} from "react-icons/fa";
 import axios from "axios";
 
 const STATUS_MAP = {
@@ -23,7 +29,6 @@ const ProjectHome = ({ handleLogout }) => {
     technical_skills: "",
     project_description: "",
   });
-  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     fetchProjects();
@@ -144,36 +149,41 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-2 flex-1 pt-12 lg:relative lg:pl-56 py-2 min-h-screen ">
+    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-4 min-h-screen">
       {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
           <button
-            className="font-semibold bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 w-full md:w-auto mb-1 md:mb-0"
+            className="font-semibold bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-500 w-full md:w-auto mb-1 md:mb-0 flex justify-between items-center"
             onClick={handleShowRequestNewProject}
           >
             Request New Project
+            <FaProjectDiagram size={18} className="md:ml-2" />
           </button>
           <button
-            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto"
+            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto flex justify-between items-center"
             onClick={handleShowProjectsClick}
           >
             Show Projects
+            <FaList size={18} className="md:ml-2" />
           </button>
         </div>
         <div className="flex">
           <button
-            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto"
+            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto flex justify-between items-center"
             onClick={handleUploadPaymentClick}
           >
             Upload Payment Screenshot
+            <FaMoneyCheckAlt size={18} className="md:ml-2" />
           </button>
         </div>
       </div>
 
       {showForm && (
         <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto w-full">
-          <h2 className="text-lg font-semibold">Submission Request</h2>
+          <h2 className="text-lg font-semibold text-violet-800">
+            Submission Request
+          </h2>
           <form onSubmit={handleSubmit}>
             {/* Row for Project Title and Days to Complete */}
             <div className="mt-4 flex flex-col md:flex-row gap-4">
@@ -245,14 +255,17 @@ const ProjectHome = ({ handleLogout }) => {
             <div className="mt-6 flex justify-between items-center">
               <button
                 type="submit"
-                className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
+                className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600"
               >
                 Submit Request
               </button>
               <button
                 type="button"
                 className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
-                onClick={() => setShowForm(false)}
+                onClick={() => {
+                  setShowForm(false);
+                  setShowProjects(true);
+                }}
               >
                 Cancel
               </button>
@@ -263,24 +276,26 @@ const ProjectHome = ({ handleLogout }) => {
 
       {showPaymentForm && (
         <div className="mt-8 border p-6 rounded-lg bg-white shadow-lg">
-          <h2 className="text-lg font-semibold">Upload Payment Screenshot</h2>
+          <h2 className="text-lg font-semibold text-violet-800">
+            Upload Payment Screenshot
+          </h2>
           <p className="text-sm text-gray-500">
             Please select the project and upload your payment screenshot.
           </p>
           <div className="mt-4">
-            <select className="border-gray-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-green-50">
+            <select className="border-violet-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-violet-200">
               <option>Select Project</option>
               {projects.map((project) => (
-                <option key={project.id} value={project.id}>
-                  {project.title}
+                <option key={project.id} value={project.project_name}>
+                  {project.project_name}
                 </option>
               ))}
             </select>
-            <button className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">
+            <button className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600">
               Upload File
             </button>
             <button
-              className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 ml-4"
+              className="bg-red-300 text-gray-700 py-2 px-4 rounded-md hover:bg-red-400 ml-4"
               onClick={() => {
                 setShowPaymentForm(false);
                 setShowProjects(true);
@@ -293,15 +308,17 @@ const ProjectHome = ({ handleLogout }) => {
       )}
       {showProjects && (
         <div className="mt-8">
-          <h2 className="text-lg font-semibold mb-4">Projects</h2>
           <Projects />
-
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-            <h3 className="text-md font-semibold mb-4">Requested Projects</h3>
+            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
+              <span className="mb-1">Your Projects</span>
+              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+            </h2>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-blue-100 whitespace-nowrap">
+                <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap">
                   <th className="border px-4 py-2">Project Name</th>
                   <th className="border px-4 py-2">Technical Skills</th>
                   <th className="border px-4 py-2">Description</th>
@@ -342,7 +359,11 @@ const ProjectHome = ({ handleLogout }) => {
           {/* Card view for mobile screens */}
 
           <div className="lg:hidden mt-8">
-            <h3 className="text-lg font-semibold mb-4">Requested Projects</h3>
+            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
+              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
+              <span className="mb-1">Your Projects</span>
+              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {projects.map((project, index) => (
                 <div
