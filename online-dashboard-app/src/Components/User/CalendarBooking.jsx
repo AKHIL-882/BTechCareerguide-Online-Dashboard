@@ -1,3 +1,4 @@
+// App.js
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
@@ -7,6 +8,7 @@ const CalendarBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState("");
+  const [title, setTitle] = useState(""); // Added title state
   const [bookedSlots, setBookedSlots] = useState([]);
 
   const handleDateClick = (date) => {
@@ -15,13 +17,15 @@ const CalendarBooking = () => {
   };
 
   const handleBookSlot = () => {
-    if (time) {
+    if (time && title) {
       const newSlot = {
         date: selectedDate.toDateString(),
         time,
+        title, // Save title
       };
       setBookedSlots((prev) => [...prev, newSlot]);
       setTime("");
+      setTitle(""); // Reset title
       setIsOpen(false);
     }
   };
@@ -54,6 +58,16 @@ const CalendarBooking = () => {
                     Book Slot for {selectedDate?.toDateString()}
                   </h2>
                   <label className="block mb-2">
+                    Booking Title:
+                    <input
+                      type="text"
+                      className="border rounded-lg p-2 w-full mt-2"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="Enter booking title"
+                    />
+                  </label>
+                  <label className="block mb-2">
                     Select Time:
                     <input
                       type="time"
@@ -72,7 +86,7 @@ const CalendarBooking = () => {
                     <button
                       onClick={handleBookSlot}
                       className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                      disabled={!time}
+                      disabled={!time || !title}
                     >
                       Book Slot
                     </button>
@@ -87,7 +101,7 @@ const CalendarBooking = () => {
                 <ul className="bg-gray-50 shadow rounded-lg p-4 divide-y">
                   {bookedSlots.map((slot, index) => (
                     <li key={index} className="py-2 text-gray-800">
-                      {slot.date} - {slot.time}
+                      <strong>{slot.title}</strong> - {slot.date} - {slot.time}
                     </li>
                   ))}
                 </ul>
