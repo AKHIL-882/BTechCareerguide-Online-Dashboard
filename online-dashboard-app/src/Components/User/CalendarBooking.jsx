@@ -43,7 +43,7 @@ const CalendarBooking = () => {
                 onClickDay={handleDateClick}
                 tileClassName={({ date }) => {
                   const isBooked = bookedSlots.some(
-                    (slot) => slot.date === date.toDateString()
+                    (slot) => slot.date === date.toDateString(),
                   );
                   return isBooked ? "booked-slot" : "";
                 }}

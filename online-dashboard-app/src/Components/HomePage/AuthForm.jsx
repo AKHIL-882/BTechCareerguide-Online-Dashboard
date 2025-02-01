@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheck, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
 import Spinner from "../Admin/Components/Spinner";
 
@@ -15,45 +15,52 @@ const AuthForm = ({
   setMessage,
   loginLoading,
   signupLoading,
-  giggleCounter
+  giggleCounter,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isGiggling, setIsGiggling] = useState(false);
 
   useEffect(() => {
-      setIsGiggling(true);
-      // Reset the giggle effect after the animation completes
-      const timer = setTimeout(() => setIsGiggling(false), 500); // Match the animation duration
-      return () => clearTimeout(timer);
+    setIsGiggling(true);
+    // Reset the giggle effect after the animation completes
+    const timer = setTimeout(() => setIsGiggling(false), 500); // Match the animation duration
+    return () => clearTimeout(timer);
   }, [giggleCounter]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-  if(validationError)
-  {
+  if (validationError) {
     setMessage(null);
   }
-  if(message){
+  if (message) {
     setValidationError(null);
   }
   return (
-    <div className={`flex-1 w-full max-w-md p-6 border mt-2 border-gray-300 rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20 ${isGiggling ? "giggle-effect" : ""}`}>
-      {validationError || message ?  (
+    <div
+      className={`flex-1 w-full max-w-md p-6 border mt-2 border-gray-300 rounded-lg shadow-md bg-gray-900 bg-opacity-50 flex flex-col justify-center lg:mt-20 ${isGiggling ? "giggle-effect" : ""}`}
+    >
+      {validationError || message ? (
         <div className="p-4 text-white bg-gray-300 rounded-md bg-opacity-10 flex items-center border border-violet-800">
-         {validationError && <><FaTimes
-            onClick={() => setValidationError(null)}
-            className="text-white mr-2 bg-red-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
-          />
-           <p className="text-red-500">{validationError}</p></>
-          }
-         {message && <> <FaCheck
-            onClick={() => setMessage(null)}
-            className="text-white mr-2 bg-green-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
-          />
-          <p className="text-green-500">{message}</p>
-          </>
-          }
+          {validationError && (
+            <>
+              <FaTimes
+                onClick={() => setValidationError(null)}
+                className="text-white mr-2 bg-red-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
+              />
+              <p className="text-red-500">{validationError}</p>
+            </>
+          )}
+          {message && (
+            <>
+              {" "}
+              <FaCheck
+                onClick={() => setMessage(null)}
+                className="text-white mr-2 bg-green-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
+              />
+              <p className="text-green-500">{message}</p>
+            </>
+          )}
         </div>
       ) : (
         <>
@@ -133,7 +140,11 @@ const AuthForm = ({
         >
           {(isLogin && loginLoading) || (!isLogin && signupLoading) ? (
             <p className="flex items-center justify-center">
-              <Spinner loading={isLogin ? loginLoading : signupLoading} color={"#fff"} size={20} />
+              <Spinner
+                loading={isLogin ? loginLoading : signupLoading}
+                color={"#fff"}
+                size={20}
+              />
               <span className="pl-1">
                 {isLogin ? "Logging in..." : "Signing Up..."}
               </span>

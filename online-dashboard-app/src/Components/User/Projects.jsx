@@ -28,7 +28,7 @@ const Projects = ({ isDashBoard }) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -92,14 +92,15 @@ const Projects = ({ isDashBoard }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {isEmptySearch && flattenedProjects.length === 0 ? (
           <div className="flex items-center justify-center col-span-full h-auto">
-          <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
-            <h1 className="text-lg font-semibold text-gray-700 flex justify-center items-center">
-            <FaSearch className="text-gray-400 text-2xl mr-2" /> <span>No Projects Found</span>
-            </h1>
-            <p className="text-sm text-gray-500">
-              We couldn't find any projects. Try searching for something else.
-            </p>
-          </div>
+            <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
+              <h1 className="text-lg font-semibold text-gray-700 flex justify-center items-center">
+                <FaSearch className="text-gray-400 text-2xl mr-2" />{" "}
+                <span>No Projects Found</span>
+              </h1>
+              <p className="text-sm text-gray-500">
+                We couldn't find any projects. Try searching for something else.
+              </p>
+            </div>
           </div>
         ) : (
           Array.isArray(flattenedProjects) &&

@@ -3,21 +3,21 @@ import React, { useState, useEffect } from "react";
 const Header = ({ isLogin, setIsLogin }) => {
   const [isTransparent, setIsTransparent] = useState(false);
 
-//   useEffect(() => {
-//     const handleScroll = () => {
-//       if (window.scrollY > 50) {
-//         setIsTransparent(false);
-//       } else {
-//         setIsTransparent(true);
-//       }
-//     };
+  //   useEffect(() => {
+  //     const handleScroll = () => {
+  //       if (window.scrollY > 50) {
+  //         setIsTransparent(false);
+  //       } else {
+  //         setIsTransparent(true);
+  //       }
+  //     };
 
-//     window.addEventListener("scroll", handleScroll);
+  //     window.addEventListener("scroll", handleScroll);
 
-//     return () => {
-//       window.removeEventListener("scroll", handleScroll);
-//     };
-//   }, []);
+  //     return () => {
+  //       window.removeEventListener("scroll", handleScroll);
+  //     };
+  //   }, []);
 
   return (
     <header

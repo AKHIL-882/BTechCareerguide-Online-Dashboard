@@ -10,7 +10,7 @@ export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (formData,setValidationError) => {
+  const handleLogin = async (formData, setValidationError) => {
     setLoading(true);
     try {
       const response = await fetch(`${API_BASE_URL}/login`, {
@@ -73,12 +73,14 @@ export const useSignup = () => {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
-      if (response.data.message==="Account Created Successfully") {
-        setMessage("Account created successfully!"); 
+      if (response.data.message === "Account Created Successfully") {
+        setMessage("Account created successfully!");
       } else {
-        setValidationError(response.data.message || "Signup failed. Try again!");
+        setValidationError(
+          response.data.message || "Signup failed. Try again!",
+        );
       }
     } catch (error) {
       if (error.response && error.response.status === 422) {
@@ -88,7 +90,9 @@ export const useSignup = () => {
           Object.keys(errors)
             .map((key) => errors[key].join(", "))
             .join(" ");
-        setValidationError(errorMessage || "Validation failed. Please check your inputs.");
+        setValidationError(
+          errorMessage || "Validation failed. Please check your inputs.",
+        );
       } else {
         setValidationError("An error occurred. Please try again.");
         console.error(error);
@@ -100,7 +104,6 @@ export const useSignup = () => {
 
   return { handleSignup, loading };
 };
-
 
 export const logoutUser = async (accessToken) => {
   try {
