@@ -6,6 +6,7 @@ use App\Http\Requests\BookingRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Booking;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -48,7 +49,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (!$booking) {
+        if (! $booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -62,7 +63,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (!$booking) {
+        if (! $booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -97,4 +98,24 @@ class BookingController extends Controller
             ->response(Response::HTTP_OK);
     }
 
+    public function getAllBookings()
+    {
+        $bookings = Booking::all();
+
+        return ApiResponse::setMessage('Booking updated successfully')->mergeResults(['booking' => $bookings])
+            ->response(Response::HTTP_OK);
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $booking = Booking::find($id);
+        if (! $booking) {
+            return response()->json(['message' => 'Booking not found'], 404);
+        }
+
+        $booking->status = $request->status;
+        $booking->save();
+
+        return response()->json(['message' => 'Booking status updated successfully']);
+    }
 }

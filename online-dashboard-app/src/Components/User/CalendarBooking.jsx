@@ -37,36 +37,39 @@ const CalendarBooking = () => {
 
   const handleBookSlot = async () => {
     if (!time || !title) return;
-  
+
     const payload = {
       date: selectedDate.toISOString().split("T")[0],
       time,
       title,
     };
-  
+
     try {
       let response;
       if (editingSlot) {
         response = await axios.put(
           `http://127.0.0.1:8000/api/bookings/${editingSlot.id}`,
           payload,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
+          { headers: { Authorization: `Bearer ${accessToken}` } },
         );
       } else {
         response = await axios.post(
           "http://127.0.0.1:8000/api/bookings/create",
           payload,
-          { headers: { Authorization: `Bearer ${accessToken}` } }
+          { headers: { Authorization: `Bearer ${accessToken}` } },
         );
       }
-  
+
       // Fetch updated slots immediately after booking
-      const updatedSlots = await axios.get("http://127.0.0.1:8000/api/bookings/", {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-  
+      const updatedSlots = await axios.get(
+        "http://127.0.0.1:8000/api/bookings/",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+
       setBookedSlots(updatedSlots.data);
-  
+
       setTime("");
       setTitle("");
       setIsOpen(false);
@@ -75,7 +78,6 @@ const CalendarBooking = () => {
       alert(error.response?.data?.error || "Error booking slot");
     }
   };
-  
 
   const handleEdit = (slot) => {
     setSelectedDate(new Date(slot.date));
@@ -191,8 +193,10 @@ const CalendarBooking = () => {
                     </thead>
                     <tbody>
                       {bookedSlots.map((slot) => (
-                        <tr key={slot.id || `${slot.date}-${slot.time}`} className="text-center">
-
+                        <tr
+                          key={slot.id || `${slot.date}-${slot.time}`}
+                          className="text-center"
+                        >
                           <td className="border border-gray-300 px-4 py-2">
                             {slot.title}
                           </td>

@@ -14,6 +14,7 @@ import { AuthProvider } from "./Components/AuthContext";
 import UserMainLayout from "./Components/User/UserMainLayout";
 import AdminMaterials from "./Components/Admin/Pages/AdminMaterials";
 import CalendarBooking from "./Components/User/CalendarBooking";
+import AdminSlots from "./Components/Admin/Pages/AdminSlots";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/admin/projects" element={<AdminProjects />} />
           <Route path="/admin/companyqa" element={<AdminCompanyQa />} />
           <Route path="/admin/materials" element={<AdminMaterials />} />
+          <Route path="/admin/slots" element={<AdminSlots />} />
           {/* <Route path="/admin/user-projects" element={<UserProjectsPage />} /> */}
         </Route>
         <Route
