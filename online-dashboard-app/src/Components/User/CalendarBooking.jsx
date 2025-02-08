@@ -1,52 +1,128 @@
-// App.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Dialog } from "@headlessui/react";
+import axios from "axios";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const CalendarBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState("");
-  const [title, setTitle] = useState(""); // Added title state
+  const [title, setTitle] = useState("");
   const [bookedSlots, setBookedSlots] = useState([]);
+  const [editingSlot, setEditingSlot] = useState(null);
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    setEditingSlot(null);
+    setTitle("");
+    setTime("");
     setIsOpen(true);
   };
 
-  const handleBookSlot = () => {
-    if (time && title) {
-      const newSlot = {
-        date: selectedDate.toDateString(),
-        time,
-        title, // Save title
-      };
-      setBookedSlots((prev) => [...prev, newSlot]);
+  const data = JSON.parse(localStorage.getItem("data"));
+  const accessToken = data ? data.access_token : null;
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/bookings/", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((response) => {
+        setBookedSlots(response.data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  const handleBookSlot = async () => {
+    if (!time || !title) return;
+
+    const payload = {
+      date: selectedDate.toISOString().split("T")[0],
+      time,
+      title,
+    };
+
+    try {
+      let response;
+      if (editingSlot) {
+        response = await axios.put(
+          `http://127.0.0.1:8000/api/bookings/${editingSlot.id}`,
+          payload,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+
+        setBookedSlots(
+          bookedSlots.map((slot) =>
+            slot.id === editingSlot.id ? response.data : slot,
+          ),
+        );
+      } else {
+        response = await axios.post(
+          "http://127.0.0.1:8000/api/bookings/create",
+          payload,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+
+        setBookedSlots([...bookedSlots, response.data]);
+      }
+
       setTime("");
-      setTitle(""); // Reset title
+      setTitle("");
       setIsOpen(false);
+      setEditingSlot(null);
+    } catch (error) {
+      alert(error.response?.data?.error || "Error booking slot");
+    }
+  };
+
+  const handleEdit = (slot) => {
+    setSelectedDate(new Date(slot.date));
+    setTitle(slot.title);
+    setTime(slot.time);
+    setEditingSlot(slot);
+    setIsOpen(true);
+  };
+
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this booking?"))
+      return;
+
+    try {
+      await axios.delete(`http://127.0.0.1:8000/api/bookings/${id}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      setBookedSlots(bookedSlots.filter((slot) => slot.id !== id));
+    } catch (error) {
+      alert("Error deleting slot");
     }
   };
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2">
+    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 w-full">
       <div className="flex items-center justify-center bg-gray-100">
         <div className="flex flex-col items-center justify-center px-4">
           <div className="w-full max-w-xl md:max-w-4xl rounded-lg p-6 overflow-hidden">
             <h1 className="text-2xl font-bold text-center mb-6">
               Book Slot for Assistance
             </h1>
+
             <div className="calendar-container flex items-center justify-center rounded-lg p-4">
               <Calendar
                 onClickDay={handleDateClick}
-                tileClassName={({ date }) => {
-                  const isBooked = bookedSlots.some(
-                    (slot) => slot.date === date.toDateString(),
-                  );
-                  return isBooked ? "booked-slot" : "";
-                }}
+                tileClassName={({ date }) =>
+                  bookedSlots.some(
+                    (slot) => slot.date === date.toISOString().split("T")[0],
+                  )
+                    ? "booked-slot"
+                    : ""
+                }
                 className="custom-calendar"
               />
             </div>
@@ -55,7 +131,8 @@ const CalendarBooking = () => {
               <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-80">
                   <h2 className="text-xl font-semibold mb-4 text-center">
-                    Book Slot for {selectedDate?.toDateString()}
+                    {editingSlot ? "Edit Booking" : "Book Slot"} for{" "}
+                    {selectedDate?.toDateString()}
                   </h2>
                   <label className="block mb-2">
                     Booking Title:
@@ -88,7 +165,7 @@ const CalendarBooking = () => {
                       className="px-4 py-2 bg-blue-500 text-white rounded-lg"
                       disabled={!time || !title}
                     >
-                      Book Slot
+                      {editingSlot ? "Update" : "Book"} Slot
                     </button>
                   </div>
                 </div>
@@ -96,52 +173,62 @@ const CalendarBooking = () => {
             </Dialog>
 
             {bookedSlots.length > 0 && (
-              <div className="mt-8">
+              <div className="mt-8 w-full">
                 <h2 className="text-xl font-bold mb-4">Booked Slots</h2>
-                <ul className="bg-gray-50 shadow rounded-lg p-4 divide-y">
-                  {bookedSlots.map((slot, index) => (
-                    <li key={index} className="py-2 text-gray-800">
-                      <strong>{slot.title}</strong> - {slot.date} - {slot.time}
-                    </li>
-                  ))}
-                </ul>
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse border border-gray-300 shadow-lg">
+                    <thead className="bg-violet-300">
+                      <tr className="t-200 text-white-800 font-semibold whitespace-nowrap">
+                        <th className="border border-gray-300 px-4 py-2">
+                          Title
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2">
+                          Date
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2">
+                          Time
+                        </th>
+                        <th className="border border-gray-300 px-4 py-2">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {bookedSlots.map((slot) => (
+                        <tr key={slot.id} className="text-center">
+                          <td className="border border-gray-300 px-4 py-2">
+                            {slot.title}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {slot.date}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            {slot.time}
+                          </td>
+                          <td className="border border-gray-300 px-4 py-2">
+                            <button
+                              className="text-blue-500 hover:text-blue-700 mx-2"
+                              onClick={() => handleEdit(slot)}
+                            >
+                              <FaEdit />
+                            </button>
+                            <button
+                              className="text-red-500 hover:text-red-700 mx-2"
+                              onClick={() => handleDelete(slot.id)}
+                            >
+                              <FaTrash />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             )}
           </div>
         </div>
       </div>
-
-      <style jsx global>{`
-        .custom-calendar {
-          width: 100%;
-          max-width: 100%;
-        }
-
-        .react-calendar__tile {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 40px;
-          width: 40px;
-          max-width: 100%;
-        }
-
-        .react-calendar__tile.booked-slot {
-          background-color: #f87171;
-          color: white;
-        }
-
-        .react-calendar__tile.booked-slot:hover {
-          background-color: #ef4444;
-        }
-
-        @media (min-width: 768px) {
-          .react-calendar__tile {
-            height: 50px;
-            width: 100px;
-          }
-        }
-      `}</style>
     </div>
   );
 };

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminProjectsController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\UserProjectsController;
@@ -40,5 +41,11 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
 
     // upload payement screenshot
     Route::post('payment-request', [PaymentsController::class, 'store']);
+
+    Route::prefix('bookings')->group(function () {
+        Route::get('/', [BookingController::class, 'index']);
+        Route::post('/create', [BookingController::class, 'store']);
+        Route::delete('/{id}', [BookingController::class, 'destroy']);
+    });
 
 });
