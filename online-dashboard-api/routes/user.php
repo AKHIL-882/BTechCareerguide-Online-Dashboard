@@ -46,6 +46,7 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
         Route::get('/', [BookingController::class, 'index']);
         Route::post('/create', [BookingController::class, 'store']);
         Route::delete('/{id}', [BookingController::class, 'destroy']);
+        Route::put('/{id}', [BookingController::class, 'update']);
     });
 
 });
