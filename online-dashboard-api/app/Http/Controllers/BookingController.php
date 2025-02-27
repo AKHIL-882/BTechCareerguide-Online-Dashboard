@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\BookingStatus;
 use App\Http\Requests\BookingRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Booking;
+use App\Traits\GoogleCalendarTrait;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookingController extends Controller
 {
+    use GoogleCalendarTrait;
     // Get all booked slots
     public function index()
     {
@@ -49,7 +52,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (! $booking) {
+        if (!$booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -63,7 +66,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (! $booking) {
+        if (!$booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -100,22 +103,26 @@ class BookingController extends Controller
 
     public function getAllBookings()
     {
-        $bookings = Booking::all();
+        $bookings = Booking::orderBy('id', 'desc')->get();
 
-        return ApiResponse::setMessage('Booking updated successfully')->mergeResults(['booking' => $bookings])
+        return ApiResponse::setMessage('All bookings')->mergeResults(['booking' => $bookings])
             ->response(Response::HTTP_OK);
     }
 
     public function updateStatus(Request $request, $id)
     {
         $booking = Booking::find($id);
-        if (! $booking) {
-            return response()->json(['message' => 'Booking not found'], 404);
-        }
 
+        if ($booking) {
         $booking->status = $request->status;
         $booking->save();
-
+        if ($request->status == BookingStatus::Accepted) {
+                info("camer");
+            $this->createGoogleCalendarEvent($booking);
+        }
         return response()->json(['message' => 'Booking status updated successfully']);
     }
+
+}
+    
 }
