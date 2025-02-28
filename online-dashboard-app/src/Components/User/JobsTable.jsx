@@ -70,7 +70,7 @@ const JobsTable = ({ jobs, className = "" }) => {
       </div>
 
       {/* Card View for Smaller Screens */}
-      <div className="block md:hidden p-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="md:hidden p-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
         {currentJobs.map((job) => (
           <div key={job.id} className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition">
             <h2 className="text-lg font-semibold text-violet-700">{job.company_name}</h2>

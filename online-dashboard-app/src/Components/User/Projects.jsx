@@ -28,7 +28,7 @@ const Projects = ({ isDashBoard }) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          },
+          }
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -118,7 +118,7 @@ const Projects = ({ isDashBoard }) => {
                     className="text-white bg-red-500 p-1 rounded-full hover:bg-red-500 flex justify-center items-center group transition-all duration-500 ease-in-out"
                   >
                     <span className="overflow-hidden whitespace-nowrap text-white font-semibold transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
-                      Youtube
+                      Details
                     </span>
                     <div className="w-8 h-8 rounded-full flex justify-center items-center bg-red-500 group-hover:border-2 border-white">
                       <FaYoutube size={16} />

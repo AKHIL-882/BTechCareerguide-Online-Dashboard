@@ -23,6 +23,7 @@ const ProjectHome = ({ handleLogout }) => {
   const [showForm, setShowForm] = useState(false);
   const [showProjects, setShowProjects] = useState(true);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [formData, setFormData] = useState({
     project_name: "",
     days_to_complete: "",
