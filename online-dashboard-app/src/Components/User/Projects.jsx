@@ -7,6 +7,7 @@ import {
   FaSearch,
   FaTrophy,
   FaAngleDoubleRight,
+  FaAngleRight
 } from "react-icons/fa";
 
 const Projects = ({ isDashBoard }) => {
@@ -74,14 +75,13 @@ const Projects = ({ isDashBoard }) => {
   return (
     <section>
       {!isDashBoard && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-baseline">
           {/* Header Section */}
-          <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
-            <div className="flex items-center space-x-2">
-              <FaTrophy className="text-violet-600 w-5 h-5 mb-1.5" />
-              <span className="mb-1">Projects</span>
+          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display">
+            <div className="flex items-center justify-center space-x-1">
+              <span>PROJECTS</span>
+              <span className="absolute transform -translate-x-1/2 bottom-2 w-24 h-0.5 bg-violet-600 left-11"></span>
             </div>
-            <FaAngleDoubleRight className="text-violet-600 w-5 h-5" />
           </h2>
           <SearchProjects
             setProjects={setProjects}
@@ -107,7 +107,7 @@ const Projects = ({ isDashBoard }) => {
           flattenedProjects.map((project, index) => (
             <div key={index} className="bg-white shadow-md rounded-lg p-1">
               <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-lg text-blue-950">
+                <h4 className="font-sans text-lg text-blue-950">
                   {project.company_name}
                 </h4>
                 <div className="flex justify-between items-center space-x-2">
@@ -117,7 +117,7 @@ const Projects = ({ isDashBoard }) => {
                     rel="noopener noreferrer"
                     className="text-white bg-red-500 p-1 rounded-full hover:bg-red-500 flex justify-center items-center group transition-all duration-500 ease-in-out"
                   >
-                    <span className="overflow-hidden whitespace-nowrap text-white font-semibold transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
+                    <span className="overflow-hidden whitespace-nowrap text-white font-sans transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
                       Details
                     </span>
                     <div className="w-8 h-8 rounded-full flex justify-center items-center bg-red-500 group-hover:border-2 border-white">
@@ -130,7 +130,7 @@ const Projects = ({ isDashBoard }) => {
                     rel="noopener noreferrer"
                     className="text-white bg-violet-500 p-1 rounded-full hover:bg-violet-700 flex justify-center items-center group transition-all duration-500 ease-in-out"
                   >
-                    <span className="overflow-hidden whitespace-nowrap text-white font-semibold transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
+                    <span className="overflow-hidden whitespace-nowrap text-white font-sans transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
                       GetCode
                     </span>
                     <div className="w-8 h-8 rounded-full flex justify-center items-center bg-violet-500 group-hover:border-2 border-white">

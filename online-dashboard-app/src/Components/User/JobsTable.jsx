@@ -3,7 +3,7 @@ import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
+  const itemsPerPage = 6;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3);
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const JobsTable = ({ jobs, className = "" }) => {
       </div>
 
       {/* Card View for Smaller Screens */}
-      <div className="md:hidden p-4 grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <div className="md:hidden p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
         {currentJobs.map((job) => (
           <div key={job.id} className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition">
             <h2 className="text-lg font-semibold text-violet-700">{job.company_name}</h2>
@@ -78,7 +78,7 @@ const JobsTable = ({ jobs, className = "" }) => {
             <p className="text-gray-600 mt-1">Batch: {job.batch.replace(/,/g, ", ")}</p>
             <p className="text-gray-600">Qualification: {job.qualification.replace(/,/g, ", ")}</p>
             <a href={job.apply_link} target="_blank" rel="noopener noreferrer"
-              className="block mt-3 bg-violet-700 text-white text-center py-2 px-4 rounded-md shadow-md hover:scale-105 hover:shadow-lg transition">
+              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:scale-105 hover:shadow-lg transition">
               Apply
             </a>
           </div>

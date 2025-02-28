@@ -25,7 +25,7 @@ const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
         onClick={handleLogout}
         className="text-white md:px-4 md:py-2 px-2 py-1 rounded hover:text-gray-100 transition"
       >
-        <span className="md:flex justify-center items-center">
+        <span className="flex justify-center items-center ">
           <FaSignOutAlt size={20} />
           <p className="pl-1 font-semibold hidden sm:block">Logout</p>
         </span>
