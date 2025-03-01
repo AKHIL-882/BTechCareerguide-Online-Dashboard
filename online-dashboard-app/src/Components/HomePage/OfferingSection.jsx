@@ -16,10 +16,10 @@ const OfferingCard = ({ icon, title, description }) => (
     </div>
     {/* Text section */}
     <div className="text-left">
-      <h3 className="text-xl font-semibold text-gray-800 mb-1 group-hover:text-violet-600 transition-colors duration-300">
+      <h3 className="text-xl font-semibold text-gray-800 mb-1 group-hover:text-violet-600 transition-colors duration-300 font-display">
         {title}
       </h3>
-      <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
+      <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 font-sans">
         {description}
       </p>
     </div>
@@ -65,16 +65,16 @@ const OfferingSection = () => {
 
   return (
     <div className="pt-14 pb-28 px-4 bg-violet-50 text-center">
-      <h2 className="text-3xl font-bold text-blue-950 mb-2 relative p-2">
+      <h2 className="text-3xl font-bold text-blue-950 mb-2 relative p-2 font-display">
         Services
         <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-16 h-1 bg-violet-600"></span>
       </h2>
       {/* Added paragraph */}
-      <p className="text-gray-600 text-lg mb-10">
+      <p className="text-gray-600 text-lg mb-10 font-sans">
         Explore our range of services designed to help you with jobs, projects,
         and coding solutions.
       </p>
-      <div className="flex flex-wrap justify-around gap-6 md:gap-y-12">
+      <div className="flex flex-wrap justify-around gap-6 md:gap-y-12 font-sans">
         {/* Map through the offerings and create the OfferingCard for each */}
         {offerings.map((offering, index) => (
           <OfferingCard

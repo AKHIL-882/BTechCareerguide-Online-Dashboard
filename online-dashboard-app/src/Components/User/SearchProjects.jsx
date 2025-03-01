@@ -44,12 +44,12 @@ const SearchProjects = ({ setProjects, noSearchedProjectsfn }) => {
         placeholder="Search projects..."
         value={searchValue}
         onChange={handleSearchChange}
-        className="bg-transparent outline-none text-sm px-2 flex-grow"
+        className="bg-transparent outline-none text-sm px-2 flex-grow font-sans"
       />
       {searchValue && (
         <FaTimes
           onClick={handleClearSearch}
-          className="text-white bg-violet-400 text-sm cursor-pointer rounded-full hover:bg-red-400 p-1 transition-all duration-300"
+          className="text-white bg-violet-400 text-sm cursor-pointer rounded-full hover:bg-red-400 p-1 transition-all duration-300 font-sans"
         />
       )}
       {error && <div className="text-red-500 text-sm">{error}</div>}

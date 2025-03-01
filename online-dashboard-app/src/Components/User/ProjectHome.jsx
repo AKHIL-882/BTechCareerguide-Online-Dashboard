@@ -155,14 +155,14 @@ const ProjectHome = ({ handleLogout }) => {
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
           <button
-            className="font-semibold bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-500 w-full md:w-auto mb-1 md:mb-0 flex justify-between items-center"
+            className="font-semibold bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-500 w-full md:w-auto mb-1 md:mb-0 flex justify-between items-center font-display"
             onClick={handleShowRequestNewProject}
           >
             Request New Project
             <FaProjectDiagram size={18} className="md:ml-2" />
           </button>
           <button
-            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto flex justify-between items-center"
+            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto flex justify-between items-center font-display"
             onClick={handleShowProjectsClick}
           >
             Show Projects
@@ -171,7 +171,7 @@ const ProjectHome = ({ handleLogout }) => {
         </div>
         <div className="flex">
           <button
-            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto flex justify-between items-center"
+            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto flex justify-between items-center font-display"
             onClick={handleUploadPaymentClick}
           >
             Upload Payment Screenshot
@@ -182,31 +182,31 @@ const ProjectHome = ({ handleLogout }) => {
 
       {showForm && (
         <div className="mt-8 border p-4 rounded-lg bg-white shadow-lg mx-auto w-full">
-          <h2 className="text-lg font-semibold text-violet-800">
+          <h2 className="text-lg font-semibold text-violet-800 font-display">
             Submission Request
           </h2>
           <form onSubmit={handleSubmit}>
             {/* Row for Project Title and Days to Complete */}
             <div className="mt-4 flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <label className="block text-gray-700">Project Title</label>
+                <label className="block text-gray-700 font-sans">Project Title</label>
                 <input
                   type="text"
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="border border-gray-300 p-2 rounded-md w-full"
+                  className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                   placeholder="Project Title"
                   required
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-gray-700">Days to Complete</label>
+                <label className="block text-gray-700 font-sans">Days to Complete</label>
                 <select
                   name="days"
                   value={formData.days}
                   onChange={handleInputChange}
-                  className="border border-gray-300 p-2 rounded-md w-4/6 lg:w-full "
+                  className="border border-gray-300 p-2 rounded-md w-4/6 lg:w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500 "
                   required
                 >
                   <option value="">Select Days</option>
@@ -219,35 +219,35 @@ const ProjectHome = ({ handleLogout }) => {
 
             {/* Other fields */}
             <div className="mt-4">
-              <label className="block text-gray-700">Technology</label>
+              <label className="block text-gray-700 font-sans">Technology</label>
               <input
                 type="text"
                 name="technology"
                 value={formData.technology}
                 onChange={handleInputChange}
-                className="border border-gray-300 p-2 rounded-md w-full"
+                className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 placeholder="Technologies"
                 required
               />
             </div>
             <div className="mt-4">
-              <label className="block text-gray-700">Project Description</label>
+              <label className="block text-gray-700 font-sans">Project Description</label>
               <textarea
                 name="description"
                 value={formData.description}
                 onChange={handleInputChange}
-                className="border border-gray-300 p-2 rounded-md w-full"
+                className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 rows="4"
                 placeholder="Description"
                 required
               ></textarea>
             </div>
             <div className="mt-4">
-              <label className="block text-gray-700">Upload File</label>
+              <label className="block text-gray-700 font-sans">Upload File</label>
               <input
                 type="file"
                 onChange={handleFileChange}
-                className="border border-gray-300 p-2 rounded-md w-full"
+                className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 required
               />
             </div>
@@ -256,13 +256,13 @@ const ProjectHome = ({ handleLogout }) => {
             <div className="mt-6 flex justify-between items-center">
               <button
                 type="submit"
-                className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600"
+                className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600 font-sans"
               >
                 Submit Request
               </button>
               <button
                 type="button"
-                className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300"
+                className="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 font-sans"
                 onClick={() => {
                   setShowForm(false);
                   setShowProjects(true);
@@ -277,14 +277,14 @@ const ProjectHome = ({ handleLogout }) => {
 
       {showPaymentForm && (
         <div className="mt-8 border p-6 rounded-lg bg-white shadow-lg">
-          <h2 className="text-lg font-semibold text-violet-800">
+          <h2 className="text-lg text-violet-800 font-sans">
             Upload Payment Screenshot
           </h2>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 font-sans">
             Please select the project and upload your payment screenshot.
           </p>
           <div className="mt-4">
-            <select className="border-violet-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-violet-200">
+            <select className="border-violet-300 p-2 rounded-md lg:w-full mb-4 w-4/6 bg-violet-200 font-sans">
               <option>Select Project</option>
               {projects.map((project) => (
                 <option key={project.id} value={project.project_name}>
@@ -292,11 +292,11 @@ const ProjectHome = ({ handleLogout }) => {
                 </option>
               ))}
             </select>
-            <button className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600">
+            <button className="bg-violet-800 text-white py-2 px-4 rounded-md hover:bg-violet-600 font-sans">
               Upload File
             </button>
             <button
-              className="bg-red-300 text-gray-700 py-2 px-4 rounded-md hover:bg-red-400 ml-4"
+              className="bg-red-300 text-gray-700 py-2 px-4 rounded-md hover:bg-red-400 ml-4 font-sans"
               onClick={() => {
                 setShowPaymentForm(false);
                 setShowProjects(true);
@@ -312,14 +312,14 @@ const ProjectHome = ({ handleLogout }) => {
           <Projects />
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
-              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
-              <span className="mb-1">Your Projects</span>
-              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
-            </h2>
+          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+            <div className="flex items-center justify-center space-x-1">
+            <span className="w-1 h-4 bg-violet-600"></span><span>YOUR PROJECTS</span>
+            </div>
+          </h2>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
-                <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap">
+                <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap font-display">
                   <th className="border px-4 py-2">Project Name</th>
                   <th className="border px-4 py-2">Technical Skills</th>
                   <th className="border px-4 py-2">Description</th>
@@ -329,16 +329,16 @@ const ProjectHome = ({ handleLogout }) => {
               <tbody>
                 {projects.map((project, index) => (
                   <tr key={index}>
-                    <td className="border px-4 py-2">{project.project_name}</td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 font-sans">{project.project_name}</td>
+                    <td className="border px-4 py-2 font-sans">
                       {project.technical_skills}
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 font-sans">
                       {project.project_description}
                     </td>
-                    <td className="border px-4 py-2">
+                    <td className="border px-4 py-2 font-sans">
                       <button
-                        className={`px-4 py-2 rounded text-white font-semibold ${
+                        className={`px-4 py-2 rounded text-white font-sans ${
                           project.project_status === "Pending"
                             ? "bg-yellow-500"
                             : project.project_status === "Completed"
@@ -360,11 +360,11 @@ const ProjectHome = ({ handleLogout }) => {
           {/* Card view for mobile screens */}
 
           <div className="lg:hidden mt-8">
-            <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
-              <FaProjectDiagram className="text-violet-600 w-5 h-5 mb-1.5" />
-              <span className="mb-1">Your Projects</span>
-              <FaAngleDoubleRight className="text-violet-600 w-5 h-5 ml-2" />
-            </h2>
+          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+            <div className="flex items-center justify-center space-x-1">
+            <span className="w-1 h-4 bg-violet-600"></span><span>YOUR PROJECTS</span>
+            </div>
+          </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {projects.map((project, index) => (
                 <div
@@ -372,11 +372,11 @@ const ProjectHome = ({ handleLogout }) => {
                   className="bg-white shadow-md rounded-lg p-4 border border-1"
                 >
                   <div className="flex justify-between items-center">
-                    <h4 className="font-semibold text-lg">
+                    <h4 className="font-semibold text-lg font-display">
                       {project.project_name}
                     </h4>
                     <button
-                      className={`px-4 py-1 rounded text-white font-semibold ${
+                      className={`px-4 py-1 rounded text-white font-sans ${
                         project.project_status === "Pending"
                           ? "bg-yellow-500"
                           : project.project_status === "Completed"
@@ -389,8 +389,8 @@ const ProjectHome = ({ handleLogout }) => {
                       {STATUS_MAP[project.project_status]}
                     </button>
                   </div>
-                  <p className="mt-2 text-sm">{project.technical_skills}</p>
-                  <p className="mt-2 text-sm">{project.project_description}</p>
+                  <p className="mt-2 text-sm font-sans">{project.technical_skills}</p>
+                  <p className="mt-2 text-sm font-sans">{project.project_description}</p>
                 </div>
               ))}
             </div>

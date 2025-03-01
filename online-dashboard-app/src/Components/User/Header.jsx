@@ -8,16 +8,16 @@ const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
       <div className="flex items-center">
         <button
           onClick={toggleSidebar}
-          className="block lg:hidden text-xl text-white pr-2"
+          className="block lg:hidden text-xl text-white"
         >
           {/* Conditionally render hamburger or cross icon */}
           {isSidebarOpen ? (
-            <FaTimes className="text-2xl" />
+            <FaTimes className="text-2xl font-sans" />
           ) : (
-            <FaBars className="text-2xl" />
+            <FaBars className="text-2xl font-sans" />
           )}
         </button>
-        <h1 className="text-white text-2xl font-bold">ProjPort</h1>
+        <h1 className="text-white text-2xl font-bold font-display">ProjPort</h1>
       </div>
 
       {/* Logout Button */}
@@ -25,9 +25,9 @@ const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
         onClick={handleLogout}
         className="text-white md:px-4 md:py-2 px-2 py-1 rounded hover:text-gray-100 transition"
       >
-        <span className="flex justify-center items-center ">
+        <span className="flex justify-center items-center font-display ">
           <FaSignOutAlt size={20} />
-          <p className="pl-1 font-semibold hidden sm:block">Logout</p>
+          <p className="pl-1 font-semibold hidden sm:block font-display">Logout</p>
         </span>
       </button>
     </header>

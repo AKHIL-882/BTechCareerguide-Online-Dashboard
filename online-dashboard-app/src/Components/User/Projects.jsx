@@ -5,9 +5,6 @@ import {
   FaYoutube,
   FaCode,
   FaSearch,
-  FaTrophy,
-  FaAngleDoubleRight,
-  FaAngleRight
 } from "react-icons/fa";
 
 const Projects = ({ isDashBoard }) => {
@@ -53,7 +50,7 @@ const Projects = ({ isDashBoard }) => {
     return (
       <p className="flex items-center justify-center p-5">
         <Spinner loading={loading} color={"#0000FF"} size={20} />
-        <span className="pl-1">Projects...</span>
+        <span className="pl-1 font-sans">Projects...</span>
       </p>
     );
   }
@@ -77,10 +74,9 @@ const Projects = ({ isDashBoard }) => {
       {!isDashBoard && (
         <div className="flex justify-between items-baseline">
           {/* Header Section */}
-          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display">
+          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
             <div className="flex items-center justify-center space-x-1">
-              <span>PROJECTS</span>
-              <span className="absolute transform -translate-x-1/2 bottom-2 w-24 h-0.5 bg-violet-600 left-11"></span>
+            <span className="w-1 h-4 bg-violet-600"></span><span>PROJECTS</span>
             </div>
           </h2>
           <SearchProjects
@@ -93,11 +89,11 @@ const Projects = ({ isDashBoard }) => {
         {isEmptySearch && flattenedProjects.length === 0 ? (
           <div className="flex items-center justify-center col-span-full h-auto">
             <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
-              <h1 className="text-lg font-semibold text-gray-700 flex justify-center items-center">
+              <h1 className="text-lg Font-sans text-gray-700 flex justify-center items-center">
                 <FaSearch className="text-gray-400 text-2xl mr-2" />{" "}
                 <span>No Projects Found</span>
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 font-sans">
                 We couldn't find any projects. Try searching for something else.
               </p>
             </div>

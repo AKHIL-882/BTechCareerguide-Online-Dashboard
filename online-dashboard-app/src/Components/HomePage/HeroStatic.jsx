@@ -19,8 +19,8 @@ function HeroStatic() {
             </svg>
           </div>
           <div>
-            <p className="text-lg font-semibold">Youtube</p>
-            <p className="text-sm text-gray-500">2.5K+ Subscribers</p>
+            <p className="text-lg font-semibold font-display">Youtube</p>
+            <p className="text-sm text-gray-500 font-sans whitespace-nowrap">2.5K+ Subscribers</p>
           </div>
         </div>
 
@@ -39,8 +39,8 @@ function HeroStatic() {
             </svg>
           </div>
           <div>
-            <p className="text-lg font-semibold">Telegram</p>
-            <p className="text-sm text-gray-500">600+ Follwers</p>
+            <p className="text-lg font-semibold font-display">Telegram</p>
+            <p className="text-sm text-gray-500 font-sans whitespace-nowrap">600+ Follwers</p>
           </div>
         </div>
 
@@ -59,8 +59,8 @@ function HeroStatic() {
             </svg>
           </div>
           <div>
-            <p className="text-lg font-semibold">Whatsapp</p>
-            <p className="text-sm text-gray-500">2500+ Members</p>
+            <p className="text-lg font-semibold font-display">Whatsapp</p>
+            <p className="text-sm text-gray-500 font-sans whitespace-nowrap">2500+ Members</p>
           </div>
         </div>
 
@@ -79,8 +79,8 @@ function HeroStatic() {
             </svg>
           </div>
           <div>
-            <p className="text-lg font-semibold">Linkedin</p>
-            <p className="text-sm text-gray-500">++</p>
+            <p className="text-lg font-semibold font-display">Linkedin</p>
+            <p className="text-sm text-gray-500 font-sans whitespace-nowrap">100++ Connections</p>
           </div>
         </div>
       </div>

@@ -48,7 +48,7 @@ const AuthForm = ({
                 onClick={() => setValidationError(null)}
                 className="text-white mr-2 bg-red-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
               />
-              <p className="text-red-500">{validationError}</p>
+              <p className="text-red-500 font-sans">{validationError}</p>
             </>
           )}
           {message && (
@@ -56,23 +56,23 @@ const AuthForm = ({
               {" "}
               <FaCheck
                 onClick={() => setMessage(null)}
-                className="text-white mr-2 bg-green-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300"
+                className="text-white mr-2 bg-green-400 text-lg cursor-pointer rounded-full hover:bg-red-800 p-1 transition-all duration-300 font-sans"
               />
-              <p className="text-green-500">{message}</p>
+              <p className="text-green-500 font-sans">{message}</p>
             </>
           )}
         </div>
       ) : (
         <>
-          <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50">
+          <h2 className="text-2xl font-semibold text-center mb-2 text-slate-50 font-display">
             Hi there!
           </h2>
-          <h3 className="font-semibold text-center mb-1 text-slate-50 text-sm">
+          <h3 className="text-center mb-1 text-slate-50 text-lg font-sans">
             Welcome to ProjPort, so happy to see you!
           </h3>
         </>
       )}
-      <h2 className="text-2xl font-semibold text-center mb-4 text-slate-50">
+      <h2 className="text-2xl font-semibold text-center mb-4 text-slate-50 font-display">
         {isLogin ? "Login" : "Create Account"}
       </h2>
       <form
@@ -86,7 +86,7 @@ const AuthForm = ({
             placeholder="Name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
           />
         )}
         <input
@@ -95,7 +95,7 @@ const AuthForm = ({
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
-          className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
         />
         {/* {!isLogin && (
           <input
@@ -114,7 +114,7 @@ const AuthForm = ({
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
           />
           <button
             type="button"
@@ -131,12 +131,12 @@ const AuthForm = ({
             placeholder="Confirm Password"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full px-4 py-2 text-sm border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 font-sans"
           />
         )}
         <button
           type="submit"
-          className="w-full px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded hover:bg-blue-700 transition"
+          className="w-full px-4 py-2 text-sm text-white bg-gradient-to-r from-blue-500 to-purple-600 rounded hover:bg-blue-700 transition font-sans"
         >
           {(isLogin && loginLoading) || (!isLogin && signupLoading) ? (
             <p className="flex items-center justify-center">
@@ -145,7 +145,7 @@ const AuthForm = ({
                 color={"#fff"}
                 size={20}
               />
-              <span className="pl-1">
+              <span className="pl-1 font-sans">
                 {isLogin ? "Logging in..." : "Signing Up..."}
               </span>
             </p>
@@ -157,7 +157,7 @@ const AuthForm = ({
       <div className="text-center mt-4">
         <span
           onClick={() => setIsLogin(!isLogin)}
-          className="text-sm text-gray-50 cursor-pointer hover:text-gray-200"
+          className="text-sm text-gray-50 cursor-pointer hover:text-gray-200 font-sans"
         >
           {isLogin
             ? "Don't have an account? Register"

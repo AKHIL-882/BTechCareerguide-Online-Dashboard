@@ -38,47 +38,16 @@ const JobsTable = ({ jobs, className = "" }) => {
 
   return (
     <div className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}>
-      {/* Table for larger screens */}
-      <div className="hidden md:block">
-        <table className="w-full border-collapse">
-          <thead>
-            <tr className="bg-violet-700 text-white font-semibold">
-              <th className="p-4 text-left">Company</th>
-              <th className="p-4 text-left">Role</th>
-              <th className="p-4 text-left">Batch</th>
-              <th className="p-4 text-left">Qualification</th>
-              <th className="p-4 text-left">Apply</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentJobs.map((job) => (
-              <tr key={job.id} className="border-t hover:bg-violet-100">
-                <td className="p-4 text-gray-700">{job.company_name}</td>
-                <td className="p-4 text-gray-700">{job.role}</td>
-                <td className="p-4 text-gray-700">{job.batch.replace(/,/g, ", ")}</td>
-                <td className="p-4 text-gray-700">{job.qualification.replace(/,/g, ", ")}</td>
-                <td className="p-4">
-                  <a href={job.apply_link} target="_blank" rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-violet-700 to-blue-500 text-white py-2 px-4 rounded-md shadow-md hover:scale-105 hover:shadow-lg transition">
-                    Apply
-                  </a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
       {/* Card View for Smaller Screens */}
-      <div className="md:hidden p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
         {currentJobs.map((job) => (
-          <div key={job.id} className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition">
-            <h2 className="text-lg font-semibold text-violet-700">{job.company_name}</h2>
-            <p className="text-gray-800">{job.role}</p>
-            <p className="text-gray-600 mt-1">Batch: {job.batch.replace(/,/g, ", ")}</p>
-            <p className="text-gray-600">Qualification: {job.qualification.replace(/,/g, ", ")}</p>
+          <div key={job.id} className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition hover:scale-105">
+            <h2 className="text-lg font-semibold font-display text-violet-700 truncate" title={job.role}>{job.role}</h2>
+            <p className="text-gray-800 font-sans">{job.company_name}</p>
+            <p className="text-gray-600 mt-1 font-sans">Batch: {job.batch.replace(/,/g, ", ")}</p>
+            <p className="text-gray-600 font-sans">Qualification: {job.qualification.replace(/,/g, ", ")}</p>
             <a href={job.apply_link} target="_blank" rel="noopener noreferrer"
-              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:scale-105 hover:shadow-lg transition">
+              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:shadow-lg transition font-sans">
               Apply
             </a>
           </div>
@@ -87,7 +56,7 @@ const JobsTable = ({ jobs, className = "" }) => {
 
       {/* No Jobs Available */}
       {jobs.length === 0 && (
-        <div className="text-center py-6 text-gray-500">No jobs available at the moment.</div>
+        <div className="text-center py-6 text-gray-500 font-sans">No jobs available at the moment.</div>
       )}
 
       {/* Pagination Controls */}
@@ -96,14 +65,14 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center">
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans">
             <FaArrowAltCircleLeft className="mr-1" /> Prev
           </button>
           {getPageNumbers().map((pageNumber) => (
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
-              className={`px-3 py-2 rounded-full ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 text-violet-700 hover:bg-gray-300"}`}
+              className={`px-4 py-2 rounded-full font-sans ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 text-violet-700 hover:bg-gray-300"}`}
             >
               {pageNumber}
             </button>
@@ -111,7 +80,7 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center">
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans">
             Next <FaArrowAltCircleRight className="ml-1" />
           </button>
         </div>
