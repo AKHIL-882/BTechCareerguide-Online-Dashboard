@@ -25,7 +25,6 @@ class Booking extends Model
 
     public function getUser()
     {
-        return $this->user; 
+        return $this->user;
     }
-
 }

@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BookingController extends Controller
 {
     use GoogleCalendarTrait;
+
     // Get all booked slots
     public function index()
     {
@@ -52,7 +53,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (!$booking) {
+        if (! $booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -66,7 +67,7 @@ class BookingController extends Controller
     {
         $booking = Booking::find($id);
 
-        if (!$booking) {
+        if (! $booking) {
             return ApiResponse::setMessage('Booking not found')->response(Response::HTTP_NOT_FOUND);
         }
 
@@ -114,15 +115,15 @@ class BookingController extends Controller
         $booking = Booking::find($id);
 
         if ($booking) {
-        $booking->status = $request->status;
-        $booking->save();
-        if ($request->status == BookingStatus::Accepted) {
-                info("camer");
-            $this->createGoogleCalendarEvent($booking);
-        }
-        return response()->json(['message' => 'Booking status updated successfully']);
-    }
+            $booking->status = $request->status;
+            $booking->save();
+            if ($request->status == BookingStatus::Accepted) {
+                info('camer');
+                $this->createGoogleCalendarEvent($booking);
+            }
 
-}
-    
+            return response()->json(['message' => 'Booking status updated successfully']);
+        }
+
+    }
 }

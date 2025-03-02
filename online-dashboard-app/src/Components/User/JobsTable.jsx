@@ -37,17 +37,35 @@ const JobsTable = ({ jobs, className = "" }) => {
   };
 
   return (
-    <div className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}>
+    <div
+      className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}
+    >
       {/* Card View for Smaller Screens */}
       <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
         {currentJobs.map((job) => (
-          <div key={job.id} className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition hover:scale-105">
-            <h2 className="text-lg font-semibold font-display text-violet-700 truncate" title={job.role}>{job.role}</h2>
+          <div
+            key={job.id}
+            className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition hover:scale-105"
+          >
+            <h2
+              className="text-lg font-semibold font-display text-violet-700 truncate"
+              title={job.role}
+            >
+              {job.role}
+            </h2>
             <p className="text-gray-800 font-sans">{job.company_name}</p>
-            <p className="text-gray-600 mt-1 font-sans">Batch: {job.batch.replace(/,/g, ", ")}</p>
-            <p className="text-gray-600 font-sans">Qualification: {job.qualification.replace(/,/g, ", ")}</p>
-            <a href={job.apply_link} target="_blank" rel="noopener noreferrer"
-              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:shadow-lg transition font-sans">
+            <p className="text-gray-600 mt-1 font-sans">
+              Batch: {job.batch.replace(/,/g, ", ")}
+            </p>
+            <p className="text-gray-600 font-sans">
+              Qualification: {job.qualification.replace(/,/g, ", ")}
+            </p>
+            <a
+              href={job.apply_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:shadow-lg transition font-sans"
+            >
               Apply
             </a>
           </div>
@@ -56,7 +74,9 @@ const JobsTable = ({ jobs, className = "" }) => {
 
       {/* No Jobs Available */}
       {jobs.length === 0 && (
-        <div className="text-center py-6 text-gray-500 font-sans">No jobs available at the moment.</div>
+        <div className="text-center py-6 text-gray-500 font-sans">
+          No jobs available at the moment.
+        </div>
       )}
 
       {/* Pagination Controls */}
@@ -65,7 +85,8 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans">
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
+          >
             <FaArrowAltCircleLeft className="mr-1" /> Prev
           </button>
           {getPageNumbers().map((pageNumber) => (
@@ -80,7 +101,8 @@ const JobsTable = ({ jobs, className = "" }) => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans">
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
+          >
             Next <FaArrowAltCircleRight className="ml-1" />
           </button>
         </div>

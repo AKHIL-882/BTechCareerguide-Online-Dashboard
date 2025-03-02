@@ -11,7 +11,7 @@ final class BookingStatus extends BaseEnum
 {
     public const Decline = 0;
 
-    public const Accepted= 1;
+    public const Accepted = 1;
 
     public const Pending = 2;
 

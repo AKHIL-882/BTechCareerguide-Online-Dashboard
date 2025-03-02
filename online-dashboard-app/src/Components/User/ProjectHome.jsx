@@ -91,6 +91,7 @@ const ProjectHome = ({ handleLogout }) => {
       // Reset form and state
       setShowForm(false);
       setShowProjects(true);
+      fetchProjects();
     } catch (error) {
       console.error("Error submitting project:", error);
 
@@ -189,7 +190,9 @@ const ProjectHome = ({ handleLogout }) => {
             {/* Row for Project Title and Days to Complete */}
             <div className="mt-4 flex flex-col md:flex-row gap-4">
               <div className="flex-1">
-                <label className="block text-gray-700 font-sans">Project Title</label>
+                <label className="block text-gray-700 font-sans">
+                  Project Title
+                </label>
                 <input
                   type="text"
                   name="title"
@@ -201,7 +204,9 @@ const ProjectHome = ({ handleLogout }) => {
                 />
               </div>
               <div className="flex-1">
-                <label className="block text-gray-700 font-sans">Days to Complete</label>
+                <label className="block text-gray-700 font-sans">
+                  Days to Complete
+                </label>
                 <select
                   name="days"
                   value={formData.days}
@@ -210,16 +215,24 @@ const ProjectHome = ({ handleLogout }) => {
                   required
                 >
                   <option value="">Select Days</option>
-                  <option value="7">7</option>
-                  <option value="14">14</option>
-                  <option value="30">30</option>
+                  <option value="0">Asap</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="14">In a Week</option>
+                  <option value="30">In a Month</option>
                 </select>
               </div>
             </div>
 
             {/* Other fields */}
             <div className="mt-4">
-              <label className="block text-gray-700 font-sans">Technology</label>
+              <label className="block text-gray-700 font-sans">
+                Technology
+              </label>
               <input
                 type="text"
                 name="technology"
@@ -231,7 +244,9 @@ const ProjectHome = ({ handleLogout }) => {
               />
             </div>
             <div className="mt-4">
-              <label className="block text-gray-700 font-sans">Project Description</label>
+              <label className="block text-gray-700 font-sans">
+                Project Description
+              </label>
               <textarea
                 name="description"
                 value={formData.description}
@@ -243,7 +258,9 @@ const ProjectHome = ({ handleLogout }) => {
               ></textarea>
             </div>
             <div className="mt-4">
-              <label className="block text-gray-700 font-sans">Upload File</label>
+              <label className="block text-gray-700 font-sans">
+                Upload File
+              </label>
               <input
                 type="file"
                 onChange={handleFileChange}
@@ -312,11 +329,12 @@ const ProjectHome = ({ handleLogout }) => {
           <Projects />
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-            <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span><span>YOUR PROJECTS</span>
-            </div>
-          </h2>
+            <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+              <div className="flex items-center justify-center space-x-1">
+                <span className="w-1 h-4 bg-violet-600"></span>
+                <span>YOUR PROJECTS</span>
+              </div>
+            </h2>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap font-display">
@@ -329,7 +347,9 @@ const ProjectHome = ({ handleLogout }) => {
               <tbody>
                 {projects.map((project, index) => (
                   <tr key={index}>
-                    <td className="border px-4 py-2 font-sans">{project.project_name}</td>
+                    <td className="border px-4 py-2 font-sans">
+                      {project.project_name}
+                    </td>
                     <td className="border px-4 py-2 font-sans">
                       {project.technical_skills}
                     </td>
@@ -360,11 +380,12 @@ const ProjectHome = ({ handleLogout }) => {
           {/* Card view for mobile screens */}
 
           <div className="lg:hidden mt-8">
-          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-            <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span><span>YOUR PROJECTS</span>
-            </div>
-          </h2>
+            <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+              <div className="flex items-center justify-center space-x-1">
+                <span className="w-1 h-4 bg-violet-600"></span>
+                <span>YOUR PROJECTS</span>
+              </div>
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
               {projects.map((project, index) => (
                 <div
@@ -389,8 +410,12 @@ const ProjectHome = ({ handleLogout }) => {
                       {STATUS_MAP[project.project_status]}
                     </button>
                   </div>
-                  <p className="mt-2 text-sm font-sans">{project.technical_skills}</p>
-                  <p className="mt-2 text-sm font-sans">{project.project_description}</p>
+                  <p className="mt-2 text-sm font-sans">
+                    {project.technical_skills}
+                  </p>
+                  <p className="mt-2 text-sm font-sans">
+                    {project.project_description}
+                  </p>
                 </div>
               ))}
             </div>

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../Admin/Components/Spinner";
 import SearchProjects from "./SearchProjects";
-import {
-  FaYoutube,
-  FaCode,
-  FaSearch,
-} from "react-icons/fa";
+import { FaYoutube, FaCode, FaSearch } from "react-icons/fa";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
@@ -26,7 +22,7 @@ const Projects = ({ isDashBoard }) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -76,7 +72,8 @@ const Projects = ({ isDashBoard }) => {
           {/* Header Section */}
           <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
             <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span><span>PROJECTS</span>
+              <span className="w-1 h-4 bg-violet-600"></span>
+              <span>PROJECTS</span>
             </div>
           </h2>
           <SearchProjects
@@ -139,7 +136,7 @@ const Projects = ({ isDashBoard }) => {
                 <iframe
                   className="mt-2 rounded-lg"
                   width="100%"
-                  height="150px"
+                  height="220px"
                   src={transformToEmbedURL(project.youtube_video_link)}
                   title="YouTube video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

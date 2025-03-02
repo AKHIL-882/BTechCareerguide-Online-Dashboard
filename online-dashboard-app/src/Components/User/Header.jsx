@@ -27,7 +27,9 @@ const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
       >
         <span className="flex justify-center items-center font-display ">
           <FaSignOutAlt size={20} />
-          <p className="pl-1 font-semibold hidden sm:block font-display">Logout</p>
+          <p className="pl-1 font-semibold hidden sm:block font-display">
+            Logout
+          </p>
         </span>
       </button>
     </header>

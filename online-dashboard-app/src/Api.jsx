@@ -324,7 +324,7 @@ export const useDeleteJob = () => {
 };
 
 //projects listing
-export const useFetchProjects = () => {
+export const useFetchProjects = (isDashboard) => {
   const [projectsListings, setProjectsListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -333,24 +333,17 @@ export const useFetchProjects = () => {
     const fetchProjects = async () => {
       const data = JSON.parse(localStorage.getItem("data"));
       const accessToken = data ? data.access_token : null;
-      console.log(accessToken);
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/admin_projects
-          `,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
-        );
-        const responseData = await response.json();
+        const response = await axios.get(`${API_BASE_URL}/admin_projects`, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        });
+        const responseData = response.data;
         const projectsData = Array.isArray(responseData.data)
           ? responseData.data
           : [];
-        isDashBoard
-          ? setProjects(projectsData.slice(0, 3))
-          : setProjects(projectsData);
+        setProjectsListings(
+          isDashboard ? projectsData.slice(0, 3) : projectsData,
+        );
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
         console.error(err);
@@ -360,7 +353,7 @@ export const useFetchProjects = () => {
     };
 
     fetchProjects();
-  }, []);
+  }, [isDashboard]);
 
   return { projectsListings, setProjectsListings, loading, error };
 };

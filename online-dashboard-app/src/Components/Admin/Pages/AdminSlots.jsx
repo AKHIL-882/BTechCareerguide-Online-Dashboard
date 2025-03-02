@@ -26,13 +26,15 @@ const AdminSlots = () => {
         { status },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        },
       );
 
       setBookings(
         bookings.map((booking) =>
-          booking.id === id ? { ...booking, status: parseInt(status) } : booking
-        )
+          booking.id === id
+            ? { ...booking, status: parseInt(status) }
+            : booking,
+        ),
       );
     } catch (error) {
       alert("Error updating status");
@@ -51,7 +53,9 @@ const AdminSlots = () => {
 
       {/* Pending Bookings Table */}
       <div className="mt-4 overflow-x-auto">
-        <h2 className="text-lg font-semibold text-gray-800">Pending Bookings</h2>
+        <h2 className="text-lg font-semibold text-gray-800">
+          Pending Bookings
+        </h2>
         <table className="w-full border border-gray-300 shadow-lg">
           <thead className="bg-violet-300">
             <tr className="text-white font-semibold">
@@ -65,9 +69,15 @@ const AdminSlots = () => {
             {pendingBookings.length > 0 ? (
               pendingBookings.map((booking) => (
                 <tr key={booking.id} className="text-center">
-                  <td className="border border-gray-300 px-4 py-2">{booking.title}</td>
-                  <td className="border border-gray-300 px-4 py-2">{booking.date}</td>
-                  <td className="border border-gray-300 px-4 py-2">{booking.time}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.title}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.date}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.time}
+                  </td>
                   <td className="border border-gray-300 px-4 py-2">
                     <button
                       className="bg-green-500 text-white px-3 py-1 rounded-md mr-2"
@@ -97,7 +107,9 @@ const AdminSlots = () => {
 
       {/* Accepted & Declined Bookings Table */}
       <div className="mt-8 overflow-x-auto">
-        <h2 className="text-lg font-semibold text-gray-800">Processed Bookings</h2>
+        <h2 className="text-lg font-semibold text-gray-800">
+          Processed Bookings
+        </h2>
         <table className="w-full border border-gray-300 shadow-lg">
           <thead className="bg-gray-300">
             <tr className="text-gray-800 font-semibold">
@@ -111,14 +123,24 @@ const AdminSlots = () => {
             {processedBookings.length > 0 ? (
               processedBookings.map((booking) => (
                 <tr key={booking.id} className="text-center">
-                  <td className="border border-gray-300 px-4 py-2">{booking.title}</td>
-                  <td className="border border-gray-300 px-4 py-2">{booking.date}</td>
-                  <td className="border border-gray-300 px-4 py-2">{booking.time}</td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.title}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.date}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.time}
+                  </td>
                   <td className="border border-gray-300 px-4 py-2">
                     {booking.status === 1 ? (
-                      <span className="text-green-600 font-semibold">Link Sent</span>
+                      <span className="text-green-600 font-semibold">
+                        Link Sent
+                      </span>
                     ) : (
-                      <span className="text-red-600 font-semibold">Declined</span>
+                      <span className="text-red-600 font-semibold">
+                        Declined
+                      </span>
                     )}
                   </td>
                 </tr>
