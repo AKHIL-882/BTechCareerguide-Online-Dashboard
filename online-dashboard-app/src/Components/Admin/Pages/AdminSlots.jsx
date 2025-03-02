@@ -62,6 +62,9 @@ const AdminSlots = () => {
               <th className="border border-gray-300 px-4 py-2">Title</th>
               <th className="border border-gray-300 px-4 py-2">Date</th>
               <th className="border border-gray-300 px-4 py-2">Time</th>
+              <th className="border border-gray-300 px-4 py-2">User Name</th>
+              <th className="border border-gray-300 px-4 py-2">Email</th>
+              <th className="border border-gray-300 px-4 py-2">Phone</th>
               <th className="border border-gray-300 px-4 py-2">Actions</th>
             </tr>
           </thead>
@@ -77,6 +80,15 @@ const AdminSlots = () => {
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
                     {booking.time}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.name || "N/A"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.email || "N/A"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.phone || "N/A"}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
                     <button
@@ -96,7 +108,7 @@ const AdminSlots = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-2">
+                <td colSpan="7" className="text-center py-2">
                   No pending bookings
                 </td>
               </tr>
@@ -116,6 +128,9 @@ const AdminSlots = () => {
               <th className="border border-gray-300 px-4 py-2">Title</th>
               <th className="border border-gray-300 px-4 py-2">Date</th>
               <th className="border border-gray-300 px-4 py-2">Time</th>
+              <th className="border border-gray-300 px-4 py-2">User Name</th>
+              <th className="border border-gray-300 px-4 py-2">Email</th>
+              <th className="border border-gray-300 px-4 py-2">Phone</th>
               <th className="border border-gray-300 px-4 py-2">Status</th>
             </tr>
           </thead>
@@ -133,6 +148,15 @@ const AdminSlots = () => {
                     {booking.time}
                   </td>
                   <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.name || "N/A"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.email || "N/A"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {booking.user?.phone || "N/A"}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
                     {booking.status === 1 ? (
                       <span className="text-green-600 font-semibold">
                         Link Sent
@@ -147,7 +171,7 @@ const AdminSlots = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-2">
+                <td colSpan="7" className="text-center py-2">
                   No accepted or declined bookings
                 </td>
               </tr>

@@ -38,6 +38,8 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
 
             Route::get('show', [AdminProjectsController::class, 'show']);
         });
+
+        Route::post('update-project-status', [AdminProjectsController::class, 'updateStatus']);
     });
 
     // show-all-payment-requests

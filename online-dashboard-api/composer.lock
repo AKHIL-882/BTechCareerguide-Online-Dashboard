@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "993597960cfdb83b63ff32b7ff4ee802",
+    "content-hash": "a5cc0ca1c12ad2d294a5709dad428b4d",
     "packages": [
         {
             "name": "bensampo/laravel-enum",

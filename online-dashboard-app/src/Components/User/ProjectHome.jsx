@@ -7,6 +7,7 @@ import {
   FaMoneyCheckAlt,
 } from "react-icons/fa";
 import axios from "axios";
+import PaymentComponent from "../PaymentComponent.jsx";
 
 const STATUS_MAP = {
   0: "Accepted",
@@ -16,6 +17,7 @@ const STATUS_MAP = {
   4: "Rejected",
   5: "Payment Success",
   6: "Refund",
+  7: "Completed",
 };
 
 const ProjectHome = ({ handleLogout }) => {
@@ -30,6 +32,11 @@ const ProjectHome = ({ handleLogout }) => {
     technical_skills: "",
     project_description: "",
   });
+
+  const handlePayment = (projectId, price) => {
+    const razorpayUrl = `https://razorpay.com/payment?amount=${price}&projectId=${projectId}`;
+    window.open(razorpayUrl, "_blank");
+  };
 
   useEffect(() => {
     fetchProjects();
@@ -370,6 +377,16 @@ const ProjectHome = ({ handleLogout }) => {
                       >
                         {STATUS_MAP[project.project_status]}
                       </button>
+                      {project.project_status === 2 && (
+                        <td className="border p-2">
+                          <button
+                            onClick={() => handlePayment(project.id, 50)}
+                            className="px-3 py-1 bg-green-500 text-white rounded"
+                          >
+                            <PaymentComponent amount={500} />
+                          </button>
+                        </td>
+                      )}
                     </td>
                   </tr>
                 ))}

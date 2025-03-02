@@ -30,7 +30,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-violet-800 text-white py-12 px-6">
+    <footer className="bg-violet-800 text-white py-12 px-6 font-sans">
       <div className="container mx-auto w-full flex flex-col lg:flex-row justify-between items-center lg:items-start text-center lg:text-left space-y-8 lg:space-y-0">
         {/* Left Section */}
         <div className="flex-1">

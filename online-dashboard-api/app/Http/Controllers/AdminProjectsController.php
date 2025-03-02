@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminProjectsRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\AdminProject;
+use App\Models\Project;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -79,5 +81,20 @@ class AdminProjectsController extends Controller
     public function showUserProjects($id)
     {
         // write code here
+    }
+
+    public function updateStatus(Request $request)
+    {
+        info($request);
+        $request->validate([
+            'project_id' => 'required|exists:projects,id',
+            'project_status' => 'required|integer|min:0|max:6',
+        ]);
+
+        $project = Project::find($request->project_id);
+        $project->project_status = $request->project_status;
+        $project->save();
+
+        return response()->json(['message' => 'Project status updated successfully!', 'project' => $project]);
     }
 }

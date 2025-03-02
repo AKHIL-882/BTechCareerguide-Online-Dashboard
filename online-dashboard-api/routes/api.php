@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GithubController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -26,6 +27,9 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
 });
 
 Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
+
+Route::post('/create-order', [PaymentController::class, 'createOrder']);
+Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
 
 // Admin routes
 require __DIR__.'/admin.php';

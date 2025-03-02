@@ -560,3 +560,34 @@ export const useSearchProjects = () => {
 
   return { error, searchProject };
 };
+
+export const handleStatusChange = async (projectId, newStatus) => {
+  const data = JSON.parse(localStorage.getItem("data"));
+  const accessToken = data ? data.access_token : null;
+
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/admin_projects/update-project-status`,
+      {
+        project_id: projectId,
+        project_status: newStatus,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+    const data = response.data;
+
+    if (response.status === 200) {
+      alert("Status updated successfully!");
+      window.location.reload();
+    } else {
+      alert("Failed to update status: " + (data.message || "Unknown error"));
+    }
+  } catch (error) {
+    console.error("Error updating status:", error);
+    alert("An error occurred while updating the status.");
+  }
+};

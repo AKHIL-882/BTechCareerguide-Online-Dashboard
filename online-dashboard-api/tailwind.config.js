@@ -12,7 +12,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Figtree', ...defaultTheme.fontFamily.sans], // Default for body text
+                display: ['Poppins', ...defaultTheme.fontFamily.sans], // Use Poppins (or any preferred font) for headings
             },
         },
     },

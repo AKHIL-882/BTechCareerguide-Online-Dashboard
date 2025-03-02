@@ -104,7 +104,7 @@ class BookingController extends Controller
 
     public function getAllBookings()
     {
-        $bookings = Booking::orderBy('id', 'desc')->get();
+        $bookings = Booking::orderBy('id', 'desc')->with('user')->get();
 
         return ApiResponse::setMessage('All bookings')->mergeResults(['booking' => $bookings])
             ->response(Response::HTTP_OK);
@@ -118,7 +118,6 @@ class BookingController extends Controller
             $booking->status = $request->status;
             $booking->save();
             if ($request->status == BookingStatus::Accepted) {
-                info('camer');
                 $this->createGoogleCalendarEvent($booking);
             }
 

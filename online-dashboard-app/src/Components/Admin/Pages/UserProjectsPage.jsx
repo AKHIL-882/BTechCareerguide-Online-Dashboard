@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFetchProjects } from "../../../Api";
+import { useFetchProjects, handleStatusChange } from "../../../Api";
 
 const UserProjectsPage = ({ isDashboard = true }) => {
   const { projectsListings, loading, error } = useFetchProjects();
@@ -44,6 +44,21 @@ const UserProjectsPage = ({ isDashboard = true }) => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setPreviewDocument(null);
+  };
+
+  const [statusUpdates, setStatusUpdates] = useState({});
+
+  const handleStatusSelect = (projectId, newStatus) => {
+    setStatusUpdates((prev) => ({
+      ...prev,
+      [projectId]: newStatus,
+    }));
+  };
+
+  const handleStatusSave = (projectId) => {
+    if (statusUpdates[projectId] !== undefined) {
+      handleStatusChange(projectId, statusUpdates[projectId]);
+    }
   };
 
   if (loading) {
@@ -120,11 +135,11 @@ const UserProjectsPage = ({ isDashboard = true }) => {
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <select
-                      value={project.project_status}
+                      value={
+                        statusUpdates[project.id] ?? project.project_status
+                      }
                       onChange={(e) =>
-                        console.log(
-                          `Project ID: ${project.id}, New Status: ${e.target.value}`,
-                        )
+                        handleStatusSelect(project.id, e.target.value)
                       }
                       className="border px-4 py-2"
                     >
@@ -136,6 +151,12 @@ const UserProjectsPage = ({ isDashboard = true }) => {
                       <option value="5">Payment Success</option>
                       <option value="6">Refund</option>
                     </select>
+                    <button
+                      onClick={() => handleStatusSave(project.id)}
+                      className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
+                    >
+                      Save
+                    </button>
                   </td>
                 </tr>
               ))}
