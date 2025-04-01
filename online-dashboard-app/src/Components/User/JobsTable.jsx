@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
+import { FaArrowAltCircleRight, FaArrowAltCircleLeft, FaSearch } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3);
+  const [jumpPage, setJumpPage] = useState("");
+  const [showJumpInput, setShowJumpInput] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -20,7 +22,23 @@ const JobsTable = ({ jobs, className = "" }) => {
   const indexOfFirstJob = indexOfLastJob - itemsPerPage;
   const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
 
-  const handlePageChange = (pageNumber) => setCurrentPage(pageNumber);
+  const handlePageChange = (pageNumber) => {
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
+  };
+
+  const handleJumpToPage = (e) => {
+    e.preventDefault();
+    const page = parseInt(jumpPage);
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      setShowJumpInput(false);
+      setJumpPage("");
+    } else {
+      alert("Invalid page number");
+    }
+  };
 
   const getPageNumbers = () => {
     const pageNumbers = [];
@@ -98,6 +116,35 @@ const JobsTable = ({ jobs, className = "" }) => {
               {pageNumber}
             </button>
           ))}
+          {/* Ellipsis for Jump to Page */}
+          {totalPages > pageNumbersToShow && !showJumpInput && (
+            <button
+              onClick={() => setShowJumpInput(true)}
+              className="px-4 py-2 bg-gray-200 text-violet-700 rounded-full font-sans hover:bg-gray-300"
+            >
+              ...
+            </button>
+          )}
+          {/* Jump to Page Input */}
+          {showJumpInput && (
+            <form onSubmit={handleJumpToPage} className="flex items-center">
+              <input
+                type="number"
+                min="1"
+                max={totalPages}
+                value={jumpPage}
+                onChange={(e) => setJumpPage(e.target.value)}
+                className="px-1 py-0.5 border-2 border-violet-500 rounded-l-full text-violet-700 focus:outline-violet-700"
+                placeholder="p.no"
+              />
+              <button
+                type="submit"
+                className="px-2 py-2 bg-violet-700 text-white rounded-r-full"
+              >
+                <FaSearch />
+              </button>
+            </form>
+          )}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
@@ -112,3 +159,4 @@ const JobsTable = ({ jobs, className = "" }) => {
 };
 
 export default JobsTable;
+
