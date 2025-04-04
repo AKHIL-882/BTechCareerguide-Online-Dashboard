@@ -3,6 +3,7 @@ import Spinner from "../Admin/Components/Spinner.jsx";
 import { useFetchJobs } from "../../Api.jsx";
 import { FaBriefcase, FaAngleDoubleRight } from "react-icons/fa";
 import Jobfilters from "./Jobfilters.jsx";
+import ShimmerJobs from "./ShimmerJobs.jsx";
 
 const Jobs = ({ handleLogout }) => {
   const { jobListings, loading, error } = useFetchJobs();
@@ -18,10 +19,11 @@ const Jobs = ({ handleLogout }) => {
       <Jobfilters/>
       </div>
       {loading ? (
-        <p className="flex items-center justify-center p-5 font-sans">
-          <Spinner loading={loading} color={"#0000FF"} size={20} />
-          <span className="pl-1 ">Jobs...</span>
-        </p>
+        // <p className="flex items-center justify-center p-5 font-sans">
+        //   <Spinner loading={loading} color={"#0000FF"} size={20} />
+        //   <span className="pl-1 ">Jobs...</span>
+        // </p>
+        <ShimmerJobs/>
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (

@@ -9,6 +9,7 @@ import {
   FaAngleDoubleLeft,
   FaProjectDiagram,
 } from "react-icons/fa";
+import ShimmerJobs from "./ShimmerJobs.jsx";
 
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
@@ -33,12 +34,7 @@ const Dashboard = () => {
           </div>
         </h2>
         {loading ? (
-          <div className="flex items-center justify-center p-5 font-sans">
-            <Spinner loading={loading} color={"#0000FF"} size={20} />
-            <span className="pl-2 text-lg text-gray-600">
-              Loading Trending Jobs...
-            </span>
-          </div>
+          <ShimmerJobs isDashBoard={true}/>
         ) : error ? (
           <p className="text-center text-red-500 text-lg">{error}</p>
         ) : (

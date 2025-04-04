@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../Admin/Components/Spinner";
+import ShimmerProjects from "./ShimmerProjects";
 import SearchProjects from "./SearchProjects";
 import { FaYoutube, FaCode, FaSearch } from "react-icons/fa";
 
@@ -44,10 +45,11 @@ const Projects = ({ isDashBoard }) => {
 
   if (loading) {
     return (
-      <p className="flex items-center justify-center p-5">
-        <Spinner loading={loading} color={"#0000FF"} size={20} />
-        <span className="pl-1 font-sans">Projects...</span>
-      </p>
+      // <p className="flex items-center justify-center p-5">
+      //   <Spinner loading={loading} color={"#0000FF"} size={20} />
+      //   <span className="pl-1 font-sans">Projects...</span>
+      // </p>
+      <ShimmerProjects isDashBoard={isDashBoard} count={3} />
     );
   }
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
 import {
-  FaAngleDoubleRight,
   FaProjectDiagram,
   FaList,
   FaMoneyCheckAlt,
