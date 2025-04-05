@@ -8,61 +8,50 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminProject extends Project
 {
-    public static function extractRequestData($request): array
+    public static function createProject($request): void
     {
-        return [
+        self::create([
             'company_name' => $request->company_name,
             'youtube_video_link' => $request->youtube_video_link,
             'payment_link' => $request->payment_link,
             'is_admin_project' => true,
-            'user_id' => Auth::user()->id,
-        ];
-    }
-
-    public static function createProject($request): void
-    {
-        self::create(self::extractRequestData($request));
+            'user_id' => Auth::id(),
+        ]);
     }
 
     public static function updateProject($request, $id): void
     {
         $project = self::findOrFail($id);
-        $project->update(self::extractRequestData($request));
+
+        $project->update([
+            'company_name' => $request->company_name,
+            'youtube_video_link' => $request->youtube_video_link,
+            'payment_link' => $request->payment_link,
+            'is_admin_project' => true,
+            'user_id' => Auth::id(),
+        ]);
     }
 
     public static function destroyProject($id): void
     {
-        $project = self::findOrFail($id);
-        $project->delete();
+        self::findOrFail($id)->delete();
     }
 
     public static function showProject($id): AdminProjectsResource
     {
-        $project = self::findOrFail($id);
-
-        return new AdminProjectsResource($project);
-
+        return new AdminProjectsResource(self::findOrFail($id));
     }
 
     public static function getAllProjects(): AnonymousResourceCollection
     {
-        $query = self::applyRoleBasedFilter(self::orderBy('created_at', 'desc'));
-
-        $projectsList = $query->get();
-
-        return AdminProjectsResource::collection($projectsList);
+        $query = self::applyRoleBasedFilter(self::orderByDesc('created_at'));
+        return AdminProjectsResource::collection($query->get());
     }
 
     private static function getUserRole(): ?string
     {
         $user = Auth::user();
-
-        // Ensure the user is authenticated and has roles
-        if ($user && $user->roles) {
-            return $user->roles->pluck('name')->first(); // Assuming roles is a collection
-        }
-
-        return null;
+        return $user && $user->roles ? $user->roles->pluck('name')->first() : null;
     }
 
     private static function applyRoleBasedFilter($query)
@@ -70,11 +59,10 @@ class AdminProject extends Project
         $role = self::getUserRole();
 
         if ($role === 'user') {
-            $query->where('is_admin_project', 1)->take(6);
+            $query->where('is_admin_project', true)->take(6);
         } elseif ($role === 'admin') {
-            $query->where('is_admin_project', [0, 1]);
+            $query->whereIn('is_admin_project', [0, 1]);
         }
-
         return $query;
     }
 }
