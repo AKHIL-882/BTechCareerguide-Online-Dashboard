@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerEventLogType;
+use App\Enums\UserEventLogType;
 use App\Http\Resources\UserProjectsResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -33,7 +33,7 @@ class UserProject extends Project
         $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
 
         self::create(self::extractRequestData($request, $filePath));
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::ProjectRequested));
+        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::ProjectRequested));
     }
 
     public static function updateProject($request, $id)

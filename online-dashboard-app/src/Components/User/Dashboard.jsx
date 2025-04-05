@@ -34,7 +34,7 @@ const Dashboard = () => {
           </div>
         </h2>
         {loading ? (
-          <ShimmerJobs isDashBoard={true}/>
+          <ShimmerJobs isDashBoard={true} />
         ) : error ? (
           <p className="text-center text-red-500 text-lg">{error}</p>
         ) : (

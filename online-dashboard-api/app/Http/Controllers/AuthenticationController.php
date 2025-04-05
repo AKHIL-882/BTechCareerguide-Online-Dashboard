@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\CustomerEventLogType;
+use App\Enums\UserEventLogType;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RefreshRequest;
 use App\Http\Requests\SignupRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\CustomerEventLog;
 use App\Models\User;
+use App\Models\UserEventLog;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -96,7 +96,7 @@ class AuthenticationController extends Controller
                 Session::start();
             }
 
-            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Login));
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Login));
 
             // Fetch the user's roles
             $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
@@ -132,7 +132,7 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::Logout));
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Logout));
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);

@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
-import {
-  FaProjectDiagram,
-  FaList,
-  FaMoneyCheckAlt,
-} from "react-icons/fa";
+import { FaProjectDiagram, FaList, FaMoneyCheckAlt } from "react-icons/fa";
 import axios from "axios";
 import PaymentComponent from "../PaymentComponent.jsx";
 

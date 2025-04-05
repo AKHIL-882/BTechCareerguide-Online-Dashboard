@@ -6,7 +6,7 @@ use App\Enums\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerEventLog extends Model
+class UserEventLog extends Model
 {
     protected $fillable = [
         'user_id',

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { FaSlidersH, FaTimes } from "react-icons/fa";
 
 const JobFilters = () => {
@@ -10,9 +11,13 @@ const JobFilters = () => {
     selectedJobType: "",
     selectedExperience: "",
   });
+  const [jobs, setJobs] = useState([]); // Store API results
+  const [loading, setLoading] = useState(false);
 
   // Check if at least one filter is selected
-  const isFilterSelected = Object.values(formData).some((value) => value !== "");
+  const isFilterSelected = Object.values(formData).some(
+    (value) => value !== "",
+  );
 
   // Handle change for all select fields
   const handleInputChange = (e) => {
@@ -23,8 +28,35 @@ const JobFilters = () => {
     }));
   };
 
+  // Function to fetch jobs from the backend
+  const fetchFilteredJobs = async () => {
+    if (!isFilterSelected) return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:8000/api/jobs/filter",
+        {
+          params: {
+            branch: formData.selectedBranch,
+            batch: formData.selectedBatch,
+            degree: formData.selectedDegree,
+            job_type: formData.selectedJobType,
+            experience: formData.selectedExperience,
+          },
+        },
+      );
+
+      setJobs(response.data); // Store job results
+      setShowFilters(false); // Close the modal
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+    setLoading(false);
+  };
+
   return (
-    <div className="relative flex justify-center">
+    <div className="relative flex flex-col items-center">
       {/* Filter Icon Button */}
       <button
         className="flex items-center space-x-2 text-gray-700 px-2 py-2 border border-gray-100 bg-white rounded-lg"
@@ -132,14 +164,33 @@ const JobFilters = () => {
                   ? "bg-blue-600 text-white hover:bg-blue-700"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
-              onClick={() => console.log(formData)}
-              disabled={!isFilterSelected}
+              onClick={fetchFilteredJobs}
+              disabled={!isFilterSelected || loading}
             >
-              Apply Filters
+              {loading ? "Loading..." : "Apply Filters"}
             </button>
           </div>
         </div>
       )}
+
+      {/* Display Filtered Jobs */}
+      <div className="mt-4 w-full max-w-3xl">
+        <h2 className="text-xl font-semibold mb-2">Job Listings</h2>
+        {jobs.length > 0 ? (
+          <ul className="border rounded-lg p-4 space-y-2 bg-white">
+            {jobs.map((job) => (
+              <li key={job.id} className="p-2 border-b last:border-none">
+                <p className="font-medium">{job.title}</p>
+                <p className="text-sm text-gray-600">
+                  {job.branch} - {job.job_type}
+                </p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">No jobs found.</p>
+        )}
+      </div>
     </div>
   );
 };

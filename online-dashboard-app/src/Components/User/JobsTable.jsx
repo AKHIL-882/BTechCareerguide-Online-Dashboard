@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft, FaSearch } from "react-icons/fa";
+import {
+  FaArrowAltCircleRight,
+  FaArrowAltCircleLeft,
+  FaSearch,
+} from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -76,7 +80,7 @@ const JobsTable = ({ jobs, className = "" }) => {
               Batch: {job.batch.replace(/,/g, ", ")}
             </p>
             <p className="text-gray-600 font-sans">
-              Qualification: {job.qualification.replace(/,/g, ", ")}
+              Qualification: {job.batch}
             </p>
             <a
               href={job.apply_link}
@@ -159,4 +163,3 @@ const JobsTable = ({ jobs, className = "" }) => {
 };
 
 export default JobsTable;
-

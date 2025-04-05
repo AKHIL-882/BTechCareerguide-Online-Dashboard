@@ -37,7 +37,6 @@
   background-color: #e0e0e0;
 }
 
-
 .shimmer-card::after {
   content: "";
   position: absolute;
@@ -66,5 +65,3 @@
 .shimmer-line {
   background-color: #e0e0e0;
 }
-
-

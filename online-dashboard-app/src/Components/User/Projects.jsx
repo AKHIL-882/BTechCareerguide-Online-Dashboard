@@ -3,6 +3,7 @@ import Spinner from "../Admin/Components/Spinner";
 import ShimmerProjects from "./ShimmerProjects";
 import SearchProjects from "./SearchProjects";
 import { FaYoutube, FaCode, FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
@@ -10,6 +11,7 @@ const Projects = ({ isDashBoard }) => {
   const [isEmptySearch, setIsEmptySearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch projects from the API
     const fetchProjects = async () => {
@@ -26,7 +28,8 @@ const Projects = ({ isDashBoard }) => {
           },
         );
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          localStorage.clear();
+          navigate("/");
         }
         const responseData = await response.json();
         isDashBoard

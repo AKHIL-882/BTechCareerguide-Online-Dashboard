@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('jobs')->group(function () {
 
     Route::get('/', [JobOpportunityController::class, 'index']);
+    Route::get('/filter', [JobOpportunityController::class, 'getFilterJobs']);
+
 });
 
 Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(function () {

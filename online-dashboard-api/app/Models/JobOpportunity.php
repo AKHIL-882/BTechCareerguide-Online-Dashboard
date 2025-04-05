@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -73,7 +74,33 @@ class JobOpportunity extends Model
             return JobResource::collection($jobsList);
 
         } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
+            return ApiResponse::setMessage(message: $e->getMessage())->response(Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    public function scopeBranch(Builder $query, $branch)
+    {
+        return $query->where('qualification', $branch);
+    }
+
+    public function scopeBatch(Builder $query, $batch)
+    {
+        return $query->where('batch', $batch);
+    }
+
+    // optimize this later
+    public function scopeDegree(Builder $query, $degree)
+    {
+        return $query->where('qualification', $degree);
+    }
+
+    public function scopeJobType(Builder $query, $jobType)
+    {
+        return $query->where('job_type', $jobType);
+    }
+
+    public function scopeExperience(Builder $query, $experience)
+    {
+        return $query->where('experience', '>=', $experience);
     }
 }
