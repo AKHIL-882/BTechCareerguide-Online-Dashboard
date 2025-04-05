@@ -2,21 +2,20 @@
 
 namespace App\Models;
 
-use Throwable;
 use App\Enums\UserEventLogType;
+use App\Http\Resources\UserProjectsResource;
 use App\Http\Responses\ApiResponse;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Resources\UserProjectsResource;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Throwable;
 
 class UserProject extends Project
 {
     public static function createProject($request): void
     {
-        $fileName = time() . '-' . $request->file('file')->getClientOriginalName();
+        $fileName = time().'-'.$request->file('file')->getClientOriginalName();
         $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
 
         self::create([
@@ -42,7 +41,7 @@ class UserProject extends Project
                 Storage::disk('public')->delete($userProject->document_name);
             }
 
-            $fileName = time() . '-' . $request->file('file')->getClientOriginalName();
+            $fileName = time().'-'.$request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
 
             $userProject->update([

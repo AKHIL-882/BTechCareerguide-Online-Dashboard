@@ -45,12 +45,14 @@ class AdminProject extends Project
     public static function getAllProjects(): AnonymousResourceCollection
     {
         $query = self::applyRoleBasedFilter(self::orderByDesc('created_at'));
+
         return AdminProjectsResource::collection($query->get());
     }
 
     private static function getUserRole(): ?string
     {
         $user = Auth::user();
+
         return $user && $user->roles ? $user->roles->pluck('name')->first() : null;
     }
 
@@ -63,6 +65,7 @@ class AdminProject extends Project
         } elseif ($role === 'admin') {
             $query->whereIn('is_admin_project', [0, 1]);
         }
+
         return $query;
     }
 }
