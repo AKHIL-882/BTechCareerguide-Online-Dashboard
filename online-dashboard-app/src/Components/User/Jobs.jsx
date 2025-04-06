@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import JobsTable from "./JobsTable.jsx";
 import Spinner from "../Admin/Components/Spinner.jsx";
 import { useFetchJobs } from "../../Api.jsx";
@@ -7,6 +8,9 @@ import ShimmerJobs from "./ShimmerJobs.jsx";
 
 const Jobs = ({ handleLogout }) => {
   const { jobListings, loading, error } = useFetchJobs();
+  const [filteredJobs, setFilteredJobs] = useState(null); // <-- NEW
+  const jobsToShow = filteredJobs || jobListings; // <-- prioritize filtered jobs
+
   return (
     <main className="m-3 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
       <div className="flex justify-between items-baseline">
@@ -16,18 +20,14 @@ const Jobs = ({ handleLogout }) => {
             <span>AVAILABLE JOBS</span>
           </div>
         </h2>
-        <Jobfilters />
+        <Jobfilters setFilteredJobs={setFilteredJobs} />
       </div>
       {loading ? (
-        // <p className="flex items-center justify-center p-5 font-sans">
-        //   <Spinner loading={loading} color={"#0000FF"} size={20} />
-        //   <span className="pl-1 ">Jobs...</span>
-        // </p>
         <ShimmerJobs />
       ) : error ? (
         <p className="text-center text-red-500">{error}</p>
       ) : (
-        <JobsTable jobs={jobListings} />
+        <JobsTable jobs={jobsToShow} />
       )}
     </main>
   );

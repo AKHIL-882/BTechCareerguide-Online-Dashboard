@@ -21,10 +21,10 @@ const JobsTable = ({ jobs, className = "" }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil(jobs.length / itemsPerPage);
+  const totalPages = Math.ceil((jobs?.length || 0) / itemsPerPage);
   const indexOfLastJob = currentPage * itemsPerPage;
   const indexOfFirstJob = indexOfLastJob - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
+  const currentJobs = jobs?.slice(indexOfFirstJob, indexOfLastJob) || [];
 
   const handlePageChange = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -80,7 +80,7 @@ const JobsTable = ({ jobs, className = "" }) => {
               Batch: {job.batch.replace(/,/g, ", ")}
             </p>
             <p className="text-gray-600 font-sans">
-              Qualification: {job.batch}
+              Qualification: {job.degree}
             </p>
             <a
               href={job.apply_link}

@@ -17,17 +17,17 @@ return [
     ],
 
     'branches' => [
-        'Computer Science Engineering',
-        'Information Technology',
-        'Electronics and Communication',
-        'Electrical Engineering',
-        'Mechanical Engineering',
-        'Civil Engineering',
-        'Artificial Intelligence and Machine Learning',
-        'Data Science',
-        'Mechatronics',
-        'Chemical Engineering',
-        'Instrumentation Engineering',
+        'CSE' => 'Computer Science Engineering',
+        'IT' => 'Information Technology',
+        'ECE' => 'Electronics and Communication',
+        'EE' => 'Electrical Engineering',
+        'ME' => 'Mechanical Engineering',
+        'CE' => 'Civil Engineering',
+        'AIML' => 'Artificial Intelligence and Machine Learning',
+        'DS' => 'Data Science',
+        'MT' => 'Mechatronics',
+        'CHE' => 'Chemical Engineering',
+        'IE' => 'Instrumentation Engineering',
     ],
 
     'job_types' => [
@@ -48,5 +48,4 @@ return [
         '2025',
         '2026',
     ],
-
 ];

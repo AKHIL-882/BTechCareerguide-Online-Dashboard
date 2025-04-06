@@ -77,6 +77,7 @@ class JobOpportunityController extends Controller
 
     public function getFilterJobs(Request $request)
     {
+        info($request);
         $filters = collect($request->only(['qualification', 'batch', 'degree', 'job_type', 'experience']))
             ->filter()
             ->mapWithKeys(fn ($value, $key) => [$key => strtolower($value)]); // Convert to lowercase
