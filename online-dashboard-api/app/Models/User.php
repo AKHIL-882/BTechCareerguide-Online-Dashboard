@@ -4,7 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Enums\CustomerEventLogType;
+use App\Enums\UserEventLogType;
 use App\Jobs\ProcessResetPasswordMailJob;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -91,7 +91,7 @@ class User extends Authenticatable
 
         $user->assignRole('user');
 
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::AccountCreated), $user);
+        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::AccountCreated), $user);
 
         return $user;
     }

@@ -30,7 +30,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           className={({ isActive }) =>
             `flex items-center space-x-2 w-full px-4 py-3 ${
               isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
           end
@@ -44,7 +44,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           className={({ isActive }) =>
             `flex items-center space-x-1 w-full px-4 py-3 ${
               isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -57,7 +57,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           className={({ isActive }) =>
             `flex items-center space-x-2 w-full px-4 py-3 ${
               isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -70,7 +70,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           className={({ isActive }) =>
             `flex items-center space-x-2 w-full px-4 py-3 ${
               isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -83,7 +83,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           className={({ isActive }) =>
             `flex items-center space-x-2 w-full px-4 py-3 ${
               isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminProjectsController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Middleware\AdminRoleMiddleware;
@@ -37,9 +38,15 @@ Route::middleware(['auth:api', 'api', AdminRoleMiddleware::class])->group(functi
 
             Route::get('show', [AdminProjectsController::class, 'show']);
         });
+
+        Route::post('update-project-status', [AdminProjectsController::class, 'updateStatus']);
     });
 
     // show-all-payment-requests
     Route::get('show_all_payment_request', [PaymentsController::class, 'index']);
 
+    Route::prefix('admin/bookings')->group(function () {
+        Route::get('/', [BookingController::class, 'getAllBookings']);
+        Route::put('/{id}/update-status', [BookingController::class, 'updateStatus']);
+    });
 });

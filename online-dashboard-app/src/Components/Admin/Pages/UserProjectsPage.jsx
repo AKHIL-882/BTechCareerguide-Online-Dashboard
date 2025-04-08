@@ -1,19 +1,26 @@
 import React, { useState } from "react";
-import { useFetchProjects } from "../../../Api";
+import { useFetchProjects, handleStatusChange } from "../../../Api";
 
-const UserProjectsPage = () => {
+const UserProjectsPage = ({ isDashboard = true }) => {
   const { projectsListings, loading, error } = useFetchProjects();
   const [currentPage, setCurrentPage] = useState(1);
   const [previewDocument, setPreviewDocument] = useState(null); // State to manage document preview
   const [selectedProjectId, setSelectedProjectId] = useState(null); // Track the selected project
+  const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
+
   const itemsPerPage = 5;
+
+  const storagePath =
+    import.meta.env.VITE_BACKEND_URL + "/app/storage/userProjectFiles/";
+
+  console.log(storagePath);
 
   // Filter projects where is_admin_project is 0
   const filteredProjects = projectsListings.filter(
     (project) => project.is_admin_project === 0,
   );
 
-  // Sort the filtered projects in descending order by a field (e.g., project ID or creation date)
+  // Sort the filtered projects in descending order
   const sortedProjects = filteredProjects.sort((a, b) => b.id - a.id);
 
   const totalPages = Math.ceil(sortedProjects.length / itemsPerPage);
@@ -27,17 +34,31 @@ const UserProjectsPage = () => {
   };
 
   const handleDocumentPreview = (projectId, documentName) => {
-    if (selectedProjectId === projectId) {
-      setSelectedProjectId(null);
-    } else {
-      setSelectedProjectId(projectId);
-      setPreviewDocument(documentName);
-    }
+    if (!documentName) return;
+
+    const fileUrl = `${import.meta.env.VITE_BACKEND_URL}/storage/userProjectFiles/${documentName}`;
+
+    window.open(fileUrl, "_blank");
   };
 
-  const handleStatusChange = (projectId, status) => {
-    console.log(`Project ID: ${projectId}, New Status: ${status}`);
-    // Add your status change logic here if required
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setPreviewDocument(null);
+  };
+
+  const [statusUpdates, setStatusUpdates] = useState({});
+
+  const handleStatusSelect = (projectId, newStatus) => {
+    setStatusUpdates((prev) => ({
+      ...prev,
+      [projectId]: newStatus,
+    }));
+  };
+
+  const handleStatusSave = (projectId) => {
+    if (statusUpdates[projectId] !== undefined) {
+      handleStatusChange(projectId, statusUpdates[projectId]);
+    }
   };
 
   if (loading) {
@@ -79,114 +100,68 @@ const UserProjectsPage = () => {
             </thead>
             <tbody>
               {currentItems.map((project, index) => (
-                <React.Fragment key={project.id}>
-                  <tr className="hover:bg-gray-100">
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {index + 1 + (currentPage - 1) * itemsPerPage}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {project.project_name}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {project.project_description}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {project.days_to_complete}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2">
-                      {project.technical_skills}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      {project.document_name ? (
-                        <button
-                          onClick={() =>
-                            handleDocumentPreview(
-                              project.id,
-                              project.document_name,
-                            )
-                          }
-                          className="text-blue-600 underline"
-                        >
-                          View Document
-                        </button>
-                      ) : (
-                        "N/A"
-                      )}
-                    </td>
-                    <td className="border border-gray-300 px-4 py-2 text-center">
-                      <select
-                        value={project.project_status}
-                        onChange={(e) =>
-                          handleStatusChange(project.id, e.target.value)
+                <tr key={project.id} className="hover:bg-gray-100">
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {index + 1 + (currentPage - 1) * itemsPerPage}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {project.project_name}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {project.project_description}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {project.days_to_complete}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {project.technical_skills}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    {project.document_name ? (
+                      <button
+                        onClick={() =>
+                          handleDocumentPreview(
+                            project.id,
+                            project.document_name,
+                          )
                         }
-                        className="border px-4 py-2"
+                        className="text-blue-600 underline"
                       >
-                        <option value="0">Accepted</option>
-                        <option value="1">Pending</option>
-                        <option value="2">Building</option>
-                        <option value="3">Success</option>
-                        <option value="4">Rejected</option>
-                        <option value="5">Payment Success</option>
-                        <option value="6">Refund</option>
-                      </select>
-                    </td>
-                  </tr>
-                </React.Fragment>
+                        View Document
+                      </button>
+                    ) : (
+                      "N/A"
+                    )}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2 text-center">
+                    <select
+                      value={
+                        statusUpdates[project.id] ?? project.project_status
+                      }
+                      onChange={(e) =>
+                        handleStatusSelect(project.id, e.target.value)
+                      }
+                      className="border px-4 py-2"
+                    >
+                      <option value="0">Accepted</option>
+                      <option value="1">Pending</option>
+                      <option value="2">Building</option>
+                      <option value="3">Success</option>
+                      <option value="4">Rejected</option>
+                      <option value="5">Payment Success</option>
+                      <option value="6">Refund</option>
+                    </select>
+                    <button
+                      onClick={() => handleStatusSave(project.id)}
+                      className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
+                    >
+                      Save
+                    </button>
+                  </td>
+                </tr>
               ))}
             </tbody>
           </table>
-        </div>
-
-        {/* Cards for smaller screens */}
-        <div className="sm:hidden">
-          {currentItems.map((project) => (
-            <div
-              key={project.id}
-              className="border rounded-lg p-4 mb-4 shadow-md bg-white"
-            >
-              <h2 className="font-semibold text-lg mb-2">
-                {project.project_name}
-              </h2>
-              <p className="text-sm text-gray-600">
-                {project.project_description}
-              </p>
-              <p className="text-sm text-gray-600">
-                Days to Complete: {project.days_to_complete}
-              </p>
-              <p className="text-sm text-gray-600">
-                Technical Skills: {project.technical_skills}
-              </p>
-              {project.document_name ? (
-                <button
-                  onClick={() =>
-                    handleDocumentPreview(project.id, project.document_name)
-                  }
-                  className="text-blue-600 underline text-sm mt-2"
-                >
-                  View Document
-                </button>
-              ) : (
-                <p className="text-sm text-gray-600">Document: N/A</p>
-              )}
-              <div className="mt-4">
-                <select
-                  value={project.project_status}
-                  onChange={(e) =>
-                    handleStatusChange(project.id, e.target.value)
-                  }
-                  className="border px-2 py-1 text-sm w-8/12"
-                >
-                  <option value="0">Accepted</option>
-                  <option value="1">Pending</option>
-                  <option value="2">Building</option>
-                  <option value="3">Success</option>
-                  <option value="4">Rejected</option>
-                  <option value="5">Payment Success</option>
-                  <option value="6">Refund</option>
-                </select>
-              </div>
-            </div>
-          ))}
         </div>
 
         {/* Pagination */}
@@ -206,6 +181,26 @@ const UserProjectsPage = () => {
           ))}
         </div>
       </div>
+
+      {/* Modal for document preview */}
+      {isModalOpen && previewDocument && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-5 rounded-lg shadow-lg w-3/4 h-3/4 relative">
+            <button
+              onClick={handleCloseModal}
+              className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded"
+            >
+              Close
+            </button>
+            <h2 className="text-lg font-semibold mb-4">Document Preview</h2>
+            <iframe
+              src={previewDocument}
+              className="w-full h-full border"
+              title="Document Preview"
+            ></iframe>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

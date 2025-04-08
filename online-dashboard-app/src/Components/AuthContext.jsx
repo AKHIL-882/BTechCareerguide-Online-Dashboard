@@ -1,12 +1,11 @@
-import React, { createContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import React, { createContext, useEffect, useState, useCallback } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const location = useLocation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [auth, setAuth] = useState(() => {
     const storedAuth = localStorage.getItem("data");
@@ -15,63 +14,40 @@ export const AuthProvider = ({ children }) => {
       : { token: null, expiresIn: null };
   });
 
-  /**
-   * Login function
-   * Accepts token and expiresIn (in seconds).
-   */
-  const login = (token, expiresIn) => {
-    const expirationTime = Date.now() + expiresIn * 1000; // Calculate expiration time
-    const authData = { token, expiresIn: expirationTime };
-    setAuth(authData);
-    localStorage.setItem("data", JSON.stringify(authData)); // Store in localStorage
-  };
-
-  /**
-   * Logout function
-   * Clears auth state and localStorage, redirects user to "/".
-   */
-  const logout = () => {
+  const logout = useCallback(() => {
     setAuth({ token: null, expiresIn: null });
     localStorage.removeItem("data");
-    navigate("/"); // Redirect to home on logout
+    localStorage.removeItem("roles"); // Also remove role if stored separately
+    navigate("/", { replace: true });
+  }, [navigate]);
+
+  const login = (token, expiresIn) => {
+    const expirationTime = Date.now() + expiresIn * 1000;
+    const authData = { token, expiresIn: expirationTime };
+    setAuth(authData);
+    localStorage.setItem("data", JSON.stringify(authData));
   };
 
-  /**
-   * Check token expiration on location change.
-   */
+  // Check token expiration on every route change
   useEffect(() => {
-    const storedAuth = localStorage.getItem("data");
-    if (storedAuth) {
-      const parsedAuth = JSON.parse(storedAuth);
-
-      // Check if token is expired
-      if (parsedAuth.expiresIn < Date.now()) {
-        logout(); // Expired, log out immediately
-      } else {
-        setAuth(parsedAuth); // Valid token, set to state
-      }
+    if (auth?.expiresIn && Date.now() >= auth.expiresIn) {
+      logout();
     }
-  }, [location]); // Run whenever location changes
+  }, [location, auth?.expiresIn, logout]);
 
-  /**
-   * Set timeout to automatically log out user when token expires.
-   */
+  // Auto-logout on exact token expiry
   useEffect(() => {
-    if (auth.token) {
-      const timeout = auth.expiresIn - Date.now(); // Time until expiration
+    if (auth.token && auth.expiresIn) {
+      const timeoutDuration = auth.expiresIn - Date.now();
 
-      if (timeout > 0) {
-        const timer = setTimeout(() => {
-          logout();
-        }, timeout);
-
-        // Clean up timer
+      if (timeoutDuration > 0) {
+        const timer = setTimeout(logout, timeoutDuration);
         return () => clearTimeout(timer);
       } else {
-        logout(); // Immediate logout if token already expired
+        logout(); // Expired already
       }
     }
-  }, [auth]); // Run whenever auth changes
+  }, [auth.token, auth.expiresIn, logout]);
 
   return (
     <AuthContext.Provider value={{ auth, login, logout }}>

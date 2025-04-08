@@ -3,7 +3,7 @@
 namespace App\Enums;
 
 /**
- * @model App\Models\CustomerEventLog
+ * @model App\Models\UserEventLog
  *
  * @column status
  */

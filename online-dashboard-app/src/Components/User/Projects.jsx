@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Spinner from "../Admin/Components/Spinner";
+import ShimmerProjects from "./ShimmerProjects";
 import SearchProjects from "./SearchProjects";
-import {
-  FaYoutube,
-  FaCode,
-  FaSearch,
-  FaTrophy,
-  FaAngleDoubleRight,
-} from "react-icons/fa";
+import { FaYoutube, FaCode, FaSearch } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
@@ -15,6 +11,7 @@ const Projects = ({ isDashBoard }) => {
   const [isEmptySearch, setIsEmptySearch] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   useEffect(() => {
     // Fetch projects from the API
     const fetchProjects = async () => {
@@ -31,7 +28,8 @@ const Projects = ({ isDashBoard }) => {
           },
         );
         if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          localStorage.clear();
+          navigate("/");
         }
         const responseData = await response.json();
         isDashBoard
@@ -50,10 +48,11 @@ const Projects = ({ isDashBoard }) => {
 
   if (loading) {
     return (
-      <p className="flex items-center justify-center p-5">
-        <Spinner loading={loading} color={"#0000FF"} size={20} />
-        <span className="pl-1">Projects...</span>
-      </p>
+      // <p className="flex items-center justify-center p-5">
+      //   <Spinner loading={loading} color={"#0000FF"} size={20} />
+      //   <span className="pl-1 font-sans">Projects...</span>
+      // </p>
+      <ShimmerProjects isDashBoard={isDashBoard} count={3} />
     );
   }
 
@@ -74,14 +73,13 @@ const Projects = ({ isDashBoard }) => {
   return (
     <section>
       {!isDashBoard && (
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-baseline">
           {/* Header Section */}
-          <h2 className="text-xl font-bold text-blue-950 mb-2 relative flex items-center space-x-2 p-2">
-            <div className="flex items-center space-x-2">
-              <FaTrophy className="text-violet-600 w-5 h-5 mb-1.5" />
-              <span className="mb-1">Projects</span>
+          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+            <div className="flex items-center justify-center space-x-1">
+              <span className="w-1 h-4 bg-violet-600"></span>
+              <span>PROJECTS</span>
             </div>
-            <FaAngleDoubleRight className="text-violet-600 w-5 h-5" />
           </h2>
           <SearchProjects
             setProjects={setProjects}
@@ -93,11 +91,11 @@ const Projects = ({ isDashBoard }) => {
         {isEmptySearch && flattenedProjects.length === 0 ? (
           <div className="flex items-center justify-center col-span-full h-auto">
             <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
-              <h1 className="text-lg font-semibold text-gray-700 flex justify-center items-center">
+              <h1 className="text-lg Font-sans text-gray-700 flex justify-center items-center">
                 <FaSearch className="text-gray-400 text-2xl mr-2" />{" "}
                 <span>No Projects Found</span>
               </h1>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 font-sans">
                 We couldn't find any projects. Try searching for something else.
               </p>
             </div>
@@ -107,7 +105,7 @@ const Projects = ({ isDashBoard }) => {
           flattenedProjects.map((project, index) => (
             <div key={index} className="bg-white shadow-md rounded-lg p-1">
               <div className="flex justify-between items-center mb-2">
-                <h4 className="font-semibold text-lg text-blue-950">
+                <h4 className="font-sans text-lg text-blue-950">
                   {project.company_name}
                 </h4>
                 <div className="flex justify-between items-center space-x-2">
@@ -117,8 +115,8 @@ const Projects = ({ isDashBoard }) => {
                     rel="noopener noreferrer"
                     className="text-white bg-red-500 p-1 rounded-full hover:bg-red-500 flex justify-center items-center group transition-all duration-500 ease-in-out"
                   >
-                    <span className="overflow-hidden whitespace-nowrap text-white font-semibold transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
-                      Youtube
+                    <span className="overflow-hidden whitespace-nowrap text-white font-sans transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
+                      Details
                     </span>
                     <div className="w-8 h-8 rounded-full flex justify-center items-center bg-red-500 group-hover:border-2 border-white">
                       <FaYoutube size={16} />
@@ -130,7 +128,7 @@ const Projects = ({ isDashBoard }) => {
                     rel="noopener noreferrer"
                     className="text-white bg-violet-500 p-1 rounded-full hover:bg-violet-700 flex justify-center items-center group transition-all duration-500 ease-in-out"
                   >
-                    <span className="overflow-hidden whitespace-nowrap text-white font-semibold transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
+                    <span className="overflow-hidden whitespace-nowrap text-white font-sans transition-all duration-500 ease-in-out group-hover:ml-2 group-hover:w-auto w-0 group-hover:mr-2">
                       GetCode
                     </span>
                     <div className="w-8 h-8 rounded-full flex justify-center items-center bg-violet-500 group-hover:border-2 border-white">
@@ -143,7 +141,7 @@ const Projects = ({ isDashBoard }) => {
                 <iframe
                   className="mt-2 rounded-lg"
                   width="100%"
-                  height="150px"
+                  height="220px"
                   src={transformToEmbedURL(project.youtube_video_link)}
                   title="YouTube video"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

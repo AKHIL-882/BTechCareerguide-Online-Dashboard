@@ -22,4 +22,6 @@ final class ProjectStatus extends BaseEnum
     public const PaymentSuccess = 5;
 
     public const Refund = 6;
+
+    public const Completed = 7;
 }

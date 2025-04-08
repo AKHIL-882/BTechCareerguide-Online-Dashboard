@@ -3,11 +3,11 @@
 namespace App\Enums;
 
 /**
- * @model App\Models\CustomerEventLog
+ * @model App\Models\UserEventLog
  *
  * @column status
  */
-final class CustomerEventLogType extends BaseEnum
+final class UserEventLogType extends BaseEnum
 {
     public const Login = 0;
 

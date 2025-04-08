@@ -16,7 +16,9 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@headlessui/react": "^2.2.0",
     "axios": "^1.7.9",
+    "date-fns": "^4.1.0",
     "jwt-decode": "^4.0.0",
+    "razorpay": "^2.9.6",
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
     "react-datepicker": "^7.6.0",
@@ -27,6 +29,7 @@
     "react-spinners": "^0.15.0",
     "react-toastify": "^11.0.2",
     "react-tooltip": "^5.28.0",
+    "react-ui-cards": "^3.1.0",
     "swiper": "^11.2.1"
   },
   "devDependencies": {

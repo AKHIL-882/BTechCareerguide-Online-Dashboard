@@ -1,170 +1,160 @@
 import React, { useState, useEffect } from "react";
-import { FaArrowAltCircleRight, FaArrowAltCircleLeft } from "react-icons/fa";
+import {
+  FaArrowAltCircleRight,
+  FaArrowAltCircleLeft,
+  FaSearch,
+} from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 7;
-  const [pageNumbersToShow, setPageNumbersToShow] = useState(3); // Default to 3 for smaller screens
+  const itemsPerPage = 6;
+  const [pageNumbersToShow, setPageNumbersToShow] = useState(3);
+  const [jumpPage, setJumpPage] = useState("");
+  const [showJumpInput, setShowJumpInput] = useState(false);
 
-  const indexOfLastJob = currentPage * itemsPerPage;
-  const indexOfFirstJob = indexOfLastJob - itemsPerPage;
-  const currentJobs = jobs.slice(indexOfFirstJob, indexOfLastJob);
-
-  const totalPages = Math.ceil(jobs.length / itemsPerPage);
-
-  // Adjust page number buttons dynamically based on window width
   useEffect(() => {
     const handleResize = () => {
-      setPageNumbersToShow(window.innerWidth < 640 ? 3 : 7); // 3 for small screens, 7 for large screens
+      setPageNumbersToShow(window.innerWidth < 640 ? 3 : 5);
     };
-
-    handleResize(); // Set initial value
+    handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const totalPages = Math.ceil((jobs?.length || 0) / itemsPerPage);
+  const indexOfLastJob = currentPage * itemsPerPage;
+  const indexOfFirstJob = indexOfLastJob - itemsPerPage;
+  const currentJobs = jobs?.slice(indexOfFirstJob, indexOfLastJob) || [];
+
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
+    if (pageNumber > 0 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+    }
   };
 
-  // Get the page numbers to display based on currentPage and pageNumbersToShow
+  const handleJumpToPage = (e) => {
+    e.preventDefault();
+    const page = parseInt(jumpPage);
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      setShowJumpInput(false);
+      setJumpPage("");
+    } else {
+      alert("Invalid page number");
+    }
+  };
+
   const getPageNumbers = () => {
     const pageNumbers = [];
     const maxPageButtons = pageNumbersToShow;
-
-    // Calculate the range of pages to display
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
     let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
-
-    // Adjust startPage if there aren't enough pages to show
     if (endPage - startPage + 1 < maxPageButtons) {
       startPage = Math.max(1, endPage - maxPageButtons + 1);
     }
-
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(i);
     }
-
     return pageNumbers;
   };
 
   return (
     <div
-      className={`bg-white shadow-md rounded-t-lg ${className} border border-y-2 border-t-violet-800`}
+      className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}
     >
-      {/* Table for larger screens */}
-      <div className="hidden md:block">
-        <table className="w-full table-auto border-collapse overflow-hidden rounded-lg shadow-md">
-          <thead>
-            <tr className="bg-violet-200 text-violet-800 font-semibold">
-              <th className="p-3 text-left">Company Name</th>
-              <th className="p-3 text-left">Role</th>
-              <th className="p-3 text-left">Batch</th>
-              <th className="p-3 text-left">Qualification</th>
-              <th className="p-3 text-left">Apply Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentJobs.map((job) => (
-              <tr
-                key={job.id}
-                className="border-t transition hover:bg-violet-100 odd:bg-white even:bg-gray-50"
-              >
-                <td className="p-3 text-gray-700">{job.company_name}</td>
-                <td className="p-3 text-gray-700">{job.role}</td>
-                <td className="p-3 text-gray-700">
-                  {job.batch.split(",").join(", ")}
-                </td>
-                <td className="p-3 text-gray-700">
-                  {job.qualification.split(",").join(", ")}
-                </td>
-                <td className="p-3">
-                  <button className="bg-gradient-to-r from-violet-800 to-blue-600 text-white py-2 px-4 rounded-md shadow-md transform transition duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-600 hover:to-violet-800">
-                    <a
-                      href={job.apply_link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center space-x-2"
-                    >
-                      <span>Apply</span>
-                    </a>
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      {/* Card view for smaller screens */}
-      <div className="block md:hidden">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {currentJobs.map((job) => (
-            <div
-              key={job.id}
-              className="border border-gray-200 p-4 rounded-lg shadow-md hover:shadow-xl transition hover:bg-violet-100 odd:bg-white even:bg-gray-50"
+      {/* Card View for Smaller Screens */}
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {currentJobs.map((job) => (
+          <div
+            key={job.id}
+            className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition hover:scale-105"
+          >
+            <h2
+              className="text-lg font-semibold font-display text-violet-700 truncate"
+              title={job.role}
             >
-              <h2 className="text-xl font-semibold text-indigo-600">
-                {job.company_name}
-              </h2>
-              <p className="text-sm text-gray-900">{job.role}</p>
-              <p className="mt-2 text-sm text-gray-800">
-                {job.batch.split(",").join(", ")}
-              </p>
-              <p className="mt-2 text-sm text-gray-800">
-                {job.qualification.split(",").join(", ")}
-              </p>
-              <a
-                href={job.apply_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-4 inline-block bg-gradient-to-r from-violet-800 to-blue-600 text-white py-2 px-4 rounded-md shadow-md transform transition duration-300 hover:scale-105 hover:shadow-lg hover:from-blue-600 hover:to-violet-800"
-              >
-                Apply
-              </a>
-            </div>
-          ))}
-        </div>
+              {job.role}
+            </h2>
+            <p className="text-gray-800 font-sans">{job.company_name}</p>
+            <p className="text-gray-600 mt-1 font-sans">
+              Batch: {job.batch.replace(/,/g, ", ")}
+            </p>
+            <p className="text-gray-600 font-sans">
+              Qualification: {job.degree}
+            </p>
+            <a
+              href={job.apply_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:shadow-lg transition font-sans"
+            >
+              Apply
+            </a>
+          </div>
+        ))}
       </div>
 
       {/* No Jobs Available */}
       {jobs.length === 0 && (
-        <div className="text-center py-6 text-gray-500">
+        <div className="text-center py-6 text-gray-500 font-sans">
           No jobs available at the moment.
         </div>
       )}
 
       {/* Pagination Controls */}
       {totalPages > 1 && (
-        <div className="flex justify-center space-x-2 py-4 flex-wrap">
-          {/* Previous Button */}
+        <div className="flex justify-center items-center gap-2 py-4">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 bg-gray-100 text-violet-800 rounded-full  disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
           >
-            <FaArrowAltCircleLeft />
-            <span className="pl-1">Prev</span>
+            <FaArrowAltCircleLeft className="mr-1" /> Prev
           </button>
-
-          {/* Page Number Buttons */}
           {getPageNumbers().map((pageNumber) => (
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
-              className={`px-3 py-2 ${currentPage === pageNumber ? "bg-violet-800 text-gray-100" : ""} rounded-full text-sm hover:bg-gray-300 hover:border-gray-900`}
+              className={`px-4 py-2 rounded-full font-sans ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 text-violet-700 hover:bg-gray-300"}`}
             >
               {pageNumber}
             </button>
           ))}
-
-          {/* Next Button */}
+          {/* Ellipsis for Jump to Page */}
+          {totalPages > pageNumbersToShow && !showJumpInput && (
+            <button
+              onClick={() => setShowJumpInput(true)}
+              className="px-4 py-2 bg-gray-200 text-violet-700 rounded-full font-sans hover:bg-gray-300"
+            >
+              ...
+            </button>
+          )}
+          {/* Jump to Page Input */}
+          {showJumpInput && (
+            <form onSubmit={handleJumpToPage} className="flex items-center">
+              <input
+                type="number"
+                min="1"
+                max={totalPages}
+                value={jumpPage}
+                onChange={(e) => setJumpPage(e.target.value)}
+                className="px-1 py-0.5 border-2 border-violet-500 rounded-l-full text-violet-700 focus:outline-violet-700"
+                placeholder="p.no"
+              />
+              <button
+                type="submit"
+                className="px-2 py-2 bg-violet-700 text-white rounded-r-full"
+              >
+                <FaSearch />
+              </button>
+            </form>
+          )}
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 bg-gray-100 text-violet-800 rounded-full disabled:bg-gray-50 disabled:text-gray-300 text-sm sm:text-base flex justify-center items-center border border-gray-300"
+            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
           >
-            <span className="pr-1">Next</span> <FaArrowAltCircleRight />
+            Next <FaArrowAltCircleRight className="ml-1" />
           </button>
         </div>
       )}

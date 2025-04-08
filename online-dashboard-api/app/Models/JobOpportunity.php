@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,35 +30,31 @@ class JobOpportunity extends Model
         'updated_at' => 'datetime',
     ];
 
-    public static function extractRequestData($request): array
+    public static function createJob($request): self
     {
-        return $data = [
+        return self::create([
             'company_name' => $request->company_name,
             'role' => $request->role,
             'batch' => $request->batch,
             'apply_link' => $request->apply_link,
             'qualification' => $request->qualification,
-        ];
+        ]);
     }
 
-    public static function createJob($request): object
+    public static function updateJob($request, $id): void
     {
-
-        return self::create(self::extractRequestData($request));
-
+        self::findOrFail($id)->update([
+            'company_name' => $request->company_name,
+            'role' => $request->role,
+            'batch' => $request->batch,
+            'apply_link' => $request->apply_link,
+            'qualification' => $request->qualification,
+        ]);
     }
 
-    public static function updateJob($request, $id)
+    public static function destroyJob($id): void
     {
-        $job = self::findOrFail($id);
-        $job->update(self::extractRequestData($request));
-
-    }
-
-    public static function destroyJob($id)
-    {
-        $job = self::findOrFail($id);
-        $job->delete();
+        self::findOrFail($id)->delete();
     }
 
     public static function showJob($id): Collection
@@ -68,12 +65,37 @@ class JobOpportunity extends Model
     public static function getAllJobs(): mixed
     {
         try {
-            $jobsList = self::all();
-
-            return JobResource::collection($jobsList);
-
+            return JobResource::collection(self::all());
         } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
+            return ApiResponse::setMessage(message: $e->getMessage())
+                ->response(Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    // === SCOPES === //
+
+    public function scopeBranch(Builder $query, $branch): Builder
+    {
+        return $query->where('qualification', $branch);
+    }
+
+    public function scopeBatch(Builder $query, $batch): Builder
+    {
+        return $query->where('batch', $batch);
+    }
+
+    public function scopeDegree(Builder $query, $degree): Builder
+    {
+        return $query->where('qualification', $degree);
+    }
+
+    public function scopeJobType(Builder $query, $jobType): Builder
+    {
+        return $query->where('job_type', $jobType);
+    }
+
+    public function scopeExperience(Builder $query, $experience): Builder
+    {
+        return $query->where('experience', '>=', $experience);
     }
 }

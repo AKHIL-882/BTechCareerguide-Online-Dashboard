@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerEventLogType;
+use App\Enums\UserEventLogType;
 use App\Http\Resources\UserProjectsResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -13,61 +13,66 @@ use Throwable;
 
 class UserProject extends Project
 {
-    public static function extractRequestData($request, $filePath = ''): array
+    public static function createProject($request): void
     {
-        return [
+        $fileName = time().'-'.$request->file('file')->getClientOriginalName();
+        $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
+
+        self::create([
             'project_name' => $request->project_name,
             'technical_skills' => $request->technical_skills,
             'project_description' => $request->project_description,
             'days_to_complete' => $request->days_to_complete,
             'document_name' => $filePath,
-            'user_id' => Auth::user()->id,
+            'user_id' => Auth::id(),
             'is_admin_project' => 0,
-        ];
+        ]);
+
+        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::ProjectRequested));
     }
 
-    public static function createProject($request)
+    public static function updateProject($request, $id): mixed
     {
-
-        $fileName = time().'-'.$request->file('file')->getClientOriginalName();
-        $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
-
-        self::create(self::extractRequestData($request, $filePath));
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::ProjectRequested));
-    }
-
-    public static function updateProject($request, $id)
-    {
-
         try {
             $userProject = self::findOrFail($id);
-            $existingFile = $userProject->document_name;
 
-            // If there's an existing file, delete it from storage to avoid duplicates from the user
-            if ($existingFile && Storage::disk('public')->exists('userProjectFiles/'.$existingFile)) {
-                Storage::disk('public')->delete('userProjectFiles/'.$existingFile);
+            // Delete existing file if it exists
+            if ($userProject->document_name && Storage::disk('public')->exists($userProject->document_name)) {
+                Storage::disk('public')->delete($userProject->document_name);
             }
 
             $fileName = time().'-'.$request->file('file')->getClientOriginalName();
             $filePath = $request->file('file')->storeAs('userProjectFiles', $fileName, 'public');
-        } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
-        }
 
-        $userProject->update(self::extractRequestData($request, $filePath));
+            $userProject->update([
+                'project_name' => $request->project_name,
+                'technical_skills' => $request->technical_skills,
+                'project_description' => $request->project_description,
+                'days_to_complete' => $request->days_to_complete,
+                'document_name' => $filePath,
+                'user_id' => Auth::id(),
+                'is_admin_project' => 0,
+            ]);
+
+            return $userProject;
+
+        } catch (Throwable $e) {
+            return ApiResponse::setMessage($e->getMessage())
+                ->response(Response::HTTP_BAD_REQUEST);
+        }
     }
 
     public static function showProject($id): UserProjectsResource
     {
-        $userProject = self::findOrFail($id);
-
-        return new UserProjectsResource($userProject);
+        return new UserProjectsResource(self::findOrFail($id));
     }
 
     public static function getAllProjects(): AnonymousResourceCollection
     {
-        $user = User::findOrFail(Auth::user()->id);
-        $userProjects = $user->projects()->orderBy('created_at', 'desc')->get();
+        $userProjects = Auth::user()
+            ->projects()
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return UserProjectsResource::collection($userProjects);
     }

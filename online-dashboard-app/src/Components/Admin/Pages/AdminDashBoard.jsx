@@ -9,7 +9,7 @@ const AdminDashBoard = () => {
         Dashboard
       </h1>
       <DashBoardCardList />
-      <UserProjectsPage />
+      <UserProjectsPage isDashboard={true} />
     </div>
   );
 };

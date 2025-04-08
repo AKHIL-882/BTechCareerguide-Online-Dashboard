@@ -1,147 +1,193 @@
-// App.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { Dialog } from "@headlessui/react";
+import axios from "axios";
+import { FaTrash } from "react-icons/fa";
 
 const CalendarBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [time, setTime] = useState("");
-  const [title, setTitle] = useState(""); // Added title state
+  const [title, setTitle] = useState("");
   const [bookedSlots, setBookedSlots] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
+    setTitle("");
+    setTime("");
+    setErrorMessage("");
     setIsOpen(true);
   };
 
-  const handleBookSlot = () => {
-    if (time && title) {
-      const newSlot = {
-        date: selectedDate.toDateString(),
-        time,
-        title, // Save title
-      };
-      setBookedSlots((prev) => [...prev, newSlot]);
+  const data = JSON.parse(localStorage.getItem("data"));
+  const accessToken = data ? data.access_token : null;
+
+  useEffect(() => {
+    axios
+      .get("http://127.0.0.1:8000/api/bookings/", {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      })
+      .then((response) => setBookedSlots(response.data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const handleBookSlot = async () => {
+    if (!time || !title) return;
+
+    const payload = {
+      date: selectedDate.toLocaleDateString("en-CA"),
+      time,
+      title,
+    };
+
+    try {
+      await axios.post("http://127.0.0.1:8000/api/bookings/create", payload, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+
+      const updatedSlots = await axios.get(
+        "http://127.0.0.1:8000/api/bookings/",
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+
+      setBookedSlots(updatedSlots.data);
       setTime("");
-      setTitle(""); // Reset title
+      setTitle("");
       setIsOpen(false);
+    } catch (error) {
+      setErrorMessage(error.response?.data?.message || "Error booking slot");
     }
   };
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2">
-      <div className="flex items-center justify-center bg-gray-100">
-        <div className="flex flex-col items-center justify-center px-4">
-          <div className="w-full max-w-xl md:max-w-4xl rounded-lg p-6 overflow-hidden">
-            <h1 className="text-2xl font-bold text-center mb-6">
-              Book Slot for Assistance
-            </h1>
-            <div className="calendar-container flex items-center justify-center rounded-lg p-4">
-              <Calendar
-                onClickDay={handleDateClick}
-                tileClassName={({ date }) => {
-                  const isBooked = bookedSlots.some(
-                    (slot) => slot.date === date.toDateString(),
-                  );
-                  return isBooked ? "booked-slot" : "";
-                }}
-                className="custom-calendar"
-              />
-            </div>
-
-            <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
-              <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center z-10">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-80">
-                  <h2 className="text-xl font-semibold mb-4 text-center">
-                    Book Slot for {selectedDate?.toDateString()}
-                  </h2>
-                  <label className="block mb-2">
-                    Booking Title:
-                    <input
-                      type="text"
-                      className="border rounded-lg p-2 w-full mt-2"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Enter booking title"
-                    />
-                  </label>
-                  <label className="block mb-2">
-                    Select Time:
-                    <input
-                      type="time"
-                      className="border rounded-lg p-2 w-full mt-2"
-                      value={time}
-                      onChange={(e) => setTime(e.target.value)}
-                    />
-                  </label>
-                  <div className="flex justify-end gap-2 mt-4">
-                    <button
-                      onClick={() => setIsOpen(false)}
-                      className="px-4 py-2 border rounded-lg text-gray-600"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      onClick={handleBookSlot}
-                      className="px-4 py-2 bg-blue-500 text-white rounded-lg"
-                      disabled={!time || !title}
-                    >
-                      Book Slot
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </Dialog>
-
-            {bookedSlots.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-xl font-bold mb-4">Booked Slots</h2>
-                <ul className="bg-gray-50 shadow rounded-lg p-4 divide-y">
-                  {bookedSlots.map((slot, index) => (
-                    <li key={index} className="py-2 text-gray-800">
-                      <strong>{slot.title}</strong> - {slot.date} - {slot.time}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+    <div className="w-full px-6 py-10 flex flex-col items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8 mt-10">
+        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+          <div className="flex items-center justify-center space-x-1">
+            <span className="w-1 h-4 bg-violet-600"></span>
+            <span>BOOK EXAM SLOT</span>
           </div>
+        </h2>
+        <div className="p-5 bg-blue-50 rounded-lg shadow-md flex justify-center">
+          <Calendar
+            onClickDay={handleDateClick}
+            className="mx-auto custom-calendar"
+          />
         </div>
       </div>
 
-      <style jsx global>{`
-        .custom-calendar {
-          width: 100%;
-          max-width: 100%;
-        }
+      <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 p-4">
+          <div className="bg-white p-6 rounded-xl shadow-2xl w-full max-w-md transition-all transform scale-95 hover:scale-100">
+            <h2 className="text-2xl font-semibold text-center mb-5 font-display">
+              Book Slot
+            </h2>
+            <input
+              type="text"
+              className="border rounded-lg p-3 w-full mb-4 focus:ring-2 focus:ring-violet-400 outline-none"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter Title"
+            />
+            <input
+              type="time"
+              className="border rounded-lg p-3 w-full mb-4 focus:ring-2 focus:ring-violet-400 outline-none"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+            {errorMessage && (
+              <p className="text-red-500 text-center">{errorMessage}</p>
+            )}
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="px-4 py-2 border rounded-lg text-gray-600 bg-gray-200 hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleBookSlot}
+                className="px-4 py-2 bg-violet-500 text-white rounded-lg hover:bg-violet-600"
+              >
+                Book
+              </button>
+            </div>
+          </div>
+        </div>
+      </Dialog>
 
-        .react-calendar__tile {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 40px;
-          width: 40px;
-          max-width: 100%;
-        }
+      <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl mt-8 p-8">
+        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+          <div className="flex items-center justify-center space-x-1">
+            <span className="w-1 h-4 bg-violet-600"></span>
+            <span>BOOKED SLOTS</span>
+          </div>
+        </h2>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-sm md:text-base shadow-md">
+            <thead>
+              <tr className="bg-gray-200 text-gray-700 font-sans">
+                <th className="border p-3">Date</th>
+                <th className="border p-3">Time</th>
+                <th className="border p-3">Title</th>
+                <th className="border p-3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookedSlots.map((slot) => (
+                <tr
+                  key={slot.id}
+                  className="odd:bg-gray-100 hover:bg-gray-200 transition font-sans"
+                >
+                  <td className="border p-3 text-center">{slot.date}</td>
+                  <td className="border p-3 text-center">{slot.time}</td>
+                  <td className="border p-3 text-center">{slot.title}</td>
+                  <td className="border p-3 text-center">
+                    <button className="text-red-500 hover:text-red-700">
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-        .react-calendar__tile.booked-slot {
-          background-color: #f87171;
-          color: white;
-        }
-
-        .react-calendar__tile.booked-slot:hover {
-          background-color: #ef4444;
-        }
-
-        @media (min-width: 768px) {
-          .react-calendar__tile {
-            height: 50px;
-            width: 100px;
+      <style>
+        {`
+          .custom-calendar {
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            background: white;
           }
-        }
-      `}</style>
+
+          .react-calendar {
+            width: 100%;
+            max-width: 350px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+          }
+
+          .react-calendar__tile {
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+          }
+
+          .react-calendar__tile--active {
+            background: #2563eb !important;
+            color: white !important;
+          }
+        `}
+      </style>
     </div>
   );
 };

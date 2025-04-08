@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enums\CustomerEventLogType;
+use App\Enums\UserEventLogType;
 use App\Http\Resources\PaymentResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -46,7 +46,7 @@ class Payment extends Model
             'payment_document_name' => $filePath,
         ]);
 
-        CustomerEventLog::createLog(CustomerEventLogType::getDescription(CustomerEventLogType::PaymentScreenshotUploaded));
+        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentScreenshotUploaded));
     }
 
     public static function showAllPaymentRequest(): AnonymousResourceCollection

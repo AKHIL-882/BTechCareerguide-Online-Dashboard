@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JobOpportunityRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\JobOpportunity;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,5 +73,21 @@ class JobOpportunityController extends Controller
         JobOpportunity::destroyJob($id);
 
         return ApiResponse::setMessage('Job deleted successfully')->response(Response::HTTP_OK);
+    }
+
+    public function getFilterJobs(Request $request)
+    {
+        info($request);
+        $filters = collect($request->only(['qualification', 'batch', 'degree', 'job_type', 'experience']))
+            ->filter()
+            ->mapWithKeys(fn ($value, $key) => [$key => strtolower($value)]); // Convert to lowercase
+
+        $jobs = JobOpportunity::query();
+
+        foreach ($filters as $key => $value) {
+            $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
+        }
+
+        return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
     }
 }

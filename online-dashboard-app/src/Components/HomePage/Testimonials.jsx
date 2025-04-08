@@ -41,11 +41,11 @@ const testimonials = [
 const Testimonials = () => {
   return (
     <div className="py-16 px-4 bg-violet-100 text-center">
-      <h2 className="text-3xl sm:text-4xl font-bold text-blue-950 mb-6 relative p-2">
+      <h2 className="text-3xl sm:text-4xl font-bold text-blue-950 mb-6 relative p-2 font-display">
         Testimonials
         <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-16 h-1 bg-violet-600"></span>
       </h2>
-      <p className="text-gray-600 text-lg sm:text-xl mb-10">
+      <p className="text-gray-600 text-lg sm:text-xl mb-10 font-sans">
         Hear what our users say about our services.
       </p>
 
@@ -72,10 +72,10 @@ const Testimonials = () => {
         {testimonials.map((testimonial, index) => (
           <SwiperSlide key={index}>
             <div className="bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto h-[200px] flex flex-col justify-between">
-              <p className="text-gray-700 italic mb-4 flex-grow text-base sm:text-lg">
-                <span className="text-violet-800 font-bold text-2xl">"</span>
+              <p className="text-gray-700 italic mb-4 flex-grow text-sm sm:text-base font-sans">
+                <span className="text-violet-800 text-2xl font-sans">"</span>
                 {testimonial.message}
-                <span className="text-violet-800 font-bold text-2xl">"</span>
+                <span className="text-violet-800  text-2xl font-sans">"</span>
               </p>
               <div className="flex items-center space-x-4">
                 <img
@@ -84,10 +84,10 @@ const Testimonials = () => {
                   className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-violet-600"
                 />
                 <div className="text-left">
-                  <h4 className="text-violet-800 font-bold text-sm sm:text-base">
+                  <h4 className="text-violet-800 text-md font-semibold font-display">
                     {testimonial.name}
                   </h4>
-                  <p className="text-gray-500 text-xs sm:text-sm">
+                  <p className="text-gray-500 text-xs sm:text-sm font-sans">
                     {testimonial.role}
                   </p>
                 </div>
