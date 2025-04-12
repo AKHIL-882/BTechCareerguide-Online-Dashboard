@@ -139,6 +139,7 @@ export const useFetchJobs = () => {
           },
         });
         setJobListings(response.data.data.reverse());
+        console.log(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
         console.error(err);

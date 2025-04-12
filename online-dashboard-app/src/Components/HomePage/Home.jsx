@@ -56,7 +56,7 @@ const HomePage = () => {
     <div className="min-h-screen flex flex-col">
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
-      <main className="flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen pt-12">
+      <main className="relative flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen pt-12">
         {/* Left Section */}
         <GetStarted handleGetStartedClick={handleGetStartedClick} />
         {/* Right Section */}
@@ -75,6 +75,25 @@ const HomePage = () => {
           signupLoading={signupLoading}
           giggleCounter={giggleCounter}
         />
+
+        <div className="absolute bottom-4 inset-x-0 flex justify-center md:justify-start left-6 z-10 overflow-hidden">
+          <div className="animate-bounce">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10 text-white"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M19 13l-7 7-7-7M19 5l-7 7-7-7"
+              />
+            </svg>
+          </div>
+        </div>
       </main>
       <HeroStatic />
       <OfferingSection />
