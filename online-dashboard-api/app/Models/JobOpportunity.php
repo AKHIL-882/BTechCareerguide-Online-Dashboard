@@ -23,7 +23,7 @@ class JobOpportunity extends Model
         'batch',
         'apply_link',
         'branch',
-         'degree', 'job_type', 'experience'
+        'degree', 'job_type', 'experience',
     ];
 
     protected $casts = [

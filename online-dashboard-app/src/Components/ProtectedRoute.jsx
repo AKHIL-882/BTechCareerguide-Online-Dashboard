@@ -4,17 +4,14 @@ import { AuthContext } from "./AuthContext";
 
 const ProtectedRoute = ({ children, allowedRole }) => {
   const { auth } = useContext(AuthContext);
-  console.log(auth);
-  const userRole = localStorage.getItem("roles"); // Ideally should come from context too
-  console.log(userRole);
+  const storedAuth = JSON.parse(localStorage.getItem("data"));
+  const userRole = localStorage.getItem("roles");
   const location = useLocation();
 
-  if (!auth.access_token || !userRole) {
-    console.log("sd");
+  if (!storedAuth.access_token || !userRole) {
     return <Navigate to="/" replace />;
   }
-  console.log(userRole);
-  console.log(allowedRole);
+
   if (userRole !== allowedRole) {
     alert("Unauthorized access. Logging out.");
     localStorage.clear();

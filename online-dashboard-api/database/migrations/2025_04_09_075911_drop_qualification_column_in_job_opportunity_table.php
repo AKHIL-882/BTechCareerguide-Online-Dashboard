@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('job_opportunities', function (Blueprint $table) {
             $table->dropColumn('qualification');
-           
+
         });
     }
 
@@ -27,4 +27,3 @@ return new class extends Migration
         });
     }
 };
-
