@@ -5,7 +5,7 @@ import { AuthContext } from "./AuthContext";
 const ProtectedRoute = ({ children, allowedRole }) => {
   const { auth } = useContext(AuthContext);
   const storedAuth = JSON.parse(localStorage.getItem("data"));
-  const userRole = localStorage.getItem("roles"); 
+  const userRole = localStorage.getItem("roles");
   const location = useLocation();
 
   if (!storedAuth.access_token || !userRole) {
