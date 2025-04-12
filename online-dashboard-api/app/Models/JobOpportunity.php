@@ -22,7 +22,8 @@ class JobOpportunity extends Model
         'role',
         'batch',
         'apply_link',
-        'qualification',
+        'branch',
+         'degree', 'job_type', 'experience'
     ];
 
     protected $casts = [
@@ -37,7 +38,7 @@ class JobOpportunity extends Model
             'role' => $request->role,
             'batch' => $request->batch,
             'apply_link' => $request->apply_link,
-            'qualification' => $request->qualification,
+            // 'qualification' => $request->qualification,
         ]);
     }
 
