@@ -1,92 +1,112 @@
-import React from "react";
-import {
-  FaBriefcase,
-  FaProjectDiagram,
-  FaCode,
-  FaChalkboardTeacher,
-  FaLightbulb,
-  FaPlayCircle,
-} from "react-icons/fa";
+import React, { useState } from "react";
+import FadeInStagger from "./FadeInStagger";
+const OfferingCard = ({ image, title, shortDesc, fullDesc, bgColor }) => {
+  const [hovered, setHovered] = useState(false);
 
-const OfferingCard = ({ icon, title, description }) => (
-  <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full text-center transform transition-all duration-300 hover:scale-105 hover:shadow-2xl group flex items-center space-x-4">
-    {/* Icon section */}
-    <div className="p-6 bg-violet-800 text-white rounded-sm inline-block transition-colors duration-300 group-hover:bg-violet-600">
-      {icon}
+  return (
+    <div
+      className={`p-6 rounded-xl shadow-lg max-w-sm w-full text-center transform transition-all duration-300 hover:scale-105 hover:shadow-2xl relative group overflow-hidden ${bgColor}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <h3 className="text-xl font-bold text-violet-800 mb-4 font-display">{title}</h3>
+      <div className="mb-4">
+        {/* Real Image instead of icon */}
+        <img src={image} alt={title} className="w-full h-48 object-cover rounded-lg" />
+      </div>
+
+      {!hovered ? (
+        <>
+          <p className="text-gray-700 mb-4 font-sans">{shortDesc}</p>
+          <button className="text-violet-600 font-semibold hover:underline">
+            Know More →
+          </button>
+        </>
+      ) : (
+        <p className="text-gray-800 transition-opacity duration-300 font-sans">
+          {fullDesc}
+        </p>
+      )}
     </div>
-    {/* Text section */}
-    <div className="text-left">
-      <h3 className="text-xl font-semibold text-gray-800 mb-1 group-hover:text-violet-600 transition-colors duration-300 font-display">
-        {title}
-      </h3>
-      <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300 font-sans">
-        {description}
-      </p>
-    </div>
-  </div>
-);
+  );
+};
 
 const OfferingSection = () => {
-  // Array of services data
   const offerings = [
     {
-      icon: <FaBriefcase size={30} />,
+      image: "https://img.freepik.com/free-vector/creative-illustration-recruitment-concept_52683-43306.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Jobs",
-      description: "Explore exciting job opportunities with leading companies.",
+      shortDesc: "Find your dream job today.",
+      fullDesc: "Explore exciting job opportunities with top companies. Get matched with roles that suit your skills and aspirations.",
+      bgColor: "bg-blue-100",
     },
     {
-      icon: <FaProjectDiagram size={30} />,
+      image: "https://img.freepik.com/premium-vector/web-design-ui-ux-software-development_773186-634.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Projects",
-      description: "Request a project and get it at a reasonable cost.",
+      shortDesc: "Affordable projects on demand.",
+      fullDesc: "Request a personalized project and get it done at a reasonable price, tailored to your specifications.",
+      bgColor: "bg-green-100",
     },
     {
-      icon: <FaCode size={30} />,
+      image: "https://img.freepik.com/free-vector/flat-hand-drawn-web-developers-illustration_23-2148842972.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Coding QA",
-      description: "Get company coding solutions at a reasonable cost.",
+      shortDesc: "Solutions to your coding doubts.",
+      fullDesc: "Get real company-level coding solutions and explanations, helping you to prepare better and learn effectively.",
+      bgColor: "bg-yellow-100",
     },
     {
-      icon: <FaChalkboardTeacher size={30} />,
+      image: "https://img.freepik.com/free-vector/hand-drawn-flat-design-finance-leaders-concept_23-2149166908.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Career Guidance",
-      description:
-        "Receive expert advice to shape your career and achieve your goals.",
+      shortDesc: "Plan your career path.",
+      fullDesc: "Receive expert mentoring to guide your career journey. Make informed decisions and reach your goals faster.",
+      bgColor: "bg-orange-100",
     },
     {
-      icon: <FaLightbulb size={30} />,
+      image: "https://img.freepik.com/free-vector/business-team-celebrating-income-growth_74855-6271.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Upskilling Sessions",
-      description:
-        "Participate in interactive sessions to enhance your skills.",
+      shortDesc: "Grow your knowledge base.",
+      fullDesc: "Participate in live and interactive upskilling sessions focused on in-demand skills and tools.",
+      bgColor: "bg-purple-100",
     },
     {
-      icon: <FaPlayCircle size={30} />,
+      image: "https://img.freepik.com/free-vector/online-tutorials-concept_52683-37480.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740", // Path to your image
       title: "Course Materials",
-      description: "Access comprehensive course videos and materials anytime.",
+      shortDesc: "Learn at your own pace.",
+      fullDesc: "Access a wide range of course materials, including video tutorials and PDF notes, anytime and anywhere.",
+      bgColor: "bg-pink-100",
     },
   ];
 
   return (
-    <div className="pt-14 pb-28 px-4 bg-violet-50 text-center">
-      <h2 className="text-3xl font-bold text-blue-950 mb-2 relative p-2 font-display">
-        Services
-        <span className="absolute left-1/2 transform -translate-x-1/2 bottom-0 w-16 h-1 bg-violet-600"></span>
-      </h2>
-      {/* Added paragraph */}
-      <p className="text-gray-600 text-lg mb-10 font-sans">
-        Explore our range of services designed to help you with jobs, projects,
-        and coding solutions.
-      </p>
-      <div className="flex flex-wrap justify-around gap-6 md:gap-y-12 font-sans">
-        {/* Map through the offerings and create the OfferingCard for each */}
+    <div className="pt-14 pb-28 px-4 bg-slate-50 text-center overflow-x-hidden">
+      <FadeInStagger direction="right" delay={0.1} duration={0.8} once={false}>
+      <div className="text-center mb-8">
+        <h1 className="text-3xl lg:text-4xl text-gray-800 font-sans pb-2">
+        We provide more than you expect—check out our{" "}
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-green-500">
+          other services.
+          </span>{" "}
+        </h1>
+        <p className="text-gray-500 mt-1">Everything you need in one place</p>
+      </div>
+      </FadeInStagger>
+      <FadeInStagger direction="bottom" delay={0.1} duration={0.8} once={false}>
+      <div className="flex flex-wrap justify-around gap-6 md:gap-y-12">
         {offerings.map((offering, index) => (
           <OfferingCard
             key={index}
-            icon={offering.icon}
+            image={offering.image}
             title={offering.title}
-            description={offering.description}
+            shortDesc={offering.shortDesc}
+            fullDesc={offering.fullDesc}
+            bgColor={offering.bgColor}
           />
         ))}
       </div>
+      </FadeInStagger>
     </div>
   );
 };
 
 export default OfferingSection;
+
