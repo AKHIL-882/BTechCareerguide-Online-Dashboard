@@ -1,9 +1,11 @@
 import React from 'react';
 import FadeInStagger from './FadeInStagger';
 import { FaAngleDoubleDown } from 'react-icons/fa';
+import HeroStatic from './HeroStatic';
 
 const AboutUsSection = () => {
   return (
+    <>
     <div className="w-full flex flex-col md:flex-row items-center justify-center bg-white p-8 h-auto">
       {/* Left Side - Image */}
       <div className="w-full md:w-1/2 flex items-center justify-center">
@@ -11,7 +13,7 @@ const AboutUsSection = () => {
         <img
           src="https://img.freepik.com/premium-vector/modern-flat-design-concept-business-analysis-with-characters-business-meeting-viewing-data_1026586-585.jpg?ga=GA1.1.370144144.1727452674&semt=ais_hybrid&w=740"
           alt="About Us"
-          className="rounded-xl w-full h-full object-cover"
+          className="rounded-xl w-full h-[400px] object-cover"
         />
         </FadeInStagger>
       </div>
@@ -30,17 +32,19 @@ const AboutUsSection = () => {
           With a passionate team and customer-first approach, we turn ideas into impactful experiences.
         </p>
         {/* Buttons */}
-        <div className="flex gap-4">
+        <div className="flex gap-4 md:justify-start justify-center items-center">
           <button className="bg-violet-600 text-white px-6 py-2 rounded-full hover:bg-violet-700 transition">
             Join Us
           </button>
           <button className="border border-gray-400 text-gray-700 px-6 py-2 rounded-full hover:border-gray-600 transition flex justify-center items-center">
-            Explore More <FaAngleDoubleDown className='ml-1'/>
+            Explore<FaAngleDoubleDown className='ml-1'/>
           </button>
         </div>
         </FadeInStagger>
       </div>
     </div>
+    <HeroStatic/>
+    </>
   );
 };
 

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import { useSignup } from "../../Api";
 import { useLogin } from "../../Api";
-import ComapanyMarquee from "./ComapanyMarquee";
 import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
-import StatsSection from "./StatasSection";
+import StatsSection from "./StatsSection";
 import Footer from "./Footer";
-import HeroStatic from "./HeroStatic";
 import { validate } from "./Validation";
 import Header from "./Header";
 import GetStarted from "./GetStarted";
@@ -15,6 +13,7 @@ import AuthForm from "./AuthForm";
 import CopyRightFooter from "./CopyRightFooter";
 import HomepageJobs from "./HomepageJobs";
 import AboutUsSection from "./AboutUsSection";
+import Faq from "./Faq";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -102,7 +101,7 @@ const HomePage = () => {
       <OfferingSection />
       <StatsSection />
       <Testimonials />
-      <HeroStatic />
+      <Faq/>
       <Footer />
       <CopyRightFooter />
     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { FaMapMarkerAlt, FaDollarSign } from "react-icons/fa"; // location and salary icons from FontAwesome
+import { FaMapMarkerAlt, FaDollarSign, FaArrowRight } from "react-icons/fa"; // location and salary icons from FontAwesome
 import CompanyMarquee from "./ComapanyMarquee";
 import FadeInStagger from "./FadeInStagger";
 
@@ -39,7 +39,7 @@ const jobs = [
 const HomepageJobs = () => {
   return (
     <div className="w-full px-4 py-8 bg-slate-50 overflow-x-hidden">
-          <FadeInStagger direction="right" delay={0.1} duration={0.8} once={false}>
+      <FadeInStagger direction="right" delay={0.1} duration={0.8} once={false}>
       <div className="text-center mb-8">
         <h1 className="text-3xl lg:text-4xl text-gray-800 font-sans pb-2">
           Explore{" "}
@@ -50,7 +50,8 @@ const HomepageJobs = () => {
         </h1>
         <p className="text-gray-500 mt-1">1000+ jobs to explore</p>
       </div>
-
+      </FadeInStagger>
+      <FadeInStagger direction="bottom" delay={0.1} duration={0.8} once={false}>
       <div className="flex flex-wrap justify-center gap-5 mb-8">
         {jobs.map((job) => (
           <div
@@ -97,13 +98,13 @@ const HomepageJobs = () => {
           </div>
         ))}
       </div>
+      </FadeInStagger>
       <CompanyMarquee/>
-      <div className="text-center mt-8">
-        <button className="text-violet-600 border border-violet-600 px-5 py-2 rounded-full hover:bg-violet-50 transition font-medium">
-          View All Jobs
+      <div className="text-center flex justify-center mt-8">
+        <button className="text-violet-600 border border-violet-600 px-5 py-2 rounded-full hover:bg-violet-50 transition font-medium flex justify-center items-center">
+          <span>View All Jobs</span><FaArrowRight className="ml-2"/>
         </button>
       </div>
-      </FadeInStagger>
     </div>
   );
 };
