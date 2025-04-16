@@ -57,7 +57,8 @@ const HomePage = () => {
     <div className="min-h-screen flex flex-col">
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
-      <main className="relative flex flex-col lg:flex-row justify-between lg:space-x-16 items-center px-6 pb-16 bg-white lg:h-screen pt-12">
+      <section id="home">
+      <main className="relative flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 pb-16 bg-white lg:h-screen pt-12">
         {/* Left Section */}
         <GetStarted handleGetStartedClick={handleGetStartedClick} />
         {/* Right Section */}
@@ -96,13 +97,26 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-      <HomepageJobs/>
-      <AboutUsSection/>
-      <OfferingSection />
+      </section>
+      <section id="trending">
+        <HomepageJobs />
+      </section>
+      <section id="about">
+        <AboutUsSection />
+      </section>
+      <section id="services">
+        <OfferingSection />
+      </section>
       <StatsSection />
+      <section id="testimonials">
       <Testimonials />
-      <Faq/>
-      <Footer />
+      </section>
+      <section id="faqs">
+        <Faq />
+      </section>
+      <section id="contact">
+        <Footer />
+      </section>
       <CopyRightFooter />
     </div>
   );

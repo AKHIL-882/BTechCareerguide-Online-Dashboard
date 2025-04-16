@@ -1,9 +1,12 @@
-import React from 'react';
+import React,{useState} from 'react';
 import FadeInStagger from './FadeInStagger';
 import { FaAngleDoubleDown } from 'react-icons/fa';
 import HeroStatic from './HeroStatic';
+import PopupNotification from './PopupNotification';
+import scrollToSection from './ScrollToSection';
 
 const AboutUsSection = () => {
+  const [showPopup, setShowPopup] = useState(false);
   return (
     <>
     <div className="w-full flex flex-col md:flex-row items-center justify-center bg-white p-8 h-auto">
@@ -33,10 +36,10 @@ const AboutUsSection = () => {
         </p>
         {/* Buttons */}
         <div className="flex gap-4 md:justify-start justify-center items-center">
-          <button className="bg-violet-600 text-white px-6 py-2 rounded-full hover:bg-violet-700 transition">
+          <button onClick={() => setShowPopup(true)} className="bg-violet-600 text-white px-6 py-2 rounded-full hover:bg-violet-700 transition">
             Join Us
           </button>
-          <button className="border border-gray-400 text-gray-700 px-6 py-2 rounded-full hover:border-gray-600 transition flex justify-center items-center">
+          <button onClick={() => scrollToSection("services")} className="border border-gray-400 text-gray-700 px-6 py-2 rounded-full hover:border-gray-600 transition flex justify-center items-center">
             Explore<FaAngleDoubleDown className='ml-1'/>
           </button>
         </div>
@@ -44,6 +47,12 @@ const AboutUsSection = () => {
       </div>
     </div>
     <HeroStatic/>
+    {showPopup && (
+      <PopupNotification 
+        onClose={() => setShowPopup(false)}  
+        title="We're excited to have you here! Log in or create an account to explore all our awesome services!"      
+      />
+    )} 
     </>
   );
 };
