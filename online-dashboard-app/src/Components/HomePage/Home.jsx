@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { useSignup } from "../../Api";
 import { useLogin } from "../../Api";
-import ComapanyMarquee from "./ComapanyMarquee";
 import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
-import StatsSection from "./StatasSection";
+import StatsSection from "./StatsSection";
 import Footer from "./Footer";
-import HeroStatic from "./HeroStatic";
 import { validate } from "./Validation";
 import Header from "./Header";
 import GetStarted from "./GetStarted";
 import AuthForm from "./AuthForm";
 import CopyRightFooter from "./CopyRightFooter";
+import HomepageJobs from "./HomepageJobs";
+import AboutUsSection from "./AboutUsSection";
+import Faq from "./Faq";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -56,7 +57,8 @@ const HomePage = () => {
     <div className="min-h-screen flex flex-col">
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
-      <main className="relative flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 pb-16 bg-gradient-to-b from-violet-800 to-blue-200 lg:h-screen pt-12">
+      <section id="home">
+      <main className="relative flex flex-col lg:flex-row justify-center lg:space-x-16 items-center px-6 pb-16 bg-white lg:h-screen pt-12">
         {/* Left Section */}
         <GetStarted handleGetStartedClick={handleGetStartedClick} />
         {/* Right Section */}
@@ -76,11 +78,11 @@ const HomePage = () => {
           giggleCounter={giggleCounter}
         />
 
-        <div className="absolute bottom-4 inset-x-0 flex justify-center md:justify-start left-6 z-10 overflow-hidden">
+        <div className="absolute bottom-4 inset-x-0 flex justify-center md:justify-start left-2 z-10 overflow-hidden">
           <div className="animate-bounce">
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="h-10 w-10 text-white"
+              className="h-10 w-10 text-gray-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -95,12 +97,26 @@ const HomePage = () => {
           </div>
         </div>
       </main>
-      <HeroStatic />
-      <OfferingSection />
+      </section>
+      <section id="trending">
+        <HomepageJobs />
+      </section>
+      <section id="about">
+        <AboutUsSection />
+      </section>
+      <section id="services">
+        <OfferingSection />
+      </section>
       <StatsSection />
+      <section id="testimonials">
       <Testimonials />
-      <ComapanyMarquee />
-      <Footer />
+      </section>
+      <section id="faqs">
+        <Faq />
+      </section>
+      <section id="contact">
+        <Footer />
+      </section>
       <CopyRightFooter />
     </div>
   );
