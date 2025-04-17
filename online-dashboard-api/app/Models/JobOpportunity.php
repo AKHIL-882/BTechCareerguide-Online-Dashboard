@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class JobOpportunity extends Model
 {
@@ -75,10 +76,10 @@ class JobOpportunity extends Model
         }
     }
 
-    public static function getLatestJobs(): Collection
+    public static function getLatestJobs(): EloquentCollection
     {
         if (!\Schema::hasTable('job_opportunities')) {
-            return collect(); // Return empty collection if table doesn't exist
+            return new EloquentCollection(); // ✅ Correct return type
         }
     
         return self::latest()->take(3)->get();
