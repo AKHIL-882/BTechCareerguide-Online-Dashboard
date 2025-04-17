@@ -17,6 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
+      # Navigate to the correct directory if composer.json is not in the root
+      - name: Set working directory
+        run: cd online-dashboard-api
+
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
