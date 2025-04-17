@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use Throwable;
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class JobOpportunity extends Model
@@ -78,7 +79,7 @@ class JobOpportunity extends Model
 
     public static function getLatestJobs(): EloquentCollection
     {
-        if (!\Schema::hasTable('job_opportunities')) {
+        if (!Schema::hasTable('job_opportunities')) {
             return new EloquentCollection(); // ✅ Correct return type
         }
     
