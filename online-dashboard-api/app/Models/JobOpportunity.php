@@ -75,7 +75,7 @@ class JobOpportunity extends Model
         }
     }
 
-    public static function getLatestJobs(): self
+    public static function getLatestJobs(): Collection
     {
         return self::latest()->take(3)->get();
     }
