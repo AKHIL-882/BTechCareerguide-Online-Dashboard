@@ -2,9 +2,9 @@ name: Laravel CI
 
 on:
   push:
-    branches: [ "*" ] # Runs on every push, regardless of branch
+    branches: [ "*" ]
   pull_request:
-    branches: [ "*" ] # Runs for every pull request on any branch
+    branches: [ "*" ]
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -36,6 +36,20 @@ jobs:
         php-version: '8.2'
         tools: composer
 
+    - name: Copy .env
+      run: |
+        cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+    - name: Update .env for MySQL
+      run: |
+        cd online-dashboard-api && \
+        sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=mysql/' .env && \
+        sed -i 's/^DB_HOST=.*/DB_HOST=127.0.0.1/' .env && \
+        sed -i 's/^DB_PORT=.*/DB_PORT=3306/' .env && \
+        sed -i 's/^DB_DATABASE=.*/DB_DATABASE=online_dashboard/' .env && \
+        sed -i 's/^DB_USERNAME=.*/DB_USERNAME=user/' .env && \
+        sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
+
     - name: Cache Composer Dependencies
       uses: actions/cache@v3
       with:
@@ -47,20 +61,6 @@ jobs:
     - name: Install Dependencies
       run: |
         cd online-dashboard-api && composer install --no-progress --prefer-dist
-
-    - name: Copy .env
-      run: |
-        cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
-
-    - name: Update .env for MySQL
-      run: |
-        cd online-dashboard-api && \
-        sed -i 's/^DB_CONNECTION=.*$/DB_CONNECTION=mysql/' .env && \
-        sed -i 's/^DB_HOST=.*$/DB_HOST=127.0.0.1/' .env && \
-        sed -i 's/^DB_PORT=.*$/DB_PORT=3306/' .env && \
-        sed -i 's/^DB_DATABASE=.*$/DB_DATABASE=online_dashboard/' .env && \
-        sed -i 's/^DB_USERNAME=.*$/DB_USERNAME=user/' .env && \
-        sed -i 's/^DB_PASSWORD=.*$/DB_PASSWORD=password/' .env
 
     - name: Wait for MySQL to be ready
       run: |
