@@ -80,7 +80,7 @@ class JobOpportunity extends Model
     public static function getLatestJobs(): EloquentCollection
     {
         if (!Schema::hasTable('job_opportunities')) {
-            return new EloquentCollection(); // ✅ Correct return type
+            return new EloquentCollection(); 
         }
     
         return self::latest()->take(3)->get();
