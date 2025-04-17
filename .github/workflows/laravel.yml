@@ -52,14 +52,6 @@ jobs:
       run: |
         cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-    - name: Generate Application Key
-      run: |
-        cd online-dashboard-api && php artisan key:generate
-
-    - name: Set Directory Permissions
-      run: |
-        cd online-dashboard-api && chmod -R 777 storage bootstrap/cache
-
     - name: Update .env for MySQL
       run: |
         cd online-dashboard-api && \
@@ -69,6 +61,14 @@ jobs:
         sed -i 's/^DB_DATABASE=.*$/DB_DATABASE=online_dashboard/' .env && \
         sed -i 's/^DB_USERNAME=.*$/DB_USERNAME=user/' .env && \
         sed -i 's/^DB_PASSWORD=.*$/DB_PASSWORD=password/' .env
+
+    - name: Wait for MySQL to be ready
+      run: |
+        sudo apt-get install -y netcat
+        while ! nc -zv 127.0.0.1 3306; do
+          echo "Waiting for MySQL to be ready..."
+          sleep 3
+        done
 
     - name: Run Migrations
       env:
@@ -80,17 +80,6 @@ jobs:
         DB_PASSWORD: password
       run: |
         cd online-dashboard-api && php artisan migrate --force
-
-    - name: Check Migration Status
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: online_dashboard
-        DB_USERNAME: user
-        DB_PASSWORD: password
-      run: |
-        cd online-dashboard-api && php artisan migrate:status
 
     - name: Run Tests
       env:
