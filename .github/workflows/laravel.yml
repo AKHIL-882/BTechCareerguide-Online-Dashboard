@@ -59,6 +59,13 @@ jobs:
       run: |
         cd online-dashboard-api && php artisan migrate --force
 
+    - name: Check Migration Status
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: online-dashboard-api/database/database.sqlite
+      run: |
+        cd online-dashboard-api && php artisan migrate:status
+
     - name: Run Tests
       env:
         DB_CONNECTION: sqlite
