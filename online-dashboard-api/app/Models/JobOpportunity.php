@@ -77,8 +77,13 @@ class JobOpportunity extends Model
 
     public static function getLatestJobs(): Collection
     {
+        if (!\Schema::hasTable('job_opportunities')) {
+            return collect(); // Return empty collection if table doesn't exist
+        }
+    
         return self::latest()->take(3)->get();
     }
+    
 
     // === SCOPES === //
 
