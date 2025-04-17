@@ -2,53 +2,63 @@ name: Laravel CI
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "*" ] # Runs on every push, regardless of branch
   pull_request:
-    branches: [ "*" ]
+    branches: [ "*" ] # Runs for every pull request on any branch
     types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
+
 jobs:
   laravel-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+    - name: Checkout Code
+      uses: actions/checkout@v4
 
-      # Navigate to the correct directory if composer.json is not in the root
-      - name: Set working directory
-        run: cd online-dashboard-api
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        tools: composer
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          extensions: mbstring, bcmath, sqlite, pdo_sqlite
-          coverage: none
+    - name: Cache Composer Dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
 
-      - name: Install Composer dependencies
-        run: composer install --no-progress --prefer-dist --no-interaction
+    - name: Install Dependencies
+      run: |
+        cd online-dashboard-api && composer install --no-progress --prefer-dist
 
-      - name: Copy .env.example to .env
-        run: cp .env.example .env
+    - name: Copy .env
+      run: |
+        cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
 
-      - name: Generate application key
-        run: php artisan key:generate
+    - name: Generate Application Key
+      run: |
+        cd online-dashboard-api && php artisan key:generate
 
-      - name: Create SQLite database file
-        run: |
-          mkdir -p database
-          touch database/database.sqlite
+    - name: Set Directory Permissions
+      run: |
+        cd online-dashboard-api && chmod -R 777 storage bootstrap/cache
 
-      - name: Update .env for SQLite
-        run: |
-          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=sqlite/' .env
-          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=database\/database.sqlite/' .env
+    - name: Create SQLite Database
+      run: |
+        cd online-dashboard-api && mkdir -p database && touch database/database.sqlite
 
-      - name: Run database migrations
-        run: php artisan migrate --force
+    - name: Run Tests
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: online-dashboard-api/database/database.sqlite
+      run: |
+        cd online-dashboard-api && php artisan test
 
-      - name: Run tests
-        run: php artisan test
+    - name: Run Pint (Code Style Fixer)
+      run: |
+        cd online-dashboard-api && ./vendor/bin/pint --verbose
