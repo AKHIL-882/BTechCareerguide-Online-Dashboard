@@ -52,6 +52,13 @@ jobs:
       run: |
         cd online-dashboard-api && chmod -R 777 storage bootstrap/cache
 
+    - name: Run Migrations
+      env:
+        DB_CONNECTION: sqlite
+        DB_DATABASE: online-dashboard-api/database/database.sqlite
+      run: |
+        cd online-dashboard-api && php artisan migrate --force
+
     - name: Run Tests
       env:
         DB_CONNECTION: sqlite
