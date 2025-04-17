@@ -24,4 +24,13 @@ class StandardDataController extends Controller
             ->setData($data)
             ->response(Response::HTTP_OK);
     }
+
+    public function configHome(): JsonResponse
+    {
+        $data = ['home' => config('home')];
+
+        return ApiResponse::setMessage('Standard Data for Home')
+            ->setData($data)
+            ->response(Response::HTTP_OK);
+    }
 }

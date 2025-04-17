@@ -23,7 +23,9 @@ class JobOpportunity extends Model
         'batch',
         'apply_link',
         'branch',
-        'degree', 'job_type', 'experience',
+        'degree',
+        'job_type',
+        'experience',
     ];
 
     protected $casts = [
@@ -71,6 +73,11 @@ class JobOpportunity extends Model
             return ApiResponse::setMessage(message: $e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
         }
+    }
+
+    public static function getLatestJobs()
+    {
+        return self::latest()->take(3)->get();
     }
 
     // === SCOPES === //
