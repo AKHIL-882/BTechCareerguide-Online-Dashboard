@@ -32,6 +32,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
+    - name: Create SQLite Database
+      run: |
+        cd online-dashboard-api && mkdir -p database && touch database/database.sqlite
+
     - name: Install Dependencies
       run: |
         cd online-dashboard-api && composer install --no-progress --prefer-dist
@@ -47,10 +51,6 @@ jobs:
     - name: Set Directory Permissions
       run: |
         cd online-dashboard-api && chmod -R 777 storage bootstrap/cache
-
-    - name: Create SQLite Database
-      run: |
-        cd online-dashboard-api && mkdir -p database && touch database/database.sqlite
 
     - name: Run Tests
       env:
