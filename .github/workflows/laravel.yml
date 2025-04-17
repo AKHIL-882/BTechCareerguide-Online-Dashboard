@@ -36,6 +36,18 @@ jobs:
         php-version: '8.2'
         tools: composer
 
+    - name: Cache Composer Dependencies
+      uses: actions/cache@v3
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-composer-
+
+    - name: Install Dependencies
+      run: |
+        cd online-dashboard-api && composer install --no-progress --prefer-dist
+
     - name: Copy .env
       run: |
         cd online-dashboard-api && php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -50,38 +62,16 @@ jobs:
         sed -i 's/^DB_USERNAME=.*/DB_USERNAME=user/' .env && \
         sed -i 's/^DB_PASSWORD=.*/DB_PASSWORD=password/' .env
 
-    - name: Cache Composer Dependencies
-      uses: actions/cache@v3
-      with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-composer-
-
-    - name: Install Dependencies
-      run: |
-        cd online-dashboard-api && composer install --no-progress --prefer-dist
-
     - name: Wait for MySQL to be ready
       run: |
-        sudo apt-get install -y netcat
-        while ! nc -zv 127.0.0.1 3306; do
+        until mysqladmin ping -h 127.0.0.1 -uuser -ppassword --silent; do
           echo "Waiting for MySQL to be ready..."
           sleep 3
         done
 
     - name: Run Migrations
-      env:
-        DB_CONNECTION: mysql
-        DB_HOST: 127.0.0.1
-        DB_PORT: 3306
-        DB_DATABASE: online_dashboard
-        DB_USERNAME: user
-        DB_PASSWORD: password
       run: |
         cd online-dashboard-api && php artisan migrate --force
-
-    - name: Run Tests
       env:
         DB_CONNECTION: mysql
         DB_HOST: 127.0.0.1
@@ -89,8 +79,17 @@ jobs:
         DB_DATABASE: online_dashboard
         DB_USERNAME: user
         DB_PASSWORD: password
+
+    - name: Run Tests
       run: |
         cd online-dashboard-api && php artisan test
+      env:
+        DB_CONNECTION: mysql
+        DB_HOST: 127.0.0.1
+        DB_PORT: 3306
+        DB_DATABASE: online_dashboard
+        DB_USERNAME: user
+        DB_PASSWORD: password
 
     - name: Run Pint (Code Style Fixer)
       run: |
