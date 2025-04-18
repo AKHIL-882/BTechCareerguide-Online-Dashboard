@@ -79,13 +79,16 @@ class JobOpportunity extends Model
 
     public static function getLatestJobs(): EloquentCollection
     {
-        if (!Schema::hasTable('job_opportunities')) {
-            return new EloquentCollection(); 
+        try {
+            if (!Schema::hasTable('job_opportunities')) {
+                return new EloquentCollection(); 
+            }
+    
+            return self::latest()->take(3)->get();
+        } catch (Throwable $e) {
+            return new EloquentCollection();
         }
-    
-        return self::latest()->take(3)->get();
     }
-    
 
     // === SCOPES === //
 
