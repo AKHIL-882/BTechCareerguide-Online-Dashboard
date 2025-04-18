@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getUserDetails, postTestimonial } from "../../Api";
 
 const UserTestimonials = () => {
   const [form, setForm] = useState({
+    user_id: "",
     feedback: "",
     job_role: "",
     company: "",
@@ -9,6 +11,22 @@ const UserTestimonials = () => {
 
   const [message, setMessage] = useState("");
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const data = JSON.parse(localStorage.getItem("data"));
+      const accessToken = data?.access_token;
+
+      try {
+        const result = await getUserDetails(accessToken);
+        setForm((prev) => ({ ...prev, user_id: result.id }));
+      } catch (err) {
+        setError(err.message || "Could not fetch user info");
+      }
+    };
+
+    fetchUser();
+  }, []);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -19,25 +37,20 @@ const UserTestimonials = () => {
     setMessage("");
     setError(null);
 
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data?.access_token;
+
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/testimonials", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setMessage("Thank you for your feedback!");
-        setForm({ feedback: "", job_role: "", company: "" });
-      } else {
-        setError(result.message || "Submission failed.");
-      }
+      await postTestimonial(form, accessToken);
+      setMessage("Thank you for your feedback!");
+      setForm((prev) => ({
+        ...prev,
+        feedback: "",
+        job_role: "",
+        company: "",
+      }));
     } catch (err) {
-      setError("An error occurred. Please try again.");
+      setError(err.message || "Submission failed.");
     }
   };
 

@@ -22,6 +22,7 @@ class TestimonialController extends Controller
     public function store(StoreTestimonialRequest $request)
     {
         $testimonial = Testimonial::create($request->validated());
+        info($testimonial);
 
         return ApiResponse::setMessage('Testimonial Created Successfully')
             ->setData($testimonial)

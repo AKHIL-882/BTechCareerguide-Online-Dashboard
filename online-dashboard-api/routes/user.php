@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProjectsController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,8 @@ Route::prefix('jobs')->group(function () {
 });
 
 Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(function () {
+
+    Route::get('/user-details', [UserController::class, 'show']);
 
     Route::prefix('user-projects')->group(function () {
         Route::get('/', [UserProjectsController::class, 'index']);

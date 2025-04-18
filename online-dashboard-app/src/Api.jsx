@@ -592,3 +592,48 @@ export const handleStatusChange = async (projectId, newStatus) => {
     alert("An error occurred while updating the status.");
   }
 };
+
+export const getUserDetails = async (accessToken) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/user-details`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        Accept: "application/json",
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to fetch user details");
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const postTestimonial = async (formData, accessToken) => {
+  try {
+    const res = await fetch(`${API_BASE_URL}/testimonials`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to submit testimonial");
+    }
+
+    return data;
+  } catch (err) {
+    throw err;
+  }
+};

@@ -13,6 +13,8 @@ class StoreTestimonialRequest extends FormRequest
 
     public function rules(): array
     {
+        info($this);
+
         return [
             'user_id' => 'required|exists:users,id',
             'feedback' => 'required|string',

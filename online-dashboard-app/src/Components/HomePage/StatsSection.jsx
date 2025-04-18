@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { FaBriefcase, FaProjectDiagram, FaUserTie, FaUserGraduate } from "react-icons/fa"; // Importing icons
+import {
+  FaBriefcase,
+  FaProjectDiagram,
+  FaUserTie,
+  FaUserGraduate,
+} from "react-icons/fa"; // Importing icons
 import FadeInStagger from "./FadeInStagger";
 
 // 🔢 CountUpOnScroll component (all-in-one)
@@ -17,7 +22,7 @@ const CountUpOnScroll = ({ end, duration = 2 }) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.3 },
     );
 
     if (ref.current) observer.observe(ref.current);

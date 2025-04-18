@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FaMapMarkerAlt, FaDollarSign, FaArrowRight } from "react-icons/fa"; // location and salary icons from FontAwesome
 import CompanyMarquee from "./ComapanyMarquee";
 import FadeInStagger from "./FadeInStagger";
@@ -113,14 +113,14 @@ const HomepageJobs = () => {
           <span>View All Jobs</span>
           <FaArrowRight className="ml-2" />
         </button>
-      </div>  
+      </div>
       {showPopup && (
-      <PopupNotification 
-        onClose={() => setShowPopup(false)}  
-        title="Login to access all the jobs"      
-      />
-    )} 
-    </div>   
+        <PopupNotification
+          onClose={() => setShowPopup(false)}
+          title="Login to access all the jobs"
+        />
+      )}
+    </div>
   );
 };
 
