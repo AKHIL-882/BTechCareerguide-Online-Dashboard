@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('job_opportunities', function (Blueprint $table) {
-            $table->dropColumn('qualification');
+        // Schema::table('job_opportunities', function (Blueprint $table) {
+        //     $table->dropColumn('qualification');
 
-        });
+        // });
     }
 
     /**
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('job_opportunities', function (Blueprint $table) {
-            $table->string('qualification');
-        });
+        // Schema::table('job_opportunities', function (Blueprint $table) {
+        //     $table->string('qualification');
+        // });
     }
 };

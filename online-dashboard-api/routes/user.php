@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminProjectsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserProjectsController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
@@ -51,4 +52,11 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
         Route::put('/{id}', [BookingController::class, 'update']);
     });
 
+    Route::prefix('testimonials')->group(function () {
+        Route::get('/', [TestimonialController::class, 'index'])->name('testimonials.index');
+        Route::post('/', [TestimonialController::class, 'store'])->name('testimonials.store');
+        Route::get('/{testimonial}', [TestimonialController::class, 'show'])->name('testimonials.show');
+        Route::put('/{testimonial}', [TestimonialController::class, 'update'])->name('testimonials.update');
+        Route::delete('/{testimonial}', [TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+    });
 });

@@ -15,6 +15,8 @@ import UserMainLayout from "./Components/User/UserMainLayout";
 import AdminMaterials from "./Components/Admin/Pages/AdminMaterials";
 import CalendarBooking from "./Components/User/CalendarBooking";
 import AdminSlots from "./Components/Admin/Pages/AdminSlots";
+import Testimonials from "./Components/HomePage/Testimonials";
+import UserTestimonials from "./Components/User/UserTestimonials";
 
 function App() {
   return (
@@ -50,6 +52,7 @@ function App() {
           <Route path="/user/projects" element={<ProjectHome />} />
           <Route path="/user/company-qa" element={<CompanyQA />} />
           <Route path="/user/calender" element={<CalendarBooking />} />
+          <Route path="/user/testimonials" element={<UserTestimonials />} />
         </Route>
       </Routes>
     </AuthProvider>
