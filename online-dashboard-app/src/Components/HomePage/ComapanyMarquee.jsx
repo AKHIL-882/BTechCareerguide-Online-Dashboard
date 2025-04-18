@@ -13,7 +13,7 @@ const CompanyMarquee = () => {
 
   return (
     <div className="py-1">
-      <Marquee speed={50} autoFill={true} gradient={true} >
+      <Marquee speed={50} autoFill={true} gradient={true}>
         {logos.map((logo, index) => (
           <img
             key={index}
@@ -33,4 +33,3 @@ const CompanyMarquee = () => {
 };
 
 export default CompanyMarquee;
-

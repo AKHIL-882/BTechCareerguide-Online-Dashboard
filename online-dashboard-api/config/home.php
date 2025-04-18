@@ -37,6 +37,6 @@ return [
         'developers' => '220+',
         'students' => '12000+',
     ],
-    // Todo:: Need to add once the testimonials are implemented
+
     'testimonials' => [],
 ];

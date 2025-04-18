@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import PrivacyPolicyModal from "./PrivacyPolicyModal";
 import scrollToSection from "./ScrollToSection"; // update the path as needed
-import {
-  FaChevronDown,
-  FaChevronUp,
-} from "react-icons/fa";
+import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import FadeInStagger from "./FadeInStagger";
 import FooterCompanyInfo from "./FooterCompanyInfo";
 
@@ -143,7 +140,7 @@ const Footer = () => {
               </div>
             ))}
           </div>
-        <FooterCompanyInfo/>
+          <FooterCompanyInfo />
         </div>
       </footer>
 

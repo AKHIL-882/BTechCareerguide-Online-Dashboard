@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Http\Responses\ApiResponse;
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -33,8 +33,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(User $user)
+    public function show()
     {
+        $user = Auth::user();
+
         return (new ApiResponse)
             ->mergeResults((new UserResource($user))->resolve())
             ->response(200);
