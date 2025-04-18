@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use Throwable;
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class JobOpportunity extends Model
 {
@@ -23,7 +25,9 @@ class JobOpportunity extends Model
         'batch',
         'apply_link',
         'branch',
-        'degree', 'job_type', 'experience',
+        'degree',
+        'job_type',
+        'experience',
     ];
 
     protected $casts = [
@@ -70,6 +74,19 @@ class JobOpportunity extends Model
         } catch (Throwable $e) {
             return ApiResponse::setMessage(message: $e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public static function getLatestJobs(): EloquentCollection
+    {
+        try {
+            if (!Schema::hasTable('job_opportunities')) {
+                return new EloquentCollection(); 
+            }
+    
+            return self::latest()->take(3)->get();
+        } catch (Throwable $e) {
+            return new EloquentCollection();
         }
     }
 

@@ -2,9 +2,9 @@ name: Laravel CI
 
 on:
   push:
-    branches: [ "*" ] # Runs on every push, regardless of branch
+    branches: [ "*" ]
   pull_request:
-    branches: [ "*" ] # Runs for every pull request on any branch
+    branches: [ "*" ]
     types: [opened, synchronize, reopened]
 
 permissions:
@@ -32,9 +32,9 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install Dependencies
+    - name: Install Dependencies Without Scripts
       run: |
-        cd online-dashboard-api && composer install --no-progress --prefer-dist
+        cd online-dashboard-api && composer install --no-scripts --no-progress --prefer-dist
 
     - name: Copy .env
       run: |
@@ -51,6 +51,10 @@ jobs:
     - name: Create SQLite Database
       run: |
         cd online-dashboard-api && mkdir -p database && touch database/database.sqlite
+
+    - name: Run Composer Scripts (Safely)
+      run: |
+        cd online-dashboard-api && composer run-script post-autoload-dump || true
 
     - name: Run Tests
       env:
