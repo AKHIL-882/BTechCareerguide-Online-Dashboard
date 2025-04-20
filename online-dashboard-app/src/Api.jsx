@@ -182,7 +182,7 @@ export const useSaveJob = () => {
         {
           company_name: updatedJob.company_name,
           role: updatedJob.role,
-          qualification: updatedJob.qualification.join(","),
+          degree: updatedJob.degree.join(","),
           batch: updatedJob.batch.join(","),
           apply_link: updatedJob.apply_link,
         },
@@ -198,7 +198,7 @@ export const useSaveJob = () => {
         id: updatedJob.id,
         company_name: updatedJob.company_name,
         role: updatedJob.role,
-        qualification: updatedJob.qualification.sort().join(","),
+        degree: updatedJob.degree.sort().join(","),
         batch: updatedJob.batch.sort().join(","),
         apply_link: updatedJob.apply_link,
       };
@@ -243,7 +243,7 @@ export const useCreateJob = () => {
         {
           company_name: formData.companyName,
           role: formData.role,
-          qualification: formData.qualifications.sort().join(","),
+          degree: formData.degree.sort().join(","),
           batch: formData.batches.sort().join(","),
           apply_link: formData.url,
         },
@@ -257,7 +257,7 @@ export const useCreateJob = () => {
         id: response.data.job_id,
         company_name: formData.companyName,
         role: formData.role,
-        qualification: formData.qualifications.sort().join(","),
+        degree: formData.degree.sort().join(","),
         batch: formData.batches.sort().join(","),
         apply_link: formData.url,
       };
@@ -265,7 +265,7 @@ export const useCreateJob = () => {
       setFormData({
         companyName: "",
         role: "",
-        qualifications: [],
+        degree: [],
         batches: [],
         url: "",
       });

@@ -28,6 +28,9 @@ class JobOpportunity extends Model
         'degree',
         'job_type',
         'experience',
+        'ctc',
+        'company_logo',
+        'location',
     ];
 
     protected $casts = [
@@ -42,7 +45,9 @@ class JobOpportunity extends Model
             'role' => $request->role,
             'batch' => $request->batch,
             'apply_link' => $request->apply_link,
-            // 'qualification' => $request->qualification,
+            'ctc' => $request->ctc,
+            'company_logo' => $request->company_logo,
+            'location' => $request->location,
         ]);
     }
 
@@ -53,7 +58,9 @@ class JobOpportunity extends Model
             'role' => $request->role,
             'batch' => $request->batch,
             'apply_link' => $request->apply_link,
-            'qualification' => $request->qualification,
+            'ctc' => $request->ctc,
+            'company_logo' => $request->company_logo,
+            'location' => $request->location,
         ]);
     }
 

@@ -32,9 +32,18 @@ class JobOpportunityController extends Controller
      */
     public function store(JobOpportunityRequest $request): JsonResponse
     {
-        $jobOpportunity = JobOpportunity::createJob($request);
+        $data = $request->only(['company_name', 'role', 'batch', 'apply_link', 'ctc', 'location']);
 
-        return ApiResponse::setMessage('New job created successfully')->mergeResults(['job_id' => $jobOpportunity->id])->response(Response::HTTP_CREATED);
+        // Handle logo upload
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
+        }
+
+        $jobOpportunity = JobOpportunity::createJob((object) $data);
+
+        return ApiResponse::setMessage('New job created successfully')
+            ->mergeResults(['job_id' => $jobOpportunity->id])
+            ->response(Response::HTTP_CREATED);
     }
 
     /**
@@ -60,7 +69,13 @@ class JobOpportunityController extends Controller
      */
     public function update(JobOpportunityRequest $request, string $id): JsonResponse
     {
-        JobOpportunity::updateJob($request, $id);
+        $data = $request->only(['company_name', 'role', 'batch', 'apply_link', 'ctc', 'location']);
+
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
+        }
+
+        JobOpportunity::updateJob((object) $data, $id);
 
         return ApiResponse::setMessage('Job updated successfuly')->response(Response::HTTP_OK);
     }
@@ -77,8 +92,7 @@ class JobOpportunityController extends Controller
 
     public function getFilterJobs(Request $request)
     {
-        info($request);
-        $filters = collect($request->only(['qualification', 'batch', 'degree', 'job_type', 'experience']))
+        $filters = collect($request->only(['batch', 'degree', 'job_type', 'experience']))
             ->filter()
             ->mapWithKeys(fn ($value, $key) => [$key => strtolower($value)]); // Convert to lowercase
 
