@@ -13,6 +13,12 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     Route::post('refresh-token', [AuthenticationController::class, 'refreshAccessToken']);
 
+    Route::post('/create-order', [PaymentController::class, 'createRazorPayOrder']);
+    Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
+
+    Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
+
+
 });
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {
@@ -22,14 +28,12 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::post('signup', [AuthenticationController::class, 'signup']);
     Route::post('login', [AuthenticationController::class, 'login']);
 
+   
+
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
 
 });
 
-Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
-
-Route::post('/create-order', [PaymentController::class, 'createOrder']);
-Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
 
 // Admin routes
 require __DIR__.'/admin.php';

@@ -1,5 +1,6 @@
 <?php
 
+use App\Eums\RepoAccessStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,20 +12,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('user_github_usernames', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
-            $table->text('payment_document_name');
+            $table->foreignId('user_id')->constrained() ;
+            $table->string('github_username');
+            $table->string('email')->nullable();
+            $table->string('repo_access');
             $table->timestamps();
         });
     }
 
-    /**+
+    /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('payments');
+        Schema::dropIfExists('user_github_usernames');
     }
 };

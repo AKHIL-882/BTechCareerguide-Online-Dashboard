@@ -25,4 +25,26 @@ final class BookingStatus extends BaseEnum
         };
 
     }
+
+    public static function getAll()
+    {
+        return [
+            [
+                'value' => self::Accepted,
+                'key' => 'Accepted',
+                'description' => self::getDescription(self::Accepted),
+            ],
+            [
+                'value' => self::Decline,
+                'key' => 'Decline',
+                'description' => self::getDescription(self::Decline),
+            ],
+            [
+                'value' => self::Pending,
+                'key' => 'Pending',
+                'description' => self::getDescription(self::Pending),
+            ],
+
+        ];
+    }
 }
