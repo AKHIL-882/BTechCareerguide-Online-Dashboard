@@ -15,6 +15,7 @@ class RazorpayPayment extends Model
         'razorpay_payment_id',
         'razorpay_order_id',
         'status',
+        'user_id',
     ];
 
     protected $casts = [

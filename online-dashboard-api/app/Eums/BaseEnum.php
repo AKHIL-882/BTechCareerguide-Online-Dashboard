@@ -15,4 +15,15 @@ abstract class BaseEnum extends Enum
     {
         return $this;
     }
+
+
+    public static function getAllWithDescriptions() : array 
+    {
+        return collect(static::getValues())
+            ->map(fn($value) => [
+                'value' => $value,
+                'key' => static::getKey(($value)),
+                'description' => static::getDescription($value),
+            ])->values()->toArray();
+    }
 }

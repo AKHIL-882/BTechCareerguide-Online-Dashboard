@@ -36,24 +36,5 @@ final class RepoAccessStatus extends BaseEnum
     }
 
 
-    public static function getAll()
-    {
-        return [
-            [
-                'value' => self::AccessPending,
-                'key' => 'AccessPending',
-                'description' => self::getDescription(self::AccessPending),
-            ],
-            [
-                'value' => self::AccessGiven,
-                'key' => 'AccessGiven',
-                'description' => self::getDescription(self::AccessGiven),
-            ],
-            [
-                'value' => self::AccessFailed, 
-                'key' => 'AccessFailed',
-                'description' => self::getDescription(self::AccessFailed)
-            ]
-        ];
-    }
+
 }

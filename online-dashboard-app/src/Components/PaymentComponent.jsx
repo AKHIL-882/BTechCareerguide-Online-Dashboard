@@ -14,10 +14,8 @@ const PaymentComponent = () => {
   }, []);
 
   const handlePayment = async () => {
-    console.log("asd")
     try {
       const accessToken = JSON.parse(localStorage.getItem("data"))?.access_token;
-      console.log(accessToken)
       const res = await paymentInitiator(accessToken);
       const dataFromAPI = res.data.data;
       const options = {
@@ -29,7 +27,6 @@ const PaymentComponent = () => {
         order_id: dataFromAPI.order_id,
         handler: function (response) {
           alert("Payment Success!");
-          console.log("Payment Details:", response);
         },
         prefill: {
           name: "Venky",
@@ -50,8 +47,7 @@ const PaymentComponent = () => {
       };
 
       const rzp = new window.Razorpay(options);
-      console.log("Razorpay options:", options);
-      console.log("Razorpay instance:", rzp);
+   
       rzp.open();
     } catch (err) {
       console.error("Payment error:", err);

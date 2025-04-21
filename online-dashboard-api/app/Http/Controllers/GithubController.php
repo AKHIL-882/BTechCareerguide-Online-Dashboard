@@ -23,10 +23,10 @@ class GithubController extends Controller
         $this->client = new Client;
     }
 
-    public function checkUserNameExisted($username): bool
+    public function isUserNameExisted($username): bool
     {
         try {
-            $url = 'https://api.github.com/users/'.$username;
+            $url = config('github.user_lookup_url').$username;
             $response = $this->client->get($url, [
                 'headers' => [
                     'Authorization' => 'token '.env('GITHUB_TOKEN'),
@@ -47,14 +47,13 @@ class GithubController extends Controller
     {
 
         //check username existance 
-        if(!$this->checkUserNameExisted($request->username))
+        if(!$this->isUserNameExisted($request->username))
         {
-            info($request->username) ;
-            return ApiResponse::setMessage('User not found')->response(Response::HTTP_NOT_FOUND);
+            return ApiResponse::setMessage('User name with the Github id not found!!')->response(Response::HTTP_NOT_FOUND);
         }
 
 
-        $url = 'https://api.github.com/repos/'.env('GITHUB_OWNER').'/'.env('GITHUB_REPO').'/collaborators/'.$request->username;
+        $url =  config('github.add_collaborator_url').'/'.env('GITHUB_REPO').'/collaborators/'.$request->username;
 
         try {
             $response = $this->client->put($url, [
@@ -64,9 +63,7 @@ class GithubController extends Controller
                 ],
             ]);
 
-            info($request->username) ;
-
-            UserGithubUsername::Create(
+            UserGithubUsername::create(
                 ['github_username' => $request->username,
                     'user_id' => Auth::user()->id,
                     'email' => $request->email,
@@ -77,7 +74,7 @@ class GithubController extends Controller
             return response()->json(['message' => 'Permission granted Successfully'], 200);
         } catch (\Exception $e) {
 
-            UserGithubUsername::Create(
+            UserGithubUsername::create(
                 ['github_username' => $request->username,
                     'user_id' => Auth::user()->id,
                     'email' => $request->email,

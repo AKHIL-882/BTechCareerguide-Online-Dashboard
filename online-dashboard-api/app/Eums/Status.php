@@ -28,31 +28,5 @@ final class Status extends BaseEnum
         };
     }
 
-    public static function getAll()
-    {
-        return [
-            [
-                'value' => self::Pending,
-                'key' => 'Pending',
-                'description' => self::getDescription(self::Pending),
-            ],
-            [
-                'value' => self::Success,
-                'key' => 'Success',
-                'description' => self::getDescription(self::Success),
-            ],
-            [
-                'value' => self::Failure,
-                'key' => 'Failure',
-                'description' => self::getDescription(self::Failure),
-            ],
-            [
-                'value' => self::Due,
-                'key' => 'Due',
-                'description' => self::getDescription(self::Due),
-            ],
-
-        ];
-
-    }
+   
 }

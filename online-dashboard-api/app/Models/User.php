@@ -59,7 +59,7 @@ class User extends Authenticatable
         return $this->hasMany(ForgetPasswordTokens::class);
     }
 
-    public function razorpayPaymnents(): HasMany
+    public function razorpayPayments(): HasMany
     {
         return $this->hasMany(RazorpayPayment::class);
     }

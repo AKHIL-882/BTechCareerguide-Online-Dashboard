@@ -39,7 +39,7 @@ class PaymentController extends Controller
                 'razorpay_order_id' => $razorpayOrder['id'],
                 // we don't have razorpay_payment_id yet
                 'razorpay_payment_id' => null,
-                'status' => Status::getDescription(Status::Pending),
+                'status' => Status::Pending,
             ]);
 
             // return response()->json(['order_id' => $razorpayOrder['id'], 'key' => env('RAZORPAY_KEY')]);
@@ -47,7 +47,7 @@ class PaymentController extends Controller
                 'order_id' => $razorpayOrder['id'],
                 'key' => env('RAZORPAY_KEY'),
                 'amount' => $request->amount,
-            ])->mergeEnums(['payment_status' => Status::getAll()])->response(Response::HTTP_OK);
+            ])->mergeEnums(['payment_status' => Status::getAllWithDescriptions()])->response(Response::HTTP_OK);
 
         } catch (\Exception $e) {
             return ApiResponse::setmessage('Failed to create order: '.$e->getMessage())->response(Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -71,12 +71,12 @@ class PaymentController extends Controller
             if ($payment->status == 'captured') {
                 if ($razorpayment) {
                     $razorpayment->razorpay_payment_id = $paymentId;
-                    $razorpayment->status = Status::getDescription(status::Success);
+                    $razorpayment->status = Status::Success;
                 }
             } else {
                 if ($razorpayment) {
                     $razorpayment->razorpay_payment_id = $paymentId;
-                    $razorpayment->status = Status::getDescription(status::Failure);
+                    $razorpayment->status = Status::Failure;
                 }
 
                 return ApiResponse::setMessage('Payment failed')->response(Response::HTTP_BAD_REQUEST);

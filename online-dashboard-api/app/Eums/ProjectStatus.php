@@ -41,51 +41,5 @@ final class ProjectStatus extends BaseEnum
         };
     }
 
-    public static function getAll()
-    {
-        return [
-            [
-                'value' => self::Accepted,
-                'key' => 'Accepted',
-                'description' => self::getDescription(self::Accepted),
-            ],
-            [
-                'value' => self::Pending,
-                'key' => 'Pending',
-                'description' => self::getDescription(self::Pending),
-            ],
-            [
-                'value' => self::Building,
-                'key' => 'Building',
-                'description' => self::getDescription(self::Building),
-            ],
-            [
-                'value' => self::Success,
-                'key' => 'Success',
-                'description' => self::getDescription(self::Success),
-            ],
-            [
-                'value' => self::Rejected,
-                'key' => 'Rejected',
-                'description' => self::getDescription(self::Rejected),
-            ],
-            [
-                'value' => self::PaymentSuccess,
-                'key' => 'Payment Success',
-                'description' => self::getDescription(self::PaymentSuccess),
-            ],
-            [
-                'value' => self::Refund,
-                'key' => 'Refund',
-                'description' => self::getDescription(self::Refund),
-            ],
-            [
-                'value' => self::Completed,
-                'key' => 'Completed',
-                'description' => self::getDescription(self::Completed),
-            ],
 
-        ];
-
-    }
 }
