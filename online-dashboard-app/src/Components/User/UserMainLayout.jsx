@@ -5,6 +5,7 @@ import Footer from "../Admin/Components/Footer";
 import Sidebar from "./Sidebar";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import { logoutUser } from "../../Api";
+import { ToastContainer } from "react-toastify";
 
 const UserMainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -54,6 +55,7 @@ const UserMainLayout = () => {
         <Outlet />
       </div>
       <Footer />
+      <ToastContainer/>
     </>
   );
 };

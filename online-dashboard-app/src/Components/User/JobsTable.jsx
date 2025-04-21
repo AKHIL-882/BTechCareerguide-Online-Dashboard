@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
+import ReportModal from "./ReportModal";
+import RelativeTime from "./RelativeTIme";
 import {
   FaArrowAltCircleRight,
   FaArrowAltCircleLeft,
   FaSearch,
+  FaMapMarkerAlt,
+  FaRegFlag,
+  FaRupeeSign
 } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
@@ -58,42 +63,90 @@ const JobsTable = ({ jobs, className = "" }) => {
     return pageNumbers;
   };
 
+  const [selectedJob, setSelectedJob] = useState(null);
+
+  const openReportModal = (job) => setSelectedJob(job);
+  const closeReportModal = () => setSelectedJob(null);
+
   return (
+    
     <div
       className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}
     >
-      {/* Card View for Smaller Screens */}
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-6">
-        {currentJobs.map((job) => (
-          <div
-            key={job.id}
-            className="border p-4 rounded-lg shadow-md bg-white hover:shadow-xl transition hover:scale-105"
-          >
-            <h2
-              className="text-lg font-semibold font-display text-violet-700 truncate"
-              title={job.role}
-            >
-              {job.role}
-            </h2>
-            <p className="text-gray-800 font-sans">{job.company_name}</p>
-            <p className="text-gray-600 mt-1 font-sans">
-              Batch: {job.batch.replace(/,/g, ", ")}
-            </p>
-            <p className="text-gray-600 font-sans">
-              Qualification: {job.degree}
-            </p>
+< div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {currentJobs.map((job) => (
+        <div
+          key={job.id}
+          className="w-full sm:w-[350px] border border-gray-200 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white"
+        >
+          <div className="flex items-center space-x-4">
+            <img
+              src={job.company_logo}
+              alt={job.role}
+              className="w-12 h-12 rounded-full object-cover"
+            />
+            <div className="flex items-start justify-between w-full">
+              <div>
+                <h3 className="text-lg font-sans">{job.role}</h3>
+                <p className="text-violet-600 text-sm font-sans flex items-center gap-1">
+                  {job.company_name}
+                </p>
+              </div>
+              <button
+                    onClick={() => openReportModal(job)}
+                    className="ml-1 text-gray-500 hover:text-red-700"
+                    title="Report Job"
+                  >
+                    <FaRegFlag size={12} />
+                  </button>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mt-3">
+            <span className="px-2 md:px-3 py-1 text-xs bg-green-100 text-green-500 rounded-full font-sans">
+              {job.job_type}
+            </span>
+            <span className="px-2 md:px-3 py-1 text-xs bg-orange-100 text-orange-600 rounded-full flex items-center gap-1">
+              <FaRupeeSign size={12} /> {job.ctc}
+            </span>
+            <span className="px-2 md:px-3 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full flex items-center gap-1">
+              <FaMapMarkerAlt size={12} /> {job.location}
+            </span>
+
+            {job.batch.split(",").map((b, idx) => (
+              <span
+                key={idx}
+                className="px-2 md:px-3 py-1 text-xs bg-purple-100 text-purple-600 rounded-full font-sans"
+              >
+                {b.trim()}
+              </span>
+            ))}
+            {job.degree.split(",").map((d, idx) => (
+              <span
+                key={idx}
+                className="px-2 md:px-3 py-1 text-xs bg-blue-100 text-blue-600 rounded-full font-sans"
+              >
+                {d.trim()}
+              </span>
+            ))}
+          </div>
+
+          <div className="flex justify-between items-center text-sm mt-4 text-gray-500">
+            <span><RelativeTime createdAt={job.created_at} /></span>
             <a
               href={job.apply_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block mt-3 bg-gradient-to-r from-violet-700 to-blue-500 text-white text-center py-2 px-4 rounded-md shadow-md hover:shadow-lg transition font-sans"
+              className="text-violet-600 font-medium hover:underline"
             >
               Apply
             </a>
           </div>
-        ))}
-      </div>
+        </div>
+      ))}
 
+      {selectedJob && (
+        <ReportModal job={selectedJob} onClose={closeReportModal} />
+      )}
+    </div>
       {/* No Jobs Available */}
       {jobs.length === 0 && (
         <div className="text-center py-6 text-gray-500 font-sans">
