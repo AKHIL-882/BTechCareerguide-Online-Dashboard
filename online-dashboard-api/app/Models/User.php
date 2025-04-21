@@ -73,6 +73,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
+    }
+
     public function initiatePasswordReset(): void
     {
         $expiryTimelimit = config('auth.reset_password_expiry_time_limit');

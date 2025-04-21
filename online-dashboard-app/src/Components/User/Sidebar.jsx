@@ -90,6 +90,18 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           <i className="fa fa-question-circle pl-2" aria-hidden="true"></i>
           <span>Company Q/A</span>
         </NavLink>
+        <NavLink
+          to="/user/testimonials"
+          className={({ isActive }) =>
+            `flex items-center space-x-2 w-full px-4 py-3 ${
+              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
+            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+          }
+          onClick={handleLinkClick}
+        >
+          <i class="fa fa-comments-o pl-2" aria-hidden="true"></i>
+          <span>Feedback</span>
+        </NavLink>
       </nav>
     </aside>
   );
