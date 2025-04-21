@@ -67,8 +67,7 @@ const JobFilters = ({ setFilteredJobs }) => {
           },
         },
       );
-
-      setFilteredJobs(response.data.data); // <-- now lifts state up
+      setFilteredJobs(response.data.data); 
       setShowFilters(false);
     } catch (error) {
       console.error("Error fetching jobs:", error);

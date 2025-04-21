@@ -93,16 +93,19 @@ class JobOpportunityController extends Controller
 
     public function getFilterJobs(Request $request)
     {
-        $filters = collect($request->only(['batch', 'degree', 'job_type', 'experience']))
-            ->filter()
-            ->mapWithKeys(fn ($value, $key) => [$key => strtolower($value)]); // Convert to lowercase
-
+        $filters = collect($request->only([
+            'branch', 'batch', 'degree', 'job_type', 'experience'
+        ]))->filter();
+    
         $jobs = JobOpportunity::query();
-
+    
         foreach ($filters as $key => $value) {
             $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
         }
+    
+        return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
     }
+    
 
     public function report(ReportJobRequest $request, $id)
     {
