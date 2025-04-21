@@ -29,7 +29,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/",
-            "App\\Enums\\": "app/Eums/"
+            "App\\Enums\\": "app/Enums/"
 
         },
         "files": [

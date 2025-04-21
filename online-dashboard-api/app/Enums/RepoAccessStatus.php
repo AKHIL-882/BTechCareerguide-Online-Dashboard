@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Eums;
+namespace App\Enums;
 
 use App\Enums\BaseEnum;
 

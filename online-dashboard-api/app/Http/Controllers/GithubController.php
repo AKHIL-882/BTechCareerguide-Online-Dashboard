@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Eums\RepoAccessStatus;
+use App\Enums\RepoAccessStatus;
 use App\Http\Responses\ApiResponse;
-use App\Models\UserGithubUsername;
+use App\Models\GithubUsername;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class GithubController extends Controller
         $this->client = new Client;
     }
 
-    public function isUserNameExisted($username): bool
+    public function isUserNameExist($username): bool
     {
         try {
             $url = config('github.user_lookup_url').$username;
@@ -47,12 +47,12 @@ class GithubController extends Controller
     {
 
         //check username existance 
-        if(!$this->isUserNameExisted($request->username))
+        if(!$this->isUserNameExist($request->username))
         {
             return ApiResponse::setMessage('User name with the Github id not found!!')->response(Response::HTTP_NOT_FOUND);
         }
 
-
+        // to update the 
         $url =  config('github.add_collaborator_url').'/'.env('GITHUB_REPO').'/collaborators/'.$request->username;
 
         try {
@@ -63,7 +63,7 @@ class GithubController extends Controller
                 ],
             ]);
 
-            UserGithubUsername::create(
+            GithubUsername::create(
                 ['github_username' => $request->username,
                     'user_id' => Auth::user()->id,
                     'email' => $request->email,
@@ -74,7 +74,7 @@ class GithubController extends Controller
             return response()->json(['message' => 'Permission granted Successfully'], 200);
         } catch (\Exception $e) {
 
-            UserGithubUsername::create(
+            GithubUsername::create(
                 ['github_username' => $request->username,
                     'user_id' => Auth::user()->id,
                     'email' => $request->email,

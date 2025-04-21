@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('razorpay_payment_id')->nullable();
             $table->string('razorpay_order_id')->nullable();
-            $table->String('status')->default(Status::getDescription(Status::Pending));
+            $table->integer('status')->default(Status::Pending);
             $table->timestamps();
         });
     }

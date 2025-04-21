@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -19,7 +20,7 @@ class RazorpayPayment extends Model
     ];
 
     protected $casts = [
-        'status' => 'integer',
+        'status' => Status::class,
     ];
 
     public function user(): BelongsTo
