@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobOpportunityRequest;
+use App\Http\Requests\ReportJobRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\JobOpportunity;
 use Illuminate\Http\Request;
@@ -101,7 +102,13 @@ class JobOpportunityController extends Controller
         foreach ($filters as $key => $value) {
             $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
         }
+    }
 
-        return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
+    public function report(ReportJobRequest $request, $id)
+    {
+        $job = JobOpportunity::findOrFail($id);
+        $job->reportJob($request->reason, $request->message);
+
+        return ApiResponse::setMessage('Job reported successfully')->response(Response::HTTP_OK);
     }
 }
