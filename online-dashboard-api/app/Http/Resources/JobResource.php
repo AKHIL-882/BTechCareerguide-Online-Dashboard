@@ -24,6 +24,12 @@ class JobResource extends JsonResource
             'ctc' => $this->ctc,
             'company_logo' => $this->company_logo,
             'location' => $this->location,
+            'job_type' => $this->job_type,
+            'created_at' => $this->created_at,
+            'experience' => $this->experience,
+            'branch' => $this->branch,
+            'is_fraud' => $this->is_fraud,
+            'report_reason' => $this->report_reason,
         ];
     }
 }

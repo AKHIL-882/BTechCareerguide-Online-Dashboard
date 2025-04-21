@@ -48,26 +48,39 @@ class JobOpportunity extends Model
         return self::create([
             'company_name' => $request->company_name,
             'role' => $request->role,
+            'degree' => $request->degree,
             'batch' => $request->batch,
+            'branch' => $request->branch,
             'apply_link' => $request->apply_link,
             'ctc' => $request->ctc,
             'company_logo' => $request->company_logo,
             'location' => $request->location,
+            'job_type' => $request->job_type,
+            'experience' => $request->experience,
+            'is_fraud' => $request->is_fraud ?? false,
+            'report_reason' => $request->report_reason ?? null,
         ]);
     }
-
+    
     public static function updateJob($request, $id): void
     {
         self::findOrFail($id)->update([
             'company_name' => $request->company_name,
             'role' => $request->role,
+            'degree' => $request->degree,
             'batch' => $request->batch,
+            'branch' => $request->branch,
             'apply_link' => $request->apply_link,
             'ctc' => $request->ctc,
             'company_logo' => $request->company_logo,
             'location' => $request->location,
+            'job_type' => $request->job_type,
+            'experience' => $request->experience,
+            'is_fraud' => $request->is_fraud ?? false,
+            'report_reason' => $request->report_reason ?? null,
         ]);
     }
+    
 
     public static function destroyJob($id): void
     {
