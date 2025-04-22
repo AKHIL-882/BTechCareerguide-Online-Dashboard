@@ -15,3 +15,9 @@ export const createProjectApi = async (accessToken, projectData) => {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
+
+export const  paymentInitiator = async (accessToken) => {
+  return axios.post(`${API_BASE_URL}/create-order`, { amount:500 }, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+}

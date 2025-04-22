@@ -37,8 +37,16 @@ class ApiResponse
         return $this;
     }
 
+    public function mergeEnums(array $enums): static
+    {
+        $this->response['enums'] = $enums;
+        return $this;
+    }
+
     public function response($statusCode): JsonResponse
     {
         return response()->json($this->response, $statusCode);
     }
+
+    
 }
