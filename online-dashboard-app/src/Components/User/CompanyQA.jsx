@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SectionHeading from "./SectionHeading";
 
 const CompanyQA = ({ handleLogout }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,12 +13,7 @@ const CompanyQA = ({ handleLogout }) => {
   return (
     <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen">
       <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-screen">
-        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-          <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span>
-            <span>Company Coding Round Solutions</span>
-          </div>
-        </h2>
+      <SectionHeading text="Company Coding Round Solutions"/>
         <p className="text-sm text-gray-500 text-center mb-4 font-sans">
           Coming soon...
         </p>
