@@ -38,7 +38,7 @@ const Dashboard = () => {
         ) : error ? (
           <p className="text-center text-red-500 text-lg">{error}</p>
         ) : (
-          <JobsTable jobs={jobListings.slice(0, 3)} className="p-4" />
+          <JobsTable jobs={jobListings.slice(0, 3)} />
         )}
       </div>
       {/* {!error && !loading && jobListings.length > 0 && (

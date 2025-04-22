@@ -7,7 +7,10 @@ import {
   FaSearch,
   FaMapMarkerAlt,
   FaRegFlag,
-  FaRupeeSign
+  FaRupeeSign,
+  FaClock,
+  FaUserTie,
+  FaGraduationCap
 } from "react-icons/fa";
 
 const JobsTable = ({ jobs, className = "" }) => {
@@ -73,11 +76,11 @@ const JobsTable = ({ jobs, className = "" }) => {
     <div
       className={`bg-white shadow-lg rounded-lg ${className} border border-gray-300 overflow-hidden`}
     >
-< div className="p-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
+< div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {currentJobs.map((job) => (
         <div
           key={job.id}
-          className="w-full sm:w-[350px] border border-gray-200 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white"
+          className="w-full sm:w-auto border border-gray-200 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white"
         >
           <div className="flex items-center space-x-4">
             <img
@@ -112,7 +115,18 @@ const JobsTable = ({ jobs, className = "" }) => {
             <span className="px-2 md:px-3 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full flex items-center gap-1">
               <FaMapMarkerAlt size={12} /> {job.location}
             </span>
-
+            <span className="px-2 md:px-3 py-1 text-xs bg-lime-100 text-lime-600 rounded-full flex items-center gap-1">
+              <FaUserTie size={12} /> {job.experience==0?"Fresher":`${job.experience==1?`${job.experience} year`:`${job.experience} years`} Experience`} 
+            </span>
+            {
+            job.branch.split(",").map((b, idx) => (
+              <span
+                key={idx}
+                className="px-2 md:px-3 py-1 text-xs bg-fuchsia-100 text-fuchsia-600 rounded-full font-sans"
+              >
+                {b.trim()}
+              </span>
+            ))}
             {job.batch.split(",").map((b, idx) => (
               <span
                 key={idx}
