@@ -25,4 +25,6 @@ final class BookingStatus extends BaseEnum
         };
 
     }
+
+  
 }
