@@ -1,38 +1,31 @@
 import Projects from "./Projects";
 import JobsTable from "./JobsTable.jsx";
-import { Link } from "react-router-dom";
-import Spinner from "../Admin/Components/Spinner.jsx";
 import { useFetchJobs } from "../../Api.jsx";
-import {
-  FaBriefcase,
-  FaAngleDoubleRight,
-  FaAngleDoubleLeft,
-  FaProjectDiagram,
-} from "react-icons/fa";
 import ShimmerJobs from "./ShimmerJobs.jsx";
+import SectionHeading from "./SectionHeading.jsx";
+import WelcomeCard from "./WelcomeCard.jsx";
+import { FaAngleRight, } from "react-icons/fa";
+import StatsOverlayCards from "./StatsOverlayCards.jsx";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
 
   return (
-    <main className="m-3 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
-      <div className="py-1">
-        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-          <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span>
-            <span></span>
-          </div>
-          LATEST PROJECTS
-        </h2>
-        <Projects isDashBoard={true} />
+    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+      <div className="relative">
+      <WelcomeCard
+        name="Akhil"
+        message="Hope you're making great progress in your career journey!"
+        imageUrl="https://img.freepik.com/free-psd/3d-rendering-graduate-character_23-2151363355.jpg?t=st=1745316799~exp=1745320399~hmac=ee170d8307335bde7ebf997bf939860595c9f34597759c4ca19e00f1666efe36&w=740"
+      />
+      <StatsOverlayCards/>
       </div>
-      <div className="mt-4">
-        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-          <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span>
-            <span>TRENDING JOBS</span>
-          </div>
-        </h2>
+      <div className="mt-40 sm:mt-14">
+        <div className="flex justify-between items-center">
+        <SectionHeading text="trending jobs" />
+        <Link className="text-violet-500 mb-4" to="/user/jobs" title="view all jobs"><FaAngleRight size={20}/></Link>
+        </div>
         {loading ? (
           <ShimmerJobs isDashBoard={true} />
         ) : error ? (
@@ -41,15 +34,13 @@ const Dashboard = () => {
           <JobsTable jobs={jobListings.slice(0, 3)} />
         )}
       </div>
-      {/* {!error && !loading && jobListings.length > 0 && (
-        <Link to={"/user/jobs"}>
-          <div className="bg-violet-600 mt-2 p-2 rounded-lg hover:opacity-90 transition duration-300 ease-in-out shadow-md cursor-pointer flex items-center justify-center space-x-4 group mx-2 md:mx-auto md:w-1/2">
-            <FaAngleDoubleLeft className="text-white w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:-translate-x-1 transition duration-300 ease-in-out font-sans" />
-            <p className="text-white font-display text-lg">View More Jobs</p>
-            <FaAngleDoubleRight className="text-white w-5 h-5 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition duration-300 ease-in-out font-sans" />
-          </div>
-        </Link>
-      )} */}
+      <div className="mt-4">
+      <div className="flex justify-between items-center">
+        <SectionHeading text="latest projects" />
+        <Link className="text-violet-500 mb-4" to="/user/projects" title="view all projects"><FaAngleRight size={20}/></Link>
+        </div>
+        <Projects isDashBoard={true} />
+      </div>
     </main>
   );
 };

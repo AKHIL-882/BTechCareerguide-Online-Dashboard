@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaSlidersH, FaTimes } from "react-icons/fa";
 import JobsTable from "./JobsTable";
+import SectionHeading from "./SectionHeading";
 
 const JobFilters = ({ setFilteredJobs }) => {
   const [showFilters, setShowFilters] = useState(false);
@@ -103,13 +104,7 @@ const JobFilters = ({ setFilteredJobs }) => {
             >
               <FaTimes className="text-xl" />
             </button>
-            <h2 className="text-lg text-blue-950 mb-2 flex items-center space-x-2 pb-2 font-sans">
-              <div className="flex items-center justify-center space-x-1">
-                <span className="w-1 h-4 bg-violet-600"></span>
-                <span>Select Your Preferences</span>
-              </div>
-            </h2>
-
+            <SectionHeading text="select your preferences"/>
             {/* Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               {/* Branch */}
@@ -194,7 +189,7 @@ const JobFilters = ({ setFilteredJobs }) => {
             <button
               className={`w-full py-2 mt-4 rounded ${
                 isFilterSelected
-                  ? "bg-blue-600 text-white hover:bg-blue-700"
+                  ? "bg-violet-500 text-white hover:bg-violet-700"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
               onClick={fetchFilteredJobs}
