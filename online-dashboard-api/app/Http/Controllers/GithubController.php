@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Enums\RepoAccessStatus;
+use App\Enums\UserEventLogType;
 use App\Http\Responses\ApiResponse;
 use App\Models\GithubUsername;
+use App\Models\UserEventLog;
 use GuzzleHttp\Client;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -71,6 +73,7 @@ class GithubController extends Controller
                 ]
             );
 
+            UserEventLog::createLog(UserEventLogType::RepoAccessGiven);
             return response()->json(['message' => 'Permission granted Successfully'], 200);
         } catch (\Exception $e) {
 
@@ -82,6 +85,7 @@ class GithubController extends Controller
                 ]
             );
 
+            UserEventLog::createLog(UserEventLogType::RepoAccessFailed);
             return response()->json(['message' => $e->getMessage()], 400);
         }
     }

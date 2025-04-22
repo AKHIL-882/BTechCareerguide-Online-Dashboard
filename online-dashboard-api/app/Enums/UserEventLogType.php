@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Models\User;
+
 /**
  * @model App\Models\UserEventLog
  *
@@ -27,6 +29,21 @@ final class UserEventLogType extends BaseEnum
 
     public const AccountDeleted = 8;
 
+    public const PaymentSuccess = 9;
+
+    public const PaymentFailed = 10;
+
+    public const PaymentInitiated = 11;
+
+    public const PaymentInitiationFailed = 12;
+
+    public const PaymentVerificationFailed = 13;
+
+    public const RepoAccessGiven = 14;
+
+    public const RepoAccessFailed = 15;
+
+
     public static function getDescription($value): string
     {
         return match ($value) {
@@ -39,6 +56,13 @@ final class UserEventLogType extends BaseEnum
             self::CodingQuestionRequested => 'User Requested for Coding question solution',
             self::AccountCreated => 'User Created a Account',
             self::AccountDeleted => 'User Deleted a Account',
+            self::PaymentSuccess => 'User Payment Successfull',
+            self::PaymentFailed => 'User Payment Failed',
+            self::PaymentInitiated => 'User Payment Initiated',
+            self::PaymentInitiationFailed => 'User Payment Initiation Failed',
+            self::PaymentVerificationFailed => 'User Payment Verification Failed',
+            self::RepoAccessGiven => 'User Repo Access Given',
+            self::RepoAccessFailed => 'User Repo Access Failed',
             default => parent::getDescription($value)
         };
     }
