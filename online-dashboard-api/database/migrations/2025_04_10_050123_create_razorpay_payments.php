@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('phone')->nullable();
             $table->decimal('amount', 10, 2);
             $table->string('razorpay_payment_id')->nullable();

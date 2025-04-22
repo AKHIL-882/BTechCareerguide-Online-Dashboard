@@ -12,6 +12,7 @@ class GithubUsername extends Model
         'github_username',
         'user_id',
         'repo_access',
+        'email',
     ] ;
 
 

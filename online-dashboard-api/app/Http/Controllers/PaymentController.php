@@ -20,7 +20,8 @@ class PaymentController extends Controller
     public function createRazorPayOrder(Request $request): JsonResponse
     {
         try {
-            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+            // $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+            $api = new Api(config('razorpay.key'), config('razorpay.secret'));
 
             $orderData = [
                 'receipt' => uniqid(),
@@ -37,6 +38,7 @@ class PaymentController extends Controller
             $payment = RazorpayPayment::create([
                 'name' => $user->name,
                 'email' => $user->email,
+                'user_id' => $user->id,
                 'phone' => $user?->phone,
                 'amount' => $request->amount,
                 'razorpay_order_id' => $razorpayOrder['id'],
@@ -64,7 +66,8 @@ class PaymentController extends Controller
     public function verifyPayment(Request $request)
     {
         try {
-            $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+            // $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+            $api = new Api(config('razorpay.key'), config('razorpay.secret'));
 
             $paymentId = $request->razorpay_payment_id;
             $amount = $request->amount * 100;
@@ -76,14 +79,16 @@ class PaymentController extends Controller
 
             if ($payment->status == 'captured') {
                 if ($razorpayment) {
-                    UserEventLog::createLog(UserEventLogType::PaymentSuccess);
                     $razorpayment->razorpay_payment_id = $paymentId;
                     $razorpayment->status = Status::Success;
+                    $razorpayment->save();
+                    UserEventLog::createLog(UserEventLogType::PaymentSuccess);
                 }
             } else {
                 if ($razorpayment) {
                     $razorpayment->razorpay_payment_id = $paymentId;
                     $razorpayment->status = Status::Failure;
+                    $razorpayment->save();
                 }
                 UserEventLog::createLog(UserEventLogType::PaymentFailed);
                 return ApiResponse::setMessage('Payment failed')->response(Response::HTTP_BAD_REQUEST);

@@ -26,7 +26,7 @@ final class ProjectStatus extends BaseEnum
     public const Completed = 7;
 
 
-    public static function getDescription(mixed $value): string
+    public static function getDescription($value): string
     {
         return match ($value) {
             self::Accepted => 'Project Accepted',

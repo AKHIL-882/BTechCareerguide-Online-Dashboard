@@ -74,7 +74,8 @@ class GithubController extends Controller
             );
 
             UserEventLog::createLog(UserEventLogType::RepoAccessGiven);
-            return response()->json(['message' => 'Permission granted Successfully'], 200);
+            // return response()->json(['message' => 'Permission granted Successfully'], 200);
+            return ApiResponse::setMessage('Permission granted Successfully')->response(Response::HTTP_OK);
         } catch (\Exception $e) {
 
             GithubUsername::create(
@@ -86,7 +87,8 @@ class GithubController extends Controller
             );
 
             UserEventLog::createLog(UserEventLogType::RepoAccessFailed);
-            return response()->json(['message' => $e->getMessage()], 400);
+            // return response()->json(['message' => $e->getMessage()], 400);
+            return ApiResponse::setMessage('Permission not granted')->response(Response::HTTP_BAD_REQUEST);
         }
     }
 }
