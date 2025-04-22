@@ -48,7 +48,7 @@ class PaymentController extends Controller
             ]);
 
 
-            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentSuccess), $user);
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentInitiated), $user);
             // return response()->json(['order_id' => $razorpayOrder['id'], 'key' => env('RAZORPAY_KEY')]);
             return ApiResponse::setData([
                 'order_id' => $razorpayOrder['id'],
