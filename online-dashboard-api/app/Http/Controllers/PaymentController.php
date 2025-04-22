@@ -48,7 +48,7 @@ class PaymentController extends Controller
             ]);
 
 
-            UserEventLog::createLog(UserEventLogType::PaymentInitiated, $user);
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentSuccess), $user);
             // return response()->json(['order_id' => $razorpayOrder['id'], 'key' => env('RAZORPAY_KEY')]);
             return ApiResponse::setData([
                 'order_id' => $razorpayOrder['id'],
@@ -57,7 +57,7 @@ class PaymentController extends Controller
             ])->mergeEnums(['payment_status' => Status::getAllWithDescriptions()])->response(Response::HTTP_OK);
 
         } catch (\Exception $e) {
-            UserEventLog::createLog(UserEventLogType::PaymentInitiationFailed, Auth::user());
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentInitiationFailed));
             return ApiResponse::setmessage('Failed to create order: '.$e->getMessage())->response(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
@@ -82,7 +82,7 @@ class PaymentController extends Controller
                     $razorpayment->razorpay_payment_id = $paymentId;
                     $razorpayment->status = Status::Success;
                     $razorpayment->save();
-                    UserEventLog::createLog(UserEventLogType::PaymentSuccess);
+                    UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentSuccess));
                 }
             } else {
                 if ($razorpayment) {
@@ -90,14 +90,14 @@ class PaymentController extends Controller
                     $razorpayment->status = Status::Failure;
                     $razorpayment->save();
                 }
-                UserEventLog::createLog(UserEventLogType::PaymentFailed);
+                UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentFailed));
                 return ApiResponse::setMessage('Payment failed')->response(Response::HTTP_BAD_REQUEST);
 
             }
 
             return ApiResponse::setMessage('Payment verified successfully!')->mergeResults(['razorpay_payment_id' => $paymentId])->response(Response::HTTP_OK);
         } catch (\Exception $e) {
-            UserEventLog::createLog(UserEventLogType::PaymentVerificationFailed, );
+            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentVerificationFailed));
             return ApiResponse::setMessage('Payment verification failed: '.$e->getMessage())->response(statusCode: Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
