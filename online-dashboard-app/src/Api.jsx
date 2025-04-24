@@ -57,7 +57,7 @@ export const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async (formData, setValidationError, setMessage) => {
+  const handleSignup = async (formData, setValidationError,setIsLogin) => {
     setLoading(true);
     try {
       const response = await axios.post(
@@ -76,7 +76,8 @@ export const useSignup = () => {
         },
       );
       if (response.data.message === "Account Created Successfully") {
-        setMessage("Account created successfully!");
+        toast.success("Account created successfully!");
+        setIsLogin(true);
       } else {
         setValidationError(
           response.data.message || "Signup failed. Try again!",
@@ -636,4 +637,54 @@ export const postTestimonial = async (formData, accessToken) => {
   } catch (err) {
     throw err;
   }
+};
+
+//forgot password sentreset
+export const useSendResetCode = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const sendResetCode = async (email, onSuccess) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post(
+        `${API_BASE_URL}/reset-password`,
+        { email }
+      );
+      toast.success("Reset code sent to your email!");
+      onSuccess?.();
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to send reset code";
+      setError(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { loading, error, sendResetCode };
+};
+
+//forgot passwordupdate
+export const useResetPassword = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const resetPassword = async ({ code, password }, onSuccess) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post(
+        `${API_BASE_URL}/update-password`,
+        { code, password }
+      );
+      toast.success("Password reset successfully!");
+      onSuccess?.();
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to reset password";
+      setError(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { loading, error, resetPassword };
 };
