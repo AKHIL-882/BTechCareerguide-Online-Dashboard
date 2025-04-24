@@ -139,7 +139,6 @@ export const useFetchJobs = () => {
           },
         });
         setJobListings(response.data.data.reverse());
-        console.log(response.data.data.reverse());
       } catch (err) {
         setError("Failed to fetch jobs. Please try again later.");
         console.error(err);
@@ -182,7 +181,7 @@ export const useSaveJob = () => {
         {
           company_name: updatedJob.company_name,
           role: updatedJob.role,
-          qualification: updatedJob.qualification.join(","),
+          degree: updatedJob.degree.join(","),
           batch: updatedJob.batch.join(","),
           apply_link: updatedJob.apply_link,
         },
@@ -198,7 +197,7 @@ export const useSaveJob = () => {
         id: updatedJob.id,
         company_name: updatedJob.company_name,
         role: updatedJob.role,
-        qualification: updatedJob.qualification.sort().join(","),
+        degree: updatedJob.degree.sort().join(","),
         batch: updatedJob.batch.sort().join(","),
         apply_link: updatedJob.apply_link,
       };
@@ -243,7 +242,7 @@ export const useCreateJob = () => {
         {
           company_name: formData.companyName,
           role: formData.role,
-          qualification: formData.qualifications.sort().join(","),
+          degree: formData.degree.sort().join(","),
           batch: formData.batches.sort().join(","),
           apply_link: formData.url,
         },
@@ -257,7 +256,7 @@ export const useCreateJob = () => {
         id: response.data.job_id,
         company_name: formData.companyName,
         role: formData.role,
-        qualification: formData.qualifications.sort().join(","),
+        degree: formData.degree.sort().join(","),
         batch: formData.batches.sort().join(","),
         apply_link: formData.url,
       };
@@ -265,7 +264,7 @@ export const useCreateJob = () => {
       setFormData({
         companyName: "",
         role: "",
-        qualifications: [],
+        degree: [],
         batches: [],
         url: "",
       });
@@ -636,4 +635,51 @@ export const postTestimonial = async (formData, accessToken) => {
   } catch (err) {
     throw err;
   }
+};
+
+//jobreport
+export const useReportJob = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const reportJob = async (jobId, reason, message, onClose) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data ? data.access_token : null;
+
+    if (!accessToken) {
+      setError("Access token is missing. Please log in again.");
+      toast.error("Access token is missing. Please log in again.");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/jobs/${jobId}/report`,
+        { reason, message },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Reported successfully");
+        setTimeout(onClose, 1000);
+      } else {
+        toast.error("Failed to submit report");
+      }
+    } catch (err) {
+      setError("Error connecting to server");
+      console.error("Report submission error:", err);
+      toast.error("Error connecting to server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, error, reportJob };
 };
