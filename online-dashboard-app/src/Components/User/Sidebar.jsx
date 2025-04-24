@@ -99,7 +99,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           }
           onClick={handleLinkClick}
         >
-          <i class="fa fa-comments-o pl-2" aria-hidden="true"></i>
+          <i className="fa fa-comments-o pl-2" aria-hidden="true"></i>
           <span>Feedback</span>
         </NavLink>
       </nav>

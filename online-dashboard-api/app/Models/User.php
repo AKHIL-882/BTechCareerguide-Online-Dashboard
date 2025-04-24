@@ -93,7 +93,7 @@ class User extends Authenticatable
         // Dispatch the email job
         ProcessResetPasswordMailJob::dispatch($this->email, $token, $expiry, $this->name);
 
-    }
+    }   
 
     public static function createUser($data): object
     {
@@ -108,5 +108,11 @@ class User extends Authenticatable
         UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::AccountCreated), $user);
 
         return $user;
+    }
+
+    public function getUserJobStats(): array
+    {
+        // write code here
+        return [];
     }
 }
