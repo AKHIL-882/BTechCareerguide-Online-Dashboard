@@ -40,7 +40,7 @@ export const useCreateJob = () => {
       const { data } = await createJobApi(accessToken, {
         company_name: formData.companyName,
         role: formData.role,
-        qualification: formData.qualifications.sort().join(","),
+        degree: formData.degree.sort().join(","),
         batch: formData.batches.sort().join(","),
         apply_link: formData.url,
       });

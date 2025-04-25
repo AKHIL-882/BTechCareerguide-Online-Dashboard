@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\JobOpportunityRequest;
+use App\Http\Requests\ReportJobRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\JobOpportunity;
 use Illuminate\Http\Request;
@@ -32,9 +33,18 @@ class JobOpportunityController extends Controller
      */
     public function store(JobOpportunityRequest $request): JsonResponse
     {
-        $jobOpportunity = JobOpportunity::createJob($request);
+        $data = $request->only(['company_name', 'role', 'batch', 'apply_link', 'ctc', 'location']);
 
-        return ApiResponse::setMessage('New job created successfully')->mergeResults(['job_id' => $jobOpportunity->id])->response(Response::HTTP_CREATED);
+        // Handle logo upload
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
+        }
+
+        $jobOpportunity = JobOpportunity::createJob((object) $data);
+
+        return ApiResponse::setMessage('New job created successfully')
+            ->mergeResults(['job_id' => $jobOpportunity->id])
+            ->response(Response::HTTP_CREATED);
     }
 
     /**
@@ -60,7 +70,13 @@ class JobOpportunityController extends Controller
      */
     public function update(JobOpportunityRequest $request, string $id): JsonResponse
     {
-        JobOpportunity::updateJob($request, $id);
+        $data = $request->only(['company_name', 'role', 'batch', 'apply_link', 'ctc', 'location']);
+
+        if ($request->hasFile('company_logo')) {
+            $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
+        }
+
+        JobOpportunity::updateJob((object) $data, $id);
 
         return ApiResponse::setMessage('Job updated successfuly')->response(Response::HTTP_OK);
     }
@@ -77,17 +93,25 @@ class JobOpportunityController extends Controller
 
     public function getFilterJobs(Request $request)
     {
-        info($request);
-        $filters = collect($request->only(['qualification', 'batch', 'degree', 'job_type', 'experience']))
-            ->filter()
-            ->mapWithKeys(fn ($value, $key) => [$key => strtolower($value)]); // Convert to lowercase
-
+        $filters = collect($request->only([
+            'branch', 'batch', 'degree', 'job_type', 'experience'
+        ]))->filter();
+    
         $jobs = JobOpportunity::query();
-
+    
         foreach ($filters as $key => $value) {
             $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
         }
-
+    
         return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
+    }
+    
+
+    public function report(ReportJobRequest $request, $id)
+    {
+        $job = JobOpportunity::findOrFail($id);
+        $job->reportJob($request->reason, $request->message);
+
+        return ApiResponse::setMessage('Job reported successfully')->response(Response::HTTP_OK);
     }
 }

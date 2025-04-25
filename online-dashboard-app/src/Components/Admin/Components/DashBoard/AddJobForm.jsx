@@ -8,7 +8,7 @@ const AddJobForm = ({ addJob }) => {
   const [formData, setFormData] = useState({
     companyName: "",
     role: "",
-    qualifications: [],
+    degree: [],
     batches: [],
     url: "",
   });
@@ -63,15 +63,15 @@ const AddJobForm = ({ addJob }) => {
           placeholder="Enter role"
         />
         <DropDownCheckBox
-          label="Qualifications"
+          label="Degree"
           options={[
             { value: "Bachelor's", label: "Bachelor's" },
             { value: "Master's", label: "Master's" },
             { value: "PhD", label: "PhD" },
             { value: "Diploma", label: "Diploma" },
           ]}
-          selectedValues={formData.qualifications}
-          onChange={(e, value) => handleChange(e, "qualifications", value)}
+          selectedValues={formData.degree}
+          onChange={(e, value) => handleChange(e, "degree", value)}
           showDropdown={showQualifications}
           toggleDropdown={() => setShowQualifications(!showQualifications)}
         />

@@ -3,6 +3,7 @@ import Projects from "./Projects.jsx";
 import { FaProjectDiagram, FaList, FaMoneyCheckAlt } from "react-icons/fa";
 import axios from "axios";
 import PaymentComponent from "../PaymentComponent.jsx";
+import SectionHeading from "./SectionHeading.jsx";
 
 const STATUS_MAP = {
   0: "Accepted",
@@ -148,7 +149,7 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-4 min-h-screen">
+    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-4 min-h-screen bg-slate-50">
       {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
@@ -326,12 +327,7 @@ const ProjectHome = ({ handleLogout }) => {
           <Projects />
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-            <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-              <div className="flex items-center justify-center space-x-1">
-                <span className="w-1 h-4 bg-violet-600"></span>
-                <span>YOUR PROJECTS</span>
-              </div>
-            </h2>
+          <SectionHeading text="Your projects"/>
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap font-display">

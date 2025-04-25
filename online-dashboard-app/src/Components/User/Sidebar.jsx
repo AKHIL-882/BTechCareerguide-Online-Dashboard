@@ -11,7 +11,7 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
 
   return (
     <aside
-      className={`h-full pt-[58px] fixed top-0 left-0 w-1/2 bg-white shadow-md transform transition-transform duration-300 ease-in-out z-10 ${
+      className={`h-full pt-[58px] fixed top-0 left-0 w-1/2 bg-gradient-to-b from-violet-500 to-violet-400 transform transition-transform duration-300 ease-in-out z-20 ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } lg:fixed lg:h-screen md:w-56 lg:translate-x-0 lg:z-10 border border-r-gray-200`}
     >
@@ -28,9 +28,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 sm:m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-none rounded-lg sm:rounded-l-lg sm:rounded-none" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
           end
@@ -42,9 +42,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user/jobs"
           className={({ isActive }) =>
-            `flex items-center space-x-1 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-1 w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -55,9 +55,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user/projects"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -68,9 +68,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user/calender"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -81,9 +81,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user/company-qa"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
@@ -93,13 +93,13 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
         <NavLink
           to="/user/testimonials"
           className={({ isActive }) =>
-            `flex items-center space-x-2 w-full px-4 py-3 ${
-              isActive ? "bg-violet-200 text-blue-950" : "text-gray-700"
-            } font-display font-semibold cursor-pointer hover:bg-violet-200 hover:text-blue-950 transition duration-300 ease-in-out`
+            `flex items-center space-x-2 w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}
         >
-          <i class="fa fa-comments-o pl-2" aria-hidden="true"></i>
+          <i className="fa fa-comments-o pl-2" aria-hidden="true"></i>
           <span>Feedback</span>
         </NavLink>
       </nav>

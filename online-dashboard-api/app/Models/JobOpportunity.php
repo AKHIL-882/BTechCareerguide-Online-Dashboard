@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\JobReportReason;
 use App\Http\Resources\JobResource;
 use App\Http\Responses\ApiResponse;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,11 +29,18 @@ class JobOpportunity extends Model
         'degree',
         'job_type',
         'experience',
+        'ctc',
+        'company_logo',
+        'location',
+        'is_fraud',
+        'report_reason',
+        'report_message',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'report_reason' => JobReportReason::class,
     ];
 
     public static function createJob($request): self
@@ -40,22 +48,39 @@ class JobOpportunity extends Model
         return self::create([
             'company_name' => $request->company_name,
             'role' => $request->role,
+            'degree' => $request->degree,
             'batch' => $request->batch,
+            'branch' => $request->branch,
             'apply_link' => $request->apply_link,
-            // 'qualification' => $request->qualification,
+            'ctc' => $request->ctc,
+            'company_logo' => $request->company_logo,
+            'location' => $request->location,
+            'job_type' => $request->job_type,
+            'experience' => $request->experience,
+            'is_fraud' => $request->is_fraud ?? false,
+            'report_reason' => $request->report_reason ?? null,
         ]);
     }
-
+    
     public static function updateJob($request, $id): void
     {
         self::findOrFail($id)->update([
             'company_name' => $request->company_name,
             'role' => $request->role,
+            'degree' => $request->degree,
             'batch' => $request->batch,
+            'branch' => $request->branch,
             'apply_link' => $request->apply_link,
-            'qualification' => $request->qualification,
+            'ctc' => $request->ctc,
+            'company_logo' => $request->company_logo,
+            'location' => $request->location,
+            'job_type' => $request->job_type,
+            'experience' => $request->experience,
+            'is_fraud' => $request->is_fraud ?? false,
+            'report_reason' => $request->report_reason ?? null,
         ]);
     }
+    
 
     public static function destroyJob($id): void
     {
@@ -115,5 +140,14 @@ class JobOpportunity extends Model
     public function scopeExperience(Builder $query, $experience): Builder
     {
         return $query->where('experience', '>=', $experience);
+    }
+
+    public function reportJob($reason, $message = null): void
+    {
+        $this->update([
+            'is_fraud' => $reason === JobReportReason::Fraud,
+            'report_reason' => $reason,
+            'report_message' => $message,
+        ]);
     }
 }
