@@ -22,11 +22,11 @@ class JobOpportunityRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'company_logo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'company_name' => 'required|string',
             'role' => 'required|string',
             'batch' => 'required',
             'apply_link' => 'required|string',
-            'qualification' => 'required|string',
         ];
     }
 }

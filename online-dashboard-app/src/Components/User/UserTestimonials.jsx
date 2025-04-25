@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getUserDetails, postTestimonial } from "../../Api";
+import SectionHeading from "./SectionHeading";
 
 const UserTestimonials = () => {
   const [form, setForm] = useState({
@@ -55,16 +56,10 @@ const UserTestimonials = () => {
   };
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen">
+    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen bg-slate-50">
       <form onSubmit={handleSubmit}>
         <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-auto">
-          <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-            <div className="flex items-center justify-center space-x-1">
-              <span className="w-1 h-4 bg-violet-600"></span>
-              <span>Please Submit your Feedback</span>
-            </div>
-          </h2>
-
+          <SectionHeading text="Please Submit your Feedback"/>
           {message && <p className="text-green-600 mb-4">{message}</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
 
@@ -76,7 +71,7 @@ const UserTestimonials = () => {
                 placeholder="Job Role"
                 value={form.job_role}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 rounded mb-4 md:mb-0"
+                className="w-full border border-gray-300 p-2 rounded mb-4 md:mb-0 focus:outline-violet-500"
                 required
               />
               <input
@@ -85,7 +80,7 @@ const UserTestimonials = () => {
                 placeholder="Company"
                 value={form.company}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 rounded"
+                className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
                 required
               />
             </div>
@@ -96,7 +91,7 @@ const UserTestimonials = () => {
               value={form.feedback}
               onChange={handleChange}
               rows={5}
-              className="w-full border border-gray-300 p-2 rounded"
+              className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
               required
             />
 

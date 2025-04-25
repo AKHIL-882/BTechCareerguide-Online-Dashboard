@@ -4,6 +4,7 @@ import "react-calendar/dist/Calendar.css";
 import { Dialog } from "@headlessui/react";
 import axios from "axios";
 import { FaTrash } from "react-icons/fa";
+import SectionHeading from "./SectionHeading";
 
 const CalendarBooking = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -64,14 +65,9 @@ const CalendarBooking = () => {
   };
 
   return (
-    <div className="w-full px-6 py-10 flex flex-col items-center min-h-screen bg-gray-100">
+    <div className="w-full px-6 py-10 flex flex-col items-center min-h-screen bg-slate-50">
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8 mt-10">
-        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-          <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span>
-            <span>BOOK EXAM SLOT</span>
-          </div>
-        </h2>
+      <SectionHeading text="book exam slot"/>
         <div className="p-5 bg-blue-50 rounded-lg shadow-md flex justify-center">
           <Calendar
             onClickDay={handleDateClick}
@@ -121,12 +117,7 @@ const CalendarBooking = () => {
       </Dialog>
 
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl mt-8 p-8">
-        <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
-          <div className="flex items-center justify-center space-x-1">
-            <span className="w-1 h-4 bg-violet-600"></span>
-            <span>BOOKED SLOTS</span>
-          </div>
-        </h2>
+      <SectionHeading text="booked slots"/>
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm md:text-base shadow-md">
             <thead>

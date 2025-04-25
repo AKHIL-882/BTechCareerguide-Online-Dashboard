@@ -21,6 +21,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
 
     Route::get('/user-details', [UserController::class, 'show']);
 
+    Route::post('/jobs/{id}/report', [JobOpportunityController::class, 'report']);
+
     Route::prefix('user-projects')->group(function () {
         Route::get('/', [UserProjectsController::class, 'index']);
         Route::post('create', [UserProjectsController::class, 'store']);

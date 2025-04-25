@@ -6,11 +6,11 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
   const [formData, setFormData] = useState({
     company_name: "",
     role: "",
-    qualification: [], // This will store the selected qualifications
+    degree: [], // This will store the selected degree
     batch: [],
     apply_link: "",
   });
-  const [showQualifications, setShowQualifications] = useState(false);
+  const [showdegrees, setShowdegrees] = useState(false);
   const [showBatches, setShowBatches] = useState(false);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
         id: job.id,
         company_name: job.company_name,
         role: job.role,
-        qualification: job.qualification.split(",") || [], // Ensure qualifications are set correctly
+        degree: job.degree || [], // Ensure degree are set correctly
         batch: job.batch.split(",") || [],
         apply_link: job.apply_link,
       });
@@ -75,19 +75,19 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
               }
               placeholder="Enter role"
             />
-            {/* Qualifications Dropdown */}
+            {/* degrees Dropdown */}
             <DropDownCheckBox
-              label="Qualifications"
+              label="degrees"
               options={[
                 { value: "Bachelor's", label: "Bachelor's" },
                 { value: "Master's", label: "Master's" },
                 { value: "PhD", label: "PhD" },
                 { value: "Diploma", label: "Diploma" },
               ]}
-              selectedValues={formData.qualification} // Ensure selected values are properly passed
-              onChange={(e, value) => handleChange(e, "qualification", value)} // Properly update qualifications array
-              showDropdown={showQualifications}
-              toggleDropdown={() => setShowQualifications(!showQualifications)}
+              selectedValues={formData.degree} // Ensure selected values are properly passed
+              onChange={(e, value) => handleChange(e, "degree", value)} // Properly update degree array
+              showDropdown={showdegrees}
+              toggleDropdown={() => setShowdegrees(!showdegrees)}
             />
             {/* Batches Dropdown */}
             <DropDownCheckBox
