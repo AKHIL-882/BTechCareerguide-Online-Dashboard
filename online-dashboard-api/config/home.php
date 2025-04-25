@@ -4,27 +4,27 @@ return [
     'social' => [
         'youtube' => [
             'label' => 'Youtube',
-            'subscribers' => '3.0K+ Subscribers',
+            'subscribers' => '3000',
             'url' => 'https://www.youtube.com/@btechcareerguide',
         ],
         'telegram' => [
             'label' => 'Telegram',
-            'followers' => '700+ Followers',
+            'followers' => '700',
             'url' => 'https://t.me/btechcareerguide',
         ],
         'whatsapp' => [
             'label' => 'Whatsapp',
-            'members' => '2500+ Members',
+            'members' => '2500',
             'url' => 'https://whatsapp.com/channel/0029VaGz63mAe5VvF2ORAn3w',
         ],
         'linkedin' => [
             'label' => 'Linkedin',
-            'connections' => '100++ Connections',
+            'connections' => '100',
             'url' => 'https://www.linkedin.com/in/duggirala-akhil-151768187/',
         ],
         'instagram' => [
             'label' => 'Instagram',
-            'connections' => '241++ Connections',
+            'connections' => '241',
             'url' => 'https://www.instagram.com/btechcareerguide/',
         ],
     ],
@@ -32,10 +32,10 @@ return [
     'jobs' => [],
 
     'stats' => [
-        'jobs' => '3200+',
-        'projects' => '450+',
-        'developers' => '220+',
-        'students' => '12000+',
+        'jobs' => '10000',
+        'projects' => '450',
+        'developers' => '10',
+        'students' => '6000',
     ],
 
     'testimonials' => [],
