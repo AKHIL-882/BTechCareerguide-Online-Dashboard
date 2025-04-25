@@ -716,7 +716,6 @@ export const useResetPassword = () => {
   const resetPassword = async ({ token, password}, onSuccess) => {
     setLoading(true);
     setError(null);
-    console.log(token);
     try {
       await axios.post(`${API_BASE_URL}/update-password`, {
         token,
