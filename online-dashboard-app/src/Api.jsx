@@ -57,7 +57,7 @@ export const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async (formData, setValidationError, setMessage) => {
+  const handleSignup = async (formData, setValidationError,setIsLogin) => {
     setLoading(true);
     try {
       const response = await axios.post(
@@ -76,7 +76,8 @@ export const useSignup = () => {
         },
       );
       if (response.data.message === "Account Created Successfully") {
-        setMessage("Account created successfully!");
+        toast.success("Account created successfully!");
+        setIsLogin(true);
       } else {
         setValidationError(
           response.data.message || "Signup failed. Try again!",
@@ -682,4 +683,83 @@ export const useReportJob = () => {
   };
 
   return { loading, error, reportJob };
+};
+
+//forgot password sentreset
+export const useSendResetCode = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const sendResetCode = async (email,isError) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post(
+        `${API_BASE_URL}/reset-password`,
+        { email }
+      );
+      toast.success("Reset code sent to your email!");
+    } catch (err) {
+      const msg = err.response?.data?.message || "Failed to send reset code";
+      isError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+  return { loading, error, sendResetCode };
+};
+
+//forgot passwordupdate
+export const useResetPassword = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const resetPassword = async ({ token, password}, onSuccess) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.post(`${API_BASE_URL}/update-password`, {
+        token,
+        password,
+      });
+      toast.success("Password reset successfully!");
+      onSuccess?.();
+    } catch (err) {
+      const msg =
+        err.response?.data?.errors?.password?.[0] || // specific password error
+        err.response?.data?.message ||                // general message
+        "Failed to reset password";
+      setError(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, error, resetPassword };
+};
+
+
+//standarddataconfig
+export const useHomeData = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/standard-data/config/home`);
+        console.log(response);
+        setData(response?.data?.data?.home);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  return { data, loading, error };
 };

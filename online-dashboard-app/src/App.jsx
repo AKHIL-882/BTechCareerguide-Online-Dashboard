@@ -17,12 +17,14 @@ import CalendarBooking from "./Components/User/CalendarBooking";
 import AdminSlots from "./Components/Admin/Pages/AdminSlots";
 import Testimonials from "./Components/HomePage/Testimonials";
 import UserTestimonials from "./Components/User/UserTestimonials";
+import NewPasswordForm from "./Components/HomePage/NewPasswordForm";
 
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/new-password" element={<NewPasswordForm />} />
         <Route
           path="/admin"
           element={

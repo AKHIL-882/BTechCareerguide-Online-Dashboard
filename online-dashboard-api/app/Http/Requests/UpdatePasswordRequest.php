@@ -25,7 +25,7 @@ class UpdatePasswordRequest extends FormRequest
     {
         return [
             'token' => 'required|exists:forget_password_tokens',
-            'password' => ['required', 'confirmed', 'string', 'min:8', "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?`~])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?`~]{8,}$/"],
+            'password' => ['required', 'string', 'min:8', "regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?`~])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?`~]{8,}$/"],
         ];
     }
 

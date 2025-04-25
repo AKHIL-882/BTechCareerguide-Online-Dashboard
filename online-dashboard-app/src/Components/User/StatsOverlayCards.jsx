@@ -35,7 +35,7 @@ const StatsOverlayCards = () => {
       {cards.map((card, index) => (
         <div
           key={index}
-          className={`flex items-center justify-between p-4 rounded-lg shadow-md text-white ${card.bg}`}
+          className={`flex items-center justify-between p-4 rounded-lg shadow-md text-white ${card.bg} hover:transition-transform hover:duration-500 hover:-translate-y-2`}
         >
           <div className="w-12 h-12 flex items-center justify-center border border-white rounded-full">
             {card.icon}
