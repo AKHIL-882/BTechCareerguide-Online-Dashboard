@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaCheck, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
 import Spinner from "../Admin/Components/Spinner";
 import FadeInStagger from "./FadeInStagger";
-import ForgotPasswordForm from "./ForgotPasswordForm"; // Import the ForgotPasswordForm component
+import SendResetCodeForm from "./SendResetCodeForm";
 
 const AuthForm = ({
   isLogin,
@@ -84,7 +84,7 @@ const AuthForm = ({
 
         {/* Show Forgot Password Form */}
         {isForgotPassword ? (
-          <ForgotPasswordForm
+          <SendResetCodeForm
             onBack={handleForgotPasswordToggle} // Pass the toggle function to ForgotPasswordForm
             isError={setValidationError}
           />

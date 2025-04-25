@@ -689,7 +689,7 @@ export const useReportJob = () => {
 export const useSendResetCode = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const sendResetCode = async (email, onSuccess) => {
+  const sendResetCode = async (email,isError) => {
     setLoading(true);
     setError(null);
     try {
@@ -698,11 +698,9 @@ export const useSendResetCode = () => {
         { email }
       );
       toast.success("Reset code sent to your email!");
-      onSuccess?.();
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to send reset code";
-      setError(msg);
-      toast.error(msg);
+      isError(msg);
     } finally {
       setLoading(false);
     }
@@ -714,23 +712,30 @@ export const useSendResetCode = () => {
 export const useResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const resetPassword = async ({ code, password }, onSuccess) => {
+
+  const resetPassword = async ({ token, password}, onSuccess) => {
     setLoading(true);
     setError(null);
+    console.log(token);
     try {
-      await axios.post(
-        `${API_BASE_URL}/update-password`,
-        { code, password }
-      );
+      await axios.post(`${API_BASE_URL}/update-password`, {
+        token,
+        password,
+      });
       toast.success("Password reset successfully!");
       onSuccess?.();
     } catch (err) {
-      const msg = err.response?.data?.message || "Failed to reset password";
+      const msg =
+        err.response?.data?.errors?.password?.[0] || // specific password error
+        err.response?.data?.message ||                // general message
+        "Failed to reset password";
       setError(msg);
       toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
+
   return { loading, error, resetPassword };
 };
+
