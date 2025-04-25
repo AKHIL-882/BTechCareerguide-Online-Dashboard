@@ -14,6 +14,7 @@ import CopyRightFooter from "./CopyRightFooter";
 import HomepageJobs from "./HomepageJobs";
 import AboutUsSection from "./AboutUsSection";
 import Faq from "./Faq";
+import {useHomeData} from "../../Api"
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +28,13 @@ const HomePage = () => {
   const [message, setMessage] = useState(null);
   const { handleLogin, loading: loginLoading } = useLogin();
   const { handleSignup, loading: signupLoading } = useSignup();
-
+  const { data, loading, error } = useHomeData();
+  const jobs=data?.jobs;
+  const social=data?.social;
+  const testimonials=data?.testimonials;
+  const stats=data?.stats;
+  const companies=data?.companies;
+ 
   const [isLogin, setIsLogin] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const [giggleCounter, setGiggleCounter] = useState(0);
@@ -99,17 +106,17 @@ const HomePage = () => {
         </main>
       </section>
       <section id="trending">
-        <HomepageJobs />
+        <HomepageJobs jobshome={jobs} companies={companies}/>
       </section>
       <section id="about">
-        <AboutUsSection />
+        <AboutUsSection social={social}/>
       </section>
       <section id="services">
-        <OfferingSection />
+        <OfferingSection  />
       </section>
-      <StatsSection />
+      <StatsSection stats={stats}/>
       <section id="testimonials">
-        <Testimonials />
+        <Testimonials testimonials={testimonials}/>
       </section>
       <section id="faqs">
         <Faq />

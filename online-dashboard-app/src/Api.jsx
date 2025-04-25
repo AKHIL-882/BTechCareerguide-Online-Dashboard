@@ -683,3 +683,28 @@ export const useReportJob = () => {
 
   return { loading, error, reportJob };
 };
+
+//standarddataconfig
+export const useHomeData = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchHomeData = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/standard-data/config/home`);
+        console.log(response);
+        setData(response?.data?.data?.home);
+      } catch (err) {
+        setError(err.message || 'Something went wrong');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHomeData();
+  }, []);
+
+  return { data, loading, error };
+};

@@ -8,38 +8,10 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import FadeInStagger from "./FadeInStagger";
 
-// Testimonial data
-const testimonials = [
-  {
-    message:
-      "This platform has transformed my career. The guidance and resources are invaluable!",
-    name: "Elon Musk",
-    role: "Software Engineer at Google",
-    image: "https://cdn-icons-png.flaticon.com/128/4140/4140039.png",
-  },
-  {
-    message:
-      "I couldn't be happier with the project solutions. Highly recommended!",
-    name: "Sunita Williams",
-    role: "Product Manager at Meta",
-    image: "https://cdn-icons-png.flaticon.com/128/4140/4140060.png",
-  },
-  {
-    message:
-      "The coding Q&A feature is a game-changer. Solved all my coding problems with ease!",
-    name: "Alice Johnson",
-    role: "Data Scientist at Amazon",
-    image: "https://cdn-icons-png.flaticon.com/128/4140/4140039.png",
-  },
-  {
-    message: "Amazing services and timely support. Highly impressed!",
-    name: "Rhea",
-    role: "Tech Lead at Microsoft",
-    image: "https://cdn-icons-png.flaticon.com/128/4140/4140060.png",
-  },
-];
+const male= "https://cdn-icons-png.flaticon.com/128/4140/4140039.png";
+const female= "https://cdn-icons-png.flaticon.com/128/4140/4140060.png";
 
-const Testimonials = () => {
+const Testimonials = ({ testimonials }) => {
   return (
     <div className="py-16 px-4 bg-white text-center overflow-x-hidden">
       <FadeInStagger direction="right" delay={0.1} duration={0.8} once={false}>
@@ -78,26 +50,30 @@ const Testimonials = () => {
           }}
           className="h-auto w-full"
         >
-          {testimonials.map((testimonial, index) => (
-            <SwiperSlide key={index}>
+          {testimonials?.map((testimonial) => (
+            <SwiperSlide key={testimonial.id}>
               <div className="bg-gradient-to-tr from-violet-100 to-green-100 p-6 rounded-lg shadow-md max-w-lg mx-auto h-[200px] flex flex-col justify-between">
                 <p className="text-gray-700 italic mb-4 flex-grow text-sm sm:text-base font-sans">
                   <span className="text-violet-800 text-2xl font-sans">"</span>
-                  {testimonial.message}
-                  <span className="text-violet-800  text-2xl font-sans">"</span>
+                  <span>
+                    {testimonial.feedback.length > 90
+                      ? testimonial.feedback.slice(0, 90) + "..."
+                      : testimonial.feedback}
+                  </span>
+                  <span className="text-violet-800 text-2xl font-sans">"</span>
                 </p>
                 <div className="flex items-center space-x-4">
                   <img
-                    src={testimonial.image}
-                    alt={testimonial.name}
+                    src={male}
+                    alt="hi"
                     className="w-12 h-12 sm:w-16 sm:h-16 rounded-full border-2 border-violet-600"
                   />
                   <div className="text-left">
                     <h4 className="text-violet-800 text-md font-semibold font-display">
-                      {testimonial.name}
+                      {testimonial.user_name}
                     </h4>
                     <p className="text-gray-500 text-xs sm:text-sm font-sans">
-                      {testimonial.role}
+                      {testimonial.job_role} {"at"} {testimonial.company}
                     </p>
                   </div>
                 </div>

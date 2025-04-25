@@ -70,3 +70,25 @@
     background-position: 200% 0;
   }
 }
+
+/* Swiper Pagination Styles */
+.swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #7c3aed; /* violet-600 */
+  opacity: 0.5;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+  background-color: #7c3aed; /* violet-600 */
+  transform: scale(1.2);
+}
+
+/* Swiper Slide Styles */
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

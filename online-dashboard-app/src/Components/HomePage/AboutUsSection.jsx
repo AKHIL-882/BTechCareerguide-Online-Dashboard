@@ -5,7 +5,7 @@ import HeroStatic from "./HeroStatic";
 import PopupNotification from "./PopupNotification";
 import scrollToSection from "./ScrollToSection";
 
-const AboutUsSection = () => {
+const AboutUsSection = ({social}) => {
   const [showPopup, setShowPopup] = useState(false);
   return (
     <>
@@ -64,7 +64,7 @@ const AboutUsSection = () => {
           </FadeInStagger>
         </div>
       </div>
-      <HeroStatic />
+      <HeroStatic social={social} />
       {showPopup && (
         <PopupNotification
           onClose={() => setShowPopup(false)}

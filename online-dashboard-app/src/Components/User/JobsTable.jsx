@@ -11,7 +11,7 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 
-const JobsTable = ({ jobs, className = "" }) => {
+const JobsTable = ({ jobs, className = "",isJobshome }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3);
@@ -71,7 +71,7 @@ const JobsTable = ({ jobs, className = "" }) => {
 
   return (
     <div
-      className={`bg-white rounded-lg ${className} border border-gray-300 overflow-hidden`}
+    className={`${!isJobshome ? 'bg-white' : ''} rounded-lg ${className} ${!isJobshome ? 'border border-gray-300' : ''} overflow-hidden`}
     >
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentJobs.map((job) => (
@@ -92,13 +92,13 @@ const JobsTable = ({ jobs, className = "" }) => {
                     {job.company_name}
                   </p>
                 </div>
-                <button
+               {!isJobshome && <button
                   onClick={() => openReportModal(job)}
                   className="ml-1 text-gray-500 hover:text-red-700"
                   title="Report Job"
                 >
                   <FaRegFlag size={12} />
-                </button>
+                </button>}
               </div>
             </div>
 
@@ -151,6 +151,7 @@ const JobsTable = ({ jobs, className = "" }) => {
               <a
                 href={job.apply_link}
                 className="text-violet-600 font-medium hover:underline"
+                target="_blank"
               >
                 Apply
               </a>
