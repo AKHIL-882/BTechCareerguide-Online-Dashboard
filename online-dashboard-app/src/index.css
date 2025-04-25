@@ -53,6 +53,7 @@
   animation: shimmer 1.5s infinite;
 }
 
+
 /* Add this to your global CSS file or inside a style block */
 .shimmer-line {
   position: relative;
@@ -71,24 +72,4 @@
   }
 }
 
-/* Swiper Pagination Styles */
-.swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-  background-color: #7c3aed; /* violet-600 */
-  opacity: 0.5;
-  transition: all 0.3s ease;
-}
 
-.swiper-pagination-bullet-active {
-  opacity: 1;
-  background-color: #7c3aed; /* violet-600 */
-  transform: scale(1.2);
-}
-
-/* Swiper Slide Styles */
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}

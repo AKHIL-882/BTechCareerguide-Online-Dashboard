@@ -15,6 +15,7 @@ import HomepageJobs from "./HomepageJobs";
 import AboutUsSection from "./AboutUsSection";
 import Faq from "./Faq";
 import {useHomeData} from "../../Api"
+import { ToastContainer } from "react-toastify";
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -45,7 +46,7 @@ const HomePage = () => {
   };
   const handleSignupSubmit = (e) => {
     e.preventDefault();
-    handleSignup(formData, setValidationError, setMessage);
+    handleSignup(formData, setValidationError,setIsLogin);
   };
 
   const handleLoginSubmit = (e) => {
@@ -62,6 +63,7 @@ const HomePage = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ToastContainer />
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header isLogin={isLogin} setIsLogin={setIsLogin} />
       <section id="home">
