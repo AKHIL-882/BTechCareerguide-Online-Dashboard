@@ -27,6 +27,4 @@ final class Status extends BaseEnum
             default => parent::getDescription($value)
         };
     }
-
-   
 }

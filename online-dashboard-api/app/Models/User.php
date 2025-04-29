@@ -64,8 +64,9 @@ class User extends Authenticatable
         return $this->hasMany(RazorpayPayment::class);
     }
 
-    public function userEventLogs(): HasMany{
-        return $this->hasMany(UserEventLog::class) ;
+    public function userEventLogs(): HasMany
+    {
+        return $this->hasMany(UserEventLog::class);
     }
 
     public function projects(): HasMany
@@ -93,7 +94,7 @@ class User extends Authenticatable
         // Dispatch the email job
         ProcessResetPasswordMailJob::dispatch($this->email, $token, $expiry, $this->name);
 
-    }   
+    }
 
     public static function createUser($data): object
     {
@@ -114,5 +115,10 @@ class User extends Authenticatable
     {
         // write code here
         return [];
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class, 'notification_user')->withPivot('is_read')->withTimestamps();
     }
 }

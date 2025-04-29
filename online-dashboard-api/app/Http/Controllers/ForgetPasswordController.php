@@ -17,11 +17,12 @@ class ForgetPasswordController extends Controller
 
         $email = $request->email;
         // find the user by email
-        info("line 20") ;
+        info('line 20');
         $user = User::where('email', $email)->firstOrFail();
-        info("line 22") ;
+        info('line 22');
         $user->initiatePasswordReset();
-        info("line 24") ;
+        info('line 24');
+
         return ApiResponse::setMessage('Reset link sent to your email')
             ->response(Response::HTTP_OK);
 

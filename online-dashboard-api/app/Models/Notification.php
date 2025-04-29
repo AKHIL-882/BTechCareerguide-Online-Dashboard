@@ -8,17 +8,29 @@ class Notification extends Model
 {
     protected $fillable = [
         'id',
-        'type',
-        'notifiable_type',
-        'notifiable_id',
-        'data',
-        'read_at',
-        'read'
+        'company_name',
+        'update',
+        'notification_image',
+        'created_at',
     ];
 
-    protected $casts = [
-        'read_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'read_at' => 'datetime',
+    // ];
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'notification_user')->withPivot('is_read')->withTimestamps();
+    }
 
+    public static function createNotification($data)
+    {
+        $notification = self::create([
+            'company_name' => $data['company_name'],
+            'update' => $data['update'],
+            'notification_image' => $data['notification_image'],
+        ]);
+
+        return $notification;
+    }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Enums;
 
-use App\Models\User;
-
 /**
  * @model App\Models\UserEventLog
  *
@@ -42,7 +40,6 @@ final class UserEventLogType extends BaseEnum
     public const RepoAccessGiven = 14;
 
     public const RepoAccessFailed = 15;
-
 
     public static function getDescription($value): string
     {

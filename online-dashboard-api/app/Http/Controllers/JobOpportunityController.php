@@ -94,18 +94,17 @@ class JobOpportunityController extends Controller
     public function getFilterJobs(Request $request)
     {
         $filters = collect($request->only([
-            'branch', 'batch', 'degree', 'job_type', 'experience'
+            'branch', 'batch', 'degree', 'job_type', 'experience',
         ]))->filter();
-    
+
         $jobs = JobOpportunity::query();
-    
+
         foreach ($filters as $key => $value) {
             $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
         }
-    
+
         return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
     }
-    
 
     public function report(ReportJobRequest $request, $id)
     {

@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GithubController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
 
+    // notification routes
+    Route::get('notifications', [NotificationController::class, 'unread']);
+    Route::post('create-notification', [NotificationController::class, 'createNotification']);
+    Route::post('markasread', [NotificationController::class, 'markAsRead']);
 
 });
 
@@ -28,12 +33,9 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::post('signup', [AuthenticationController::class, 'signup']);
     Route::post('login', [AuthenticationController::class, 'login']);
 
-   
-
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
 
 });
-
 
 // Admin routes
 require __DIR__.'/admin.php';
