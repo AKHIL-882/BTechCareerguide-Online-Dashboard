@@ -23,11 +23,15 @@ class NotificationController extends Controller
         // Get count of unread notifications
         $unreadCount = $unreadNotifications->count();
 
+        $allNotifications = $user->notifications()
+            ->orderBy('notification_user.created_at', 'desc')
+            ->get();
+
         // return response()->json($unreadNotifications) ;
         // dd($unreadNotifications) ;
         return ApiResponse::setData([
                 'unread_count' => $unreadCount,
-                'notifications' => NotificationResource::collection($unreadNotifications),
+                'notifications' => NotificationResource::collection($allNotifications),
             ])
             ->response(Response::HTTP_OK);
     }

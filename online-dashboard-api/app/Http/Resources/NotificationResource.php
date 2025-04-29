@@ -20,6 +20,7 @@ class NotificationResource extends JsonResource
             'update' => $this->update,
             'notification_image' => $this->notification_image,
             'created_at' => $this->created_at,
+            'is_read' => $this->pivot->is_read ?? false, // Assuming you have a pivot table
         ];
     }
 }
