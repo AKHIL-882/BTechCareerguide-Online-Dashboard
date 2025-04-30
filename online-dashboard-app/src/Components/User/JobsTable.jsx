@@ -118,7 +118,7 @@ const JobsTable = ({ jobs, className = "" }) => {
                   ? "Fresher"
                   : `${job.experience == 1 ? `${job.experience} year` : `${job.experience} years`} Experience`}
               </span>
-              {job.branch.split(",").map((b, idx) => (
+              {job?.branch.split(",").map((b, idx) => (
                 <span
                   key={idx}
                   className="px-2 md:px-3 py-1 text-xs bg-fuchsia-100 text-fuchsia-600 rounded-full font-sans"
@@ -126,6 +126,7 @@ const JobsTable = ({ jobs, className = "" }) => {
                   {b.trim()}
                 </span>
               ))}
+              {console.log(job.batch)};
               {job.batch.split(",").map((b, idx) => (
                 <span
                   key={idx}

@@ -15,17 +15,23 @@ class NotificationController extends Controller
     public function unread()
     {
         $user = Auth::user();
-        $unreadNotifications = $user->notifications()
-            ->wherePivot('is_read', false)
-            ->orderBy('notification_user.created_at', 'desc')
-            ->get();
+        // $unreadNotifications = $user->notifications()
+        //     ->wherePivot('is_read', false)
+        //     ->orderBy('notification_user.created_at', 'desc')
+        //     ->get();
 
-        // Get count of unread notifications
-        $unreadCount = $unreadNotifications->count();
+        // // Get count of unread notifications
+        // $unreadCount = $unreadNotifications->count();
+
+        // $allNotifications = $user->notifications()
+        //     ->orderBy('notification_user.created_at', 'desc')
+        //     ->get();
 
         $allNotifications = $user->notifications()
             ->orderBy('notification_user.created_at', 'desc')
             ->get();
+
+        $unreadCount = $allNotifications->where('pivot.is_read', false)->count();
 
         // return response()->json($unreadNotifications) ;
         // dd($unreadNotifications) ;

@@ -22,7 +22,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     // notification routes
     Route::get('notifications', [NotificationController::class, 'unread']);
     Route::post('create-notification', [NotificationController::class, 'createNotification']);
-    Route::post('markasread', [NotificationController::class, 'markAsRead']);
+    Route::post('mark-as-read', [NotificationController::class, 'markAsRead']);
 
 });
 
