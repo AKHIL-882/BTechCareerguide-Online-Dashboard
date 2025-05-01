@@ -11,7 +11,8 @@ permissions:
   contents: write
 
 jobs:
-  laravel-tests:
+  backend-tests:
+    name: Laravel Backend Tests
     runs-on: ubuntu-latest
 
     steps:
@@ -27,12 +28,12 @@ jobs:
     - name: Cache Composer Dependencies
       uses: actions/cache@v3
       with:
-        path: vendor
-        key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+        path: online-dashboard-api/vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('online-dashboard-api/composer.lock') }}
         restore-keys: |
           ${{ runner.os }}-composer-
 
-    - name: Install Dependencies Without Scripts
+    - name: Install Composer Dependencies Without Scripts
       run: |
         cd online-dashboard-api && composer install --no-scripts --no-progress --prefer-dist
 
@@ -56,13 +57,34 @@ jobs:
       run: |
         cd online-dashboard-api && composer run-script post-autoload-dump || true
 
-    - name: Run Tests
+    - name: Format Laravel (Pint)
+      run: |
+        cd online-dashboard-api && ./vendor/bin/pint --verbose
+
+    - name: Run Laravel Tests
       env:
         DB_CONNECTION: sqlite
         DB_DATABASE: online-dashboard-api/database/database.sqlite
       run: |
         cd online-dashboard-api && php artisan test
 
-    - name: Run Pint (Code Style Fixer)
+  frontend-format:
+    name: Frontend Format
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install NPM Dependencies
       run: |
-        cd online-dashboard-api && ./vendor/bin/pint --verbose
+        cd online-dashboard-app && npm ci
+
+    - name: Format Frontend Code
+      run: |
+        cd online-dashboard-app && npm run format
