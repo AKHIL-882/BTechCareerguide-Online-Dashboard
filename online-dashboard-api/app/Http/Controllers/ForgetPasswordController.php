@@ -18,7 +18,6 @@ class ForgetPasswordController extends Controller
         $email = $request->email;
         // find the user by email
         $user = User::where('email', $email)->firstOrFail();
-
         $user->initiatePasswordReset();
 
         return ApiResponse::setMessage('Reset link sent to your email')

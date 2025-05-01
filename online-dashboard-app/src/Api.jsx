@@ -664,7 +664,7 @@ export const useReportJob = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (response.status === 200) {

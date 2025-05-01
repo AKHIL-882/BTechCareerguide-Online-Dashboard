@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('github_usernames', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('github_username');
-            $table->string('email')->nullable();
-            $table->string('repo_access');
+            $table->string('company_name');
+            $table->text('update');
+            $table->string('notification_image')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('github_usernames');
+        Schema::dropIfExists('notifications');
     }
 };

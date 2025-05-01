@@ -68,7 +68,7 @@ const JobFilters = ({ setFilteredJobs }) => {
           },
         },
       );
-      setFilteredJobs(response.data.data); 
+      setFilteredJobs(response.data.data);
       setShowFilters(false);
     } catch (error) {
       console.error("Error fetching jobs:", error);
@@ -104,7 +104,7 @@ const JobFilters = ({ setFilteredJobs }) => {
             >
               <FaTimes className="text-xl" />
             </button>
-            <SectionHeading text="select your preferences"/>
+            <SectionHeading text="select your preferences" />
             {/* Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               {/* Branch */}

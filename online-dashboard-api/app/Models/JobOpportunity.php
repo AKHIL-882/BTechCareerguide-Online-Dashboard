@@ -61,7 +61,7 @@ class JobOpportunity extends Model
             'report_reason' => $request->report_reason ?? null,
         ]);
     }
-    
+
     public static function updateJob($request, $id): void
     {
         self::findOrFail($id)->update([
@@ -80,7 +80,6 @@ class JobOpportunity extends Model
             'report_reason' => $request->report_reason ?? null,
         ]);
     }
-    
 
     public static function destroyJob($id): void
     {

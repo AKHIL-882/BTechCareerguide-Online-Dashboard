@@ -10,18 +10,18 @@ const NotificationBell = () => {
   // Count unseen notifications
   const unseenCount = notifications.filter((n) => !n.seen).length;
 
-//   // Simulate receiving a new notification every 15s (can be removed in real use)
-//   useEffect(() => {
-//     const interval = setInterval(() => {
-//       const newNotification = {
-//         text: `New update at ${new Date().toLocaleTimeString()}`,
-//         seen: false,
-//       };
-//       setNotifications((prev) => [newNotification, ...prev]);
-//     }, 15000);
+  //   // Simulate receiving a new notification every 15s (can be removed in real use)
+  //   useEffect(() => {
+  //     const interval = setInterval(() => {
+  //       const newNotification = {
+  //         text: `New update at ${new Date().toLocaleTimeString()}`,
+  //         seen: false,
+  //       };
+  //       setNotifications((prev) => [newNotification, ...prev]);
+  //     }, 15000);
 
-//     return () => clearInterval(interval);
-//   }, []);
+  //     return () => clearInterval(interval);
+  //   }, []);
 
   const toggleDropdown = () => {
     setShowDropdown((prev) => !prev);
@@ -32,7 +32,7 @@ const NotificationBell = () => {
         prev.map((n) => ({
           ...n,
           seen: true,
-        }))
+        })),
       );
     }
   };

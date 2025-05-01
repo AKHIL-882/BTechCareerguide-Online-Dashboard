@@ -55,7 +55,7 @@ const UserMainLayout = () => {
         <Outlet />
       </div>
       <Footer />
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 };

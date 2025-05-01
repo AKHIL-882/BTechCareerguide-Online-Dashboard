@@ -29,7 +29,9 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout }) => {
           to="/user"
           className={({ isActive }) =>
             `flex items-center space-x-2 w-full px-4 py-3 sm:m-1 ${
-              isActive ? "bg-slate-50 text-gray-600 rounded-l-none rounded-lg sm:rounded-l-lg sm:rounded-none" : "text-white"
+              isActive
+                ? "bg-slate-50 text-gray-600 rounded-l-none rounded-lg sm:rounded-l-lg sm:rounded-none"
+                : "text-white"
             } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
           }
           onClick={handleLinkClick}

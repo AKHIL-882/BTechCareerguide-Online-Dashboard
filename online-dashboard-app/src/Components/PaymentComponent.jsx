@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import{ paymentInitiator} from "../api/projectApi";
+import { paymentInitiator } from "../api/projectApi";
 
 const PaymentComponent = () => {
   useEffect(() => {
@@ -15,7 +15,9 @@ const PaymentComponent = () => {
 
   const handlePayment = async () => {
     try {
-      const accessToken = JSON.parse(localStorage.getItem("data"))?.access_token;
+      const accessToken = JSON.parse(
+        localStorage.getItem("data"),
+      )?.access_token;
       const res = await paymentInitiator(accessToken);
       const dataFromAPI = res.data.data;
       const options = {
@@ -42,12 +44,12 @@ const PaymentComponent = () => {
           netbanking: true,
           wallet: true,
           emi: true,
-          paylater:true
+          paylater: true,
         },
       };
 
       const rzp = new window.Razorpay(options);
-   
+
       rzp.open();
     } catch (err) {
       console.error("Payment error:", err);

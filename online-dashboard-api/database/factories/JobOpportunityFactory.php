@@ -24,13 +24,13 @@ class JobOpportunityFactory extends Factory
             'branch' => $this->faker->randomElement(['CSE', 'IT', 'ECE', 'ME', 'CE']),
             'job_type' => $this->faker->randomElement(['Full-Time', 'Part-Time', 'Internship', 'Remote']),
             'experience' => $this->faker->randomElement(['0', '1', '2', '3', '4', '5']),
-            'ctc' => $this->faker->numberBetween(3, 30) . ' LPA',
+            'ctc' => $this->faker->numberBetween(3, 30).' LPA',
             'company_logo' => $this->faker->imageUrl(200, 200, 'business', true, 'logo'),
             'location' => $this->faker->city(),
-            'is_fraud' => $this->faker->boolean(5), 
+            'is_fraud' => $this->faker->boolean(5),
             'report_reason' => $this->faker->optional()->randomElement(JobReportReason::cases())?->value,
             'created_at' => now(),
         ];
-        
+
     }
 }

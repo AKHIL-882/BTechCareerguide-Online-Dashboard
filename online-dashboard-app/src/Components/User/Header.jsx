@@ -18,23 +18,25 @@ const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
             <FaBars className="text-2xl font-sans" />
           )}
         </button>
-        <h1 className="text-violet-600 text-2xl font-bold font-display">PROJPORT</h1>
+        <h1 className="text-violet-600 text-2xl font-bold font-display">
+          PROJPORT
+        </h1>
       </div>
 
       {/* Logout Button */}
       <div className="flex justify-between items-center space-x-2">
-      <NotificationBell/>
-      <button
-        onClick={handleLogout}
-        className="text-violet-500 md:px-4 px-2 rounded hover:text-violet-700 transition"
-      >
-        <span className="flex justify-center items-center font-display ">
-          <FaSignOutAlt size={20} />
-          <p className="pl-1 font-semibold hidden sm:block font-display">
-            Logout
-          </p>
-        </span>
-      </button>
+        <NotificationBell />
+        <button
+          onClick={handleLogout}
+          className="text-violet-500 md:px-4 px-2 rounded hover:text-violet-700 transition"
+        >
+          <span className="flex justify-center items-center font-display ">
+            <FaSignOutAlt size={20} />
+            <p className="pl-1 font-semibold hidden sm:block font-display">
+              Logout
+            </p>
+          </span>
+        </button>
       </div>
     </header>
   );
