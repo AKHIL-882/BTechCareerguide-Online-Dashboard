@@ -14,10 +14,6 @@ class Notification extends Model
         'created_at',
     ];
 
-    // protected $casts = [
-    //     'read_at' => 'datetime',
-    // ];
-
     public function users()
     {
         return $this->belongsToMany(User::class, 'notification_user')->withPivot('is_read')->withTimestamps();

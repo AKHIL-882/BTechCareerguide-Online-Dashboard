@@ -6,7 +6,7 @@ const ReportModal = ({ job, onClose }) => {
   const [reason, setReason] = useState("Fraud");
   const [message, setMessage] = useState("");
   const { reportJob, loading } = useReportJob();
-  const handleSubmit =(e)=> {
+  const handleSubmit = (e) => {
     e.preventDefault();
     reportJob(job.id, reason, message, onClose);
   };
@@ -14,7 +14,7 @@ const ReportModal = ({ job, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg w-[90%] max-w-3xl shadow-xl">
-        <SectionHeading text={`REPORT JOB - ${job.company_name}`}/>
+        <SectionHeading text={`REPORT JOB - ${job.company_name}`} />
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Reason</label>
@@ -31,7 +31,9 @@ const ReportModal = ({ job, onClose }) => {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium">Message (optional)</label>
+            <label className="block text-sm font-medium">
+              Message (optional)
+            </label>
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}

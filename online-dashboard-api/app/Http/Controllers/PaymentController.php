@@ -49,7 +49,6 @@ class PaymentController extends Controller
 
             UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentInitiated), $user);
 
-            // return response()->json(['order_id' => $razorpayOrder['id'], 'key' => env('RAZORPAY_KEY')]);
             return ApiResponse::setData([
                 'order_id' => $razorpayOrder['id'],
                 'key' => env('RAZORPAY_KEY'),
@@ -67,7 +66,7 @@ class PaymentController extends Controller
     public function verifyPayment(Request $request)
     {
         try {
-            // $api = new Api(env('RAZORPAY_KEY'), env('RAZORPAY_SECRET'));
+
             $api = new Api(config('razorpay.key'), config('razorpay.secret'));
 
             $paymentId = $request->razorpay_payment_id;

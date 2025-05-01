@@ -14,18 +14,8 @@ class NotificationController extends Controller
 {
     public function unread()
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
-        // $unreadNotifications = $user->notifications()
-        //     ->wherePivot('is_read', false)
-        //     ->orderBy('notification_user.created_at', 'desc')
-        //     ->get();
-
-        // // Get count of unread notifications
-        // $unreadCount = $unreadNotifications->count();
-
-        // $allNotifications = $user->notifications()
-        //     ->orderBy('notification_user.created_at', 'desc')
-        //     ->get();
 
         $allNotifications = $user->notifications()
             ->orderBy('notification_user.created_at', 'desc')
@@ -33,12 +23,10 @@ class NotificationController extends Controller
 
         $unreadCount = $allNotifications->where('pivot.is_read', false)->count();
 
-        // return response()->json($unreadNotifications) ;
-        // dd($unreadNotifications) ;
         return ApiResponse::setData([
-                'unread_count' => $unreadCount,
-                'notifications' => NotificationResource::collection($allNotifications),
-            ])
+            'unread_count' => $unreadCount,
+            'notifications' => NotificationResource::collection($allNotifications),
+        ])
             ->response(Response::HTTP_OK);
     }
 
@@ -52,14 +40,11 @@ class NotificationController extends Controller
         ];
 
         $notification = Notification::createNotification($data);
-        // // Attach the notification to the user
-        // $user->notifications()->attach($notification, ['is_read' => false]);
 
         foreach (User::all() as $user) {
             $user->notifications()->attach($notification->id);
         }
 
-        // return response()->json(['message' => 'Notification created successfully.']);
         return ApiResponse::setMessage('Notification created successfully.')
             ->response(Response::HTTP_CREATED);
 
@@ -67,11 +52,11 @@ class NotificationController extends Controller
 
     public function markAsRead(Request $request)
     {
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $notificationId = $request->input('notification_id');
         $user->notifications()->updateExistingPivot($notificationId, ['is_read' => true]);
 
-        // return response()->json(['message' => 'Notification marked as read.']);
         return ApiResponse::setMessage('Notification marked as read.')
             ->response(Response::HTTP_OK);
     }

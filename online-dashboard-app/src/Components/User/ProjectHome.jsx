@@ -327,7 +327,7 @@ const ProjectHome = ({ handleLogout }) => {
           <Projects />
           {/* Table view for larger screens */}
           <div className="hidden lg:block mt-8">
-          <SectionHeading text="Your projects"/>
+            <SectionHeading text="Your projects" />
             <table className="table-auto w-full border-collapse border border-gray-200">
               <thead>
                 <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap font-display">
@@ -364,13 +364,11 @@ const ProjectHome = ({ handleLogout }) => {
                         {STATUS_MAP[project.project_status]}
                       </button>
                       {/* {project.project_status === 2 && ( */}
-                        <td className="border p-2">
-                          <button
-                            className="px-3 py-1 bg-green-500 text-white rounded"
-                          >
-                            <PaymentComponent amount={500} />
-                          </button>
-                        </td>
+                      <td className="border p-2">
+                        <button className="px-3 py-1 bg-green-500 text-white rounded">
+                          <PaymentComponent amount={500} />
+                        </button>
+                      </td>
                       {/* )} */}
                     </td>
                   </tr>

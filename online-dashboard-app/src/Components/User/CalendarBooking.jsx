@@ -67,7 +67,7 @@ const CalendarBooking = () => {
   return (
     <div className="w-full px-6 py-10 flex flex-col items-center min-h-screen bg-slate-50">
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8 mt-10">
-      <SectionHeading text="book exam slot"/>
+        <SectionHeading text="book exam slot" />
         <div className="p-5 bg-blue-50 rounded-lg shadow-md flex justify-center">
           <Calendar
             onClickDay={handleDateClick}
@@ -117,7 +117,7 @@ const CalendarBooking = () => {
       </Dialog>
 
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl mt-8 p-8">
-      <SectionHeading text="booked slots"/>
+        <SectionHeading text="booked slots" />
         <div className="overflow-x-auto">
           <table className="w-full border-collapse text-sm md:text-base shadow-md">
             <thead>

@@ -13,7 +13,7 @@ const Jobs = ({ handleLogout }) => {
   return (
     <main className="m-3 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
       <div className="flex justify-between items-baseline">
-      <SectionHeading text="AVAILABLE JOBS"/>
+        <SectionHeading text="AVAILABLE JOBS" />
         <Jobfilters setFilteredJobs={setFilteredJobs} />
       </div>
       {loading ? (

@@ -12,7 +12,13 @@ const WelcomeCard = ({ name, message, imageUrl }) => {
       {/* Left Content */}
       <div>
         <p className="text-sm mb-2">{today}</p>
-        <h2 className="text-3xl font-semibold font-sans">Welcome back, <span className="bg-clip-text text-transparent bg-gradient-to-tr from-green-300 to-blue-200">{name}</span>👋</h2>
+        <h2 className="text-3xl font-semibold font-sans">
+          Welcome back,{" "}
+          <span className="bg-clip-text text-transparent bg-gradient-to-tr from-green-300 to-blue-200">
+            {name}
+          </span>
+          👋
+        </h2>
         <p className="font-sans">{message}</p>
       </div>
       {/* Right Image */}

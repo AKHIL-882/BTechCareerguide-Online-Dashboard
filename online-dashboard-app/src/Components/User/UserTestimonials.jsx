@@ -59,7 +59,7 @@ const UserTestimonials = () => {
     <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen bg-slate-50">
       <form onSubmit={handleSubmit}>
         <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-auto">
-          <SectionHeading text="Please Submit your Feedback"/>
+          <SectionHeading text="Please Submit your Feedback" />
           {message && <p className="text-green-600 mb-4">{message}</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
 

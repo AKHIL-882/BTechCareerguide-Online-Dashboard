@@ -126,7 +126,6 @@ const JobsTable = ({ jobs, className = "" }) => {
                   {b.trim()}
                 </span>
               ))}
-              {console.log(job.batch)};
               {job.batch.split(",").map((b, idx) => (
                 <span
                   key={idx}
