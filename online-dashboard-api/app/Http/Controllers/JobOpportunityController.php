@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
+use function Termwind\parse;
+
 class JobOpportunityController extends Controller
 {
     /**
@@ -47,12 +49,10 @@ class JobOpportunityController extends Controller
             ->response(Response::HTTP_CREATED);
     }
 
-    public function bulkInsert(Request $request)
+
+    public function parseJobs($entries)
     {
-        $input = $request->input('jobs');
-        $entries = preg_split('/\n{2,}/', trim($input));
-        try {
-            $jobs = [];
+        $jobs = [];
 
             foreach ($entries as $entry) {
                 $lines = explode("\n", trim($entry));
@@ -76,6 +76,19 @@ class JobOpportunityController extends Controller
                     $jobs[] = $job;
                 }
             }
+        return $jobs;
+    }
+
+    public function bulkInsert(Request $request)
+    {
+        $input = $request->input('jobs');
+        $entries = preg_split('/\n{2,}/', trim($input));
+        if (empty($entries)) {
+            return ApiResponse::setMessage('No jobs found')->response(Response::HTTP_BAD_REQUEST);
+        }
+        try {
+            
+            $jobs = self::parseJobs($entries);
 
             foreach ($jobs as $data) {
                 JobOpportunity::create($data);
