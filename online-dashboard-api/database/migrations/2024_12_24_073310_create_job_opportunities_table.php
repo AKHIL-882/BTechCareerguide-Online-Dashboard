@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('job_opportunities', function (Blueprint $table) {
             $table->id();
-            $table->string('company_name')->nullable();
-            $table->string('role')->nullable();
-            $table->string('batch')->nullable();
-            $table->text('apply_link')->nullable();
-            $table->string('qualification')->nullable();
+            $table->string('company_name');
+            $table->string('role');
+            $table->string('batch');
+            $table->text('apply_link');
             $table->timestamps();
         });
     }
