@@ -24,6 +24,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::post('create-notification', [NotificationController::class, 'createNotification']);
     Route::post('mark-as-read', [NotificationController::class, 'markAsRead']);
 
+    // bulk insert jobs
+
+    Route::post('bulk-insert-jobs', [\App\Http\Controllers\JobOpportunityController::class, 'bulkInsert']);
+
 });
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {

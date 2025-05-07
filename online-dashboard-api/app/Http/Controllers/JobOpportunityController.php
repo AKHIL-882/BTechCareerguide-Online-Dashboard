@@ -47,6 +47,46 @@ class JobOpportunityController extends Controller
             ->response(Response::HTTP_CREATED);
     }
 
+    public function bulkInsert(Request $request)
+    {
+        $input = $request->input('jobs');
+        $entries = preg_split('/\n{2,}/', trim($input));
+        try {
+            $jobs = [];
+
+            foreach ($entries as $entry) {
+                $lines = explode("\n", trim($entry));
+                $job = [];
+
+                foreach ($lines as $line) {
+                    if (preg_match('/^(.+?):\s*(.+)$/', $line, $matches)) {
+                        $key = strtolower(trim($matches[1]));
+                        $value = trim($matches[2]);
+
+                        foreach (config('standardjobkeys') as $standardKey => $synonyms) {
+                            if (in_array($key, $synonyms)) {
+                                $job[$standardKey] = $value;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (! empty($job)) {
+                    $jobs[] = $job;
+                }
+            }
+
+            foreach ($jobs as $data) {
+                JobOpportunity::create($data);
+            }
+        } catch (\Throwable $e) {
+            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
+        }
+
+        return ApiResponse::setMessage('Jobs created successfully')->response(Response::HTTP_OK);
+    }
+
     /**
      * Display the specified resource.
      */
