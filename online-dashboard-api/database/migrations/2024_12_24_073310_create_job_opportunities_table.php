@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('role');
             $table->string('batch');
             $table->text('apply_link');
+            $table->string('qualification');
             $table->timestamps();
         });
     }

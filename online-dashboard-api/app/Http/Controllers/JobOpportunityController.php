@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-use function Termwind\parse;
-
 class JobOpportunityController extends Controller
 {
     /**
@@ -49,33 +47,33 @@ class JobOpportunityController extends Controller
             ->response(Response::HTTP_CREATED);
     }
 
-
     public function parseJobs($entries)
     {
         $jobs = [];
 
-            foreach ($entries as $entry) {
-                $lines = explode("\n", trim($entry));
-                $job = [];
+        foreach ($entries as $entry) {
+            $lines = explode("\n", trim($entry));
+            $job = [];
 
-                foreach ($lines as $line) {
-                    if (preg_match('/^(.+?):\s*(.+)$/', $line, $matches)) {
-                        $key = strtolower(trim($matches[1]));
-                        $value = trim($matches[2]);
+            foreach ($lines as $line) {
+                if (preg_match('/^(.+?):\s*(.+)$/', $line, $matches)) {
+                    $key = strtolower(trim($matches[1]));
+                    $value = trim($matches[2]);
 
-                        foreach (config('standardjobkeys') as $standardKey => $synonyms) {
-                            if (in_array($key, $synonyms)) {
-                                $job[$standardKey] = $value;
-                                break;
-                            }
+                    foreach (config('standardjobkeys') as $standardKey => $synonyms) {
+                        if (in_array($key, $synonyms)) {
+                            $job[$standardKey] = $value;
+                            break;
                         }
                     }
                 }
-
-                if (! empty($job)) {
-                    $jobs[] = $job;
-                }
             }
+
+            if (! empty($job)) {
+                $jobs[] = $job;
+            }
+        }
+
         return $jobs;
     }
 
@@ -87,7 +85,7 @@ class JobOpportunityController extends Controller
             return ApiResponse::setMessage('No jobs found')->response(Response::HTTP_BAD_REQUEST);
         }
         try {
-            
+
             $jobs = self::parseJobs($entries);
 
             foreach ($jobs as $data) {
