@@ -11,10 +11,10 @@ const Jobs = ({ handleLogout }) => {
   const jobsToShow = filteredJobs || jobListings; // <-- prioritize filtered jobs
 
   return (
-    <main className="m-3 flex-1 pt-14 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+    <main className="m-3 flex-1 pt-12 lg:relative py-2 bg-slate-50 min-h-screen">
       <div className="flex justify-between items-baseline">
         <SectionHeading text="AVAILABLE JOBS" />
-        <Jobfilters setFilteredJobs={setFilteredJobs} />
+        <Jobfilters setFilteredJobs={setFilteredJobs} filteredJobs={filteredJobs} />
       </div>
       {loading ? (
         <ShimmerJobs />

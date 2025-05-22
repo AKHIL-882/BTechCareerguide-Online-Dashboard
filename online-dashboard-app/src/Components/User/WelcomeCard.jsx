@@ -8,11 +8,11 @@ const WelcomeCard = ({ name, message, imageUrl }) => {
   });
 
   return (
-    <div className="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg shadow-lg p-2 pb-14 flex justify-between items-center w-full mx-auto mb-2">
+    <div className="bg-gradient-to-r from-violet-500 to-green-300 text-white rounded-lg shadow-lg p-2 pb-14 flex justify-between items-center w-full mx-auto mb-2">
       {/* Left Content */}
       <div>
         <p className="text-sm mb-2">{today}</p>
-        <h2 className="text-3xl font-semibold font-sans">
+        <h2 className="text-2xl font-semibold font-sans">
           Welcome back,{" "}
           <span className="bg-clip-text text-transparent bg-gradient-to-tr from-green-300 to-blue-200">
             {name}

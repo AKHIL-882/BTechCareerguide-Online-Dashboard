@@ -56,13 +56,12 @@ const UserTestimonials = () => {
   };
 
   return (
-    <div className="m-2 flex-1 pt-14 lg:relative lg:pl-56 py-2 min-h-screen bg-slate-50">
+    <div className="m-3 flex-1 pt-14 lg:relative py-2 min-h-screen bg-slate-50">
+      <SectionHeading text="Please Submit your Feedback" />
       <form onSubmit={handleSubmit}>
-        <div className="max-w-6xl mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-auto">
-          <SectionHeading text="Please Submit your Feedback" />
+        <div className=" mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-auto">
           {message && <p className="text-green-600 mb-4">{message}</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
-
           <div className="space-y-4">
             <div className="flex flex-col md:flex-row md:space-x-4">
               <input

@@ -12,7 +12,7 @@ const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
 
   return (
-    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-2 bg-slate-50 min-h-screen">
+    <main className="m-3 flex-1 pt-12 lg:relative py-2 bg-slate-50 min-h-screen">
       <div className="relative">
         <WelcomeCard
           name="Akhil"

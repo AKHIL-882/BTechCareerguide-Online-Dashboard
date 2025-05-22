@@ -65,7 +65,7 @@ const CalendarBooking = () => {
   };
 
   return (
-    <div className="w-full px-6 py-10 flex flex-col items-center min-h-screen bg-slate-50">
+    <div className="w-full px-3 py-10 flex flex-col min-h-screen bg-slate-50">
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl p-8 mt-10">
         <SectionHeading text="book exam slot" />
         <div className="p-5 bg-blue-50 rounded-lg shadow-md flex justify-center">

@@ -37,6 +37,7 @@ const UserMainLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   return (
     <>
@@ -51,8 +52,12 @@ const UserMainLayout = () => {
           isOpen={isSidebarOpen}
           toggleSidebar={toggleSidebar}
           handleLogout={handleLogout}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
         />
-        <Outlet />
+        <div className={`w-full ${isCollapsed ? "lg:pl-[60px]" : "lg:pl-56"}`}>
+          <Outlet />
+        </div>
       </div>
       <Footer />
       <ToastContainer />

@@ -149,7 +149,7 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-3 flex-1 pt-12 lg:relative lg:pl-56 py-4 min-h-screen bg-slate-50">
+    <main className="m-3 flex-1 pt-12 lg:relative py-4 min-h-screen bg-slate-50">
       {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
