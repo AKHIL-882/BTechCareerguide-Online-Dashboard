@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { FaGithub, FaInfoCircle, FaTimes, FaCheckCircle } from "react-icons/fa";
+import { FaGithub, FaInfoCircle, FaTimes, FaCheckCircle, FaQuestionCircle } from "react-icons/fa";
 
 const GithubId = ({ onClose, onSubmit }) => {
   const [githubId, setGithubId] = useState("");
+  const [istruegit,setIsTrueGit]=useState(false);
+  const [isError,setIsError]=useState(false);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 px-4">
@@ -21,13 +23,12 @@ const GithubId = ({ onClose, onSubmit }) => {
             C
           </div>
           <span className="text-green-500">{"---"}</span>
-          <FaCheckCircle className="text-green-500 text-3xl"/>
+          {istruegit ?<FaQuestionCircle className="text-red-600 text-3xl"/>:<FaCheckCircle className="text-green-500 text-3xl"/> }
           <span className="text-green-500">{"---"}</span>
           <FaGithub className="text-black bg-white rounded-full" size={40} />
         </div>
-
         {/* Input + Info + Submit */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+       {istruegit ? <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <div className="relative w-full sm:w-80">
             <input
               type="text"
@@ -75,7 +76,7 @@ const GithubId = ({ onClose, onSubmit }) => {
               </div>
             </div>
           </div>
-
+          
           {/* Submit Button */}
           <button
             onClick={() => onSubmit(githubId)}
@@ -83,7 +84,8 @@ const GithubId = ({ onClose, onSubmit }) => {
           >
             Submit
           </button>
-        </div>
+        </div>:<p className="text-center text-green-500">Github account submitted successfully. Thank you</p>}
+       {isError&& <p className="text-red-500 text-left ml-14">Please enter valid account</p>}
       </div>
     </div>
   );
