@@ -6,6 +6,7 @@ import Sidebar from "./Sidebar";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import { logoutUser } from "../../Api";
 import { ToastContainer } from "react-toastify";
+import GithubId from "./GithubId";
 
 const UserMainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -38,9 +39,22 @@ const UserMainLayout = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [showPopup, setShowPopup] = useState(true);
+
+  const handleGithubSubmit = (githubId) => {
+    console.log("GitHub ID submitted:", githubId);
+    // Save to API or localStorage
+    setShowPopup(false);
+  };
 
   return (
     <>
+      {showPopup && (
+        <GithubId
+          onClose={() => setShowPopup(false)}
+          onSubmit={handleGithubSubmit}
+        />
+      )}
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header
         handleLogout={handleLogout}

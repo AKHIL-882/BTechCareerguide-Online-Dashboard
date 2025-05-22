@@ -4,7 +4,7 @@ import NotificationBell from "./NotificationBell";
 
 const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
   return (
-    <header className="flex justify-between items-center px-6 md:py-2 py-3 bg-white shadow w-full z-50 fixed">
+    <header className="flex justify-between items-center px-6 md:py-2 py-3 bg-white shadow w-full z-40 fixed">
       {/* Hamburger Icon for Mobile (Left side) */}
       <div className="flex items-center">
         <button
