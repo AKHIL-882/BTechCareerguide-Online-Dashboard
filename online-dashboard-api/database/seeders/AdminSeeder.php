@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
             ['email' => 'admin@btechcareerguide.com'],
             [
                 'name' => 'Admin User',
-                'password' => Hash::make('Admin@1234'),
+                'password' => 'Admin@1234',
             ]
         );
 
