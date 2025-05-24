@@ -32,6 +32,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {
 
+    
     Route::post('reset-password', [ForgetPasswordController::class, 'resetPassword']);
     Route::post('update-password', [ForgetPasswordController::class, 'updatePassword']);
     Route::post('signup', [AuthenticationController::class, 'signup']);
