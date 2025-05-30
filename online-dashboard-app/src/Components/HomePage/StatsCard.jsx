@@ -1,5 +1,5 @@
 import React from "react";
-import CountUpOnScroll from "./CountUponScroll";
+import CountUpOnScroll from "./CountUpOnScroll";
 
 const StatsCard = ({ icon: Icon, label, count, duration = 5 }) => {
   return (
