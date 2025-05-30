@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import HamburgerMenu from "./HamburgerMenu";
 import Logo from "./Logo";
-import Sidebar from "./Sidebar";
+import SideBar from "./SideBar";
 import { FaLockOpen } from "react-icons/fa";
 
 const Header = () => {
@@ -45,7 +45,7 @@ const Header = () => {
           </button>
         </div>
       </nav>
-      {isSidebarOpen && <Sidebar toggleSidebar={toggleSidebar} />}
+      {isSidebarOpen && <SideBar toggleSidebar={toggleSidebar} />}
     </>
   );
 };
