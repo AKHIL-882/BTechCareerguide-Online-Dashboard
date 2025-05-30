@@ -9,7 +9,7 @@ import {
 import Logo from "./Logo"; // Assuming you have a separate Logo component
 import { Link } from "react-router-dom"; // Importing Link from react-router-dom
 
-const Sidebar = ({ toggleSidebar }) => {
+const SideBar = ({ toggleSidebar }) => {
   const sidebarRef = useRef(null);
 
   // Detect click outside the sidebar to close it
@@ -105,4 +105,4 @@ const Sidebar = ({ toggleSidebar }) => {
   );
 };
 
-export default Sidebar;
+export default SideBar;
