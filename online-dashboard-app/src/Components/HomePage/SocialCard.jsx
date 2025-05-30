@@ -1,5 +1,5 @@
 import React from "react";
-import CountUpOnScroll from "./CountUponScroll";
+import CountUpOnScroll from "./CountUpOnScroll";
 
 const SocialCard = ({ icon: Icon, label, url, count, suffix, bgColor, textColor }) => {
   return (
