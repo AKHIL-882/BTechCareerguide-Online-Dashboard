@@ -5,7 +5,7 @@ import {
   FaCode,
   FaProjectDiagram,
 } from "react-icons/fa";
-import CountUpOnScroll from "../HomePage/CountUponScroll";
+import CountUpOnScroll from "../HomePage/CountUpOnScroll";
 
 const cards = [
   {
