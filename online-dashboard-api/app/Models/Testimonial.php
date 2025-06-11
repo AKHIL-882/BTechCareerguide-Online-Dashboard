@@ -29,18 +29,18 @@ class Testimonial extends Model
     public static function getLatestTestimonials(): EloquentCollection
     {
         try {
-            if (!Schema::hasTable('testimonials')) {
+            if (! Schema::hasTable('testimonials')) {
                 return new EloquentCollection;
             }
-    
+
             return self::with('user:id,name')
-                       ->latest()
-                       ->take(3)
-                       ->get()
-                       ->each(function ($testimonial) {
-                           $testimonial->user_name = $testimonial->user?->name ?? 'Unknown';
-                           unset($testimonial->user);
-                       });
+                ->latest()
+                ->take(3)
+                ->get()
+                ->each(function ($testimonial) {
+                    $testimonial->user_name = $testimonial->user?->name ?? 'Unknown';
+                    unset($testimonial->user);
+                });
         } catch (Throwable $e) {
             return new EloquentCollection;
         }

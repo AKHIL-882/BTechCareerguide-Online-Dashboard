@@ -54,10 +54,11 @@ if (! function_exists('generateAccessToken')) {
             return isset($tokenData['error']) ? null : $tokenData;
 
         } catch (Throwable $e) {
-            // deleteuser when tokengeneration fails
-            $user->delete();
+            // delete user when token generation fails
+            // $user->delete();
 
-            // info($e->getMessage());
+            info($e->getMessage());
+
             return null; // in case of exception
         }
     }

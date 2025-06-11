@@ -38,7 +38,7 @@ class ForgetPasswordController extends Controller
         }
 
         $result = $forgetPasswordToken->updatePassword($request->password);
-        info($result);
+
         return ApiResponse::setMessage($result['message'])
             ->response($result['status'] ? Response::HTTP_OK : Response::HTTP_UNPROCESSABLE_ENTITY);
     }
