@@ -96,7 +96,7 @@ class AuthenticationController extends Controller
                 Session::start();
             }
 
-            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Login));
+            // UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Login));
 
             // Fetch the user's roles
             $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
