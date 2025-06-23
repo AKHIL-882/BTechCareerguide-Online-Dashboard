@@ -25,10 +25,10 @@ class JobOpportunityFactory extends Factory
             'job_type' => $this->faker->randomElement(['Full-Time', 'Part-Time', 'Internship', 'Remote']),
             'experience' => $this->faker->randomElement(['0', '1', '2', '3', '4', '5']),
             'ctc' => $this->faker->numberBetween(3, 30).' LPA',
-            'company_logo' => $this->faker->imageUrl(200, 200, 'business', true, 'logo'),
             'location' => $this->faker->city(),
             'is_fraud' => $this->faker->boolean(5),
             'report_reason' => $this->faker->optional()->randomElement(JobReportReason::cases())?->value,
+            'company_logo' => 'https://onlinejpgtools.com/images/examples-onlinejpgtools/sunflower.jpg',
             'created_at' => now(),
         ];
 
