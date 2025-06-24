@@ -96,7 +96,11 @@ class AuthenticationController extends Controller
                 Session::start();
             }
 
-            // UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Login));
+            UserEventLog::logUserEvent(
+                UserEventLogType::getDescription(UserEventLogType::Login),
+                $user->id,
+                ['User Logged in'],
+            );
 
             // Fetch the user's roles
             $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
@@ -132,7 +136,12 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Logout));
+            // Note:: Not required as of now!!!
+            // UserEventLog::logUserEvent(
+            //     UserEventLogType::getDescription(UserEventLogType::Logout),
+            //     $user->id,
+            //     ['User Logout'],
+            // );
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);

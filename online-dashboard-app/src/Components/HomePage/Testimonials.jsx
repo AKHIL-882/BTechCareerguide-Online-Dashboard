@@ -8,8 +8,8 @@ import "swiper/css/scrollbar";
 import "swiper/css/autoplay";
 import FadeInStagger from "./FadeInStagger";
 
-const male= "https://cdn-icons-png.flaticon.com/128/4140/4140039.png";
-const female= "https://cdn-icons-png.flaticon.com/128/4140/4140060.png";
+const male = "https://cdn-icons-png.flaticon.com/128/4140/4140039.png";
+const female = "https://cdn-icons-png.flaticon.com/128/4140/4140060.png";
 
 const Testimonials = ({ testimonials }) => {
   return (

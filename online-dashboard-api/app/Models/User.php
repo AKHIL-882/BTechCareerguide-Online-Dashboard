@@ -4,16 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Enums\UserEventLogType;
-use App\Jobs\ProcessResetPasswordMailJob;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Hash;
+use App\Enums\UserEventLogType;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
+use App\Jobs\ProcessResetPasswordMailJob;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
@@ -106,7 +107,11 @@ class User extends Authenticatable
 
         $user->assignRole('user');
 
-        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::AccountCreated), $user);
+        UserEventLog::logUserEvent(
+            UserEventLogType::getDescription(UserEventLogType::AccountCreated),
+            Auth::user()->id,
+            ['User Account Created !!'],
+        );
 
         return $user;
     }
@@ -120,5 +125,16 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->belongsToMany(Notification::class, 'notification_user')->withPivot('is_read')->withTimestamps();
+    }
+
+    public function githubUsername()
+    {
+        return $this->hasOne(GithubUsername::class);
+    }
+
+    public function getHeaderStatsForUser()
+    {
+        $list = [];
+
     }
 }

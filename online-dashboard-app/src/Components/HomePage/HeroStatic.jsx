@@ -1,5 +1,11 @@
 import React from "react";
-import { FaYoutube, FaTelegramPlane, FaWhatsapp, FaLinkedinIn, FaInstagram } from "react-icons/fa";
+import {
+  FaYoutube,
+  FaTelegramPlane,
+  FaWhatsapp,
+  FaLinkedinIn,
+  FaInstagram,
+} from "react-icons/fa";
 import FadeInStagger from "./FadeInStagger";
 import SocialCard from "./SocialCard";
 

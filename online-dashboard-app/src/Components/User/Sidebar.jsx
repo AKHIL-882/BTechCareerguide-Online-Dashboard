@@ -2,8 +2,13 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const Sidebar = ({ isOpen, toggleSidebar, handleLogout,isCollapsed, setIsCollapsed }) => {
-
+const Sidebar = ({
+  isOpen,
+  toggleSidebar,
+  handleLogout,
+  isCollapsed,
+  setIsCollapsed,
+}) => {
   const handleLinkClick = () => {
     if (isOpen) {
       toggleSidebar();
@@ -127,7 +132,11 @@ const Sidebar = ({ isOpen, toggleSidebar, handleLogout,isCollapsed, setIsCollaps
         className="hidden lg:flex absolute bottom-4 right-[-12px] transform -translate-y-1/2 w-6 h-6 rounded-full bg-violet-600 border border-white text-white items-center justify-center shadow hover:bg-violet-700 transition z-50"
         title={isCollapsed ? "Expand" : "Collapse"}
       >
-        {isCollapsed ? <FaChevronRight size={12} /> : <FaChevronLeft size={12} />}
+        {isCollapsed ? (
+          <FaChevronRight size={12} />
+        ) : (
+          <FaChevronLeft size={12} />
+        )}
       </button>
     </aside>
   );

@@ -12,10 +12,10 @@ const NotificationBell = () => {
     unreadCount,
     loading,
     error,
-    setUnreadCount
+    setUnreadCount,
   } = useFetchNotifications();
 
-  const { markAsRead,loading:notifioading } = useMarkNotificationAsRead();
+  const { markAsRead, loading: notifioading } = useMarkNotificationAsRead();
 
   const [showDropdown, setShowDropdown] = useState(false);
   const [activeTab, setActiveTab] = useState("unseen");
@@ -24,9 +24,8 @@ const NotificationBell = () => {
   const toggleDropdown = () => setShowDropdown((prev) => !prev);
 
   const handleNotificationClick = async (id) => {
-    
     const updated = notifications.map((n) =>
-      n.id === id ? { ...n, is_read: 1 } : n
+      n.id === id ? { ...n, is_read: 1 } : n,
     );
     setNotifications(updated);
     setSelectedNotification(updated.find((n) => n.id === id));
@@ -43,7 +42,7 @@ const NotificationBell = () => {
   const filteredNotifications = notifications.filter(
     (n) =>
       (activeTab === "unseen" && n.is_read === 0) ||
-      (activeTab === "seen" && n.is_read === 1)
+      (activeTab === "seen" && n.is_read === 1),
   );
 
   return (
@@ -149,4 +148,3 @@ const NotificationBell = () => {
 };
 
 export default NotificationBell;
-

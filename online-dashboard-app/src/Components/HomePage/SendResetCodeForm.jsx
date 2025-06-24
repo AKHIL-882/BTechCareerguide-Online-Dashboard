@@ -4,12 +4,16 @@ import { useSendResetCode } from "../../Api";
 
 const SendResetCodeForm = ({ onBack, isError }) => {
   const [email, setEmail] = useState("");
-  const { loading: sending, error: sendError, sendResetCode } = useSendResetCode();
+  const {
+    loading: sending,
+    error: sendError,
+    sendResetCode,
+  } = useSendResetCode();
 
   const handleSendCode = () => {
     if (!email) return isError("Email is required");
     isError("");
-    sendResetCode(email,isError);
+    sendResetCode(email, isError);
   };
 
   return (

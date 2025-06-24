@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Auth;
 
 class Payment extends Model
 {
@@ -46,7 +47,11 @@ class Payment extends Model
             'payment_document_name' => $filePath,
         ]);
 
-        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PaymentScreenshotUploaded));
+        UserEventLog::logUserEvent(
+            UserEventLogType::getDescription(UserEventLogType::PaymentScreenshotUploaded),
+            Auth::user()->id,
+            ['Payment Screenshort uploaded Successfully!!'],
+        );
     }
 
     public static function showAllPaymentRequest(): AnonymousResourceCollection

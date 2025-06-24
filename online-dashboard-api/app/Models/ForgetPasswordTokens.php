@@ -44,7 +44,11 @@ class ForgetPasswordTokens extends Model
         // delete the token after successful update
         $this->delete();
 
-        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::PasswordChanged), $user);
+        UserEventLog::logUserEvent(
+            UserEventLogType::getDescription(UserEventLogType::PasswordChanged),
+            $user->id,
+            ['User Password Updated'],
+        );
 
         return ['status' => true,
             'message' => 'Password updated Succesfully'];

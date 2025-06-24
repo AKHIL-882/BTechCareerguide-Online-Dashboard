@@ -57,7 +57,7 @@ export const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleSignup = async (formData, setValidationError,setIsLogin) => {
+  const handleSignup = async (formData, setValidationError, setIsLogin) => {
     setLoading(true);
     try {
       const response = await axios.post(
@@ -689,14 +689,11 @@ export const useReportJob = () => {
 export const useSendResetCode = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const sendResetCode = async (email,isError) => {
+  const sendResetCode = async (email, isError) => {
     setLoading(true);
     setError(null);
     try {
-      await axios.post(
-        `${API_BASE_URL}/reset-password`,
-        { email }
-      );
+      await axios.post(`${API_BASE_URL}/reset-password`, { email });
       toast.success("Reset code sent to your email!");
     } catch (err) {
       const msg = err.response?.data?.message || "Failed to send reset code";
@@ -713,7 +710,7 @@ export const useResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const resetPassword = async ({ token, password}, onSuccess) => {
+  const resetPassword = async ({ token, password }, onSuccess) => {
     setLoading(true);
     setError(null);
     try {
@@ -726,7 +723,7 @@ export const useResetPassword = () => {
     } catch (err) {
       const msg =
         err.response?.data?.errors?.password?.[0] || // specific password error
-        err.response?.data?.message ||                // general message
+        err.response?.data?.message || // general message
         "Failed to reset password";
       setError(msg);
       toast.error(msg);
@@ -738,7 +735,6 @@ export const useResetPassword = () => {
   return { loading, error, resetPassword };
 };
 
-
 //standarddataconfig
 export const useHomeData = () => {
   const [data, setData] = useState(null);
@@ -748,11 +744,13 @@ export const useHomeData = () => {
   useEffect(() => {
     const fetchHomeData = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/standard-data/config/home`);
+        const response = await axios.get(
+          `${API_BASE_URL}/standard-data/config/home`,
+        );
         console.log(response);
         setData(response?.data?.data?.home);
       } catch (err) {
-        setError(err.message || 'Something went wrong');
+        setError(err.message || "Something went wrong");
       } finally {
         setLoading(false);
       }
@@ -763,7 +761,6 @@ export const useHomeData = () => {
 
   return { data, loading, error };
 };
-
 
 export const useFetchNotifications = () => {
   const [notifications, setNotifications] = useState([]);
@@ -801,13 +798,20 @@ export const useFetchNotifications = () => {
     fetchNotifications();
 
     // Set interval to fetch every 1 minute
-    intervalId = setInterval(fetchNotifications, 2*60000);
+    intervalId = setInterval(fetchNotifications, 2 * 60000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
 
-  return { notifications, unreadCount, loading, error, setNotifications, setUnreadCount };
+  return {
+    notifications,
+    unreadCount,
+    loading,
+    error,
+    setNotifications,
+    setUnreadCount,
+  };
 };
 
 export const useMarkNotificationAsRead = () => {
@@ -830,7 +834,7 @@ export const useMarkNotificationAsRead = () => {
             Authorization: `Bearer ${accessToken}`,
             "Content-Type": "application/json",
           },
-        }
+        },
       );
     } catch (err) {
       console.error("Failed to mark notification as read:", err);

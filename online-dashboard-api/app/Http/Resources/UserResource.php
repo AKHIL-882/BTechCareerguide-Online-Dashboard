@@ -18,9 +18,10 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            // 'phone' => $this->phone,
             'role' => $this->roles->pluck('name')[0],
             'stats' => $this->getUserJobStats(),
+            'has_github_username' => $this->githubUsername !== null,
+            'header_stats' => $this->getHeaderStatsForUser(),
         ];
     }
 }
