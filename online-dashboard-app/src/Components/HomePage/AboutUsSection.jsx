@@ -5,7 +5,7 @@ import HeroStatic from "./HeroStatic";
 import PopupNotification from "./PopupNotification";
 import scrollToSection from "./ScrollToSection";
 
-const AboutUsSection = ({social}) => {
+const AboutUsSection = ({ social }) => {
   const [showPopup, setShowPopup] = useState(false);
   return (
     <>

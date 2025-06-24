@@ -14,7 +14,7 @@ import CopyRightFooter from "./CopyRightFooter";
 import HomepageJobs from "./HomepageJobs";
 import AboutUsSection from "./AboutUsSection";
 import Faq from "./Faq";
-import {useHomeData} from "../../Api"
+import { useHomeData } from "../../Api";
 import { ToastContainer } from "react-toastify";
 
 const HomePage = () => {
@@ -30,12 +30,12 @@ const HomePage = () => {
   const { handleLogin, loading: loginLoading } = useLogin();
   const { handleSignup, loading: signupLoading } = useSignup();
   const { data, loading, error } = useHomeData();
-  const jobs=data?.jobs;
-  const social=data?.social;
-  const testimonials=data?.testimonials;
-  const stats=data?.stats;
-  const companies=data?.companies;
- 
+  const jobs = data?.jobs;
+  const social = data?.social;
+  const testimonials = data?.testimonials;
+  const stats = data?.stats;
+  const companies = data?.companies;
+
   const [isLogin, setIsLogin] = useState(false);
   const [validationError, setValidationError] = useState(null);
   const [giggleCounter, setGiggleCounter] = useState(0);
@@ -46,7 +46,7 @@ const HomePage = () => {
   };
   const handleSignupSubmit = (e) => {
     e.preventDefault();
-    handleSignup(formData, setValidationError,setIsLogin);
+    handleSignup(formData, setValidationError, setIsLogin);
   };
 
   const handleLoginSubmit = (e) => {
@@ -108,17 +108,17 @@ const HomePage = () => {
         </main>
       </section>
       <section id="trending">
-        <HomepageJobs jobshome={jobs} companies={companies}/>
+        <HomepageJobs jobshome={jobs} companies={companies} />
       </section>
       <section id="about">
-        <AboutUsSection social={social}/>
+        <AboutUsSection social={social} />
       </section>
       <section id="services">
-        <OfferingSection  />
+        <OfferingSection />
       </section>
-      <StatsSection stats={stats}/>
+      <StatsSection stats={stats} />
       <section id="testimonials">
-        <Testimonials testimonials={testimonials}/>
+        <Testimonials testimonials={testimonials} />
       </section>
       <section id="faqs">
         <Faq />

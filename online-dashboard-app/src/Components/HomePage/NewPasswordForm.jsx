@@ -35,7 +35,7 @@ const NewPasswordForm = () => {
         token,
         password: newPassword,
       },
-      () => navigate("/") // Redirect to home after reset
+      () => navigate("/"), // Redirect to home after reset
     );
   };
 
@@ -46,8 +46,12 @@ const NewPasswordForm = () => {
         {/* Left Side - Company name and reset instructions */}
         <div className="w-full lg:w-1/2 bg-white p-6 rounded-l-lg flex flex-col justify-between mb-6 lg:mb-0">
           <div>
-            <h1 className="text-2xl font-semibold text-violet-600 mb-4 text-left">PROJPORT</h1>
-            <p className="text-gray-600 mb-6 text-left">Follow the rules to create a secure password:</p>
+            <h1 className="text-2xl font-semibold text-violet-600 mb-4 text-left">
+              PROJPORT
+            </h1>
+            <p className="text-gray-600 mb-6 text-left">
+              Follow the rules to create a secure password:
+            </p>
             <ol className="text-sm text-gray-500 list-decimal ml-3">
               <li>Use at least one uppercase letter.</li>
               <li>Use at least one number.</li>
@@ -59,10 +63,18 @@ const NewPasswordForm = () => {
 
         {/* Right Side - Password reset form with gradient background */}
         <div className="w-full lg:w-1/2 p-6 bg-violet-500 text-white rounded-lg rounded-l-2xl flex flex-col justify-between">
-          <h2 className="text-2xl font-semibold text-center mb-4">Forgot Password</h2>
-          {(localError || error) ? (
-            <p className="text-red-500 text-sm mt-2 p-3 bg-slate-100 rounded-lg mb-6">{localError || error}</p>
-          ) : <p className="text-center mb-6">Enter your new password to change it</p>}
+          <h2 className="text-2xl font-semibold text-center mb-4">
+            Forgot Password
+          </h2>
+          {localError || error ? (
+            <p className="text-red-500 text-sm mt-2 p-3 bg-slate-100 rounded-lg mb-6">
+              {localError || error}
+            </p>
+          ) : (
+            <p className="text-center mb-6">
+              Enter your new password to change it
+            </p>
+          )}
 
           <div className="relative mb-4">
             <input
@@ -76,7 +88,11 @@ const NewPasswordForm = () => {
               className="absolute right-3 top-3 cursor-pointer"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <FaEyeSlash className="text-gray-600" /> : <FaEye className="text-gray-600" />}
+              {showPassword ? (
+                <FaEyeSlash className="text-gray-600" />
+              ) : (
+                <FaEye className="text-gray-600" />
+              )}
             </div>
           </div>
 
@@ -92,7 +108,11 @@ const NewPasswordForm = () => {
               className="absolute right-3 top-3 cursor-pointer"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              {showConfirmPassword ? <FaEyeSlash className="text-gray-600" /> : <FaEye className="text-gray-600" />}
+              {showConfirmPassword ? (
+                <FaEyeSlash className="text-gray-600" />
+              ) : (
+                <FaEye className="text-gray-600" />
+              )}
             </div>
           </div>
 
@@ -110,7 +130,8 @@ const NewPasswordForm = () => {
               href="/home"
               className="text-white hover:text-slate-50 text-sm flex justify-center items-center"
             >
-              <FaArrowLeft/><span className="ml-2">Back to Home Page</span>
+              <FaArrowLeft />
+              <span className="ml-2">Back to Home Page</span>
             </a>
           </div>
         </div>

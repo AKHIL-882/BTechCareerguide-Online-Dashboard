@@ -5,7 +5,7 @@ import FadeInStagger from "./FadeInStagger";
 import PopupNotification from "./PopupNotification";
 import JobsTable from "../User/JobsTable";
 
-const HomepageJobs = ({jobshome,companies}) => {
+const HomepageJobs = ({ jobshome, companies }) => {
   const [showPopup, setShowPopup] = useState(false);
   return (
     <div className="w-full px-4 py-8 bg-slate-50 overflow-x-hidden">
@@ -22,9 +22,11 @@ const HomepageJobs = ({jobshome,companies}) => {
         </div>
       </FadeInStagger>
       <FadeInStagger direction="bottom" delay={0.1} duration={0.8} once={false}>
-        {Array.isArray(jobshome) && jobshome.length > 0 && <JobsTable jobs={jobshome?.slice(0, 3)} isJobshome={true} />}
+        {Array.isArray(jobshome) && jobshome.length > 0 && (
+          <JobsTable jobs={jobshome?.slice(0, 3)} isJobshome={true} />
+        )}
       </FadeInStagger>
-      <CompanyMarquee companies={companies}/>
+      <CompanyMarquee companies={companies} />
       <div className="text-center flex justify-center mt-8">
         <button
           onClick={() => setShowPopup(true)}

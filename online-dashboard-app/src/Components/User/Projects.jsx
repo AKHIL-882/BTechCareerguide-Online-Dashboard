@@ -25,7 +25,7 @@ const Projects = ({ isDashBoard }) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (!response.ok) {
           localStorage.clear();

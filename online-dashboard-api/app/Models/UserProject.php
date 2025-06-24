@@ -28,7 +28,11 @@ class UserProject extends Project
             'is_admin_project' => 0,
         ]);
 
-        UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::ProjectRequested));
+        UserEventLog::logUserEvent(
+            UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
+            Auth::user()->id,
+            [' User Requested for Project !!'],
+        );
     }
 
     public static function updateProject($request, $id): mixed

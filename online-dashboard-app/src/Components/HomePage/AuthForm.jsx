@@ -52,12 +52,12 @@ const AuthForm = ({
         className={`flex-1 w-[350px] md:w-[440px] p-6 border mt-2 border-gray-300 rounded-lg shadow-md bg-white flex flex-col justify-center lg:mt-20 ${isGiggling ? "giggle-effect" : ""}`}
       >
         <h2 className="text-2xl font-semibold text-center bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-green-500 font-display">
-              {isForgotPassword
-                ? "Forgot Password"
-                : isLogin
-                  ? "Login"
-                  : "Create Account"}
-            </h2>
+          {isForgotPassword
+            ? "Forgot Password"
+            : isLogin
+              ? "Login"
+              : "Create Account"}
+        </h2>
         {validationError ? (
           <div className="p-4 text-white bg-gray-300 rounded-md bg-opacity-10 flex items-center border border-gray-200">
             {validationError && (

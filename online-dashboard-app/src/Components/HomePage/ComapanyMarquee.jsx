@@ -1,8 +1,7 @@
 import React from "react";
 import Marquee from "react-fast-marquee";
 
-const CompanyMarquee = ({companies}) => {
-
+const CompanyMarquee = ({ companies }) => {
   return (
     <div className="py-1">
       <Marquee speed={50} autoFill={true} gradient={true}>

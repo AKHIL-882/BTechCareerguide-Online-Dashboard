@@ -4,7 +4,7 @@ import { FaSlidersH, FaTimes } from "react-icons/fa";
 import JobsTable from "./JobsTable";
 import SectionHeading from "./SectionHeading";
 
-const JobFilters = ({ setFilteredJobs,filteredJobs }) => {
+const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
   const [showFilters, setShowFilters] = useState(false);
   const [formData, setFormData] = useState({
     selectedBranch: "",
@@ -86,13 +86,15 @@ const JobFilters = ({ setFilteredJobs,filteredJobs }) => {
           <span>Filters</span>
         </button>
 
-       {filteredJobs && <button
-          onClick={() => setFilteredJobs(null)}
-          className="flex items-center space-x-2 text-red-500 px-3 py-2 border border-red-300 bg-white rounded-lg hover:shadow"
-        >
-          <FaTimes className="text-xl" />
-          <span>Clear</span>
-        </button>}
+        {filteredJobs && (
+          <button
+            onClick={() => setFilteredJobs(null)}
+            className="flex items-center space-x-2 text-red-500 px-3 py-2 border border-red-300 bg-white rounded-lg hover:shadow"
+          >
+            <FaTimes className="text-xl" />
+            <span>Clear</span>
+          </button>
+        )}
       </div>
 
       {showFilters && (

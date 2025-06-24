@@ -10,7 +10,7 @@ import CountUpOnScroll from "../HomePage/CountUpOnScroll";
 const cards = [
   {
     icon: <FaCheckCircle className="text-white text-xl" />,
-    label: "Applied",
+    label: "Viewed",
     count: 12,
     bg: "bg-green-400",
   },

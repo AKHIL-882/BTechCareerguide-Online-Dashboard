@@ -2,26 +2,53 @@
 
 namespace App\Models;
 
-use App\Enums\Status;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class UserEventLog extends Model
 {
+    protected $table = 'user_event_logs';
+
     protected $fillable = [
+        'category',
+        'event_type',
         'user_id',
-        'action',
-        'status',
-        'email',
+        'data',
+        'updated_by_name',
     ];
 
-    public static function createLog($action, $user = null)
+    protected $casts = [
+        'data' => 'array',
+    ];
+
+    public static function boot()
     {
-        self::create([
-            'user_id' => Auth::user()?->id ?? $user->id,
-            'email' => Auth::user()?->id ?? $user->email,
-            'action' => json_encode($action),
-            'status' => Status::Success,
-        ]);
+        parent::boot();
+        $authUser = Auth::guard('api')->user();
+        static::creating(function ($table) use ($authUser) {
+            if ($authUser) {
+                $table->updated_by_name = $authUser->first_name;
+            } elseif (Auth::user()) {
+                $table->updated_by_name = Auth::user()->first_name;
+            }
+        });
+    }
+
+    public static function logUserEvent(
+        string $eventType,
+        int $userId,
+        ?array $data = null,
+        ?string $category = null,
+        ?string $updatedByName = null
+    ) {
+        $eventLog = [
+            'category' => $category ?? 'user',
+            'event_type' => $eventType,
+            'data' => $data,
+            'user_id' => $userId,
+            'updated_by_name' => $updatedByName,
+        ];
+
+        return self::create($eventLog);
     }
 }
