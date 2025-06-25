@@ -13,8 +13,6 @@ const UserProjectsPage = ({ isDashboard = true }) => {
   const storagePath =
     import.meta.env.VITE_BACKEND_URL + "/app/storage/userProjectFiles/";
 
-  console.log(storagePath);
-
   // Filter projects where is_admin_project is 0
   const filteredProjects = projectsListings.filter(
     (project) => project.is_admin_project === 0,

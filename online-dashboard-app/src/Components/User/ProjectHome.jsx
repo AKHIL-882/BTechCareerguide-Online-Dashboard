@@ -59,11 +59,6 @@ const ProjectHome = ({ handleLogout }) => {
       formPayload.append("file", selectedFile);
     }
 
-    // Debugging: Log payload
-    for (const [key, value] of formPayload.entries()) {
-      console.log(`${key}: ${value}`);
-    }
-
     try {
       const data = JSON.parse(localStorage.getItem("data"));
       const accessToken = data ? data.access_token : null;
@@ -84,8 +79,6 @@ const ProjectHome = ({ handleLogout }) => {
       );
 
       alert("Project request submitted successfully!");
-      console.log("Response:", response.data);
-
       // Reset form and state
       setShowForm(false);
       setShowProjects(true);
@@ -94,7 +87,6 @@ const ProjectHome = ({ handleLogout }) => {
       console.error("Error submitting project:", error);
 
       if (error.response) {
-        console.log("Validation Errors:", error.response.data.errors); // Log server validation errors
         alert("Failed to submit project request. Please check your input.");
       } else {
         alert("Failed to submit project request. Please try again later.");
@@ -124,8 +116,9 @@ const ProjectHome = ({ handleLogout }) => {
       // Update the projects state with the fetched data
       setProjects(response.data.data);
     } catch (error) {
+      localStorage.clear();
       console.error("Error fetching projects:", error);
-      alert("Failed to fetch projects. Please try again later.");
+      alert("Session Expired! Re-Login Please");
     }
   };
 

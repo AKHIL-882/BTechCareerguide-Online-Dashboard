@@ -108,7 +108,6 @@ export const useSignup = () => {
 
 export const logoutUser = async (accessToken) => {
   try {
-    console.log(accessToken);
     const response = await axios.post(`${API_BASE_URL}/logout`, null, {
       headers: {
         "Content-Type": "application/json",
@@ -747,7 +746,6 @@ export const useHomeData = () => {
         const response = await axios.get(
           `${API_BASE_URL}/standard-data/config/home`,
         );
-        console.log(response);
         setData(response?.data?.data?.home);
       } catch (err) {
         setError(err.message || "Something went wrong");
@@ -848,8 +846,6 @@ export const useMarkNotificationAsRead = () => {
 };
 
 export const submitGithubId = async (userId, github_username) => {
-  console.log("User ID:", userId);
-  console.log("GitHub Username:", github_username);
   const data = JSON.parse(localStorage.getItem("data"));
   const accessToken = data?.access_token;
 
