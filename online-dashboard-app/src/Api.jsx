@@ -846,3 +846,27 @@ export const useMarkNotificationAsRead = () => {
 
   return { markAsRead, loading, error };
 };
+
+export const submitGithubId = async (userId, github_username) => {
+  console.log("User ID:", userId);
+  console.log("GitHub Username:", github_username);
+  const data = JSON.parse(localStorage.getItem("data"));
+  const accessToken = data?.access_token;
+
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/${userId}/github/store`,
+      { userId, github_username },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      },
+    );
+    return response.data;
+  } catch (error) {
+    console.error("GitHub ID submission error:", error);
+    throw error.response?.data || error;
+  }
+};
