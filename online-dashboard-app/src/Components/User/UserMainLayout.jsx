@@ -6,16 +6,16 @@ import Sidebar from "./Sidebar";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import { logoutUser } from "../../Api";
 import { ToastContainer } from "react-toastify";
-import GithubId from "./GithubId";
+import GithubCheckWrapper from "../../wrappers/GithubCheckWrapper";
 
 const UserMainLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleLogout = async () => {
     const data = JSON.parse(localStorage.getItem("data"));
-    console.log("Data from localStorage:", data);
+    const accessToken = data?.access_token;
 
-    const accessToken = data ? data.access_token : null;
     if (!accessToken) {
       alert("No token found. Please log in again.");
       return;
@@ -23,7 +23,6 @@ const UserMainLayout = () => {
 
     try {
       const isLoggedOut = await logoutUser(accessToken);
-      console.log("Logout status:", isLoggedOut);
       if (isLoggedOut) {
         localStorage.removeItem("data");
         alert("You have logged out successfully!");
@@ -38,28 +37,16 @@ const UserMainLayout = () => {
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [showPopup, setShowPopup] = useState(true);
-
-  const handleGithubSubmit = (githubId) => {
-    console.log("GitHub ID submitted:", githubId);
-    // Save to API or localStorage
-    setShowPopup(false);
-  };
 
   return (
     <>
-      {showPopup && (
-        <GithubId
-          onClose={() => setShowPopup(false)}
-          onSubmit={handleGithubSubmit}
-        />
-      )}
+      <GithubCheckWrapper />
+
       <ScrollToTopButton colorCode="bg-violet-800" />
       <Header
         handleLogout={handleLogout}
         toggleSidebar={toggleSidebar}
-        isSidebarOpen={isSidebarOpen} // Pass isSidebarOpen to Header
+        isSidebarOpen={isSidebarOpen}
       />
       <div className="flex bg-slate-50">
         <Sidebar

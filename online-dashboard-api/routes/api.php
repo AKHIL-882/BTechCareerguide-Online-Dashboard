@@ -18,6 +18,7 @@ Route::middleware(['auth:api', 'api'])->group(function () {
     Route::post('/verify-payment', [PaymentController::class, 'verifyPayment']);
 
     Route::get('set-access', [GithubController::class, 'addCollaboratorToRepo']);
+    Route::post('/users/{user}/github/store', [GithubController::class, 'storeUserGithubId']);
 
     // notification routes
     Route::get('notifications', [NotificationController::class, 'unread']);

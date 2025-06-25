@@ -20,4 +20,20 @@ class GithubUsername extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public static function updateOrCreateGithubUsername($attributes, $values)
+    {
+        self::updateOrCreate(
+            [
+                'user_id' => $attributes['user_id'],
+            ],
+            [
+                'github_username' => $values['github_username'],
+                'email' => $values['email'] ?? null,
+                'repo_access' => $values['repo_access'] ?? null,
+            ]
+        );
+
+        return true;
+    }
 }
