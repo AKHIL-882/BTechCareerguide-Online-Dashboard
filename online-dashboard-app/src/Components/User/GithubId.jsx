@@ -26,7 +26,7 @@ const GithubId = ({ onClose, userId }) => {
       setIsError(false);
     } catch (err) {
       localStorage.clear();
-      alert("Session Expired! Relogin Again!!")
+      alert("Session Expired! Relogin Again!!");
       console.error("GitHub ID submission failed:", err);
       setIsError(true);
     }
@@ -110,6 +110,11 @@ const GithubId = ({ onClose, userId }) => {
             Please enter a valid GitHub username
           </p>
         )}
+
+        <p className="text-sm text-center text-red-600 mt-10 px-4 italic">
+          ** We collect your GitHub ID to give you access to the project if you
+          choose to purchase it. **
+        </p>
       </div>
     </div>
   );
