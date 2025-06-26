@@ -45,7 +45,8 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
         );
         setDropdownOptions(response.data.data);
       } catch (error) {
-        console.error("Failed to fetch dropdown data:", error);
+        localStorage.clear()
+        console.error("Session Expired! Relogin Again!!");
       }
     };
     fetchDropdownData();

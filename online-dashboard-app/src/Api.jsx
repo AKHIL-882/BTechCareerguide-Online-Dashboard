@@ -140,7 +140,8 @@ export const useFetchJobs = () => {
         });
         setJobListings(response.data.data.reverse());
       } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
+        localStorage.clear()
+        setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {
         setLoading(false);
@@ -345,7 +346,8 @@ export const useFetchProjects = (isDashboard) => {
           isDashboard ? projectsData.slice(0, 3) : projectsData,
         );
       } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
+        localStorage.clear()
+        setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {
         setLoading(false);
@@ -604,7 +606,7 @@ export const getUserDetails = async (accessToken) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch user details");
+      throw new Error(data.message || "Session Expired! Relogin Again!!");
     }
 
     return data;
