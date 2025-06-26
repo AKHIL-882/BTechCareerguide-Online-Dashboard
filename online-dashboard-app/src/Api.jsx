@@ -108,7 +108,6 @@ export const useSignup = () => {
 
 export const logoutUser = async (accessToken) => {
   try {
-    console.log(accessToken);
     const response = await axios.post(`${API_BASE_URL}/logout`, null, {
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +140,8 @@ export const useFetchJobs = () => {
         });
         setJobListings(response.data.data.reverse());
       } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
+        localStorage.clear()
+        setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {
         setLoading(false);
@@ -346,7 +346,8 @@ export const useFetchProjects = (isDashboard) => {
           isDashboard ? projectsData.slice(0, 3) : projectsData,
         );
       } catch (err) {
-        setError("Failed to fetch jobs. Please try again later.");
+        localStorage.clear()
+        setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {
         setLoading(false);
@@ -605,7 +606,7 @@ export const getUserDetails = async (accessToken) => {
     const data = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || "Failed to fetch user details");
+      throw new Error(data.message || "Session Expired! Relogin Again!!");
     }
 
     return data;
@@ -747,7 +748,6 @@ export const useHomeData = () => {
         const response = await axios.get(
           `${API_BASE_URL}/standard-data/config/home`,
         );
-        console.log(response);
         setData(response?.data?.data?.home);
       } catch (err) {
         setError(err.message || "Something went wrong");
@@ -848,8 +848,6 @@ export const useMarkNotificationAsRead = () => {
 };
 
 export const submitGithubId = async (userId, github_username) => {
-  console.log("User ID:", userId);
-  console.log("GitHub Username:", github_username);
   const data = JSON.parse(localStorage.getItem("data"));
   const accessToken = data?.access_token;
 

@@ -25,6 +25,8 @@ const GithubId = ({ onClose, userId }) => {
       setSubmitted(true);
       setIsError(false);
     } catch (err) {
+      localStorage.clear();
+      alert("Session Expired! Relogin Again!!")
       console.error("GitHub ID submission failed:", err);
       setIsError(true);
     }

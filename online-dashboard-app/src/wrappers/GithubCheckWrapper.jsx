@@ -23,7 +23,6 @@ const GithubCheckWrapper = () => {
 
       try {
         const user = await getUserDetails(accessToken);
-        console.log("User fetched:", user);
 
         if (!user?.has_github_username && user?.id) {
           setUserId(user.id);

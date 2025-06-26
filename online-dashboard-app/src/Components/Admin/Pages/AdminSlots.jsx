@@ -13,7 +13,6 @@ const AdminSlots = () => {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
-        console.log("API Response:", response.data);
         setBookings(response.data.booking);
       })
       .catch((error) => console.error("Error fetching bookings:", error));
