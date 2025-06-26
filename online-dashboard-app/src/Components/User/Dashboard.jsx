@@ -1,21 +1,42 @@
 import Projects from "./Projects";
 import JobsTable from "./JobsTable.jsx";
-import { useFetchJobs } from "../../Api.jsx";
+import { getUserDetails, useFetchJobs } from "../../Api";
 import ShimmerJobs from "./ShimmerJobs.jsx";
 import SectionHeading from "./SectionHeading.jsx";
 import WelcomeCard from "./WelcomeCard.jsx";
 import { FaAngleRight } from "react-icons/fa";
 import StatsOverlayCards from "./StatsOverlayCards.jsx";
 import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
+
+  const [firstName, setFirstName] = useState([]);
+
+  const localData = localStorage.getItem("data");
+  const accessToken = JSON.parse(localData)?.access_token;
+
+  useEffect(() => {
+    const fetchUserStats = async () => {
+      try {
+        const response = await getUserDetails(accessToken);
+        if (response?.name) {
+          setFirstName(response.name);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user stats:", error);
+      }
+    };
+
+    fetchUserStats();
+  }, []);
 
   return (
     <main className="m-3 flex-1 pt-12 lg:relative py-2 bg-slate-50 min-h-screen">
       <div className="relative">
         <WelcomeCard
-          name="Akhil"
+          name={firstName}
           message="Hope you're making great progress in your career journey!"
           imageUrl="https://img.freepik.com/free-psd/3d-rendering-graduate-character_23-2151363355.jpg?t=st=1745316799~exp=1745320399~hmac=ee170d8307335bde7ebf997bf939860595c9f34597759c4ca19e00f1666efe36&w=740"
         />

@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-
 use App\Enums\UserEventLogType;
 use App\Jobs\ProcessResetPasswordMailJob;
 use Carbon\Carbon;
@@ -134,7 +132,33 @@ class User extends Authenticatable
 
     public function getHeaderStatsForUser()
     {
-        $list = [];
+        $user = Auth::guard('api')->user();
 
+        if (! $user) {
+            return [];
+        }
+
+        $userId = $user->id;
+
+        $eventMap = [
+            'Viewed' => UserEventLogType::getDescription(UserEventLogType::JobApplied),
+            'Projects' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
+            'Tests' => UserEventLogType::getDescription(UserEventLogType::TestAssistanceRequestedByUser),
+            'QA' => UserEventLogType::getDescription(UserEventLogType::QAAskedByUser),
+        ];
+
+        $stats = [];
+
+        foreach ($eventMap as $label => $eventType) {
+            $stats[] = [
+                'label' => $label,
+                'value' => UserEventLog::countEvents([
+                    'user_id' => $userId,
+                    'event_type' => $eventType,
+                ]),
+            ];
+        }
+
+        return $stats;
     }
 }

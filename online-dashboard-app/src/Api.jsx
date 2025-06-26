@@ -140,7 +140,7 @@ export const useFetchJobs = () => {
         });
         setJobListings(response.data.data.reverse());
       } catch (err) {
-        localStorage.clear()
+        localStorage.clear();
         setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {
@@ -346,7 +346,7 @@ export const useFetchProjects = (isDashboard) => {
           isDashboard ? projectsData.slice(0, 3) : projectsData,
         );
       } catch (err) {
-        localStorage.clear()
+        localStorage.clear();
         setError("Session Expired! Relogin Again!!");
         console.error(err);
       } finally {

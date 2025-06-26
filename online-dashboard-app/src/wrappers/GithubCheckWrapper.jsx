@@ -9,18 +9,7 @@ const GithubCheckWrapper = () => {
   useEffect(() => {
     const fetchUserDetails = async () => {
       const localData = localStorage.getItem("data");
-
-      if (!localData) {
-        console.warn("No auth data found in localStorage.");
-        return;
-      }
-
       const accessToken = JSON.parse(localData)?.access_token;
-      if (!accessToken) {
-        console.warn("Access token missing.");
-        return;
-      }
-
       try {
         const user = await getUserDetails(accessToken);
 

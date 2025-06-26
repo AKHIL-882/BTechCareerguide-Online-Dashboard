@@ -45,7 +45,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
         );
         setDropdownOptions(response.data.data);
       } catch (error) {
-        localStorage.clear()
+        localStorage.clear();
         console.error("Session Expired! Relogin Again!!");
       }
     };

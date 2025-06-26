@@ -41,6 +41,10 @@ final class UserEventLogType extends BaseEnum
 
     public const RepoAccessFailed = 15;
 
+    public const QAAskedByUser = 16;
+
+    public const TestAssistanceRequestedByUser = 17;
+
     public static function getDescription($value): string
     {
         return match ($value) {
@@ -60,6 +64,8 @@ final class UserEventLogType extends BaseEnum
             self::PaymentVerificationFailed => 'User Payment Verification Failed',
             self::RepoAccessGiven => 'User Repo Access Given',
             self::RepoAccessFailed => 'User Repo Access Failed',
+            self::QAAskedByUser => 'QA Asked By User',
+            self::TestAssistanceRequestedByUser => 'Test Assistance Requested By User',
             default => parent::getDescription($value)
         };
     }

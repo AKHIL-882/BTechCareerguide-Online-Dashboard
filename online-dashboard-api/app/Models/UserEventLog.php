@@ -21,6 +21,52 @@ class UserEventLog extends Model
         'data' => 'array',
     ];
 
+    public function scopeOfEventType($query, string $eventType)
+    {
+        return $query->where('event_type', $eventType);
+    }
+
+    public function scopeOfUser($query, int $userId)
+    {
+        return $query->where('user_id', $userId);
+    }
+
+    /**
+     * Get events based on filters (event_type and user_id)
+     */
+    public static function getEvents(array $filters = [])
+    {
+        $query = self::query();
+
+        if (! empty($filters['event_type'])) {
+            $query->ofEventType($filters['event_type']);
+        }
+
+        if (! empty($filters['user_id'])) {
+            $query->ofUser($filters['user_id']);
+        }
+
+        return $query->latest()->get(); // You can also paginate here if needed
+    }
+
+    /**
+     * Count events based on filters (event_type and user_id)
+     */
+    public static function countEvents(array $filters = [])
+    {
+        $query = self::query();
+
+        if (! empty($filters['event_type'])) {
+            $query->ofEventType($filters['event_type']);
+        }
+
+        if (! empty($filters['user_id'])) {
+            $query->ofUser($filters['user_id']);
+        }
+
+        return $query->count();
+    }
+
     public static function boot()
     {
         parent::boot();
