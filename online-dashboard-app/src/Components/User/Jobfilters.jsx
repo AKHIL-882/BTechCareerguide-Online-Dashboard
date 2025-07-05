@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
   const [showFilters, setShowFilters] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     selectedBranch: "",
     selectedBatch: "",

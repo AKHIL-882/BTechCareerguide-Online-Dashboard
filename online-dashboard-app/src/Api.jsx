@@ -132,7 +132,7 @@ export const useFetchJobs = () => {
   const [jobListings, setJobListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -338,7 +338,7 @@ export const useFetchProjects = (isDashboard) => {
   const [projectsListings, setProjectsListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -608,7 +608,7 @@ export const handleStatusChange = async (projectId, newStatus) => {
 };
 
 export const getUserDetails = async (accessToken) => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   try {
     const res = await fetch(`${API_BASE_URL}/user-details`, {
       headers: {
@@ -621,8 +621,8 @@ export const getUserDetails = async (accessToken) => {
 
     if (!res.ok) {
       setTimeout(() => {
-          navigate("/");
-        }, 1500);
+        navigate("/");
+      }, 1500);
       throw new Error(data.message || "Session Expired! Relogin Again!!");
     }
 

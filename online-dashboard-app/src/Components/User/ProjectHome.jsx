@@ -75,7 +75,7 @@ const ProjectHome = ({ handleLogout }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       alert("Project request submitted successfully!");
       // Reset form and state
@@ -116,7 +116,7 @@ const ProjectHome = ({ handleLogout }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       setProjects(response.data.data);

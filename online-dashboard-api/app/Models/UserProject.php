@@ -17,14 +17,14 @@ class UserProject extends Project
     public static function createProject(StoreProjectRequest $request)
     {
         if (! $request->hasFile('file')) {
-             return ApiResponse::setMessage('No file provided.')
-                    ->response(Response::HTTP_BAD_REQUEST);
+            return ApiResponse::setMessage('No file provided.')
+                ->response(Response::HTTP_BAD_REQUEST);
         }
 
         $file = $request->file('file');
         if (! ($file instanceof \Illuminate\Http\UploadedFile)) {
             return ApiResponse::setMessage('Invalid file.')
-                    ->response(Response::HTTP_BAD_REQUEST);
+                ->response(Response::HTTP_BAD_REQUEST);
         }
 
         $fileName = time().'-'.$file->getClientOriginalName();
