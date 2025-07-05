@@ -3,9 +3,11 @@ import axios from "axios";
 import { FaSlidersH, FaTimes } from "react-icons/fa";
 import JobsTable from "./JobsTable";
 import SectionHeading from "./SectionHeading";
+import { useNavigate } from "react-router-dom";
 
 const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
   const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     selectedBranch: "",
     selectedBatch: "",
@@ -46,6 +48,9 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
         setDropdownOptions(response.data.data);
       } catch (error) {
         localStorage.clear();
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
         console.error("Session Expired! Relogin Again!!");
       }
     };

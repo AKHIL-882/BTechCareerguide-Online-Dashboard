@@ -5,6 +5,11 @@ import { useNavigate } from "react-router-dom";
 
 const API_BASE_URL = "http://127.0.0.1:8000/api";
 
+const getToken = () => {
+  const data = JSON.parse(localStorage.getItem("data"));
+  return data?.access_token;
+};
+
 //userlogin
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -127,6 +132,7 @@ export const useFetchJobs = () => {
   const [jobListings, setJobListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -143,6 +149,9 @@ export const useFetchJobs = () => {
         localStorage.clear();
         setError("Session Expired! Relogin Again!!");
         console.error(err);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       } finally {
         setLoading(false);
       }
@@ -329,6 +338,7 @@ export const useFetchProjects = (isDashboard) => {
   const [projectsListings, setProjectsListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -349,6 +359,9 @@ export const useFetchProjects = (isDashboard) => {
         localStorage.clear();
         setError("Session Expired! Relogin Again!!");
         console.error(err);
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
       } finally {
         setLoading(false);
       }
@@ -595,6 +608,7 @@ export const handleStatusChange = async (projectId, newStatus) => {
 };
 
 export const getUserDetails = async (accessToken) => {
+  const navigate = useNavigate(); 
   try {
     const res = await fetch(`${API_BASE_URL}/user-details`, {
       headers: {
@@ -606,6 +620,9 @@ export const getUserDetails = async (accessToken) => {
     const data = await res.json();
 
     if (!res.ok) {
+      setTimeout(() => {
+          navigate("/");
+        }, 1500);
       throw new Error(data.message || "Session Expired! Relogin Again!!");
     }
 

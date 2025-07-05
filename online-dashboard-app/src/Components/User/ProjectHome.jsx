@@ -33,6 +33,7 @@ const ProjectHome = ({ handleLogout }) => {
     fetchProjects();
   }, []);
 
+  // Handle form fields with correct backend names
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -41,18 +42,18 @@ const ProjectHome = ({ handleLogout }) => {
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formPayload = new FormData();
+    const userData = JSON.parse(localStorage.getItem("data"));
+    const userId = userData ? userData.user_id : null;
 
-    const data = JSON.parse(localStorage.getItem("data"));
-    const userId = data ? data.user_id : null;
-
-    formPayload.append("project_name", formData.title);
-    formPayload.append("days_to_complete", formData.days);
-    formPayload.append("technical_skills", formData.technology);
-    formPayload.append("project_description", formData.description);
+    formPayload.append("project_name", formData.project_name);
+    formPayload.append("days_to_complete", formData.days_to_complete);
+    formPayload.append("technical_skills", formData.technical_skills);
+    formPayload.append("project_description", formData.project_description);
     formPayload.append("user_id", userId);
 
     if (selectedFile) {
@@ -60,11 +61,10 @@ const ProjectHome = ({ handleLogout }) => {
     }
 
     try {
-      const data = JSON.parse(localStorage.getItem("data"));
-      const accessToken = data ? data.access_token : null;
+      const accessToken = userData ? userData.access_token : null;
 
       if (!accessToken) {
-        setError("No token found. Please log in again.");
+        alert("No token found. Please log in again.");
         return;
       }
       const response = await axios.post(
@@ -75,20 +75,26 @@ const ProjectHome = ({ handleLogout }) => {
             "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
-
       alert("Project request submitted successfully!");
       // Reset form and state
       setShowForm(false);
       setShowProjects(true);
+      setFormData({
+        project_name: "",
+        days_to_complete: "",
+        technical_skills: "",
+        project_description: "",
+      });
+      setSelectedFile(null);
       fetchProjects();
     } catch (error) {
-      console.error("Error submitting project:", error);
-
       if (error.response) {
+        console.error("Backend error data:", error.response.data);
         alert("Failed to submit project request. Please check your input.");
       } else {
+        console.error(error);
         alert("Failed to submit project request. Please try again later.");
       }
     }
@@ -110,10 +116,9 @@ const ProjectHome = ({ handleLogout }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        },
+        }
       );
 
-      // Update the projects state with the fetched data
       setProjects(response.data.data);
     } catch (error) {
       localStorage.clear();
@@ -143,7 +148,6 @@ const ProjectHome = ({ handleLogout }) => {
 
   return (
     <main className="m-3 flex-1 pt-12 lg:relative py-4 min-h-screen bg-slate-50">
-      {/* <div className="p-4"> */}
       <div className="mt-4 md:flex justify-between mb-4">
         <div className="md:flex md:space-x-4 mb-1 md:mb-0">
           <button
@@ -186,8 +190,8 @@ const ProjectHome = ({ handleLogout }) => {
                 </label>
                 <input
                   type="text"
-                  name="title"
-                  value={formData.title}
+                  name="project_name"
+                  value={formData.project_name}
                   onChange={handleInputChange}
                   className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                   placeholder="Project Title"
@@ -199,8 +203,8 @@ const ProjectHome = ({ handleLogout }) => {
                   Days to Complete
                 </label>
                 <select
-                  name="days"
-                  value={formData.days}
+                  name="days_to_complete"
+                  value={formData.days_to_complete}
                   onChange={handleInputChange}
                   className="border border-gray-300 p-2 rounded-md w-4/6 lg:w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500 "
                   required
@@ -226,8 +230,8 @@ const ProjectHome = ({ handleLogout }) => {
               </label>
               <input
                 type="text"
-                name="technology"
-                value={formData.technology}
+                name="technical_skills"
+                value={formData.technical_skills}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 placeholder="Technologies"
@@ -239,8 +243,8 @@ const ProjectHome = ({ handleLogout }) => {
                 Project Description
               </label>
               <textarea
-                name="description"
-                value={formData.description}
+                name="project_description"
+                value={formData.project_description}
                 onChange={handleInputChange}
                 className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 rows="4"
@@ -254,6 +258,7 @@ const ProjectHome = ({ handleLogout }) => {
               </label>
               <input
                 type="file"
+                name="file"
                 onChange={handleFileChange}
                 className="border border-gray-300 p-2 rounded-md w-full font-sans focus:outline-none focus:ring-1 focus:ring-violet-500"
                 required
@@ -315,6 +320,7 @@ const ProjectHome = ({ handleLogout }) => {
           </div>
         </div>
       )}
+
       {showProjects && (
         <div className="mt-8">
           <Projects />
@@ -415,8 +421,6 @@ const ProjectHome = ({ handleLogout }) => {
           </div>
         </div>
       )}
-
-      {/* </div> */}
     </main>
   );
 };
