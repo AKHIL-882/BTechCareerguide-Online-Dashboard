@@ -19,7 +19,7 @@ class StoreProjectRequest extends FormRequest
             'days_to_complete' => 'required|integer',
             'technical_skills' => 'required|string',
             'project_description' => 'required|string',
-            'file' => 'required|file|max:1024000',
+            'file' => 'required|file|max:1024000', 'mimes:jpeg,jpg,png,pdf,doc,docx',
         ];
     }
 

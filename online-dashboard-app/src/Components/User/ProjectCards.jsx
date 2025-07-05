@@ -40,19 +40,21 @@ const ProjectCards = ({ projects }) => (
                   statusText === "Pending"
                     ? "bg-yellow-500"
                     : statusText === "Completed"
-                    ? "bg-green-500"
-                    : statusText === "Building"
-                    ? "bg-blue-500"
-                    : statusText === "Rejected"
-                    ? "bg-red-400"
-                    : "bg-gray-500"
+                      ? "bg-green-500"
+                      : statusText === "Building"
+                        ? "bg-blue-500"
+                        : statusText === "Rejected"
+                          ? "bg-red-400"
+                          : "bg-gray-500"
                 }`}
               >
                 {statusText}
               </button>
             </div>
             <p className="mt-2 text-sm font-sans">{project.technical_skills}</p>
-            <p className="mt-2 text-sm font-sans">{project.project_description}</p>
+            <p className="mt-2 text-sm font-sans">
+              {project.project_description}
+            </p>
             {showPayBtn && (
               <div className="mt-2">
                 <PaymentComponent amount={500} />

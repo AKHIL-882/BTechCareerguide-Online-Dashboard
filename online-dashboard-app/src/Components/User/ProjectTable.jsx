@@ -33,21 +33,27 @@ const ProjectTable = ({ projects }) => (
           const showPayBtn = statusText === "Completed";
           return (
             <tr key={index}>
-              <td className="border px-4 py-2 font-sans">{project.project_name}</td>
-              <td className="border px-4 py-2 font-sans">{project.technical_skills}</td>
-              <td className="border px-4 py-2 font-sans">{project.project_description}</td>
+              <td className="border px-4 py-2 font-sans">
+                {project.project_name}
+              </td>
+              <td className="border px-4 py-2 font-sans">
+                {project.technical_skills}
+              </td>
+              <td className="border px-4 py-2 font-sans">
+                {project.project_description}
+              </td>
               <td className="border px-4 py-2 font-sans flex items-center gap-2">
                 <button
                   className={`px-4 py-2 rounded text-white font-sans ${
                     statusText === "Pending"
                       ? "bg-yellow-500"
                       : statusText === "Completed"
-                      ? "bg-green-500"
-                      : statusText === "Building"
-                      ? "bg-blue-500"
-                      : statusText === "Rejected"
-                      ? "bg-red-400"
-                      : "bg-gray-500"
+                        ? "bg-green-500"
+                        : statusText === "Building"
+                          ? "bg-blue-500"
+                          : statusText === "Rejected"
+                            ? "bg-red-400"
+                            : "bg-gray-500"
                   }`}
                 >
                   {statusText}

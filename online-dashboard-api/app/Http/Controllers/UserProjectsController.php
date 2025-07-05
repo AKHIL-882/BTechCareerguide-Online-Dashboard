@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\ProjectStatus;
+use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UserProjectsRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\Project;
@@ -21,7 +22,7 @@ class UserProjectsController extends Controller
         return ApiResponse::setData($userProjects)->mergeEnumsIntoResults([ProjectStatus::class])->response(Response::HTTP_OK);
     }
 
-    public function store(UserProjectsRequest $request): JsonResponse
+    public function store(StoreProjectRequest $request): JsonResponse
     {
         UserProject::createProject($request);
 

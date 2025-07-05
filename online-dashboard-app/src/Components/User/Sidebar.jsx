@@ -51,6 +51,21 @@ const Sidebar = ({
         </NavLink>
 
         <NavLink
+          to="/user/resume-ai"
+          className={({ isActive }) =>
+            `flex items-center ${
+              isCollapsed ? "justify-center" : "space-x-2"
+            } w-full px-4 py-3 m-1 ${
+              isActive ? "bg-slate-50 text-gray-600 rounded-l-lg" : "text-white"
+            } font-display font-semibold cursor-pointer hover:bg-slate-50 hover:text-gray-600 hover:rounded-l-lg transition duration-300 ease-in-out`
+          }
+          onClick={handleLinkClick}
+        >
+          <i className="fa fa-heartbeat pl-2" aria-hidden="true"></i>
+          {!isCollapsed && <span>Scan Resume</span>}
+        </NavLink>
+
+        <NavLink
           to="/user/jobs"
           className={({ isActive }) =>
             `flex items-center ${
@@ -110,7 +125,7 @@ const Sidebar = ({
           {!isCollapsed && <span>Company Q/A</span>}
         </NavLink> */}
 
-        <NavLink
+        {/* <NavLink
           to="/user/testimonials"
           className={({ isActive }) =>
             `flex items-center ${
@@ -123,7 +138,7 @@ const Sidebar = ({
         >
           <i className="fa fa-comments-o pl-2" aria-hidden="true"></i>
           {!isCollapsed && <span>Feedback</span>}
-        </NavLink>
+        </NavLink> */}
       </nav>
 
       {/* Expand/Collapse Button for Desktop Only */}

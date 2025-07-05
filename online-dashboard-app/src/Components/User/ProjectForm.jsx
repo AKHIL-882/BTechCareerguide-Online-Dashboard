@@ -15,9 +15,7 @@ const ProjectForm = ({
     <form onSubmit={handleSubmit}>
       <div className="mt-4 flex flex-col md:flex-row gap-4">
         <div className="flex-1">
-          <label className="block text-gray-700 font-sans">
-            Project Title
-          </label>
+          <label className="block text-gray-700 font-sans">Project Title</label>
           <input
             type="text"
             name="project_name"
