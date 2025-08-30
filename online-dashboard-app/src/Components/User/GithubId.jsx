@@ -8,12 +8,13 @@ import {
   FaQuestionCircle,
 } from "react-icons/fa";
 import { submitGithubId } from "../../Api";
+import { useNavigate } from "react-router-dom";
 
 const GithubId = ({ onClose, userId }) => {
   const [githubId, setGithubId] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
-
+  const navigate = useNavigate();
   const handleSubmit = async () => {
     if (!githubId.trim()) {
       setIsError(true);
@@ -27,7 +28,7 @@ const GithubId = ({ onClose, userId }) => {
     } catch (err) {
       localStorage.clear();
       alert("Session Expired! Relogin Again!!");
-      console.error("GitHub ID submission failed:", err);
+      navigate("/");
       setIsError(true);
     }
   };
