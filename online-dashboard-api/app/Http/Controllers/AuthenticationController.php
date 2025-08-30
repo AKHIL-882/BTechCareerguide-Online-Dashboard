@@ -51,7 +51,6 @@ class AuthenticationController extends Controller
             if (! Session::isStarted()) {
                 Session::start();
             }
-            $tokenData['user_email'] = $user->email;
 
             return ApiResponse::setMessage('Account Created Successfully')
                 ->mergeResults($tokenData)
@@ -132,13 +131,6 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            // Note:: Not required as of now!!!
-            // UserEventLog::logUserEvent(
-            //     UserEventLogType::getDescription(UserEventLogType::Logout),
-            //     $user->id,
-            //     ['User Logout'],
-            // );
-
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
         } else {
@@ -149,9 +141,7 @@ class AuthenticationController extends Controller
 
     public function refreshAccessToken(RefreshRequest $request)
     {
-
         $refreshToken = $request->refresh_token;
-
         try {
             $tokenData = refreshAccessToken($refreshToken);
 
