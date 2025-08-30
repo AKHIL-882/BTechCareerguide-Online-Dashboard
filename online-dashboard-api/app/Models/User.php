@@ -107,7 +107,7 @@ class User extends Authenticatable
 
         UserEventLog::logUserEvent(
             UserEventLogType::getDescription(UserEventLogType::AccountCreated),
-            Auth::user()->id,
+            $user->id,
             ['User Account Created !!'],
         );
 

@@ -14,6 +14,7 @@ if (! function_exists('generateAccessToken')) {
         $psr17Factory = new Psr17Factory;
 
         $oauth_token_uri = config('auth.oauth_token_uri');
+
         // Create a ServerRequestInterface instance with required parameters
         $serverRequest = $psr17Factory->createServerRequest(
             'POST',
@@ -26,8 +27,11 @@ if (! function_exists('generateAccessToken')) {
             'password' => $password,
             'scope' => '',
         ]);
+
         // Handle the token request and get the response
-        $response = $accessTokenController->issueToken($serverRequest);
+        $psr17Factory = new Psr17Factory;
+        $responseObj = $psr17Factory->createResponse();
+        $response = $accessTokenController->issueToken($serverRequest, $responseObj);
         $responseContent = $response->getContent();
 
         return $responseContent;
@@ -48,16 +52,13 @@ if (! function_exists('generateAccessToken')) {
 
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
-            $tokenData['user_id'] = $user->id;
 
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
 
         } catch (Throwable $e) {
-            // delete user when token generation fails
-            // $user->delete();
-
-            info($e->getMessage());
+            // deleteuser when tokengeneration fails
+            $user->delete();
 
             return null; // in case of exception
         }
