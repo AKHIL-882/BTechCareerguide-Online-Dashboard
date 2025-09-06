@@ -9,7 +9,14 @@ export const breadcrumbMap = {
 };
 
 // utils/breadcrumbIcons.js
-import { LayoutDashboard, Briefcase, GitCompareArrows, SquareDashedBottomCode, User, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  Briefcase,
+  GitCompareArrows,
+  SquareDashedBottomCode,
+  User,
+  Settings,
+} from "lucide-react";
 
 export const breadcrumbIcons = {
   dashboard: LayoutDashboard,

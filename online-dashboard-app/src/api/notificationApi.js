@@ -1,4 +1,4 @@
-import { get, post} from "./apiConfig";
+import { get, post } from "./apiConfig";
 
 export const fetchNotificationsApi = (accessToken) =>
   get("/notifications", {
@@ -6,8 +6,12 @@ export const fetchNotificationsApi = (accessToken) =>
   });
 
 export const markAsReadApi = (notificationId, accessToken) =>
-    post ("/mark-as-read",{
-        notification_id: notificationId
-    },{
-        headers: { Authorization: `Bearer ${accessToken}` },
-    });
+  post(
+    "/mark-as-read",
+    {
+      notification_id: notificationId,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );

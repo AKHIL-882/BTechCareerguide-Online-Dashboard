@@ -10,7 +10,7 @@ import { logoutUser } from "../../hooks/useAuth";
 
 const UserMainLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
-  
+
   const handleLogout = async () => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data?.access_token;
@@ -33,14 +33,17 @@ const UserMainLayout = () => {
     }
   };
 
-
   return (
     <>
       <GithubCheckWrapper />
       <ScrollToTopButton colorCode="bg-violet-800" />
 
       <div className="flex bg-slate-50">
-        <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} handleLogout={handleLogout}/>
+        <Sidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          handleLogout={handleLogout}
+        />
         <Header handleLogout={handleLogout} isCollapsed={isCollapsed} />
         <div className={`w-full ${isCollapsed ? "lg:pl-[60px]" : "lg:pl-56"}`}>
           <Outlet />

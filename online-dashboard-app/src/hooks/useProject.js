@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchProjectsApi, createProjectApi, saveProjectApi, deleteProjectApi, searchProjectsApi, updateProjectStatusApi } from '../api/projectApi';
+import {
+  fetchProjectsApi,
+  createProjectApi,
+  saveProjectApi,
+  deleteProjectApi,
+  searchProjectsApi,
+  updateProjectStatusApi,
+} from "../api/projectApi";
 
 // FETCH PROJECTS
 export const useFetchProjects = (isDashboard) => {
@@ -19,7 +26,9 @@ export const useFetchProjects = (isDashboard) => {
         const projectsData = Array.isArray(responseData.data)
           ? responseData.data
           : [];
-        setProjectsListings(isDashboard ? projectsData.slice(0, 3) : projectsData);
+        setProjectsListings(
+          isDashboard ? projectsData.slice(0, 3) : projectsData,
+        );
       } catch (err) {
         localStorage.clear();
         setError("Session Expired! Relogin Again!!");
@@ -77,7 +86,12 @@ export const useSaveProject = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const saveProject = async (updatedProject, setProjectsListings, projectsListings, setSelectedProject) => {
+  const saveProject = async (
+    updatedProject,
+    setProjectsListings,
+    projectsListings,
+    setSelectedProject,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data?.access_token;
     if (!accessToken) {
@@ -97,7 +111,9 @@ export const useSaveProject = () => {
       };
 
       setProjectsListings(
-        projectsListings.map((p) => (p.id === updatedProject.id ? updatedProjectData : p))
+        projectsListings.map((p) =>
+          p.id === updatedProject.id ? updatedProjectData : p,
+        ),
       );
       toast.success("Project Edited Successfully");
       setSelectedProject(null);
@@ -117,7 +133,13 @@ export const useDeleteProject = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const deleteProject = async (id, projectsListings, setProjectsListings, setShowDeletePopup, setProjectToDelete) => {
+  const deleteProject = async (
+    id,
+    projectsListings,
+    setProjectsListings,
+    setShowDeletePopup,
+    setProjectToDelete,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data?.access_token;
     if (!accessToken) {
@@ -178,12 +200,19 @@ export const handleStatusChange = async (projectId, newStatus) => {
   const accessToken = data?.access_token;
 
   try {
-    const response = await updateProjectStatusApi(projectId, newStatus, accessToken);
+    const response = await updateProjectStatusApi(
+      projectId,
+      newStatus,
+      accessToken,
+    );
     if (response.status === 200) {
       alert("Status updated successfully!");
       window.location.reload();
     } else {
-      alert("Failed to update status: " + (response.data.message || "Unknown error"));
+      alert(
+        "Failed to update status: " +
+          (response.data.message || "Unknown error"),
+      );
     }
   } catch (error) {
     console.error("Error updating status:", error);

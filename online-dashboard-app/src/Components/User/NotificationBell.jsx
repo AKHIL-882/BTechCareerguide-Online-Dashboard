@@ -151,7 +151,10 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaBell } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import RelativeTime from "./RelativeTIme";
-import { useFetchNotifications, useMarkNotificationAsRead } from "../../hooks/useNotification";
+import {
+  useFetchNotifications,
+  useMarkNotificationAsRead,
+} from "../../hooks/useNotification";
 
 const NotificationBell = () => {
   const {
@@ -177,7 +180,7 @@ const NotificationBell = () => {
 
   const handleNotificationClick = async (id) => {
     const updated = notifications.map((n) =>
-      n.id === id ? { ...n, is_read: 1 } : n
+      n.id === id ? { ...n, is_read: 1 } : n,
     );
     setNotifications(updated);
     setSelectedNotification(updated.find((n) => n.id === id));
@@ -194,26 +197,20 @@ const NotificationBell = () => {
   const filteredNotifications = notifications.filter(
     (n) =>
       (activeTab === "unseen" && n.is_read === 0) ||
-      (activeTab === "seen" && n.is_read === 1)
+      (activeTab === "seen" && n.is_read === 1),
   );
 
   // Close dropdown or popup when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        bellRef.current && bellRef.current.contains(event.target)
-      ) {
+      if (bellRef.current && bellRef.current.contains(event.target)) {
         // Clicked on bell, do nothing
         return;
       }
-      if (
-        dropdownRef.current && !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setShowDropdown(false);
       }
-      if (
-        popupRef.current && !popupRef.current.contains(event.target)
-      ) {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
         setSelectedNotification(null);
       }
     };
@@ -321,7 +318,9 @@ const NotificationBell = () => {
                 {selectedNotification.company_name}
               </h2>
             </div>
-            <p className="text-gray-800 text-sm">{selectedNotification.update}</p>
+            <p className="text-gray-800 text-sm">
+              {selectedNotification.update}
+            </p>
           </div>
         </div>
       )}

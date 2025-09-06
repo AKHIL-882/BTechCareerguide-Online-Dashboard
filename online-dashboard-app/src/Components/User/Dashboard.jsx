@@ -1,6 +1,6 @@
 import Projects from "./Projects";
 import JobsTable from "./JobsTable.jsx";
-import { getUserDetails,} from "../../Api";
+import { getUserDetails } from "../../Api";
 import { useFetchJobs } from "../../hooks/useJob.js";
 import ShimmerJobs from "./ShimmerJobs.jsx";
 import SectionHeading from "./SectionHeading.jsx";
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
   return (
     <main className="m-3 flex-1 pt-8 lg:relative py-2 bg-slate-50 min-h-screen">
-        <StatsOverlayCards />
+      <StatsOverlayCards />
       <div className="mt-4">
         <div className="flex justify-between items-center">
           <SectionHeading text="trending jobs" />

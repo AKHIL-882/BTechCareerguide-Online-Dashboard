@@ -1,7 +1,13 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import{ loginApi, signupApi, logoutApi, sendResetCodeApi, resetPasswordApi } from '../api/authApi';
+import {
+  loginApi,
+  signupApi,
+  logoutApi,
+  sendResetCodeApi,
+  resetPasswordApi,
+} from "../api/authApi";
 
 // LOGIN HOOK
 export const useLogin = () => {
@@ -22,9 +28,7 @@ export const useLogin = () => {
       else if (roles === "user") navigate("/dashboard");
       else alert("Role not recognized.");
     } catch (error) {
-      setValidationError(
-        error.response?.data?.message || "Login failed"
-      );
+      setValidationError(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }

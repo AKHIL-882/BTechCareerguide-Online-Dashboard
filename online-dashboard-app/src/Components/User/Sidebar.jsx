@@ -4,10 +4,14 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import logo from "../../assets/logo.png";
 import NotificationBell from "./NotificationBell";
 import UserProfile from "./UserProfile";
-import { LayoutDashboard, Briefcase, GitCompareArrows, SquareDashedBottomCode } from "lucide-react";
+import {
+  LayoutDashboard,
+  Briefcase,
+  GitCompareArrows,
+  SquareDashedBottomCode,
+} from "lucide-react";
 
-
-const Sidebar = ({ isCollapsed, setIsCollapsed,handleLogout }) => {
+const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState(null);
 
@@ -27,11 +31,11 @@ const Sidebar = ({ isCollapsed, setIsCollapsed,handleLogout }) => {
   };
 
   const navItems = [
-  { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-  { to: "/jobs", icon: Briefcase, label: "Jobs" },
-  { to: "/projects", icon: GitCompareArrows, label: "Projects" },
-  { to: "/calendar", icon: SquareDashedBottomCode, label: "Test Assistance" },
-];
+    { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
+    { to: "/jobs", icon: Briefcase, label: "Jobs" },
+    { to: "/projects", icon: GitCompareArrows, label: "Projects" },
+    { to: "/calendar", icon: SquareDashedBottomCode, label: "Test Assistance" },
+  ];
 
   return (
     <>
@@ -47,7 +51,9 @@ const Sidebar = ({ isCollapsed, setIsCollapsed,handleLogout }) => {
             <i className="fa fa-bars" aria-hidden="true"></i>
           </button>
           <img src={logo} alt="Logo" className="h-6 w-6 md:h-7 md:w-7" />
-          <span className="font-bold text-violet-600 text-xl ml-1">PROJPORT</span>
+          <span className="font-bold text-violet-600 text-xl ml-1">
+            PROJPORT
+          </span>
         </div>
 
         {/* Right: Notification + Profile */}
@@ -99,10 +105,9 @@ const Sidebar = ({ isCollapsed, setIsCollapsed,handleLogout }) => {
                 className={({ isActive }) =>
                   `flex items-center w-full h-12 
      ${isCollapsed ? "justify-center" : "px-4"} 
-     ${isActive
-                    ? "bg-violet-50 text-gray-700 rounded-lg"
-                    : "text-gray-600"
-                  } font-display font-semibold cursor-pointer 
+     ${
+       isActive ? "bg-violet-50 text-gray-700 rounded-lg" : "text-gray-600"
+     } font-display font-semibold cursor-pointer 
        hover:bg-slate-50 hover:text-gray-600 
        transition duration-300 ease-in-out mb-1`
                 }
@@ -130,7 +135,11 @@ const Sidebar = ({ isCollapsed, setIsCollapsed,handleLogout }) => {
           className="hidden lg:flex absolute bottom-4 right-[-12px] transform -translate-y-1/2 w-6 h-6 rounded-full bg-violet-600 border border-white text-white items-center justify-center shadow hover:bg-violet-700 transition z-50"
           title={isCollapsed ? "Expand" : "Collapse"}
         >
-          {isCollapsed ? <FaChevronRight size={12} /> : <FaChevronLeft size={12} />}
+          {isCollapsed ? (
+            <FaChevronRight size={12} />
+          ) : (
+            <FaChevronLeft size={12} />
+          )}
         </button>
       </aside>
     </>

@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchJobsApi, saveJobApi, createJobApi, deleteJobApi, reportJobApi } from '../api/jobApi';
+import {
+  fetchJobsApi,
+  saveJobApi,
+  createJobApi,
+  deleteJobApi,
+  reportJobApi,
+} from "../api/jobApi";
 
 // GET JOBS
 export const useFetchJobs = () => {
@@ -35,7 +41,12 @@ export const useSaveJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const saveJob = async (updatedJob, setJobListings, jobListings, setSelectedJob) => {
+  const saveJob = async (
+    updatedJob,
+    setJobListings,
+    jobListings,
+    setSelectedJob,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data?.access_token;
     if (!accessToken) {
@@ -56,9 +67,11 @@ export const useSaveJob = () => {
         apply_link: updatedJob.apply_link,
       };
 
-      setJobListings(jobListings.map((job) =>
-        job.id === updatedJob.id ? updatedJobData : job
-      ));
+      setJobListings(
+        jobListings.map((job) =>
+          job.id === updatedJob.id ? updatedJobData : job,
+        ),
+      );
 
       toast.success("Job Edited Successfully");
       setSelectedJob(null);
@@ -100,7 +113,13 @@ export const useCreateJob = () => {
       };
 
       addJob(newJob);
-      setFormData({ companyName: "", role: "", degree: [], batches: [], url: "" });
+      setFormData({
+        companyName: "",
+        role: "",
+        degree: [],
+        batches: [],
+        url: "",
+      });
       toast.success("Job Added successfully");
     } catch (err) {
       setError("Failed to upload data");
@@ -118,7 +137,13 @@ export const useDeleteJob = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const deleteJob = async (id, jobListings, setJobListings, setShowDeletePopup, setJobToDelete) => {
+  const deleteJob = async (
+    id,
+    jobListings,
+    setJobListings,
+    setShowDeletePopup,
+    setJobToDelete,
+  ) => {
     const data = JSON.parse(localStorage.getItem("data"));
     const accessToken = data?.access_token;
     if (!accessToken) {

@@ -86,19 +86,27 @@ import {
   Radar,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis
+  PolarRadiusAxis,
 } from "recharts";
 import { FaEllipsisV } from "react-icons/fa";
 import PromoSlider from "./PromoSlider";
 
-const chartColors = ["#7C3AED", "#22C55E", "#F59E0B", "#EF4444", "#3B82F6", "#10B981", "#6366F1"];
+const chartColors = [
+  "#7C3AED",
+  "#22C55E",
+  "#F59E0B",
+  "#EF4444",
+  "#3B82F6",
+  "#10B981",
+  "#6366F1",
+];
 
 const StatCard = ({ title, data, defaultChart, dataType }) => {
   const [chartType, setChartType] = useState(defaultChart);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   // Check if all values are zero
-  const allValuesZero = data.values.every(item => item.value === 0);
+  const allValuesZero = data.values.every((item) => item.value === 0);
 
   // Function to get the appropriate link based on title
   const getLink = () => {
@@ -125,9 +133,11 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
               href={getLink()}
               className="bg-purple-600 text-white text-xs px-3 py-1 rounded-full hover:bg-purple-700 transition-colors"
             >
-              { title === "Projects" ? "Request Project" :
-                  title === "Coding Assistance" ? "Schedule Interview" :
-                    `View ${title}`}
+              {title === "Projects"
+                ? "Request Project"
+                : title === "Coding Assistance"
+                  ? "Schedule Interview"
+                  : `View ${title}`}
             </a>
           ) : (
             <button className="bg-gray-400 text-white text-xs px-3 py-1 rounded-full cursor-not-allowed">
@@ -141,24 +151,40 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
     switch (chartType) {
       case "bar":
         return (
-          <BarChart data={data.values} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+          <BarChart
+            data={data.values}
+            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Bar dataKey="value" fill="#7C3AED" radius={[4, 4, 0, 0]} barSize={20} />
+            <Bar
+              dataKey="value"
+              fill="#7C3AED"
+              radius={[4, 4, 0, 0]}
+              barSize={20}
+            />
           </BarChart>
         );
       case "area":
         return (
-          <AreaChart data={data.values} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
+          <AreaChart
+            data={data.values}
+            margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+          >
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="month" />
             <YAxis />
             <Tooltip />
             <Legend />
-            <Area type="monotone" dataKey="value" stroke="#22C55E" fill="rgba(34, 197, 94, 0.2)" />
+            <Area
+              type="monotone"
+              dataKey="value"
+              stroke="#22C55E"
+              fill="rgba(34, 197, 94, 0.2)"
+            />
           </AreaChart>
         );
       case "pie":
@@ -177,7 +203,10 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
               labelLine={false}
             >
               {data.values.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={chartColors[index % chartColors.length]} />
+                <Cell
+                  key={`cell-${index}`}
+                  fill={chartColors[index % chartColors.length]}
+                />
               ))}
             </Pie>
             <Tooltip formatter={(value, name) => [`${value}`, name]} />
@@ -191,11 +220,12 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
             margin={{ top: 15, right: 15, left: 15, bottom: 15 }}
           >
             <PolarGrid />
-            <PolarAngleAxis
-              dataKey="name"
-              tick={{ fontSize: 9, dy: 4 }}
+            <PolarAngleAxis dataKey="name" tick={{ fontSize: 9, dy: 4 }} />
+            <PolarRadiusAxis
+              angle={30}
+              domain={[0, "auto"]}
+              tick={{ fontSize: 8 }}
             />
-            <PolarRadiusAxis angle={30} domain={[0, 'auto']} tick={{ fontSize: 8 }} />
             <Radar
               name="Value"
               dataKey="value"
@@ -290,7 +320,9 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
       {/* Card Content */}
       <div>
         <p className="text-xs text-gray-500 font-medium">{data.subtitle}</p>
-        <h3 className="text-md font-bold text-gray-800 mt-1">{allValuesZero ? 0 : data.count}</h3>
+        <h3 className="text-md font-bold text-gray-800 mt-1">
+          {allValuesZero ? 0 : data.count}
+        </h3>
       </div>
 
       <div className="h-44 mt-1">
@@ -310,12 +342,12 @@ const StatsOverlayCards = () => {
       subtitle: "Applied Jobs (Last 3 Months)",
       count: 50, // Changed to 0 to test the no data state
       values: [
-        { month: "Jul", value:10  },
+        { month: "Jul", value: 10 },
         { month: "Aug", value: 10 },
         { month: "Sep", value: 30 },
       ],
       dataType: "timeSeries",
-      defaultChart: "bar"
+      defaultChart: "bar",
     },
     projects: {
       title: "Projects",
@@ -328,7 +360,7 @@ const StatsOverlayCards = () => {
         { name: "Completed", value: 10 },
       ],
       dataType: "categorical",
-      defaultChart: "pie"
+      defaultChart: "pie",
     },
     coding: {
       title: "Coding Assistance",
@@ -340,7 +372,7 @@ const StatsOverlayCards = () => {
         { name: "Pending", value: 1 },
       ],
       dataType: "categorical",
-      defaultChart: "pie"
+      defaultChart: "pie",
     },
     articles: {
       title: "Articles",
@@ -352,15 +384,15 @@ const StatsOverlayCards = () => {
         { month: "Sep", value: 0 },
       ],
       dataType: "timeSeries",
-      defaultChart: "bar"
-    }
+      defaultChart: "bar",
+    },
   };
 
   return (
     <div className="w-full pt-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-5 gap-y-5 w-full mx-auto">
         {/* Left Purple Card */}
-        <PromoSlider/>
+        <PromoSlider />
 
         {/* Right Stats Cards */}
         <div className="col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-5">
