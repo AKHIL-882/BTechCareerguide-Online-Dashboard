@@ -105,11 +105,11 @@ class User extends Authenticatable
 
         $user->assignRole('user');
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::AccountCreated),
-            $user->id,
-            ['User Account Created !!'],
-        );
+        // UserEventLog::logUserEvent(
+        //     UserEventLogType::getDescription(UserEventLogType::AccountCreated),
+        //     Auth::user()?->id,
+        //     ['User Account Created !!'],
+        // );
 
         return $user;
     }

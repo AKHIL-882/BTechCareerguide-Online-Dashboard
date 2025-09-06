@@ -1,7 +1,7 @@
 import { React, useState } from "react";
 import AddJobForm from "../Components/DashBoard/AddJobForm";
 import JobListing from "../Components/DashBoard/JobListing";
-import { useFetchJobs } from "../../../Api";
+import { useFetchJobs } from "../../../hooks/useJob.js";
 const AdminJobs = () => {
   const { jobListings, setJobListings, loading, error } = useFetchJobs();
   const addJob = (newJob) => {

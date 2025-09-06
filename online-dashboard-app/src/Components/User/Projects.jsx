@@ -65,7 +65,7 @@ const Projects = ({ isDashBoard }) => {
       {!isDashBoard && (
         <div className="flex justify-between items-baseline">
           {/* Header Section */}
-          <SectionHeading text="projects" />
+          <SectionHeading text="available projects" />
           <SearchProjects
             setProjects={setProjects}
             noSearchedProjectsfn={noSearchedProjectsfn}

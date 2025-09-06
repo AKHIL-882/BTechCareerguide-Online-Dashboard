@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import { useSearchProjects } from "../../Api"; // Import your custom hook
-
+import { useSearchProjects } from "../../hooks/useProject.js";
 const SearchProjects = ({ setProjects, noSearchedProjectsfn }) => {
   const [searchValue, setSearchValue] = useState(""); // State for input value
   const [debouncedValue, setDebouncedValue] = useState(""); // Debounced value

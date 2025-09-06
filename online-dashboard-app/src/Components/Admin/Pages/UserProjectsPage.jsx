@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFetchProjects, handleStatusChange } from "../../../Api";
+import { useFetchProjects, handleStatusChange } from "../../../hooks/useProject.js";
 
 const UserProjectsPage = ({ isDashboard = true }) => {
   const { projectsListings, loading, error } = useFetchProjects();
