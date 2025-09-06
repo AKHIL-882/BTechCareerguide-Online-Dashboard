@@ -4,7 +4,10 @@ import ProjectCard from "../Projects/ProjectCard";
 import Pagination from "../DashBoard/Pagination";
 import EditProjectPopup from "./EditProjectPopup";
 import DeleteProjectPopup from "./DeleteProjectPopup";
-import { useSaveProject, useDeleteProject } from "../../../../Api";
+import {
+  useSaveProject,
+  useDeleteProject,
+} from "../../../../hooks/useProject.js";
 import Spinner from "../Spinner";
 
 const ProjectListing = ({

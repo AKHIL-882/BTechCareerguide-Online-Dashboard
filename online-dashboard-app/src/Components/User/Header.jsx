@@ -1,42 +1,43 @@
-import React from "react";
-import { FaSignOutAlt, FaBars, FaTimes } from "react-icons/fa";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { breadcrumbMap } from "../../utils/breadcrumbs";
+import { breadcrumbIcons } from "../../utils/breadcrumbs";
 import NotificationBell from "./NotificationBell";
+import UserProfile from "./UserProfile";
 
-const Header = ({ handleLogout, toggleSidebar, isSidebarOpen }) => {
+const Header = ({ handleLogout, isCollapsed }) => {
+  const [breadcrumb, setBreadcrumb] = useState({ label: "Home", icon: null });
+  const location = useLocation();
+
+  useEffect(() => {
+    const pathParts = location.pathname.split("/").filter(Boolean);
+    const lastPart = pathParts[pathParts.length - 1] || "dashboard";
+
+    const label =
+      breadcrumbMap[lastPart] ||
+      lastPart.charAt(0).toUpperCase() + lastPart.slice(1);
+
+    const Icon = breadcrumbIcons[lastPart] || null;
+
+    setBreadcrumb({ label, icon: Icon });
+  }, [location]);
+
+  const Icon = breadcrumb.icon;
+
   return (
-    <header className="flex justify-between items-center px-6 md:py-2 py-3 bg-white shadow w-full z-40 fixed">
-      {/* Hamburger Icon for Mobile (Left side) */}
-      <div className="flex items-center">
-        <button
-          onClick={toggleSidebar}
-          className="block lg:hidden text-xl text-violet-500"
-        >
-          {/* Conditionally render hamburger or cross icon */}
-          {isSidebarOpen ? (
-            <FaTimes className="text-2xl font-sans" />
-          ) : (
-            <FaBars className="text-2xl font-sans" />
-          )}
-        </button>
-        <h1 className="text-violet-600 text-2xl font-bold font-display">
-          PROJPORT
-        </h1>
-      </div>
+    <header className="flex justify-between items-center px-6 md:py-2 py-3 w-full h-14 fixed top-0 left-0 right-0 z-30 bg-slate-50">
+      <h1
+        className={`hidden md:flex font-sans font-medium text-md justify-center items-center gap-2 ${
+          isCollapsed ? "ml-12" : "ml-52 pl-1"
+        } text-violet-800 px-2 rounded-lg`}
+      >
+        {Icon && <Icon size={18} />}
+        {breadcrumb.label}
+      </h1>
 
-      {/* Logout Button */}
-      <div className="flex justify-between items-center space-x-2">
+      <div className="flex items-center space-x-6">
         <NotificationBell />
-        <button
-          onClick={handleLogout}
-          className="text-violet-500 md:px-4 px-2 rounded hover:text-violet-700 transition"
-        >
-          <span className="flex justify-center items-center font-display ">
-            <FaSignOutAlt size={20} />
-            <p className="pl-1 font-semibold hidden sm:block font-display">
-              Logout
-            </p>
-          </span>
-        </button>
+        <UserProfile handleLogout={handleLogout} />
       </div>
     </header>
   );

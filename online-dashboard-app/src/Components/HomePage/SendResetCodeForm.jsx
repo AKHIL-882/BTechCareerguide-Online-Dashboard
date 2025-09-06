@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { useSendResetCode } from "../../Api";
+import { useSendResetCode } from "../../hooks/useAuth";
 
 const SendResetCodeForm = ({ onBack, isError }) => {
   const [email, setEmail] = useState("");

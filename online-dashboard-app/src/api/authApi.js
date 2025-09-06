@@ -1,29 +1,36 @@
-// src/api/authApi.js
+import { post } from "./apiConfig";
 
-import axios from "axios";
-
-const API_BASE_URL = "http://127.0.0.1:8000/api";
-
-export const loginApi = async (formData) => {
-  const response = await fetch(`${API_BASE_URL}/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(formData),
+// Login
+export const loginApi = (data) =>
+  post("/login", {
+    email: data.email,
+    password: data.password,
   });
-  return response.json();
-};
 
-export const signupApi = async (formData) => {
-  return axios.post(`${API_BASE_URL}/signup`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-  });
-};
-
-export const logoutApi = async (accessToken) => {
-  return axios.post(`${API_BASE_URL}/logout`, null, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
+// Signup
+export const signupApi = (data) =>
+  post(
+    "/signup",
+    {
+      name: data.name,
+      email: data.email,
+      phone: data.phone,
+      password: data.password,
+      password_confirmation: data.confirmPassword,
     },
+    {
+      headers: { "Content-Type": "multipart/form-data" },
+    },
+  );
+
+// Logout
+export const logoutApi = (accessToken) =>
+  post("/logout", null, {
+    headers: { Authorization: `Bearer ${accessToken}` },
   });
-};
+
+// Forgot Password (send reset code)
+export const sendResetCodeApi = (email) => post("/reset-password", { email });
+
+// Reset Password (update password)
+export const resetPasswordApi = (payload) => post("/update-password", payload);

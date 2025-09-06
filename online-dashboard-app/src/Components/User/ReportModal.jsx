@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useReportJob } from "../../Api";
+import { useReportJob } from "../../hooks/useJob.js";
 import SectionHeading from "./SectionHeading";
 
 const ReportModal = ({ job, onClose }) => {

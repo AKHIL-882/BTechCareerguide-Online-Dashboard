@@ -4,7 +4,7 @@ import JobCard from "./JobCard";
 import Pagination from "./Pagination";
 import EditJobPopup from "./EditJobPopup"; // Import EditJobPopup component
 import DeleteJobPopup from "./DeleteJobPopup"; // Import DeleteJobPopup component
-import { useSaveJob, useDeleteJob } from "../../../../Api";
+import { useSaveJob, useDeleteJob } from "../../../../hooks/useJob.js";
 import Spinner from "../Spinner";
 
 const JobListing = ({ jobListings, setJobListings, loading, error }) => {
