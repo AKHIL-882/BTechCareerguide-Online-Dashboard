@@ -4,7 +4,7 @@ import Footer from "../Admin/Components/Footer";
 import Sidebar from "./Sidebar";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
 import { ToastContainer } from "react-toastify";
-import GithubCheckWrapper from "../../wrappers/GithubCheckWrapper";
+// import GithubCheckWrapper from "../../wrappers/GithubCheckWrapper";
 import Header from "./Header";
 import { logoutUser } from "../../hooks/useAuth";
 
@@ -35,7 +35,7 @@ const UserMainLayout = () => {
 
   return (
     <>
-      <GithubCheckWrapper />
+      {/* <GithubCheckWrapper /> */}
       <ScrollToTopButton colorCode="bg-violet-800" />
 
       <div className="flex bg-slate-50">

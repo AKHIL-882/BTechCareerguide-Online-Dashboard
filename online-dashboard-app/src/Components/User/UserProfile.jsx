@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import ProfileDropdown from "./ProfileDropdown";
 import ProfileModal from "./ProfileModal";
+import UserTestimonials from "./UserTestimonials"; // import popup
 
 const UserProfile = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // 🔹 new state
   const dropdownRef = useRef(null);
 
   // Close dropdown if clicked outside
@@ -34,12 +36,20 @@ const UserProfile = ({ handleLogout }) => {
             setIsProfileModalOpen(true);
             setIsOpen(false);
           }}
+          onSendFeedback={() => {
+            setIsFeedbackOpen(true); // 🔹 open feedback modal
+            setIsOpen(false);
+          }}
           handleLogout={handleLogout}
         />
       )}
 
       {isProfileModalOpen && (
         <ProfileModal onClose={() => setIsProfileModalOpen(false)} />
+      )}
+
+      {isFeedbackOpen && (
+        <UserTestimonials onClose={() => setIsFeedbackOpen(false)} />
       )}
     </div>
   );

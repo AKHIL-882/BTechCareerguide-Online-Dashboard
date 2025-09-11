@@ -4,6 +4,7 @@ import SearchProjects from "./SearchProjects";
 import { FaYoutube, FaCode, FaSearch, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SectionHeading from "./SectionHeading";
+import YouTubePopupPlayer from "./YouTubePopupPlayer";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
@@ -107,17 +108,14 @@ const Projects = ({ isDashBoard }) => {
                       />
 
                       {/* Play Button at Bottom-Center of Thumbnail */}
-                      <a
-                        href={project.youtube_video_link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="absolute bottom-[-24px] right-0 transform -translate-x-1/2 z-10"
-                      >
-                        <div className="group relative w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-tr from-white to-gray-100 shadow-lg hover:shadow-[0_0_25px_10px_rgba(255,0,102,0.5)] hover:from-pink-100 hover:to-purple-200 transition-all duration-500 ease-in-out">
-                          <div className="absolute w-full h-full rounded-full bg-pink-400 opacity-20 blur-xl scale-0 group-hover:scale-100 transition-transform duration-700 ease-out"></div>
-                          <FaPlay className="relative text-violet-600 text-2xl group-hover:text-black transition duration-300" />
+                      <YouTubePopupPlayer title={project.company_name} videoUrl={project.youtube_video_link}>
+                        <div className="absolute bottom-[-24px] right-0 transform -translate-x-1/2 z-10">
+                          <div className="group relative w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-tr from-white to-gray-100 shadow-lg hover:shadow-[0_0_25px_10px_rgba(255,0,102,0.5)] hover:from-pink-100 hover:to-purple-200 transition-all duration-500 ease-in-out">
+                            <div className="absolute w-full h-full rounded-full bg-pink-400 opacity-20 blur-xl scale-0 group-hover:scale-100 transition-transform duration-700 ease-out"></div>
+                            <FaPlay className="relative text-violet-600 text-2xl group-hover:text-black transition duration-300" />
+                          </div>
                         </div>
-                      </a>
+                      </YouTubePopupPlayer>
                     </div>
 
                     {/* Text Card */}

@@ -1,11 +1,10 @@
 import React from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
-import { MdFeedback } from "react-icons/md";
-import { MdDarkMode } from "react-icons/md";
+import { MdFeedback, MdDarkMode } from "react-icons/md";
 
-const ProfileDropdown = ({ onViewProfile, handleLogout, onClose }) => {
+const ProfileDropdown = ({ onViewProfile, handleLogout, onClose, onSendFeedback }) => {
   return (
-    <div className="absolute right-0 top-12 w-64 bg-white shadow-lg rounded-xl border border-gray-200 p-3 z-50">
+    <div className="absolute right-0 top-12 w-64 bg-white shadow-lg rounded-xl border border-gray-200 p-3 z-30">
       {/* Profile Info */}
       <div className="p-3 border-b border-gray-200">
         <p className="font-semibold text-gray-800">John Doe</p>
@@ -20,10 +19,11 @@ const ProfileDropdown = ({ onViewProfile, handleLogout, onClose }) => {
         >
           <FaUserCircle /> View Profile
         </li>
+
         <li
           className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer rounded-lg"
           onClick={() => {
-            alert("Send Feedback clicked!");
+            onSendFeedback(); // 🔹 open feedback popup
             onClose();
           }}
         >

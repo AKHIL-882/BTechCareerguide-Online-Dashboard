@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
+
+// 🔹 Utility to extract video ID from YouTube link
+const getYouTubeId = (url) => {
+  try {
+    const ytRegex =
+      /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
+    const match = url.match(ytRegex);
+    return match ? match[1] : null;
+  } catch {
+    return null;
+  }
+};
 
 const slides = [
   {
     id: 1,
     title: "Schedule your interview",
-    description:
-      "Easily plan and manage your interview schedule with one click.",
+    description: "Easily plan and manage your interview schedule with one click.",
     button: "Schedule Now",
-    link: "/schedule", // 🔗 added link
+    link: "/calendar",
     image:
       "https://img.freepik.com/free-vector/online-job-interview-concept_23-2148628159.jpg?semt=ais_hybrid&w=740&q=80",
   },
@@ -17,48 +29,65 @@ const slides = [
     title: "Check our latest YouTube video",
     description: "Stay updated with tutorials, tips, and product updates.",
     button: "Watch Now",
-    link: "https://www.youtube.com/watch?v=Yvu-mY7Ljr4", // 🔗 direct link
-    youtube: "https://www.youtube.com/embed/Yvu-mY7Ljr4?si=0rPsT8tc_f8TBnvR",
+    youtube_video_link: "https://youtu.be/sZQwAtVdiPg",
+    company_name: "BTech Career Guide",
   },
   {
     id: 3,
     title: "Special Promotion 🎉",
     description: "Get 30% off your first project purchase this week only.",
     button: "Buy a Project",
-    link: "/buy", // 🔗 your project purchase page
+    link: "/buy",
     image:
       "https://img.freepik.com/free-vector/people-starting-business-project_23-2148866842.jpg",
-  },
-  {
-    id: 4,
-    title: "AI Podcast",
-    description:
-      "Learn how AI is transforming the future of learning and job opportunities.",
-    button: "Register",
-    link: "/podcast-register", // 🔗 register page
-    image:
-      "https://www.shutterstock.com/image-vector/3d-artificial-intelligence-robotic-character-600nw-2419497045.jpg",
   },
 ];
 
 const PromoSlider = () => {
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const navigate = useNavigate();
 
-  // Auto-slide every 6s (pauses on hover)
+  // Auto-slide every 6s
   useEffect(() => {
-    if (paused) return; // stop when paused
+    if (paused) return;
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(interval);
   }, [paused]);
 
+  const handleClick = (slide) => {
+    if (slide.youtube_video_link) {
+      // Open YouTube video in new tab
+      window.open(slide.youtube_video_link, "_blank", "noopener,noreferrer");
+    } else if (slide.link) {
+      if (slide.link.startsWith("http")) {
+        // External link
+        window.open(slide.link, "_blank", "noopener,noreferrer");
+      } else {
+        // Internal navigation
+        navigate(slide.link);
+      }
+    }
+  };
+
+  // Get image (auto-generate for YouTube videos)
+  const getImage = (slide) => {
+    if (slide.youtube_video_link) {
+      const videoId = getYouTubeId(slide.youtube_video_link);
+      if (videoId) {
+        return `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+      }
+    }
+    return slide.image;
+  };
+
   return (
     <div
       className="bg-gradient-to-r from-purple-500 to-purple-300 text-white rounded-2xl p-6 flex flex-col justify-between relative h-auto overflow-hidden"
-      onMouseEnter={() => setPaused(true)} // 🛑 pause
-      onMouseLeave={() => setPaused(false)} // ▶️ resume
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
     >
       <AnimatePresence mode="wait">
         <motion.div
@@ -77,35 +106,24 @@ const PromoSlider = () => {
             <p className="mt-2 text-sm font-sans opacity-90">
               {slides[current].description}
             </p>
-            {slides[current].link && (
-              <a
-                href={slides[current].link}
-                target="_blank"
-                rel="noopener noreferrer"
+            {(slides[current].link || slides[current].youtube_video_link) && (
+              <button
+                onClick={() => handleClick(slides[current])}
+                className="mt-6 bg-white text-purple-600 font-semibold font-sans px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm"
               >
-                <button className="mt-6 bg-white text-purple-600 font-semibold font-sans px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm">
-                  {slides[current].button}
-                </button>
-              </a>
+                {slides[current].button}
+              </button>
             )}
           </div>
 
           {/* Media Section */}
-          {/* Media Section */}
           <div className="flex-1 flex justify-center items-center w-full md:w-auto">
-            {slides[current].youtube ? (
-              <img
-                src={`https://img.youtube.com/vi/${slides[current].youtube.split("/embed/")[1].split("?")[0]}/hqdefault.jpg`}
-                alt="YouTube Thumbnail"
-                className="w-full md:max-h-40 md:w-auto object-contain rounded-lg shadow-lg"
-              />
-            ) : (
-              <img
-                src={slides[current].image}
-                alt="Promo"
-                className="w-full md:max-h-40 md:w-auto object-contain rounded-lg shadow-lg"
-              />
-            )}
+            <img
+              src={getImage(slides[current])}
+              alt="Promo"
+              className="w-full md:max-h-40 md:w-auto object-contain rounded-lg shadow-lg cursor-pointer"
+              onClick={() => handleClick(slides[current])}
+            />
           </div>
         </motion.div>
       </AnimatePresence>

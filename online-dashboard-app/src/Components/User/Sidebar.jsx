@@ -41,7 +41,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
     <>
       {/* Mobile/Tablet Topbar with Hamburger + Logo */}
       {/* Mobile/Tablet Topbar with Hamburger + Logo + Notification + Profile */}
-      <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-white shadow flex items-center justify-between px-2 sm:px-4 z-40">
+      <div className="lg:hidden fixed top-0 left-0 w-full h-14 bg-white shadow flex items-center justify-between px-2 sm:px-4 z-20">
         {/* Left: Hamburger + Logo + Title */}
         <div className="flex items-center">
           <button
@@ -65,7 +65,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
 
       {/* Sidebar / Slider */}
       <aside
-        className={`h-full fixed top-0 left-0 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50
+        className={`h-full fixed top-0 left-0 bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-20
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           ${isCollapsed ? "lg:w-[60px]" : "lg:w-56"} 
           w-1/2 md:w-56 lg:translate-x-0 lg:z-40 border border-r-gray-200`}
@@ -132,7 +132,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
         {/* Expand/Collapse Button (Desktop only) */}
         <button
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className="hidden lg:flex absolute bottom-4 right-[-12px] transform -translate-y-1/2 w-6 h-6 rounded-full bg-violet-600 border border-white text-white items-center justify-center shadow hover:bg-violet-700 transition z-50"
+          className="hidden lg:flex absolute bottom-4 right-[-12px] transform -translate-y-1/2 w-6 h-6 rounded-full bg-violet-600 border border-white text-white items-center justify-center shadow hover:bg-violet-700 transition z-20"
           title={isCollapsed ? "Expand" : "Collapse"}
         >
           {isCollapsed ? (
