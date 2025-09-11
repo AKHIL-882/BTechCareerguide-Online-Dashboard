@@ -257,7 +257,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
     <div className="bg-white rounded-2xl shadow-sm flex flex-col justify-between relative h-44 w-full p-2">
       {/* Dropdown Menu - Only show if there's data */}
       {!allValuesZero && (
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4">
           <button
             onClick={(e) => {
               e.stopPropagation();
