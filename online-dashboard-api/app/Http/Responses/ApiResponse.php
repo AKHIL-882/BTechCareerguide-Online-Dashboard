@@ -2,6 +2,7 @@
 
 namespace App\Http\Responses;
 
+use App\Traits\Enums;
 use Illuminate\Http\JsonResponse;
 
 class ApiResponse
@@ -37,9 +38,19 @@ class ApiResponse
         return $this;
     }
 
-    public function mergeEnums(array $enums): static
+    public function mergeEnumsIntoResults(array $enums): self
     {
-        $this->response['enums'] = $enums;
+        $enumArray = [];
+
+        foreach ($enums as $enum) {
+            if ($instances = Enums::validateEnumAndGetInstances($enum)) {
+                $className = class_basename($enum);
+                $enumArray['enums'][$className] = array_values($instances);
+            }
+        }
+
+        $this->results = array_merge_recursive($this->results, $enumArray);
+        $this->response['enums'] = $enumArray['enums'];
 
         return $this;
     }

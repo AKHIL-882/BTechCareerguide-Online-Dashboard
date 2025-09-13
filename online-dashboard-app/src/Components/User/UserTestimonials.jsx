@@ -58,19 +58,19 @@ const UserTestimonials = ({ onClose }) => {
     }
   };
 
-   const modalContent = (
+  const modalContent = (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative"> {/* increased width */}
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
+        {" "}
+        {/* increased width */}
         {/* Close Button */}
         <button
           onClick={onClose}
           className="absolute top-2 right-2 text-gray-600 hover:text-black"
         >
-          <X/>
+          <X />
         </button>
-
         <SectionHeading text="Please Submit your Feedback" />
-
         <form onSubmit={handleSubmit} className="mt-4">
           {message && <p className="text-green-600 mb-4">{message}</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
@@ -78,8 +78,8 @@ const UserTestimonials = ({ onClose }) => {
           <div className="space-y-4">
             <div className="flex flex-col md:flex-row md:space-x-4">
               <select
-                name="company"    
-                value={form.company} 
+                name="company"
+                value={form.company}
                 onChange={handleChange}
                 className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
                 required

@@ -14,7 +14,7 @@ const GithubId = ({ onClose, userId }) => {
   const [githubId, setGithubId] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
-  const navigate = useNavigate();
+
   const handleSubmit = async () => {
     if (!githubId.trim()) {
       setIsError(true);
@@ -28,7 +28,10 @@ const GithubId = ({ onClose, userId }) => {
     } catch (err) {
       localStorage.clear();
       alert("Session Expired! Relogin Again!!");
-      navigate("/");
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
+      console.error("GitHub ID submission failed:", err);
       setIsError(true);
     }
   };

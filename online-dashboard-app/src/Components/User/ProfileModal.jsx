@@ -73,7 +73,11 @@ const ProfileModal = ({ onClose }) => {
           <label className="flex items-center justify-center px-4 py-2 border-2 border-dashed rounded-lg cursor-pointer text-gray-600 hover:border-purple-500 hover:text-purple-600">
             <Upload size={16} className="mr-2" />
             Change Photo
-            <input type="file" className="hidden" onChange={handleAvatarChange} />
+            <input
+              type="file"
+              className="hidden"
+              onChange={handleAvatarChange}
+            />
           </label>
         </div>
 
@@ -185,12 +189,16 @@ const ProfileModal = ({ onClose }) => {
             <label className="flex items-center justify-center mt-1 px-4 py-2 border-2 border-dashed rounded-lg cursor-pointer text-gray-600 hover:border-purple-500 hover:text-purple-600">
               <Upload size={16} className="mr-2" />
               {profile.resume ? profile.resume.name : "Choose file"}
-              <input type="file" className="hidden" onChange={handleResumeUpload} />
+              <input
+                type="file"
+                className="hidden"
+                onChange={handleResumeUpload}
+              />
             </label>
           </div>
         </div>
         {/* Member Since */}
-          <div className="flex justify-between items-center mt-4">
+        <div className="flex justify-between items-center mt-4">
           <p className="text-xs text-gray-400">
             👤 Member since: {profile.memberSince}
           </p>
@@ -200,7 +208,7 @@ const ProfileModal = ({ onClose }) => {
           >
             <Save size={16} className="mr-1" /> Save
           </button>
-          </div>
+        </div>
       </div>
     </div>
   );

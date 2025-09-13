@@ -57,7 +57,7 @@ class PaymentController extends Controller
                 'order_id' => $razorpayOrder['id'],
                 'key' => env('RAZORPAY_KEY'),
                 'amount' => $request->amount,
-            ])->mergeEnums(['payment_status' => Status::getAllWithDescriptions()])->response(Response::HTTP_OK);
+            ])->mergeEnumsIntoResults([Status::class])->response(Response::HTTP_OK);
 
         } catch (\Exception $e) {
 
