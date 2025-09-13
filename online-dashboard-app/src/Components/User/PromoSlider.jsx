@@ -18,7 +18,8 @@ const slides = [
   {
     id: 1,
     title: "Schedule your interview",
-    description: "Easily plan and manage your interview schedule with one click.",
+    description:
+      "Easily plan and manage your interview schedule with one click.",
     button: "Schedule Now",
     link: "/calendar",
     image:

@@ -105,8 +105,9 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
                 className={({ isActive }) =>
                   `flex items-center w-full h-12 
      ${isCollapsed ? "justify-center" : "px-4"} 
-     ${isActive ? "bg-violet-50 text-gray-700 rounded-lg" : "text-gray-600"
-                  } font-display font-semibold cursor-pointer 
+     ${
+       isActive ? "bg-violet-50 text-gray-700 rounded-lg" : "text-gray-600"
+     } font-display font-semibold cursor-pointer 
        hover:bg-slate-50 hover:text-gray-600 
        transition duration-300 ease-in-out mb-1`
                 }

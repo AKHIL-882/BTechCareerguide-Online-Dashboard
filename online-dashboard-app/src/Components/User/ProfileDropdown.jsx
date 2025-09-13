@@ -2,7 +2,12 @@ import React from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { MdFeedback, MdDarkMode } from "react-icons/md";
 
-const ProfileDropdown = ({ onViewProfile, handleLogout, onClose, onSendFeedback }) => {
+const ProfileDropdown = ({
+  onViewProfile,
+  handleLogout,
+  onClose,
+  onSendFeedback,
+}) => {
   return (
     <div className="absolute right-0 top-12 w-64 bg-white shadow-lg rounded-xl border border-gray-200 p-3 z-30">
       {/* Profile Info */}

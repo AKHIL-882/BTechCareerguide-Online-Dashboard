@@ -73,7 +73,6 @@ class UserProject extends Project
             ]);
 
             return $userProject;
-
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
