@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import JobsTable from "./JobsTable.jsx";
-import { useFetchJobs } from "../../Api.jsx";
+import { useFetchJobs } from "../../hooks/useJob.js";
 import Jobfilters from "./Jobfilters.jsx";
 import ShimmerJobs from "./ShimmerJobs.jsx";
-import SectionHeading from "./SectionHeading.jsx";
 
 const Jobs = ({ handleLogout }) => {
   const { jobListings, loading, error } = useFetchJobs();
@@ -12,8 +11,7 @@ const Jobs = ({ handleLogout }) => {
 
   return (
     <main className="m-3 flex-1 pt-12 lg:relative py-2 bg-slate-50 min-h-screen">
-      <div className="flex justify-between items-baseline">
-        <SectionHeading text="AVAILABLE JOBS" />
+      <div className="flex justify-end items-baseline">
         <Jobfilters
           setFilteredJobs={setFilteredJobs}
           filteredJobs={filteredJobs}

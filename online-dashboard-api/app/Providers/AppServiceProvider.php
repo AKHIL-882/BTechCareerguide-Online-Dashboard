@@ -23,8 +23,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Passport::enablePasswordGrant();
 
-        Passport::tokensExpireIn(now()->addMinutes(15));
-        Passport::refreshTokensExpireIn(now()->addMinutes(20));
+        Passport::tokensExpireIn(now()->addMinutes(1440));
+        Passport::refreshTokensExpireIn(now()->addMinutes(1440));
         $this->getGoogleDriveStorage();
     }
 

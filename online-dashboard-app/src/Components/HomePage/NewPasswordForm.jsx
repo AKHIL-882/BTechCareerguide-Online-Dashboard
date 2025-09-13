@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { useResetPassword } from "../../Api";
+import { useResetPassword } from "../../hooks/useAuth";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa"; // for showing/hiding password
 
 const NewPasswordForm = () => {

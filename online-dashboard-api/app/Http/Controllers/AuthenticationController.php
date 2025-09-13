@@ -22,7 +22,6 @@ class AuthenticationController extends Controller
 {
     public function signUp(SignupRequest $request): JsonResponse
     {
-
         try {
 
             $data = [
@@ -30,13 +29,13 @@ class AuthenticationController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ];
-
+            info('Signup Data: ', $data);
             // creating a new user
             $user = User::createUser($data);
 
             // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-
+            info('Token Data: ', $tokenData);
             // check if token generation failed
             if (! $tokenData) {
                 // delete the user if token generation fails
@@ -52,18 +51,15 @@ class AuthenticationController extends Controller
             if (! Session::isStarted()) {
                 Session::start();
             }
-            $tokenData['user_email'] = $user->email;
 
             return ApiResponse::setMessage('Account Created Successfully')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_CREATED);
-
         } catch (Throwable $e) {
 
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 
     public function login(LoginRequest $request): JsonResponse
@@ -98,7 +94,7 @@ class AuthenticationController extends Controller
 
             UserEventLog::logUserEvent(
                 UserEventLogType::getDescription(UserEventLogType::Login),
-                $user->id,
+                $user?->id,
                 ['User Logged in'],
             );
 
@@ -109,7 +105,6 @@ class AuthenticationController extends Controller
             return ApiResponse::setMessage('Successfully logged in')
                 ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
                 ->response(Response::HTTP_OK);
-
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
@@ -136,28 +131,17 @@ class AuthenticationController extends Controller
                 $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
             }
 
-            // Note:: Not required as of now!!!
-            // UserEventLog::logUserEvent(
-            //     UserEventLogType::getDescription(UserEventLogType::Logout),
-            //     $user->id,
-            //     ['User Logout'],
-            // );
-
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
-
         } else {
             return ApiResponse::setMessage('No active access token found for the user')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 
     public function refreshAccessToken(RefreshRequest $request)
     {
-
         $refreshToken = $request->refresh_token;
-
         try {
             $tokenData = refreshAccessToken($refreshToken);
 
@@ -165,11 +149,9 @@ class AuthenticationController extends Controller
             return ApiResponse::setMessage('Tokens Successfully created!')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_OK);
-
         } catch (Throwable $e) {
             return ApiResponse::setMessage('The refresh token is invalid or expired')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 }

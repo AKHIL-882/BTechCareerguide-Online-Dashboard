@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useSignup } from "../../Api";
-import { useLogin } from "../../Api";
+import { useSignup } from "../../hooks/useAuth";
+import { useLogin } from "../../hooks/useAuth";
 import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
 import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";

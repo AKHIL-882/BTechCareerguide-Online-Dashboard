@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { getUserDetails, postTestimonial } from "../../Api";
 import SectionHeading from "./SectionHeading";
+import ReactDOM from "react-dom";
+import { X } from "lucide-react";
 
-const UserTestimonials = () => {
+const UserTestimonials = ({ onClose }) => {
   const [form, setForm] = useState({
     user_id: "",
     feedback: "",
-    job_role: "",
-    company: "",
+    job_role: "dev",
+    company: "", // new dropdown field
   });
 
   const [message, setMessage] = useState("");
@@ -50,38 +52,44 @@ const UserTestimonials = () => {
         job_role: "",
         company: "",
       }));
+      setTimeout(() => onClose(), 1500); // Auto close after success
     } catch (err) {
       setError(err.message || "Submission failed.");
     }
   };
 
-  return (
-    <div className="m-3 flex-1 pt-14 lg:relative py-2 min-h-screen bg-slate-50">
-      <SectionHeading text="Please Submit your Feedback" />
-      <form onSubmit={handleSubmit}>
-        <div className=" mx-auto bg-white shadow-lg rounded-lg p-6 overflow-auto h-auto">
+   const modalContent = (
+    <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative"> {/* increased width */}
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-2 right-2 text-gray-600 hover:text-black"
+        >
+          <X/>
+        </button>
+
+        <SectionHeading text="Please Submit your Feedback" />
+
+        <form onSubmit={handleSubmit} className="mt-4">
           {message && <p className="text-green-600 mb-4">{message}</p>}
           {error && <p className="text-red-600 mb-4">{error}</p>}
+
           <div className="space-y-4">
             <div className="flex flex-col md:flex-row md:space-x-4">
-              <input
-                type="text"
-                name="job_role"
-                placeholder="Job Role"
-                value={form.job_role}
-                onChange={handleChange}
-                className="w-full border border-gray-300 p-2 rounded mb-4 md:mb-0 focus:outline-violet-500"
-                required
-              />
-              <input
-                type="text"
-                name="company"
-                placeholder="Company"
-                value={form.company}
+              <select
+                name="company"    
+                value={form.company} 
                 onChange={handleChange}
                 className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
                 required
-              />
+              >
+                <option value="">Select Category</option>
+                <option value="Job">Job</option>
+                <option value="Project">Project</option>
+                <option value="Interview">Interview</option>
+                <option value="Others">Others</option>
+              </select>
             </div>
 
             <textarea
@@ -96,15 +104,16 @@ const UserTestimonials = () => {
 
             <button
               type="submit"
-              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded"
+              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded w-full"
             >
               Submit
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
+  return ReactDOM.createPortal(modalContent, document.body);
 };
 
 export default UserTestimonials;
