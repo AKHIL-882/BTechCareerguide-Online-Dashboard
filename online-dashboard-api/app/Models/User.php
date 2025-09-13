@@ -28,6 +28,15 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'phone',
+        'education',
+        'status',
+        'experience_years',
+        'photo_drive_id',
+        'photo_link',
+        'resume_drive_id',
+        'resume_link',
+        'drive_folder_id',
     ];
 
     /**
@@ -92,7 +101,6 @@ class User extends Authenticatable
 
         // Dispatch the email job
         ProcessResetPasswordMailJob::dispatch($this->email, $token, $expiry, $this->name);
-
     }
 
     public static function createUser($data): object
@@ -160,5 +168,17 @@ class User extends Authenticatable
         }
 
         return $stats;
+    }
+
+    public function updateProfile(array $data): void
+    {
+        $this->fill([
+            'name' => $data['name'] ?? $this->name,
+            'email' => $data['email'] ?? $this->email,
+            'phone' => $data['phone'] ?? $this->phone,
+            'education' => $data['education'] ?? $this->education,
+            'status' => $data['status'] ?? $this->status,
+            'experience_years' => $data['experience_years'] ?? $this->experience_years,
+        ]);
     }
 }

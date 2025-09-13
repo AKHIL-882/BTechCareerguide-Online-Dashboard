@@ -37,7 +37,6 @@ class Payment extends Model
 
     public static function createPayment($request)
     {
-
         $fileName = time().'-'.$request->file('file')->getClientOriginalName();
         $filePath = $request->file('file')->storeAs('userPaymentFiles', $fileName, 'public');
 

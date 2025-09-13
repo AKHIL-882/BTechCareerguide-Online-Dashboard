@@ -18,10 +18,17 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'role' => $this->roles->pluck('name')[0],
+            'phone' => $this->phone,
+            'education' => $this->education,
+            'status' => $this->status,
+            'experience_years' => $this->experience_years,
+            'photo_drive_id' => $this->photo_drive_id,
+            'photo_link' => $this->photo_link,
+            'resume_drive_id' => $this->resume_drive_id,
+            'resume_link' => $this->resume_link,
+            'drive_folder_id' => $this->drive_folder_id,
+            'role' => $this->roles->pluck('name')->first(),
             'stats' => $this->getUserJobStats(),
-            'has_github_username' => $this->githubUsername !== null,
-            'header_stats' => $this->getHeaderStatsForUser(),
         ];
     }
 }
