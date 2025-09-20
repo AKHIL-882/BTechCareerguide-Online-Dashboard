@@ -268,7 +268,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
             <FaEllipsisV className="text-gray-400" />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-1 w-32 bg-white shadow-lg rounded-md border border-gray-200">
+            <div className="absolute right-0 mt-1 w-32 bg-white shadow-lg rounded-md border border-gray-200 z-10">
               {dataType === "timeSeries" ? (
                 <>
                   <div

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import ShimmerPromo from "./Shimmerpromo";
 
 // 🔹 Utility to extract video ID from YouTube link
 const getYouTubeId = (url) => {
@@ -14,66 +16,63 @@ const getYouTubeId = (url) => {
   }
 };
 
-const slides = [
-  {
-    id: 1,
-    title: "Schedule your interview",
-    description:
-      "Easily plan and manage your interview schedule with one click.",
-    button: "Schedule Now",
-    link: "/calendar",
-    image:
-      "https://img.freepik.com/free-vector/online-job-interview-concept_23-2148628159.jpg?semt=ais_hybrid&w=740&q=80",
-  },
-  {
-    id: 2,
-    title: "Check our latest YouTube video",
-    description: "Stay updated with tutorials, tips, and product updates.",
-    button: "Watch Now",
-    youtube_video_link: "https://youtu.be/sZQwAtVdiPg",
-    company_name: "BTech Career Guide",
-  },
-  {
-    id: 3,
-    title: "Special Promotion 🎉",
-    description: "Get 30% off your first project purchase this week only.",
-    button: "Buy a Project",
-    link: "/buy",
-    image:
-      "https://img.freepik.com/free-vector/people-starting-business-project_23-2148866842.jpg",
-  },
-];
-
 const PromoSlider = () => {
+  const [slides, setSlides] = useState([]);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Auto-slide every 6s
+  // 🔹 Fetch slides from API with token
   useEffect(() => {
-    if (paused) return;
+    const fetchSlides = async () => {
+      try {
+        const data = JSON.parse(localStorage.getItem("data"));
+        const accessToken = data ? data.access_token : null;
+        if (!accessToken) {
+          alert("No token found. Please log in again.");
+          return;
+        }
+
+        const res = await axios.get("http://127.0.0.1:8000/api/slides", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        setSlides(res.data.data.slides || []);
+      } catch (err) {
+        localStorage.clear();
+        alert("Session Expired! Re-Login Please");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchSlides();
+  }, []);
+
+  // 🔹 Auto-slide every 6s
+  useEffect(() => {
+    if (paused || slides.length === 0) return;
     const interval = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [paused]);
+  }, [paused, slides]);
 
   const handleClick = (slide) => {
     if (slide.youtube_video_link) {
-      // Open YouTube video in new tab
       window.open(slide.youtube_video_link, "_blank", "noopener,noreferrer");
     } else if (slide.link) {
       if (slide.link.startsWith("http")) {
-        // External link
         window.open(slide.link, "_blank", "noopener,noreferrer");
       } else {
-        // Internal navigation
         navigate(slide.link);
       }
     }
   };
 
-  // Get image (auto-generate for YouTube videos)
+  // 🔹 Get image (auto-generate for YouTube videos if no image provided)
   const getImage = (slide) => {
     if (slide.youtube_video_link) {
       const videoId = getYouTubeId(slide.youtube_video_link);
@@ -83,6 +82,20 @@ const PromoSlider = () => {
     }
     return slide.image;
   };
+
+  // 🔹 Show shimmer while loading
+  if (loading) {
+    return <ShimmerPromo />;
+  }
+
+  // 🔹 No slides available
+  if (slides.length === 0) {
+    return (
+      <div className="bg-purple-200 text-purple-800 p-6 rounded-2xl text-center">
+        No slides available
+      </div>
+    );
+  }
 
   return (
     <div
