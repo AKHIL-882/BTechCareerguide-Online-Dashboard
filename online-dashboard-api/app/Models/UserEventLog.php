@@ -23,12 +23,21 @@ class UserEventLog extends Model
 
     public function scopeOfEventType($query, string $eventType)
     {
+        if (is_array($eventType)) {
+            return $query->whereIn('event_type', $eventType);
+        }
+
         return $query->where('event_type', $eventType);
     }
 
     public function scopeOfUser($query, int $userId)
     {
         return $query->where('user_id', $userId);
+    }
+
+    public function scopeLastMonths($query, int $months = 3)
+    {
+        return $query->where('created_at', '>=', now()->subMonths($months));
     }
 
     /**
@@ -56,12 +65,17 @@ class UserEventLog extends Model
     {
         $query = self::query();
 
+        info($filters['event_type']);
         if (! empty($filters['event_type'])) {
             $query->ofEventType($filters['event_type']);
         }
 
         if (! empty($filters['user_id'])) {
             $query->ofUser($filters['user_id']);
+        }
+
+        if (! empty($filters['last_months'])) {
+            $query->lastMonths($filters['last_months']);
         }
 
         return $query->count();

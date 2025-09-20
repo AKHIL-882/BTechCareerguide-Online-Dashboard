@@ -31,6 +31,7 @@ class User extends Authenticatable
         'phone',
         'education',
         'status',
+        'skills',
         'experience_years',
         'photo_drive_id',
         'photo_link',
@@ -59,6 +60,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'skills' => 'array',
         ];
     }
 
@@ -113,12 +115,6 @@ class User extends Authenticatable
 
         $user->assignRole('user');
 
-        // UserEventLog::logUserEvent(
-        //     UserEventLogType::getDescription(UserEventLogType::AccountCreated),
-        //     Auth::user()?->id,
-        //     ['User Account Created !!'],
-        // );
-
         return $user;
     }
 
@@ -140,34 +136,82 @@ class User extends Authenticatable
 
     public function getHeaderStatsForUser()
     {
-        $user = Auth::guard('api')->user();
-
+        $user = $this->getAuthenticatedUser();
         if (! $user) {
             return [];
         }
 
-        $userId = $user->id;
+        $eventMap = $this->getEventMap();
 
-        $eventMap = [
+        return $this->buildStats($user->id, $eventMap);
+    }
+
+    /**
+     * Get the currently authenticated API user.
+     */
+    private function getAuthenticatedUser()
+    {
+        return Auth::guard('api')->user();
+    }
+
+    /**
+     * Map user event labels to their respective event types.
+     */
+    private function getEventMap(): array
+    {
+        return [
             'Viewed' => UserEventLogType::getDescription(UserEventLogType::JobApplied),
-            'Projects' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
-            'Tests' => UserEventLogType::getDescription(UserEventLogType::TestAssistanceRequestedByUser),
-            'QA' => UserEventLogType::getDescription(UserEventLogType::QAAskedByUser),
+            'Projects' => [
+                'Project Requested' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
+                'Project Completed' => UserEventLogType::getDescription(UserEventLogType::ProjectCompleted),
+                'Project Approved' => UserEventLogType::getDescription(UserEventLogType::ProjectApproved),
+                'Project Rejected' => UserEventLogType::getDescription(UserEventLogType::ProjectRejected),
+            ],
+            'Interview Scheduled' => UserEventLogType::getDescription(UserEventLogType::InterviewRequestedByUser),
+            'Articles Viewed' => UserEventLogType::getDescription(UserEventLogType::ArticlesViewed),
         ];
+    }
 
-        $stats = [];
+    /**
+     * Build statistics for the given user ID and event map.
+     */
+    private function buildStats(int $userId, array $eventMap): array
+    {
+        return array_map(function ($label, $eventType) use ($userId) {
+            return is_array($eventType)
+                ? $this->buildSubStats($userId, $label, $eventType)
+                : $this->buildSingleStat($userId, $label, $eventType);
+        }, array_keys($eventMap), $eventMap);
+    }
 
-        foreach ($eventMap as $label => $eventType) {
-            $stats[] = [
-                'label' => $label,
-                'value' => UserEventLog::countEvents([
-                    'user_id' => $userId,
-                    'event_type' => $eventType,
-                ]),
-            ];
-        }
+    /**
+     * Build statistics for a single event type.
+     */
+    private function buildSingleStat(int $userId, string $label, string $eventType): array
+    {
+        return [
+            'label' => $label,
+            'value' => UserEventLog::countEvents([
+                'user_id' => $userId,
+                'event_type' => $eventType,
+                'last_months' => 3,
+            ]),
+        ];
+    }
 
-        return $stats;
+    /**
+     * Build statistics for multiple sub-event types.
+     */
+    private function buildSubStats(int $userId, string $label, array $subEventMap): array
+    {
+        $subStats = array_map(function ($subLabel, $subEventType) use ($userId) {
+            return $this->buildSingleStat($userId, $subLabel, $subEventType);
+        }, array_keys($subEventMap), $subEventMap);
+
+        return [
+            'label' => $label,
+            'value' => $subStats,
+        ];
     }
 
     public function updateProfile(array $data): void
@@ -179,6 +223,7 @@ class User extends Authenticatable
             'education' => $data['education'] ?? $this->education,
             'status' => $data['status'] ?? $this->status,
             'experience_years' => $data['experience_years'] ?? $this->experience_years,
+            'skills' => explode(',', $data['skills'] ?? $this->skills),
         ]);
     }
 }

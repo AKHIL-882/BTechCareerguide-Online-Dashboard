@@ -45,28 +45,43 @@ final class UserEventLogType extends BaseEnum
 
     public const TestAssistanceRequestedByUser = 17;
 
+    public const ProjectCompleted = 18;
+
+    public const ProjectApproved = 19;
+
+    public const ProjectRejected = 20;
+
+    public const InterviewRequestedByUser = 21;
+
+    public const ArticlesViewed = 22;
+
     public static function getDescription($value): string
     {
         return match ($value) {
-            self::Login => 'User login Successfull',
-            self::Logout => 'User Logout Successfull',
-            self::PasswordChanged => 'User Password Changed',
-            self::JobApplied => 'User Applied for a job',
-            self::ProjectRequested => 'User Requested for a Project',
-            self::PaymentScreenshotUploaded => 'User Payment Screenshot Uploaded',
-            self::CodingQuestionRequested => 'User Requested for Coding question solution',
-            self::AccountCreated => 'User Created a Account',
-            self::AccountDeleted => 'User Deleted a Account',
-            self::PaymentSuccess => 'User Payment Successfull',
-            self::PaymentFailed => 'User Payment Failed',
-            self::PaymentInitiated => 'User Payment Initiated',
-            self::PaymentInitiationFailed => 'User Payment Initiation Failed',
-            self::PaymentVerificationFailed => 'User Payment Verification Failed',
-            self::RepoAccessGiven => 'User Repo Access Given',
-            self::RepoAccessFailed => 'User Repo Access Failed',
-            self::QAAskedByUser => 'QA Asked By User',
-            self::TestAssistanceRequestedByUser => 'Test Assistance Requested By User',
-            default => parent::getDescription($value)
+            self::Login => 'user_login_successful',
+            self::Logout => 'user_logout_successful',
+            self::PasswordChanged => 'user_password_changed',
+            self::JobApplied => 'user_applied_for_a_job',
+            self::ProjectRequested => 'user_requested_for_a_project',
+            self::ProjectCompleted => 'project_completed',
+            self::ProjectApproved => 'project_approved',
+            self::ProjectRejected => 'project_rejected',
+            self::PaymentScreenshotUploaded => 'user_payment_screenshot_uploaded',
+            self::CodingQuestionRequested => 'user_requested_for_coding_question_solution',
+            self::AccountCreated => 'user_created_account',
+            self::AccountDeleted => 'user_deleted_account',
+            self::PaymentSuccess => 'user_payment_successful',
+            self::PaymentFailed => 'user_payment_failed',
+            self::PaymentInitiated => 'user_payment_initiated',
+            self::PaymentInitiationFailed => 'user_payment_initiation_failed',
+            self::PaymentVerificationFailed => 'user_payment_verification_failed',
+            self::RepoAccessGiven => 'user_repo_access_given',
+            self::RepoAccessFailed => 'user_repo_access_failed',
+            self::QAAskedByUser => 'qa_asked_by_user',
+            self::TestAssistanceRequestedByUser => 'test_assistance_requested_by_user',
+            self::InterviewRequestedByUser => 'interview_requested_by_user',
+            self::ArticlesViewed => 'articles_viewed_by_user',
+            default => parent::getDescription($value),
         };
     }
 }

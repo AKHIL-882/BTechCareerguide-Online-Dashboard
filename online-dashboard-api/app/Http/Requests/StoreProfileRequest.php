@@ -21,8 +21,6 @@ class StoreProfileRequest extends FormRequest
      */
     public function rules(): array
     {
-        info('Rules called');
-
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255'],
@@ -32,6 +30,7 @@ class StoreProfileRequest extends FormRequest
             'experience_years' => ['nullable', 'integer', 'min:0', 'max:60'],
             'photo' => ['nullable', 'file', 'mimes:jpg,jpeg,png,webp', 'max:51200'],
             'resume' => ['nullable', 'file', 'mimes:pdf,doc,docx', 'max:10240'],
+            'skills' => ['nullable', 'string', 'max:255'],
         ];
     }
 }
