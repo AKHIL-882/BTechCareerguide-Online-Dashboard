@@ -48,4 +48,15 @@ return [
         '2025',
         '2026',
     ],
+
+    'skills' => [
+        "React",
+        "Node.js",
+        "UI/UX",
+        "JavaScript",
+        "MongoDB",
+        "Tailwind",
+        "Next.js",
+        "Express"
+    ]
 ];
