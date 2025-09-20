@@ -28,7 +28,7 @@ const ProfileModal = ({ onClose }) => {
 
   const handleSave = (updatedProfile) => {
     const updated = profiles.map((p) =>
-      p.id === updatedProfile.id ? updatedProfile : p
+      p.id === updatedProfile.id ? updatedProfile : p,
     );
     setProfiles(updated);
     setProfile(updatedProfile);

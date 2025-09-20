@@ -50,13 +50,13 @@ return [
     ],
 
     'skills' => [
-        "React",
-        "Node.js",
-        "UI/UX",
-        "JavaScript",
-        "MongoDB",
-        "Tailwind",
-        "Next.js",
-        "Express"
-    ]
+        'React',
+        'Node.js',
+        'UI/UX',
+        'JavaScript',
+        'MongoDB',
+        'Tailwind',
+        'Next.js',
+        'Express',
+    ],
 ];

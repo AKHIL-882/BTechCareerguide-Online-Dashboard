@@ -21,6 +21,7 @@ class ProfileController extends Controller
             'education',
             'status',
             'experience_years',
+            'skills',
         ]));
 
         if ($request->hasFile('photo')) {
