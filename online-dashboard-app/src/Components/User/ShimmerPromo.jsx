@@ -1,4 +1,3 @@
-// ShimmerPromo.js
 import React from "react";
 
 const ShimmerPromo = () => {

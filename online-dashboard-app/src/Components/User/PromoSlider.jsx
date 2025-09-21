@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import ShimmerPromo from "./Shimmerpromo";
+import ShimmerPromo from "./ShimmerPromo";
 
 // 🔹 Utility to extract video ID from YouTube link
 const getYouTubeId = (url) => {
