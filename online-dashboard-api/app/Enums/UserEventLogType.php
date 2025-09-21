@@ -55,6 +55,11 @@ final class UserEventLogType extends BaseEnum
 
     public const ArticlesViewed = 22;
 
+    public const InterviewRejectedByAdmin = 23;
+
+    public const InterviewPending = 24;
+
+
     public static function getDescription($value): string
     {
         return match ($value) {
@@ -81,6 +86,8 @@ final class UserEventLogType extends BaseEnum
             self::TestAssistanceRequestedByUser => 'test_assistance_requested_by_user',
             self::InterviewRequestedByUser => 'interview_requested_by_user',
             self::ArticlesViewed => 'articles_viewed_by_user',
+            self::InterviewRejectedByAdmin => 'interview_rejected_by_admin',
+            self::InterviewPending => 'interview_pending',
             default => parent::getDescription($value),
         };
     }

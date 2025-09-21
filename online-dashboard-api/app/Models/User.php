@@ -160,15 +160,19 @@ class User extends Authenticatable
     private function getEventMap(): array
     {
         return [
-            'Viewed' => UserEventLogType::getDescription(UserEventLogType::JobApplied),
-            'Projects' => [
-                'Project Requested' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
-                'Project Completed' => UserEventLogType::getDescription(UserEventLogType::ProjectCompleted),
-                'Project Approved' => UserEventLogType::getDescription(UserEventLogType::ProjectApproved),
-                'Project Rejected' => UserEventLogType::getDescription(UserEventLogType::ProjectRejected),
+            'job_applied' => UserEventLogType::getDescription(UserEventLogType::JobApplied),
+            'projects' => [
+                'project_requested' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
+                'project_completed' => UserEventLogType::getDescription(UserEventLogType::ProjectCompleted),
+                'project_approved'  => UserEventLogType::getDescription(UserEventLogType::ProjectApproved),
+                'project_rejected'  => UserEventLogType::getDescription(UserEventLogType::ProjectRejected),
             ],
-            'Interview Scheduled' => UserEventLogType::getDescription(UserEventLogType::InterviewRequestedByUser),
-            'Articles Viewed' => UserEventLogType::getDescription(UserEventLogType::ArticlesViewed),
+            'interview_scheduled' => [
+                'interview_requested' => UserEventLogType::getDescription(UserEventLogType::InterviewRequestedByUser),
+                'interview_rejected'  => UserEventLogType::getDescription(UserEventLogType::InterviewRejectedByAdmin),
+                'interview_pending'   => UserEventLogType::getDescription(UserEventLogType::InterviewPending),
+            ],
+            'articles_viewed' => UserEventLogType::getDescription(UserEventLogType::ArticlesViewed),
         ];
     }
 
@@ -191,7 +195,7 @@ class User extends Authenticatable
     {
         return [
             'label' => $label,
-            'value' => UserEventLog::countEvents([
+            'value' => UserEventLog::countEventsByMonth([
                 'user_id' => $userId,
                 'event_type' => $eventType,
                 'last_months' => 3,

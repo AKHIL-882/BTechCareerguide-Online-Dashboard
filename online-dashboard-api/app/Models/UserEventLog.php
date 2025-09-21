@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class UserEventLog extends Model
 {
@@ -64,8 +65,6 @@ class UserEventLog extends Model
     public static function countEvents(array $filters = [])
     {
         $query = self::query();
-
-        info($filters['event_type']);
         if (! empty($filters['event_type'])) {
             $query->ofEventType($filters['event_type']);
         }
@@ -110,5 +109,29 @@ class UserEventLog extends Model
         ];
 
         return self::create($eventLog);
+    }
+
+    public static function countEventsByMonth(array $filters, int $months = 3): array
+    {
+        $startDate = Carbon::now()->subMonths($months);
+
+        $events = self::query()
+            ->where('user_id', $filters['user_id'])
+            ->whereIn('event_type', [$filters['event_type']])
+            ->where('created_at', '>=', $startDate)
+            ->get(['created_at']);
+
+        $grouped = $events->groupBy(function ($event) {
+            return Carbon::parse($event->created_at)->format('M');
+        });
+
+        $a = $grouped->map(function ($items, $month) {
+            return [
+                'month' => $month,
+                'value' => $items->count(),
+            ];
+        })->values()->toArray();
+
+        return $a;
     }
 }
