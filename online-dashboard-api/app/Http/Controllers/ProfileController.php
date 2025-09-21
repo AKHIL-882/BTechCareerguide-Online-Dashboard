@@ -24,17 +24,17 @@ class ProfileController extends Controller
             'skills',
         ]));
 
-        if ($request->hasFile('photo')) {
-            $photoData = $uploader->uploadToGoogle($request->file('photo'), 'Candidates Data', $user->name);
-            $user->photo_drive_id = $photoData['id'];
-            $user->photo_link = $photoData['link'];
-        }
+        // if ($request->hasFile('photo')) {
+        //     $photoData = $uploader->uploadToGoogle($request->file('photo'), 'Candidates Data', $user->name);
+        //     $user->photo_drive_id = $photoData['id'];
+        //     $user->photo_link = $photoData['link'];
+        // }
 
-        if ($request->hasFile('resume')) {
-            $resumeData = $uploader->uploadToGoogle($request->file('resume'), 'Candidates Data', $user->name);
-            $user->resume_drive_id = $resumeData['id'];
-            $user->resume_link = $resumeData['link'];
-        }
+        // if ($request->hasFile('resume')) {
+        //     $resumeData = $uploader->uploadToGoogle($request->file('resume'), 'Candidates Data', $user->name);
+        //     $user->resume_drive_id = $resumeData['id'];
+        //     $user->resume_link = $resumeData['link'];
+        // }
 
         $user->save();
 

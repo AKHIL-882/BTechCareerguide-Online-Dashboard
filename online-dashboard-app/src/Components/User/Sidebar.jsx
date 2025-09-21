@@ -34,7 +34,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { to: "/jobs", icon: Briefcase, label: "Jobs" },
     { to: "/projects", icon: GitCompareArrows, label: "Projects" },
-    { to: "/calendar", icon: SquareDashedBottomCode, label: "Test Assistance" },
+    { to: "/calendar", icon: SquareDashedBottomCode, label: "Mock Interview" },
   ];
 
   return (

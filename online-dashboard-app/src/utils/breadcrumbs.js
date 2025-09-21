@@ -3,7 +3,7 @@ export const breadcrumbMap = {
   dashboard: "Dashboard",
   jobs: "Jobs",
   projects: "Projects",
-  calendar: "Test Assistance", // custom
+  calendar: "Mock Interview", // custom
   profile: "My Profile",
   settings: "Settings",
 };
