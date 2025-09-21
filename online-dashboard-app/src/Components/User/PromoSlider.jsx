@@ -148,9 +148,8 @@ const PromoSlider = () => {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all ${
-              current === index ? "bg-white w-5" : "bg-white/50"
-            }`}
+            className={`w-2.5 h-2.5 rounded-full transition-all ${current === index ? "bg-white w-5" : "bg-white/50"
+              }`}
           />
         ))}
       </div>
