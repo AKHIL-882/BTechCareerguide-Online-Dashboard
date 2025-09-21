@@ -26,6 +26,7 @@ const ProjectHome = ({ handleLogout }) => {
   const [showProjects, setShowProjects] = useState(true);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [activeTab, setActiveTab] = useState("projects");
   const [formData, setFormData] = useState({
     project_name: "",
     days_to_complete: "",
@@ -123,6 +124,7 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   const handleShowProjectsClick = () => {
+    setActiveTab("projects");
     setShowProjects(true);
     setShowForm(false);
     setShowPaymentForm(false);
@@ -130,6 +132,7 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   const handleShowRequestNewProject = () => {
+    setActiveTab("request");
     setShowForm(true);
     setShowProjects(false);
     setShowPaymentForm(false);
@@ -137,59 +140,47 @@ const ProjectHome = ({ handleLogout }) => {
 
   return (
     <main className="m-3 flex-1 pt-12 lg:relative py-4 min-h-screen bg-slate-50">
-      <div className="mt-4 md:flex justify-between mb-4">
-        <div className="md:flex md:space-x-4 mb-1 md:mb-0">
+      <div className="mt-4 mb-4">
+        <div className="flex border-b border-gray-200">
           <button
-            className="font-semibold bg-violet-700 text-white py-2 px-4 rounded-md hover:bg-violet-500 w-full md:w-auto mb-1 md:mb-0 flex justify-between items-center font-display"
-            onClick={handleShowRequestNewProject}
-          >
-            Request New Project
-            <FaProjectDiagram size={18} className="md:ml-2" />
-          </button>
-          <button
-            className="font-semibold bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 w-full md:w-auto flex justify-between items-center font-display"
             onClick={handleShowProjectsClick}
+            className={`py-2 px-6 text-sm font-medium rounded-t-md transition-all duration-300
+        ${activeTab === "projects"
+                ? "bg-violet-600 text-white shadow"
+                : "text-gray-600 hover:text-violet-600 hover:bg-gray-100"
+              }`}
           >
             Show Projects
-            <FaList size={18} className="md:ml-2" />
           </button>
-        </div>
-        <div className="flex">
           <button
-            className="font-semibold bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 w-full md:w-auto flex justify-between items-center font-display"
-            onClick={handleUploadPaymentClick}
+            onClick={handleShowRequestNewProject}
+            className={`py-2 px-6 text-sm font-medium rounded-t-md transition-all duration-300
+        ${activeTab === "request"
+                ? "bg-violet-600 text-white shadow"
+                : "text-gray-600 hover:text-violet-600 hover:bg-gray-100"
+              }`}
           >
-            Upload Payment Screenshot
-            <FaMoneyCheckAlt size={18} className="md:ml-2" />
+            Request Project
           </button>
         </div>
       </div>
 
       {showForm && (
-        <ProjectForm
-          formData={formData}
-          handleInputChange={handleInputChange}
-          handleFileChange={handleFileChange}
-          handleSubmit={handleSubmit}
-          setShowForm={setShowForm}
-          setShowProjects={setShowProjects}
-        />
-      )}
-
-      {showPaymentForm && (
-        <PaymentForm
-          projects={projects}
-          setShowPaymentForm={setShowPaymentForm}
-          setShowProjects={setShowProjects}
-        />
-      )}
-
-      {showProjects && (
         <div className="mt-8">
-          <Projects />
+          <ProjectForm
+            formData={formData}
+            handleInputChange={handleInputChange}
+            handleFileChange={handleFileChange}
+            handleSubmit={handleSubmit}
+            setShowForm={setShowForm}
+            setShowProjects={setShowProjects}
+          />
           <ProjectTable projects={projects} />
           <ProjectCards projects={projects} />
         </div>
+      )}
+      {showProjects && (
+        <Projects />
       )}
     </main>
   );
