@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'resume_link' => $this->resume_link,
             'drive_folder_id' => $this->drive_folder_id,
             'role' => $this->roles->pluck('name')->first(),
-            'stats' => $this->getHeaderStatsForUser(),
+            'data' => $this->getHeaderStatsForUser(),
             'user_created_at' => $this->created_at->toDateTimeString(),
         ];
     }

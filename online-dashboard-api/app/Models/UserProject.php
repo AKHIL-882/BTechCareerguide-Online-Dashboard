@@ -12,6 +12,48 @@ use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
+/**
+ * @property int $id
+ * @property string|null $company_name
+ * @property string|null $youtube_video_link
+ * @property string|null $payment_link
+ * @property int $user_id
+ * @property string|null $project_name
+ * @property string|null $technical_skills
+ * @property string|null $project_description
+ * @property int|null $days_to_complete
+ * @property string|null $document_name
+ * @property int $project_status
+ * @property int $payment_status
+ * @property int|null $is_admin_project
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \BenSampo\Enum\Enum $status
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
+ * @property-read int|null $payments_count
+ * @property-read \App\Models\User $user
+ * @method static \Database\Factories\UserProjectFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject filterBySearch($searchItem)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereCompanyName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereDaysToComplete($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereDocumentName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereIsAdminProject($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject wherePaymentLink($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject wherePaymentStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereProjectDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereProjectName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereProjectStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereTechnicalSkills($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUserId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereYoutubeVideoLink($value)
+ * @mixin \Eloquent
+ */
 class UserProject extends Project
 {
     public static function createProject(StoreProjectRequest $request)

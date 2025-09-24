@@ -10,6 +10,27 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $email
+ * @property string $token
+ * @property \Illuminate\Support\Carbon|null $expiration
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereExpiration($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereUserId($value)
+ * @mixin \Eloquent
+ */
 class ForgetPasswordTokens extends Model
 {
     protected $fillable = [

@@ -14,6 +14,52 @@ use Illuminate\Support\Facades\Schema;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
+/**
+ * @property int $id
+ * @property string|null $company_name
+ * @property string|null $role
+ * @property string|null $batch
+ * @property string|null $ctc
+ * @property string|null $company_logo
+ * @property string|null $location
+ * @property string|null $branch
+ * @property string|null $degree
+ * @property string|null $job_type
+ * @property string|null $experience
+ * @property string|null $apply_link
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int $is_fraud
+ * @property JobReportReason|null $report_reason
+ * @property string|null $report_message
+ * @method static Builder<static>|JobOpportunity batch($batch)
+ * @method static Builder<static>|JobOpportunity branch($branch)
+ * @method static Builder<static>|JobOpportunity degree($degree)
+ * @method static Builder<static>|JobOpportunity experience($experience)
+ * @method static \Database\Factories\JobOpportunityFactory factory($count = null, $state = [])
+ * @method static Builder<static>|JobOpportunity jobType($jobType)
+ * @method static Builder<static>|JobOpportunity newModelQuery()
+ * @method static Builder<static>|JobOpportunity newQuery()
+ * @method static Builder<static>|JobOpportunity query()
+ * @method static Builder<static>|JobOpportunity whereApplyLink($value)
+ * @method static Builder<static>|JobOpportunity whereBatch($value)
+ * @method static Builder<static>|JobOpportunity whereBranch($value)
+ * @method static Builder<static>|JobOpportunity whereCompanyLogo($value)
+ * @method static Builder<static>|JobOpportunity whereCompanyName($value)
+ * @method static Builder<static>|JobOpportunity whereCreatedAt($value)
+ * @method static Builder<static>|JobOpportunity whereCtc($value)
+ * @method static Builder<static>|JobOpportunity whereDegree($value)
+ * @method static Builder<static>|JobOpportunity whereExperience($value)
+ * @method static Builder<static>|JobOpportunity whereId($value)
+ * @method static Builder<static>|JobOpportunity whereIsFraud($value)
+ * @method static Builder<static>|JobOpportunity whereJobType($value)
+ * @method static Builder<static>|JobOpportunity whereLocation($value)
+ * @method static Builder<static>|JobOpportunity whereReportMessage($value)
+ * @method static Builder<static>|JobOpportunity whereReportReason($value)
+ * @method static Builder<static>|JobOpportunity whereRole($value)
+ * @method static Builder<static>|JobOpportunity whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class JobOpportunity extends Model
 {
     use HasFactory;

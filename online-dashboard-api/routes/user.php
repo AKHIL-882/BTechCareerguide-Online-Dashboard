@@ -23,6 +23,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
 
     Route::get('/user-details', [UserController::class, 'show']);
 
+    Route::get('/dashboard-stats', [UserController::class, 'showDashboardStats']);
+
     Route::post('/jobs/{id}/report', [JobOpportunityController::class, 'report']);
 
     Route::prefix('user-projects')->group(function () {

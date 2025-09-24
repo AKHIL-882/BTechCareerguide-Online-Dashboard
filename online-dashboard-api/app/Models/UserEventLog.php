@@ -6,6 +6,31 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string|null $category
+ * @property string|null $event_type
+ * @property array<array-key, mixed>|null $data
+ * @property string|null $updated_by_name
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog lastMonths(int $months = 3)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog ofEventType(string $eventType)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog ofUser(int $userId)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereCategory($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereData($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereEventType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUpdatedByName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUserId($value)
+ * @mixin \Eloquent
+ */
 class UserEventLog extends Model
 {
     protected $table = 'user_event_logs';
