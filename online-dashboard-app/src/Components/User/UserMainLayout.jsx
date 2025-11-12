@@ -38,7 +38,7 @@ const UserMainLayout = () => {
       {/* <GithubCheckWrapper /> */}
       <ScrollToTopButton colorCode="bg-violet-800" />
 
-      <div className="flex bg-slate-50">
+      <div className="flex bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100">
         <Sidebar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}

@@ -86,12 +86,12 @@ const Projects = ({ isDashBoard }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {isEmptySearch && flattenedProjects.length === 0 ? (
             <div className="flex items-center justify-center col-span-full h-auto">
-              <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 rounded-lg shadow-md">
-                <h1 className="text-lg font-sans text-gray-700 flex justify-center items-center">
-                  <FaSearch className="text-gray-400 text-2xl mr-2" />{" "}
+              <div className="flex flex-col items-center justify-center p-4 space-y-4 bg-gray-50 dark:bg-gray-900 rounded-lg shadow-md border border-gray-200 dark:border-gray-800">
+                <h1 className="text-lg font-sans text-gray-700 dark:text-gray-300 flex justify-center items-center">
+                  <FaSearch className="text-gray-400 dark:text-gray-500 text-2xl mr-2" />{" "}
                   <span>No Projects Found</span>
                 </h1>
-                <p className="text-sm text-gray-500 font-sans">
+                <p className="text-sm text-gray-500 dark:text-gray-400 font-sans">
                   We couldn't find any projects. Try searching for something else.
                 </p>
               </div>
@@ -104,7 +104,7 @@ const Projects = ({ isDashBoard }) => {
               return (
                 <div
                   key={index}
-                  className="bg-white shadow-md rounded-lg overflow-hidden p-1 relative"
+                  className="bg-white dark:bg-gray-900 shadow-md rounded-lg overflow-hidden p-1 relative border border-gray-200 dark:border-gray-800 text-slate-900 dark:text-slate-100"
                 >
                   {/* Thumbnail */}
                   <div className="w-full h-48 rounded-t-lg relative">
@@ -125,7 +125,7 @@ const Projects = ({ isDashBoard }) => {
                         videoUrl={project.youtube_video_link}
                       >
                         <div className="absolute bottom-[-24px] left-1/2 transform -translate-x-1/2">
-                          <div className="group relative w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-tr from-white to-gray-100 shadow-lg hover:shadow-[0_0_25px_10px_rgba(255,0,102,0.5)] hover:from-pink-100 hover:to-purple-200 transition-all duration-500 ease-in-out">
+                          <div className="group relative w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-tr from-white to-gray-100 dark:from-gray-100 dark:to-gray-200 shadow-lg hover:shadow-[0_0_25px_10px_rgba(255,0,102,0.5)] hover:from-pink-100 hover:to-purple-200 transition-all duration-500 ease-in-out">
                             <div className="absolute w-full h-full rounded-full bg-pink-400 opacity-20 blur-xl scale-0 group-hover:scale-100 transition-transform duration-700 ease-out"></div>
                             <FaPlay className="relative text-violet-600 text-2xl group-hover:text-black transition duration-300" />
                           </div>
@@ -135,9 +135,9 @@ const Projects = ({ isDashBoard }) => {
                   </div>
 
                   {/* Text Card */}
-                  <div className="bg-white rounded-b-lg pt-2 pb-2 px-4 text-start">
-                    <h4 className="font-sans text-lg text-blue-950 mb-1">{project.company_name}</h4>
-                    <p className="text-sm text-gray-600 mb-3">
+                  <div className="bg-white dark:bg-gray-900 rounded-b-lg pt-2 pb-2 px-4 text-start">
+                    <h4 className="font-sans text-lg text-blue-950 dark:text-blue-300 mb-1">{project.company_name}</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
                       {project.description || "Explore this exciting project for your portfolio!"}
                     </p>
                     <a

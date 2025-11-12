@@ -71,13 +71,13 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
 
   return (
     <div
-      className={`${!isJobshome ? "bg-white" : ""} rounded-lg ${className} ${!isJobshome ? "border border-gray-300" : ""} overflow-hidden`}
+      className={`${!isJobshome ? "bg-white dark:bg-gray-900" : ""} rounded-lg ${className} ${!isJobshome ? "border border-gray-300 dark:border-gray-800" : ""} overflow-hidden text-slate-900 dark:text-slate-100`}
     >
       <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {currentJobs.map((job) => (
           <div
             key={job.id}
-            className="w-full sm:w-auto border border-gray-200 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white"
+            className="w-full sm:w-auto border border-gray-200 dark:border-gray-800 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white dark:bg-gray-900"
           >
             <div className="flex items-center space-x-4">
               <img
@@ -88,14 +88,14 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
               <div className="flex items-start justify-between w-full">
                 <div>
                   <h3 className="text-lg font-sans">{job.role}</h3>
-                  <p className="text-violet-600 text-sm font-sans flex items-center gap-1">
+                  <p className="text-violet-600 dark:text-violet-400 text-sm font-sans flex items-center gap-1">
                     {job.company_name}
                   </p>
                 </div>
                 {!isJobshome && (
                   <button
                     onClick={() => openReportModal(job)}
-                    className="ml-1 text-gray-500 hover:text-red-700"
+                    className="ml-1 text-gray-500 dark:text-gray-400 hover:text-red-700"
                     title="Report Job"
                   >
                     <FaRegFlag size={12} />
@@ -146,13 +146,13 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
               ))}
             </div>
 
-            <div className="flex justify-between items-center text-sm mt-4 text-gray-500">
+            <div className="flex justify-between items-center text-sm mt-4 text-gray-500 dark:text-gray-400">
               <span>
                 <RelativeTime createdAt={job.created_at} />
               </span>
               <a
                 href={job.apply_link}
-                className="text-violet-600 font-medium hover:underline"
+                className="text-violet-600 dark:text-violet-400 font-medium hover:underline"
                 target="_blank"
               >
                 Apply
@@ -167,7 +167,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
       </div>
       {/* No Jobs Available */}
       {jobs.length === 0 && (
-        <div className="text-center py-6 text-gray-500 font-sans">
+        <div className="text-center py-6 text-gray-500 dark:text-gray-400 font-sans">
           No jobs available at the moment.
         </div>
       )}
@@ -178,7 +178,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
+            className="px-4 py-2 text-violet-700 dark:text-violet-300 bg-gray-200 dark:bg-gray-800 rounded-full disabled:text-gray-400 disabled:bg-gray-100 dark:disabled:bg-gray-800/60 flex items-center font-sans"
           >
             <FaArrowAltCircleLeft className="mr-1" /> Prev
           </button>
@@ -186,7 +186,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
             <button
               key={pageNumber}
               onClick={() => handlePageChange(pageNumber)}
-              className={`px-4 py-2 rounded-full font-sans ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 text-violet-700 hover:bg-gray-300"}`}
+              className={`px-4 py-2 rounded-full font-sans ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 dark:bg-gray-800 text-violet-700 dark:text-violet-300 hover:bg-gray-300 dark:hover:bg-gray-700"}`}
             >
               {pageNumber}
             </button>
@@ -195,7 +195,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
           {totalPages > pageNumbersToShow && !showJumpInput && (
             <button
               onClick={() => setShowJumpInput(true)}
-              className="px-4 py-2 bg-gray-200 text-violet-700 rounded-full font-sans hover:bg-gray-300"
+              className="px-4 py-2 bg-gray-200 dark:bg-gray-800 text-violet-700 dark:text-violet-300 rounded-full font-sans hover:bg-gray-300 dark:hover:bg-gray-700"
             >
               ...
             </button>
@@ -209,7 +209,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
                 max={totalPages}
                 value={jumpPage}
                 onChange={(e) => setJumpPage(e.target.value)}
-                className="px-1 py-0.5 border-2 border-violet-500 rounded-l-full text-violet-700 focus:outline-violet-700"
+                className="px-1 py-0.5 border-2 border-violet-500 rounded-l-full text-violet-700 dark:text-violet-300 bg-white dark:bg-gray-900 focus:outline-violet-700"
                 placeholder="p.no"
               />
               <button
@@ -223,7 +223,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 text-violet-700 bg-gray-200 rounded-full disabled:text-gray-400 disabled:bg-gray-100 flex items-center font-sans"
+            className="px-4 py-2 text-violet-700 dark:text-violet-300 bg-gray-200 dark:bg-gray-800 rounded-full disabled:text-gray-400 disabled:bg-gray-100 dark:disabled:bg-gray-800/60 flex items-center font-sans"
           >
             Next <FaArrowAltCircleRight className="ml-1" />
           </button>

@@ -60,13 +60,13 @@ const UserTestimonials = ({ onClose }) => {
 
   const modalContent = (
     <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-      <div className="bg-white rounded-lg shadow-lg w-full max-w-2xl p-6 relative">
+      <div className="bg-white dark:bg-gray-900 text-slate-900 dark:text-slate-100 rounded-lg shadow-lg w-full max-w-2xl p-6 relative border border-gray-200 dark:border-gray-800">
         {" "}
         {/* increased width */}
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-600 hover:text-black"
+          className="absolute top-2 right-2 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white"
         >
           <X />
         </button>
@@ -81,7 +81,7 @@ const UserTestimonials = ({ onClose }) => {
                 name="company"
                 value={form.company}
                 onChange={handleChange}
-                className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
+                className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 rounded focus:outline-violet-500"
                 required
               >
                 <option value="">Select Category</option>
@@ -98,7 +98,7 @@ const UserTestimonials = ({ onClose }) => {
               value={form.feedback}
               onChange={handleChange}
               rows={5}
-              className="w-full border border-gray-300 p-2 rounded focus:outline-violet-500"
+              className="w-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 p-2 rounded focus:outline-violet-500"
               required
             />
 

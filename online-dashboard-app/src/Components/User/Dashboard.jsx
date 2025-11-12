@@ -34,7 +34,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <main className="m-3 flex-1 pt-8 lg:relative py-2 bg-slate-50 min-h-screen">
+    <main className="m-3 flex-1 pt-8 lg:relative py-2 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100 min-h-screen">
       <StatsOverlayCards />
       <div className="mt-4">
         <div className="flex justify-between items-center">

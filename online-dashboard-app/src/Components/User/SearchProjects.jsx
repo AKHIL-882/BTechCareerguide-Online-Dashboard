@@ -36,14 +36,14 @@ const SearchProjects = ({ setProjects, noSearchedProjectsfn }) => {
   };
 
   return (
-    <div className="flex items-center border border-gray-300 rounded-full p-2 transition-all duration-300 overflow-hidden">
+    <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-full p-2 transition-all duration-300 overflow-hidden bg-white dark:bg-gray-900 text-slate-900 dark:text-slate-100">
       <FaSearch className="text-violet-500 text-lg cursor-pointer flex-shrink-0" />
       <input
         type="text"
         placeholder="Search projects..."
         value={searchValue}
         onChange={handleSearchChange}
-        className="bg-transparent outline-none text-sm px-2 flex-grow font-sans"
+        className="bg-transparent outline-none text-sm px-2 flex-grow font-sans placeholder-gray-400 dark:placeholder-gray-500"
       />
       {searchValue && (
         <FaTimes

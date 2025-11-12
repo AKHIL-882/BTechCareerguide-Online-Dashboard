@@ -224,7 +224,7 @@ const NotificationBell = () => {
       <button
         ref={bellRef}
         onClick={toggleDropdown}
-        className="relative text-gray-700 mt-2 text-xl focus:outline-none"
+        className="relative text-gray-700 dark:text-gray-300 mt-2 text-xl focus:outline-none"
       >
         <FaBell />
         {unreadCount > 0 && (
@@ -237,14 +237,14 @@ const NotificationBell = () => {
       {showDropdown && (
         <div
           ref={dropdownRef}
-          className="absolute right-0 mt-2 w-80 bg-white shadow-xl rounded-lg overflow-hidden z-50"
+          className="absolute right-0 mt-2 w-80 bg-white dark:bg-gray-900 text-slate-900 dark:text-slate-100 shadow-xl rounded-lg overflow-hidden z-50 border border-gray-200 dark:border-gray-800"
         >
-          <div className="flex border-b text-sm">
+          <div className="flex border-b text-sm border-gray-200 dark:border-gray-800">
             <button
               className={`w-1/2 px-3 py-2 ${
                 activeTab === "unseen"
-                  ? "text-violet-600 border-b-2 border-violet-600"
-                  : "text-gray-500"
+                  ? "text-violet-600 dark:text-violet-400 border-b-2 border-violet-600"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
               onClick={() => setActiveTab("unseen")}
             >
@@ -253,8 +253,8 @@ const NotificationBell = () => {
             <button
               className={`w-1/2 px-3 py-2 ${
                 activeTab === "seen"
-                  ? "text-violet-600 border-b-2 border-violet-600"
-                  : "text-gray-500"
+                  ? "text-violet-600 dark:text-violet-400 border-b-2 border-violet-600"
+                  : "text-gray-500 dark:text-gray-400"
               }`}
               onClick={() => setActiveTab("seen")}
             >
@@ -264,14 +264,14 @@ const NotificationBell = () => {
 
           <div className="max-h-60 overflow-y-auto p-2">
             {loading ? (
-              <div className="text-sm text-gray-500 px-4 py-2">Loading...</div>
+              <div className="text-sm text-gray-500 dark:text-gray-400 px-4 py-2">Loading...</div>
             ) : error ? (
               <div className="text-sm text-red-500 px-4 py-2">{error}</div>
             ) : filteredNotifications.length > 0 ? (
               filteredNotifications.map((n) => (
                 <div
                   key={n.id}
-                  className="flex items-center gap-2 text-sm text-gray-700 px-4 py-1 hover:bg-gray-100 cursor-pointer"
+                  className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 px-4 py-1 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
                   onClick={() => handleNotificationClick(n.id)}
                 >
                   <img
@@ -281,14 +281,14 @@ const NotificationBell = () => {
                   />
                   <div className="flex justify-between items-center w-full">
                     <span className="font-medium">{n.company_name}</span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
                       <RelativeTime createdAt={n.created_at} />
                     </span>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-sm text-gray-500 px-4 py-2">
+              <div className="text-sm text-gray-500 dark:text-gray-400 px-4 py-2">
                 No {activeTab} notifications
               </div>
             )}
@@ -301,9 +301,9 @@ const NotificationBell = () => {
           ref={popupRef}
           className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50"
         >
-          <div className="bg-white p-4 rounded-lg shadow-lg w-80 relative">
+          <div className="bg-white dark:bg-gray-900 text-slate-900 dark:text-slate-100 p-4 rounded-lg shadow-lg w-80 relative border border-gray-200 dark:border-gray-800">
             <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
+              className="absolute top-2 right-2 text-gray-500 dark:text-gray-400 hover:text-red-500"
               onClick={closePopup}
             >
               <IoMdClose size={20} />
@@ -314,11 +314,11 @@ const NotificationBell = () => {
                 alt="avatar"
                 className="w-6 h-6 rounded-full object-cover"
               />
-              <h2 className="text-lg text-violet-600">
+              <h2 className="text-lg text-violet-600 dark:text-violet-400">
                 {selectedNotification.company_name}
               </h2>
             </div>
-            <p className="text-gray-800 text-sm">
+            <p className="text-gray-800 dark:text-gray-200 text-sm">
               {selectedNotification.update}
             </p>
           </div>

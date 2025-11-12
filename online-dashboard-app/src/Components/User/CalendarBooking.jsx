@@ -376,11 +376,11 @@ const CalendarBooking = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6 mt-12 bg-slate-50">
+    <div className="p-4 sm:p-6 mt-12 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Calendar */}
-        <div className="lg:col-span-3 bg-white shadow-xl rounded-2xl p-4 sm:p-6">
-          <h1 className="text-2xl font-bold mb-4">Interview Calendar</h1>
+        <div className="lg:col-span-3 bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-800">
+          <h1 className="text-2xl font-bold mb-4 text-slate-900 dark:text-slate-100">Book Interview Slot</h1>
           <Calendar
             localizer={localizer}
             events={events}
@@ -397,20 +397,20 @@ const CalendarBooking = () => {
         </div>
 
         {/* Interviewers */}
-        <div className="lg:col-span-1 bg-white shadow-xl rounded-2xl p-4 sm:p-6 max-h-[70vh] overflow-auto">
+        <div className="lg:col-span-1 bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 max-h-[70vh] overflow-auto border border-gray-200 dark:border-gray-800">
           <h2 className="text-xl font-bold mb-4">Interviewers</h2>
           <ul className="space-y-4">
             {interviewers.map((i) => (
               <li
                 key={i.id}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-gray-100 flex items-center space-x-3"
+                className="p-3 border rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center space-x-3 border-gray-200 dark:border-gray-800"
                 onClick={() => setSelectedInterviewer(i)}
               >
                 <img src={i.profilePic} alt={i.name} className="w-12 h-12 rounded-full" />
                 <div>
                   <p className="font-semibold">{i.name}</p>
-                  <p className="text-sm text-gray-500">{i.company}</p>
-                  <p className="text-xs text-gray-400">{i.experience} years exp.</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{i.company}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">{i.experience} years exp.</p>
                 </div>
               </li>
             ))}
@@ -421,12 +421,12 @@ const CalendarBooking = () => {
       {/* Booking Modal */}
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 p-4 z-50 overflow-auto">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
-            <h2 className="text-xl font-semibold mb-2">
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-semibold mb-2 text-slate-900 dark:text-slate-100">
               {editingId ? (isReadOnly ? "View Slot" : "Edit Slot") : "Book Interview Slot"}
             </h2>
             {selectedSlot && (
-              <p className="text-sm text-gray-500 mb-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
                 {format(selectedSlot.start, "PPP")} at {format(selectedSlot.start, "hh:mm a")}
               </p>
             )}
@@ -441,20 +441,20 @@ const CalendarBooking = () => {
             <input
               type="text"
               placeholder="Candidate Name / Title"
-              className="w-full border rounded-lg p-2 mb-3"
+              className="w-full border rounded-lg p-2 mb-3 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100 placeholder-gray-400 dark:placeholder-gray-500"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               disabled={isReadOnly}
             />
             <input
               type="time"
-              className="w-full border rounded-lg p-2 mb-3"
+              className="w-full border rounded-lg p-2 mb-3 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100"
               value={time}
               onChange={(e) => setTime(e.target.value)}
               disabled={isReadOnly}
             />
             <select
-              className="w-full border rounded-lg p-2 mb-3"
+              className="w-full border rounded-lg p-2 mb-3 bg-white dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-slate-900 dark:text-slate-100"
               value={interviewer}
               onChange={(e) => setInterviewer(e.target.value)}
               disabled={isReadOnly}
@@ -469,7 +469,7 @@ const CalendarBooking = () => {
             {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
             <div className="flex flex-wrap justify-end mt-4 gap-2">
               <button
-                className="px-4 py-2 border rounded-lg text-gray-600 bg-gray-200 hover:bg-gray-300"
+                className="px-4 py-2 border rounded-lg text-gray-600 dark:text-gray-300 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 border-gray-300 dark:border-gray-700"
                 onClick={() => setIsOpen(false)}
               >
                 Close
@@ -506,7 +506,7 @@ const CalendarBooking = () => {
       {/* Interviewer Profile Modal */}
       <Dialog open={!!selectedInterviewer} onClose={() => setSelectedInterviewer(null)}>
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 overflow-auto">
-          <div className="bg-white p-6 rounded-xl shadow-xl w-full max-w-md">
+          <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-800">
             {selectedInterviewer && (
               <>
                 <div className="flex items-center space-x-4">
@@ -517,8 +517,8 @@ const CalendarBooking = () => {
                   />
                   <div>
                     <h2 className="text-xl font-bold">{selectedInterviewer.name}</h2>
-                    <p className="text-gray-600">{selectedInterviewer.company}</p>
-                    <p className="text-gray-500 text-sm">{selectedInterviewer.experience} years experience</p>
+                    <p className="text-gray-600 dark:text-gray-300">{selectedInterviewer.company}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">{selectedInterviewer.experience} years experience</p>
                   </div>
                 </div>
                 <div className="mt-6 flex justify-end">

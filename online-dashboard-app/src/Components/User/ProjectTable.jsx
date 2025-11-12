@@ -17,13 +17,13 @@ const STATUS_MAP = {
 const ProjectTable = ({ projects }) => (
   <div className="hidden lg:block mt-8">
     <SectionHeading text="Your projects" />
-    <table className="table-auto w-full border-collapse border border-gray-200">
+    <table className="table-auto w-full border-collapse border border-gray-200 dark:border-gray-800 text-slate-900 dark:text-slate-100">
       <thead>
-        <tr className="bg-violet-200 text-violet-800 font-semibold whitespace-nowrap font-display">
-          <th className="border px-4 py-2">Project Name</th>
-          <th className="border px-4 py-2">Technical Skills</th>
-          <th className="border px-4 py-2">Description</th>
-          <th className="border px-4 py-2">Status</th>
+        <tr className="bg-violet-200 text-violet-800 dark:bg-violet-950/40 dark:text-violet-300 font-semibold whitespace-nowrap font-display">
+          <th className="border px-4 py-2 border-gray-200 dark:border-gray-800">Project Name</th>
+          <th className="border px-4 py-2 border-gray-200 dark:border-gray-800">Technical Skills</th>
+          <th className="border px-4 py-2 border-gray-200 dark:border-gray-800">Description</th>
+          <th className="border px-4 py-2 border-gray-200 dark:border-gray-800">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -32,17 +32,17 @@ const ProjectTable = ({ projects }) => (
           // Only show Razorpay button if status is "Completed"
           const showPayBtn = statusText === "Completed";
           return (
-            <tr key={index}>
-              <td className="border px-4 py-2 font-sans">
+            <tr key={index} className="odd:bg-white even:bg-gray-50 dark:odd:bg-gray-900 dark:even:bg-gray-950">
+              <td className="border px-4 py-2 font-sans border-gray-200 dark:border-gray-800">
                 {project.project_name}
               </td>
-              <td className="border px-4 py-2 font-sans">
+              <td className="border px-4 py-2 font-sans border-gray-200 dark:border-gray-800">
                 {project.technical_skills}
               </td>
-              <td className="border px-4 py-2 font-sans">
+              <td className="border px-4 py-2 font-sans border-gray-200 dark:border-gray-800">
                 {project.project_description}
               </td>
-              <td className="border px-4 py-2 font-sans flex items-center gap-2">
+              <td className="border px-4 py-2 font-sans flex items-center gap-2 border-gray-200 dark:border-gray-800">
                 <button
                   className={`px-4 py-2 rounded text-white font-sans ${
                     statusText === "Pending"

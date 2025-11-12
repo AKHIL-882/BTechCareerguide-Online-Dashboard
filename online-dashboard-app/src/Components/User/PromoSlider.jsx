@@ -91,7 +91,7 @@ const PromoSlider = () => {
   // 🔹 No slides available
   if (slides.length === 0) {
     return (
-      <div className="bg-purple-200 text-purple-800 p-6 rounded-2xl text-center">
+      <div className="p-6 rounded-2xl text-center bg-purple-200 text-purple-800 dark:bg-violet-950/40 dark:text-violet-200">
         No slides available
       </div>
     );
@@ -99,7 +99,7 @@ const PromoSlider = () => {
 
   return (
     <div
-      className="bg-gradient-to-r from-purple-500 to-purple-300 text-white rounded-2xl p-6 flex flex-col justify-between relative h-auto overflow-hidden"
+      className="rounded-2xl p-6 flex flex-col justify-between relative h-auto overflow-hidden bg-gradient-to-r from-purple-500 to-purple-300 dark:from-violet-950/60 dark:to-violet-900/40 text-white"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -123,7 +123,7 @@ const PromoSlider = () => {
             {(slides[current].link || slides[current].youtube_video_link) && (
               <button
                 onClick={() => handleClick(slides[current])}
-                className="mt-6 bg-white text-purple-600 font-semibold font-sans px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm"
+                className="mt-6 bg-white text-purple-600 font-semibold font-sans px-4 py-2 rounded-full hover:bg-gray-100 transition text-sm dark:bg-gray-100 dark:text-violet-700 dark:hover:bg-gray-200"
               >
                 {slides[current].button}
               </button>
@@ -148,8 +148,9 @@ const PromoSlider = () => {
           <button
             key={index}
             onClick={() => setCurrent(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all ${current === index ? "bg-white w-5" : "bg-white/50"
-              }`}
+            className={`w-2.5 h-2.5 rounded-full transition-all ${
+              current === index ? "bg-white w-5" : "bg-white/50 dark:bg-white/40"
+            }`}
           />
         ))}
       </div>

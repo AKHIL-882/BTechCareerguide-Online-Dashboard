@@ -25,11 +25,11 @@ const Header = ({ handleLogout, isCollapsed }) => {
   const Icon = breadcrumb.icon;
 
   return (
-    <header className="flex justify-between items-center px-6 md:py-2 py-3 w-full h-14 fixed top-0 left-0 right-0 z-10 bg-slate-50">
+    <header className="flex justify-between items-center px-6 md:py-2 py-3 w-full h-14 fixed top-0 left-0 right-0 z-10 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100 border-b border-gray-200 dark:border-gray-800">
       <h1
         className={`hidden md:flex font-sans font-medium text-md justify-center items-center gap-2 ${
           isCollapsed ? "ml-12" : "ml-52 pl-1"
-        } text-violet-800 px-2 rounded-lg`}
+        } text-violet-800 dark:text-violet-400 px-2 rounded-lg`}
       >
         {Icon && <Icon size={18} />}
         {breadcrumb.label}
