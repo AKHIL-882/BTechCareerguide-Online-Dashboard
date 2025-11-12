@@ -14,7 +14,7 @@ const ProfileView = ({ profile, onEdit, onClose }) => {
               alt="Profile"
               className="w-20 h-20 rounded-full border-4 border-white shadow-lg"
             />
-            <h2 className="text-lg font-bold text-gray-700 drop-shadow mt-8">
+            <h2 className="text-lg font-bold text-gray-700 dark:text-gray-100 drop-shadow mt-8">
               {profile.name}
             </h2>
           </div>
@@ -30,7 +30,7 @@ const ProfileView = ({ profile, onEdit, onClose }) => {
 
       {/* Info Section */}
       <div className="pt-12 pb-4 px-6 text-center">
-        <div className="flex justify-around items-center text-gray-600 text-sm mt-1">
+        <div className="flex justify-around items-center text-gray-600 dark:text-gray-300 text-sm mt-1">
           <p>{profile.phone}</p>
           <p>{profile.email}</p>
           <p>{profile.location}</p>
@@ -39,11 +39,11 @@ const ProfileView = ({ profile, onEdit, onClose }) => {
         {/* Education / Experience */}
         <div className="mt-3 text-sm">
           {profile.status === "Fresher" ? (
-            <p className="text-purple-700 font-medium">
+            <p className="text-purple-700 dark:text-purple-400 font-medium">
               🎓 {profile.degree}, {profile.branch}, {profile.year}
             </p>
           ) : (
-            <p className="text-purple-700 font-medium">
+            <p className="text-purple-700 dark:text-purple-400 font-medium">
               💼 {profile.experience}
             </p>
           )}
@@ -54,7 +54,7 @@ const ProfileView = ({ profile, onEdit, onClose }) => {
           {profile.skills?.slice(0, 5).map((skill, idx) => (
             <span
               key={idx}
-              className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-xs font-medium"
+              className="px-3 py-1 bg-purple-100 dark:bg-violet-900/40 text-purple-700 dark:text-violet-300 rounded-full text-xs font-medium"
             >
               #{skill}
             </span>
@@ -68,21 +68,21 @@ const ProfileView = ({ profile, onEdit, onClose }) => {
               href={URL.createObjectURL(profile.resume)}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center text-sm text-purple-600 hover:underline"
+              className="flex items-center justify-center text-sm text-purple-600 dark:text-purple-400 hover:underline"
             >
               <Upload size={14} className="mr-1" /> View Resume
             </a>
           ) : (
-            <p className="text-gray-400 text-sm">📄 No resume uploaded</p>
+            <p className="text-gray-400 dark:text-gray-500 text-sm">📄 No resume uploaded</p>
           )}
         </div>
 
         {/* Footer */}
-        <div className="mt-5 flex items-center justify-between text-xs text-gray-400">
+        <div className="mt-5 flex items-center justify-between text-xs text-gray-400 dark:text-gray-500">
           <span>👤 Member since: {profile.memberSince}</span>
           <button
             onClick={onClose}
-            className="px-4 py-1 rounded-lg bg-gray-100 text-gray-600 hover:bg-gray-200 shadow"
+            className="px-4 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 shadow"
           >
             Cancel
           </button>

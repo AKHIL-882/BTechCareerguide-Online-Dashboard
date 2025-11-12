@@ -316,7 +316,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
   };
 
   return (
-    <div className="relative flex flex-col items-center w-full">
+    <div className="relative flex flex-col items-center w-full text-slate-900 dark:text-slate-100">
       {/* Horizontal Category Filter Bar with Filters + Clear pinned */}
       <div className="flex items-center justify-between w-full mb-4">
         {/* Scrollable chips */}
@@ -326,10 +326,11 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${activeCategory === cat
+                className={`px-5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                  activeCategory === cat
                     ? "bg-violet-600 text-white shadow-md"
-                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
+                    : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+                }`}
               >
                 {cat}
               </button>
@@ -349,7 +350,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
           {filteredJobs && (
             <button
               onClick={() => setFilteredJobs(null)}
-              className="flex items-center space-x-2 text-red-500 px-4 py-2 border border-red-300 bg-white rounded-lg hover:shadow"
+              className="flex items-center space-x-2 text-red-500 px-4 py-2 border border-red-300 bg-white dark:bg-gray-900 rounded-lg hover:shadow"
             >
               <FaTimes className="text-lg" />
               <span>Clear</span>
@@ -360,10 +361,10 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
       {/* Filter Modal */}
       {showFilters && (
-        <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-          <div className="relative bg-white p-6 shadow-lg rounded-lg w-80 md:w-6/12">
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="relative bg-white dark:bg-gray-900 p-6 shadow-lg rounded-lg w-80 md:w-6/12">
             <button
-              className="absolute top-2 right-4 text-gray-600 hover:text-gray-800"
+              className="absolute top-2 right-4 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
               onClick={() => setShowFilters(false)}
             >
               <FaTimes className="text-xl" />
@@ -374,7 +375,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               {/* Branch */}
               <select
-                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedBranch"
                 value={formData.selectedBranch}
                 onChange={handleInputChange}
@@ -389,7 +390,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
               {/* Batch */}
               <select
-                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedBatch"
                 value={formData.selectedBatch}
                 onChange={handleInputChange}
@@ -404,7 +405,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
               {/* Degree */}
               <select
-                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedDegree"
                 value={formData.selectedDegree}
                 onChange={handleInputChange}
@@ -419,7 +420,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
               {/* Job Type */}
               <select
-                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedJobType"
                 value={formData.selectedJobType}
                 onChange={handleInputChange}
@@ -434,7 +435,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
               {/* Experience */}
               <select
-                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedExperience"
                 value={formData.selectedExperience}
                 onChange={handleInputChange}
@@ -450,10 +451,11 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
             {/* Apply Filters Button */}
             <button
-              className={`w-full py-2 mt-4 rounded ${isFilterSelected || activeCategory !== "All"
+              className={`w-full py-2 mt-4 rounded ${
+                isFilterSelected || activeCategory !== "All"
                   ? "bg-violet-500 text-white hover:bg-violet-700"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-                }`}
+                  : "bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed"
+              }`}
               onClick={fetchFilteredJobs}
               disabled={(!isFilterSelected && activeCategory === "All") || loading}
             >

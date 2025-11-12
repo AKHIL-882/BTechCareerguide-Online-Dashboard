@@ -51,27 +51,27 @@ function YouTubePopupPlayer({ videoUrl, title }) {
             `}
           >
             <div
-              className={`flex flex-col rounded-lg overflow-hidden bg-white ${
+              className={`flex flex-col rounded-lg overflow-hidden bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 ${
                 isMini ? "w-72" : "w-full max-w-3xl"
               }`}
             >
               {/* Header Bar */}
-              <div className="flex items-center justify-between bg-gray-100 px-3 py-2 border-b">
-                <span className="text-sm font-medium text-gray-800 truncate">
+              <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 px-3 py-2 border-b border-gray-200 dark:border-gray-700">
+                <span className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
                   {title}
                 </span>
                 <div className="flex gap-2">
                   {isMini ? (
                     <button
                       onClick={() => setIsMini(false)}
-                      className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded"
+                      className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 p-1 rounded"
                     >
                       <FaExpand />
                     </button>
                   ) : (
                     <button
                       onClick={() => setIsMini(true)}
-                      className="bg-gray-200 hover:bg-gray-300 text-gray-700 p-1 rounded"
+                      className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 p-1 rounded"
                     >
                       <FaWindowMinimize />
                     </button>

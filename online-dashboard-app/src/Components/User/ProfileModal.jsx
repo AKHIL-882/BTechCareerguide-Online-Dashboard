@@ -37,7 +37,7 @@ const ProfileModal = ({ onClose }) => {
 
   const modalContent = (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50 px-2">
-      <div className="bg-white w-full max-w-lg rounded-2xl shadow-xl p-6 relative max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-gray-900 text-slate-900 dark:text-slate-100 w-full max-w-lg rounded-2xl shadow-xl p-6 relative max-h-[90vh] overflow-y-auto border border-gray-200 dark:border-gray-800">
         {!isEditing ? (
           <ProfileView
             profile={profile}

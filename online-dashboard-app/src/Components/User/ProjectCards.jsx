@@ -16,9 +16,9 @@ const STATUS_MAP = {
 
 const ProjectCards = ({ projects }) => (
   <div className="lg:hidden mt-8">
-    <h2 className="text-lg text-blue-950 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
+    <h2 className="text-lg text-blue-950 dark:text-blue-300 mb-2 relative flex items-center space-x-2 pb-2 font-display font-bold">
       <div className="flex items-center justify-center space-x-1">
-        <span className="w-1 h-4 bg-violet-600"></span>
+        <span className="w-1 h-4 bg-violet-600 dark:bg-violet-400"></span>
         <span>YOUR PROJECTS</span>
       </div>
     </h2>
@@ -29,7 +29,7 @@ const ProjectCards = ({ projects }) => (
         return (
           <div
             key={index}
-            className="bg-white shadow-md rounded-lg p-4 border border-1"
+            className="bg-white dark:bg-gray-900 shadow-md rounded-lg p-4 border border-gray-200 dark:border-gray-800 text-slate-900 dark:text-slate-100"
           >
             <div className="flex justify-between items-center">
               <h4 className="font-semibold text-lg font-display">

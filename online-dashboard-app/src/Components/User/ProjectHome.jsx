@@ -139,15 +139,15 @@ const ProjectHome = ({ handleLogout }) => {
   };
 
   return (
-    <main className="m-3 flex-1 pt-12 lg:relative py-4 min-h-screen bg-slate-50">
+    <main className="m-3 flex-1 pt-12 lg:relative py-4 min-h-screen bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100">
       <div className="mt-4 mb-4">
-        <div className="flex border-b border-gray-200">
+        <div className="flex border-b border-gray-200 dark:border-gray-800">
           <button
             onClick={handleShowProjectsClick}
             className={`py-2 px-6 text-sm font-medium rounded-t-md transition-all duration-300
         ${activeTab === "projects"
                 ? "bg-violet-600 text-white shadow"
-                : "text-gray-600 hover:text-violet-600 hover:bg-gray-100"
+                : "text-gray-600 dark:text-gray-300 hover:text-violet-600 hover:bg-gray-100 dark:hover:bg-gray-800"
               }`}
           >
             Show Projects
@@ -157,7 +157,7 @@ const ProjectHome = ({ handleLogout }) => {
             className={`py-2 px-6 text-sm font-medium rounded-t-md transition-all duration-300
         ${activeTab === "request"
                 ? "bg-violet-600 text-white shadow"
-                : "text-gray-600 hover:text-violet-600 hover:bg-gray-100"
+                : "text-gray-600 dark:text-gray-300 hover:text-violet-600 hover:bg-gray-100 dark:hover:bg-gray-800"
               }`}
           >
             Request Project

@@ -254,7 +254,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
   }, []);
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm flex flex-col justify-between relative h-44 w-full p-2">
+    <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-sm flex flex-col justify-between relative h-44 w-full p-2 border border-gray-200 dark:border-gray-800 text-slate-900 dark:text-slate-100">
       {/* Dropdown Menu - Only show if there's data */}
       {!allValuesZero && (
         <div className="absolute top-4 right-4">
@@ -263,16 +263,16 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
               e.stopPropagation();
               setDropdownOpen(!dropdownOpen);
             }}
-            className="p-1 rounded hover:bg-gray-100"
+            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            <FaEllipsisV className="text-gray-400" />
+            <FaEllipsisV className="text-gray-400 dark:text-gray-300" />
           </button>
           {dropdownOpen && (
-            <div className="absolute right-0 mt-1 w-32 bg-white shadow-lg rounded-md border border-gray-200 z-10">
+            <div className="absolute right-0 mt-1 w-32 bg-white dark:bg-gray-900 shadow-lg rounded-md border border-gray-200 dark:border-gray-800 z-10">
               {dataType === "timeSeries" ? (
                 <>
                   <div
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-sm"
                     onClick={() => {
                       setChartType("bar");
                       setDropdownOpen(false);
@@ -281,7 +281,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
                     Bar
                   </div>
                   <div
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-sm"
                     onClick={() => {
                       setChartType("area");
                       setDropdownOpen(false);
@@ -293,7 +293,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
               ) : (
                 <>
                   <div
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-sm"
                     onClick={() => {
                       setChartType("pie");
                       setDropdownOpen(false);
@@ -302,7 +302,7 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
                     Pie
                   </div>
                   <div
-                    className="p-2 hover:bg-gray-100 cursor-pointer text-sm"
+                    className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-sm"
                     onClick={() => {
                       setChartType("radar");
                       setDropdownOpen(false);
@@ -319,8 +319,8 @@ const StatCard = ({ title, data, defaultChart, dataType }) => {
 
       {/* Card Content */}
       <div>
-        <p className="text-xs text-gray-500 font-medium">{data.subtitle}</p>
-        <h3 className="text-md font-bold text-gray-800 mt-1">
+        <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">{data.subtitle}</p>
+        <h3 className="text-md font-bold text-gray-800 dark:text-gray-100 mt-1">
           {allValuesZero ? 0 : data.count}
         </h3>
       </div>

@@ -2,7 +2,7 @@ import React from "react";
 
 const SectionHeading = ({ text }) => {
   return (
-    <div className="inline-block bg-violet-100 text-violet-800 px-3 py-1 rounded-md font-semibold text-sm mb-4">
+    <div className="inline-block bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300 px-3 py-1 rounded-md font-semibold text-sm mb-4">
       {text.toUpperCase()}
     </div>
   );
