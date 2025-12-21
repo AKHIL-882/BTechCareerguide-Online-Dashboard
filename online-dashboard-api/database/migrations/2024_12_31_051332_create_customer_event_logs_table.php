@@ -11,15 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('customer_event_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('email');
-            $table->json('action')->nullable();
-            $table->string('status')->nullable();
-            // $table->text('error_message')->nullable() ;
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('customer_event_logs')) {
+            Schema::create('customer_event_logs', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('user_id')
+                    ->constrained('users')
+                    ->cascadeOnDelete();
+
+                $table->string('email', 191);
+                $table->longText('action')->nullable();
+                $table->string('status', 191)->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
