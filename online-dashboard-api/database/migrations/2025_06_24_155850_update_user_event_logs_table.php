@@ -6,86 +6,71 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        if (!Schema::hasTable('user_event_logs')) {
-            return;
-        }
-
         Schema::table('user_event_logs', function (Blueprint $table) {
 
-            // Drop old columns safely
-            foreach (['email', 'action', 'status'] as $column) {
-                if (Schema::hasColumn('user_event_logs', $column)) {
-                    $table->dropColumn($column);
-                }
-            }
+            /*
+             |------------------------------------------------------------
+             | Remove old columns
+             |------------------------------------------------------------
+             | IMPORTANT:
+             | These columns MUST exist before running this migration.
+             | If this migration already failed once, rollback first.
+             */
+            $table->dropColumn('email');
+            $table->dropColumn('action');
+            $table->dropColumn('status');
+            $table->dropTimestamps();
 
-            // Drop timestamps if they exist
-            if (
-                Schema::hasColumn('user_event_logs', 'created_at') &&
-                Schema::hasColumn('user_event_logs', 'updated_at')
-            ) {
-                $table->dropTimestamps();
-            }
+            /*
+             |------------------------------------------------------------
+             | Add new columns
+             |------------------------------------------------------------
+             */
+            $table->string('category', 191)->nullable();
+            $table->string('event_type', 191)->nullable();
+            $table->longText('data')->nullable(); // JSON stored as text (MySQL-safe)
+            $table->string('updated_by_name', 191)->nullable();
 
-            // Add new columns
-            if (!Schema::hasColumn('user_event_logs', 'category')) {
-                $table->string('category', 191)->nullable();
-            }
-
-            if (!Schema::hasColumn('user_event_logs', 'event_type')) {
-                $table->string('event_type', 191)->nullable();
-            }
-
-            if (!Schema::hasColumn('user_event_logs', 'data')) {
-                $table->longText('data')->nullable(); // ✅ JSON-safe replacement
-            }
-
-            if (!Schema::hasColumn('user_event_logs', 'updated_by_name')) {
-                $table->string('updated_by_name', 191)->nullable();
-            }
-
-            // Re-add timestamps
+            /*
+             |------------------------------------------------------------
+             | Re-add timestamps
+             |------------------------------------------------------------
+             */
             $table->timestamps();
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        if (!Schema::hasTable('user_event_logs')) {
-            return;
-        }
-
         Schema::table('user_event_logs', function (Blueprint $table) {
 
-            // Drop new columns safely
-            foreach (['category', 'event_type', 'data', 'updated_by_name'] as $column) {
-                if (Schema::hasColumn('user_event_logs', $column)) {
-                    $table->dropColumn($column);
-                }
-            }
+            /*
+             |------------------------------------------------------------
+             | Remove new columns
+             |------------------------------------------------------------
+             */
+            $table->dropColumn('category');
+            $table->dropColumn('event_type');
+            $table->dropColumn('data');
+            $table->dropColumn('updated_by_name');
+            $table->dropTimestamps();
 
-            // Drop timestamps
-            if (
-                Schema::hasColumn('user_event_logs', 'created_at') &&
-                Schema::hasColumn('user_event_logs', 'updated_at')
-            ) {
-                $table->dropTimestamps();
-            }
-
-            // Restore old columns
-            if (!Schema::hasColumn('user_event_logs', 'email')) {
-                $table->string('email', 191)->nullable();
-            }
-
-            if (!Schema::hasColumn('user_event_logs', 'action')) {
-                $table->longText('action')->nullable(); // was json → longText
-            }
-
-            if (!Schema::hasColumn('user_event_logs', 'status')) {
-                $table->string('status', 191)->nullable();
-            }
+            /*
+             |------------------------------------------------------------
+             | Restore old columns
+             |------------------------------------------------------------
+             */
+            $table->string('email', 191)->nullable();
+            $table->longText('action')->nullable(); // was json earlier
+            $table->string('status', 191)->nullable();
 
             $table->timestamps();
         });
