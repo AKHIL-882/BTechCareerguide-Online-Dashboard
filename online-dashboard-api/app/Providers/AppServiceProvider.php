@@ -2,9 +2,10 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         Passport::tokensExpireIn(now()->addMinutes(1440));
         Passport::refreshTokensExpireIn(now()->addMinutes(1440));
         $this->getGoogleDriveStorage();
+        Schema::defaultStringLength(191);
     }
 
     public function getGoogleDriveStorage()
