@@ -95,7 +95,9 @@ class AuthenticationController extends Controller
             return response()->json(['error' => 'OAuth password client not configured. Run `php artisan passport:client --password` and add PASSPORT_PASSWORD_CLIENT_ID & _SECRET to .env'], 500);
         }
 
-
+        info('Issuing token for user: ' . $username);
+        info($clientId);
+        info($clientSecret);
         // Build form parameters similar to an HTTP POST to /oauth/token
         $params = [
             'grant_type' => 'password',
@@ -134,7 +136,7 @@ class AuthenticationController extends Controller
         // $psrResponse is a Psr\Http\Message\ResponseInterface — convert to Laravel response
         $status = $psrResponse->getStatusCode();
         $body = (string) $psrResponse->getBody();
-
+        info($body);
 
         // it's JSON already
         return response($body, $status)->header('Content-Type', 'application/json');
