@@ -8,6 +8,7 @@ import ProjectForm from "./ProjectForm";
 import PaymentForm from "./PaymentForm";
 import ProjectTable from "./ProjectTable";
 import ProjectCards from "./ProjectCards";
+import { API_BASE_URL } from "../../api/apiConfig";
 
 const STATUS_MAP = {
   0: "Accepted",
@@ -63,16 +64,12 @@ const ProjectHome = ({ handleLogout }) => {
         alert("No token found. Please log in again.");
         return;
       }
-      await axios.post(
-        "http://127.0.0.1:8000/api/user-projects/create",
-        formPayload,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${accessToken}`,
-          },
+      await axios.post(`${API_BASE_URL}/user-projects/create`, formPayload, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
+      });
       alert("Project request submitted successfully!");
       setShowForm(false);
       setShowProjects(true);
@@ -101,14 +98,11 @@ const ProjectHome = ({ handleLogout }) => {
         alert("No token found. Please log in again.");
         return;
       }
-      const response = await axios.get(
-        "http://127.0.0.1:8000/api/user-projects",
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+      const response = await axios.get(`${API_BASE_URL}/user-projects`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         },
-      );
+      });
       setProjects(response.data.data);
     } catch (error) {
       localStorage.clear();

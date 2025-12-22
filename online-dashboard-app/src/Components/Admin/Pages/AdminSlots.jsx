@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_BASE_URL } from "../../../api/apiConfig";
 
 const AdminSlots = () => {
   const [bookings, setBookings] = useState([]);
@@ -9,7 +10,7 @@ const AdminSlots = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/api/admin/bookings", {
+      .get(`${API_BASE_URL}/admin/bookings`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       })
       .then((response) => {
@@ -21,7 +22,7 @@ const AdminSlots = () => {
   const handleAction = async (id, status) => {
     try {
       await axios.put(
-        `http://127.0.0.1:8000/api/admin/bookings/${id}/update-status`,
+        `${API_BASE_URL}/admin/bookings/${id}/update-status`,
         { status },
         {
           headers: { Authorization: `Bearer ${accessToken}` },

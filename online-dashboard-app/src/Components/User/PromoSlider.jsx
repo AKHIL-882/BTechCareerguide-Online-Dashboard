@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import ShimmerPromo from "./ShimmerPromo";
+import { API_BASE_URL } from "../../api/apiConfig";
 
 // 🔹 Utility to extract video ID from YouTube link
 const getYouTubeId = (url) => {
@@ -34,7 +35,7 @@ const PromoSlider = () => {
           return;
         }
 
-        const res = await axios.get("http://127.0.0.1:8000/api/slides", {
+        const res = await axios.get(`${API_BASE_URL}/slides`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

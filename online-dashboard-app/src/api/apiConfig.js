@@ -1,6 +1,10 @@
 import axios from "axios";
 
-export const API_BASE_URL = "http://127.0.0.1:8000/api";
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, "") ||
+  "http://127.0.0.1:8000";
+
+export const API_BASE_URL = `${BACKEND_URL}/api`;
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,

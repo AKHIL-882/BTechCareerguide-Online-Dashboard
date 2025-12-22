@@ -1,4 +1,4 @@
-import { get, post, put, del } from "./apiConfig";
+import { get, post, put, del, API_BASE_URL } from "./apiConfig";
 
 // Fetch projects
 export const fetchProjectsApi = (accessToken) =>
@@ -67,7 +67,6 @@ export const updateProjectStatusApi = (projectId, newStatus, accessToken) =>
 
 import axios from "axios";
 
-const API_BASE_URL = "http://127.0.0.1:8000/api";
 export const paymentInitiator = async (accessToken) => {
   return axios.post(
     `${API_BASE_URL}/create-order`,

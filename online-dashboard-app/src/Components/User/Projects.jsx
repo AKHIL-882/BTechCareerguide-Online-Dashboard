@@ -5,6 +5,7 @@ import { FaYoutube, FaCode, FaSearch, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import SectionHeading from "./SectionHeading";
 import YouTubePopupPlayer from "./YouTubePopupPlayer";
+import { API_BASE_URL } from "../../api/apiConfig";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
@@ -21,7 +22,7 @@ const Projects = ({ isDashBoard }) => {
         const data = JSON.parse(localStorage.getItem("data"));
         const accessToken = data ? data.access_token : null;
 
-        const response = await fetch("http://127.0.0.1:8000/api/admin-projects", {
+        const response = await fetch(`${API_BASE_URL}/admin-projects`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
