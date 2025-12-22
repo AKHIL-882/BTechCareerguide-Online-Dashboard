@@ -116,7 +116,7 @@ return [
 
     'password_timeout' => env('AUTH_PASSWORD_TIMEOUT', 10800),
 
-    'oauth_token_uri' => 'http://127.0.0.1:8000/oauth/token',
+    'oauth_token_uri' => env('OAUTH_TOKEN_URI'),
 
     'reset_password_expiry_time_limit' => 5,
 
