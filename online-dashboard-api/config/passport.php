@@ -73,8 +73,8 @@ return [
     ],
 
     'password_client' => [
-        'id' => env('PASSWORD_GRANT_CLIENT_ID'),
-        'secret' => env('PASSWORD_GRANT_CLIENT_SECRET'),
+        'id' => env('PASSPORT_PASSWORD_CLIENT_ID'),
+        'secret' => env('PASSPORT_PASSWORD_CLIENT_SECRET'),
     ],
 
 ];
