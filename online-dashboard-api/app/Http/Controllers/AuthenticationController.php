@@ -87,12 +87,12 @@ class AuthenticationController extends Controller
     protected function issueToken(string $username, string $password)
     {
         // Pull client id/secret from env
-        $clientId = env('PASSPORT_PASSWORD_CLIENT_ID');
-        $clientSecret = env('PASSPORT_PASSWORD_CLIENT_SECRET');
+        $clientId = env('PASSWORD_GRANT_CLIENT_ID');
+        $clientSecret = env('PASSWORD_GRANT_CLIENT_SECRET');
 
 
         if (!$clientId || !$clientSecret) {
-            return response()->json(['error' => 'OAuth password client not configured. Run `php artisan passport:client --password` and add PASSPORT_PASSWORD_CLIENT_ID & _SECRET to .env'], 500);
+            return response()->json(['error' => 'OAuth password client not configured. Run `php artisan passport:client --password` and add PASSWORD_GRANT_CLIENT_ID & PASSWORD_GRANT_CLIENT_SECRET to .env'], 500);
         }
 
         info('Issuing token for user: ' . $username);
@@ -133,7 +133,7 @@ class AuthenticationController extends Controller
         $psrResponse = $accessTokenController->issueToken($serverRequest);
 
 
-        // $psrResponse is a Psr\Http\Message\ResponseInterface â€” convert to Laravel response
+        // $psrResponse is a Psr\Http\Message\ResponseInterface — convert to Laravel response
         $status = $psrResponse->getStatusCode();
         $body = (string) $psrResponse->getBody();
         info($body);
@@ -154,8 +154,8 @@ class AuthenticationController extends Controller
         }
 
 
-        $clientId = env('PASSPORT_PASSWORD_CLIENT_ID');
-        $clientSecret = env('PASSPORT_PASSWORD_CLIENT_SECRET');
+        $clientId = env('PASSWORD_GRANT_CLIENT_ID');
+        $clientSecret = env('PASSWORD_GRANT_CLIENT_SECRET');
 
 
         $params = [
@@ -220,3 +220,5 @@ class AuthenticationController extends Controller
         return response()->json(['message' => 'Logged out successfully']);
     }
 }
+
+
