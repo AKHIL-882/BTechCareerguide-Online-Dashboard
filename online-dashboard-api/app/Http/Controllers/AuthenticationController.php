@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Laravel\Passport\RefreshTokenRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -35,7 +36,7 @@ class AuthenticationController extends Controller
 
             // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-            info($tokenData);
+            Log::info($tokenData);
             // check if token generation failed
             if (! $tokenData) {
                 // delete the user if token generation fails

@@ -1,7 +1,8 @@
 <?php
 
-use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Illuminate\Support\Facades\Log;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use Laravel\Passport\Http\Controllers\AccessTokenController;
 
 if (! function_exists('generateAccessToken')) {
 
@@ -49,13 +50,12 @@ if (! function_exists('generateAccessToken')) {
         try {
 
             $responseContent = makePsr17Request($user, $password);
-
+            Log::info('Response Content: ' . $responseContent);
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
-
+            Log::info('Token Data: ' . json_encode($tokenData));
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
-
         } catch (Throwable $e) {
             // deleteuser when tokengeneration fails
             $user->delete();
@@ -93,7 +93,6 @@ if (! function_exists('generateAccessToken')) {
         $responseContent = $response->getContent();
 
         return $responseContent;
-
     }
 
     /**
@@ -114,7 +113,6 @@ if (! function_exists('generateAccessToken')) {
 
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
-
         } catch (Throwable $e) {
 
             return null; // in case of exception
