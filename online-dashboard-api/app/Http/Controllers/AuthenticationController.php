@@ -21,7 +21,7 @@ use Throwable;
 
 class AuthenticationController extends Controller
 {
-    public function signUp(SignupRequest $request): JsonResponse
+    public function signUp(Request $request): JsonResponse
     {
         try {
 
