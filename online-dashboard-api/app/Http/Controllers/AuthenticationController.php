@@ -29,13 +29,13 @@ class AuthenticationController extends Controller
                 'email' => $request->email,
                 'password' => $request->password,
             ];
-            info('Signup Data: ', $data);
+
             // creating a new user
             $user = User::createUser($data);
 
             // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-            info('Token Data: ', $tokenData);
+
             // check if token generation failed
             if (! $tokenData) {
                 // delete the user if token generation fails
