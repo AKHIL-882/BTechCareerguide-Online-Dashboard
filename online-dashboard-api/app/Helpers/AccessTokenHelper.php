@@ -16,6 +16,13 @@ if (! function_exists('generateAccessToken')) {
 
         $oauth_token_uri = config('auth.oauth_token_uri');
 
+        Log::error('Passport client config', [
+            'id' => config('passport.password_client.id'),
+            'secret' => config('passport.password_client.secret'),
+            'uri' => $oauth_token_uri,
+        ]);
+
+
         // Create a ServerRequestInterface instance with required parameters
         $serverRequest = $psr17Factory->createServerRequest(
             'POST',
@@ -73,12 +80,6 @@ if (! function_exists('generateAccessToken')) {
         $psr17Factory = new Psr17Factory;
 
         $oauth_token_uri = config('auth.oauth_token_uri');
-
-        Log::error('Passport client config', [
-            'id' => config('passport.password_client.id'),
-            'secret' => config('passport.password_client.secret'),
-            'uri' => $oauth_token_uri,
-        ]);
 
         // Create a ServerRequestInterface instance with the refresh token request
         $serverRequest = $psr17Factory->createServerRequest(
