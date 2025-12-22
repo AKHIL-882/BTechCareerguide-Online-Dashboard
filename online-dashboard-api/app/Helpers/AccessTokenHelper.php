@@ -37,9 +37,7 @@ if (! function_exists('generateAccessToken')) {
         ]);
 
         // Handle the token request and get the response
-        $psr17Factory = new Psr17Factory;
-        $responseObj = $psr17Factory->createResponse();
-        $response = $accessTokenController->issueToken($serverRequest, $responseObj);
+        $response = $accessTokenController->issueToken($serverRequest);
         $responseContent = $response->getContent();
 
         return $responseContent;
