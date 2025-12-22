@@ -16,7 +16,7 @@ if (! function_exists('generateAccessToken')) {
 
         $oauth_token_uri = config('auth.oauth_token_uri');
 
-        Log::error('Passport client config', [
+        Log::info('Passport client config', [
             'id' => config('passport.password_client.id'),
             'secret' => config('passport.password_client.secret'),
             'uri' => $oauth_token_uri,

@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
 
             // creating a new user
             $user = User::createUser($data);
-
+            Log::info('User created: ' . $user->id);
             // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
             Log::info($tokenData);
