@@ -35,7 +35,7 @@ class AuthenticationController extends Controller
 
             // generate access token using helper function
             $tokenData = generateAccessToken($user, $request->password);
-            dd($tokenData);
+            info($tokenData);
             // check if token generation failed
             if (! $tokenData) {
                 // delete the user if token generation fails
