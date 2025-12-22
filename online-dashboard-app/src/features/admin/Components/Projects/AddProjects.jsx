@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import InputField from "../DashBoard/InputField";
 import { useCreateProject } from "../../../../hooks/useProject.js";
-import Spinner from "../Spinner";
+import Spinner from "@/shared/components/atoms/Spinner";
 
 const AddProjects = ({ addProject }) => {
   const [formData, setFormData] = useState({

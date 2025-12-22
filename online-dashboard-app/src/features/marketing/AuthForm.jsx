@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaCheck, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
-import Spinner from "../Admin/Components/Spinner";
+import Spinner from "@/shared/components/atoms/Spinner";
 import FadeInStagger from "./FadeInStagger";
 import SendResetCodeForm from "./SendResetCodeForm";
 

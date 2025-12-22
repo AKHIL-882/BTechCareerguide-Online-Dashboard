@@ -1,7 +1,7 @@
 import React from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import { MdFeedback, MdDarkMode } from "react-icons/md";
-import { useTheme } from "../ThemeContext";
+import { useTheme } from "@/shared/context/ThemeContext";
 
 const ProfileDropdown = ({
   onViewProfile,

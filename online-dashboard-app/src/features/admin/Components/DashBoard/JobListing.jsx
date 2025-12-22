@@ -5,7 +5,7 @@ import Pagination from "./Pagination";
 import EditJobPopup from "./EditJobPopup"; // Import EditJobPopup component
 import DeleteJobPopup from "./DeleteJobPopup"; // Import DeleteJobPopup component
 import { useSaveJob, useDeleteJob } from "../../../../hooks/useJob.js";
-import Spinner from "../Spinner";
+import Spinner from "@/shared/components/atoms/Spinner";
 
 const JobListing = ({ jobListings, setJobListings, loading, error }) => {
   const [currentPage, setCurrentPage] = useState(1);

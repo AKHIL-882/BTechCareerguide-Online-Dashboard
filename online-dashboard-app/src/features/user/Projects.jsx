@@ -1,54 +1,51 @@
 import React, { useEffect, useState } from "react";
-import ShimmerProjects from "./ShimmerProjects";
-import SearchProjects from "./SearchProjects";
+import { useQuery } from "@tanstack/react-query";
 import { FaYoutube, FaCode, FaSearch, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import ShimmerProjects from "./ShimmerProjects";
+import SearchProjects from "./SearchProjects";
 import SectionHeading from "./SectionHeading";
 import YouTubePopupPlayer from "./YouTubePopupPlayer";
-import { API_BASE_URL } from "../../api/apiConfig";
+import { fetchAdminProjectsList } from "@/api/projectApi";
 
 const Projects = ({ isDashBoard }) => {
   const [projects, setProjects] = useState([]);
   const [noSearchedProjects, setNoSearchedProjects] = useState([]);
   const [isEmptySearch, setIsEmptySearch] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Fetch projects from the API
-    const fetchProjects = async () => {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["admin-projects"],
+    queryFn: async () => {
+      const localData = localStorage.getItem("data");
+      const accessToken = localData ? JSON.parse(localData)?.access_token : null;
+      if (!accessToken) {
+        navigate("/");
+        throw new Error("Missing access token");
+      }
       try {
-        const data = JSON.parse(localStorage.getItem("data"));
-        const accessToken = data ? data.access_token : null;
-
-        const response = await fetch(`${API_BASE_URL}/admin-projects`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-
-        if (!response.ok) {
+        const response = await fetchAdminProjectsList(accessToken);
+        return response.data;
+      } catch (err) {
+        if (err.response?.status === 401) {
           localStorage.clear();
           navigate("/");
         }
-
-        const responseData = await response.json();
-        isDashBoard
-          ? setProjects(responseData.data.slice(0, 3))
-          : (setProjects(responseData.data), setNoSearchedProjects(responseData.data));
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+        throw err;
       }
-    };
+    },
+  });
 
-    fetchProjects();
-  }, [isDashBoard, navigate]);
+  useEffect(() => {
+    if (!data?.data) return;
+    const incoming = Array.isArray(data.data) ? data.data : [];
+    const sliced = isDashBoard ? incoming.slice(0, 3) : incoming;
+    setProjects(sliced);
+    setNoSearchedProjects(incoming);
+  }, [data, isDashBoard]);
 
   if (error) {
-    return <p>Error fetching projects: {error}</p>;
+    return <p>Error fetching projects: {error.message}</p>;
   }
 
   // ✅ Safe YouTube ID extractor
@@ -81,7 +78,7 @@ const Projects = ({ isDashBoard }) => {
         </div>
       )}
 
-      {loading ? (
+      {isLoading ? (
         <ShimmerProjects isDashBoard={isDashBoard} count={3} />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">

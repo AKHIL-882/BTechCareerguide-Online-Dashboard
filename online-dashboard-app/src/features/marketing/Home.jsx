@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { useSignup } from "../../hooks/useAuth";
-import { useLogin } from "../../hooks/useAuth";
+import { useSignup, useLogin } from "@/hooks/useAuth";
 import OfferingSection from "./OfferingSection";
 import Testimonials from "./Testimonials";
-import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
+import ScrollToTopButton from "@/shared/components/molecules/ScrollToTopButton";
 import StatsSection from "./StatsSection";
 import Footer from "./Footer";
 import { validate } from "./Validation";
@@ -14,7 +13,7 @@ import CopyRightFooter from "./CopyRightFooter";
 import HomepageJobs from "./HomepageJobs";
 import AboutUsSection from "./AboutUsSection";
 import Faq from "./Faq";
-import { useHomeData } from "../../Api";
+import { useHomeData } from "@/Api";
 import { ToastContainer } from "react-toastify";
 
 const HomePage = () => {

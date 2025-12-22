@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import InputField from "./InputField";
 import DropDownCheckBox from "./DropDownCheckBox";
 import { useCreateJob } from "../../../../hooks/useJob.js";
-import Spinner from "../Spinner";
+import Spinner from "@/shared/components/atoms/Spinner";
 
 const AddJobForm = ({ addJob }) => {
   const [formData, setFormData] = useState({

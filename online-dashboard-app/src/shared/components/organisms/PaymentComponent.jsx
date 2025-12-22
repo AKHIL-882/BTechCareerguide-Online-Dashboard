@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { paymentInitiator } from "../api/projectApi";
+import { paymentInitiator } from "@/api/projectApi";
 
 const PaymentComponent = () => {
   useEffect(() => {

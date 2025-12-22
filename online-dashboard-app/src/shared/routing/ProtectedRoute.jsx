@@ -1,9 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { AuthContext } from "./AuthContext";
 
 const ProtectedRoute = ({ children, allowedRole }) => {
-  const { auth } = useContext(AuthContext);
   const location = useLocation();
 
   const storedAuth = JSON.parse(localStorage.getItem("data") || "{}");

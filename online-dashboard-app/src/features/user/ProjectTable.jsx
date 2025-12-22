@@ -1,5 +1,5 @@
 import React from "react";
-import PaymentComponent from "../PaymentComponent.jsx";
+import PaymentComponent from "@/shared/components/organisms/PaymentComponent.jsx";
 import SectionHeading from "./SectionHeading.jsx";
 
 // The same STATUS_MAP you use in main file (import if you have it centralized)

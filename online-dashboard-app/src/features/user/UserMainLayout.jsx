@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import Footer from "../Admin/Components/Footer";
+import Footer from "@/shared/components/organisms/Footer";
 import Sidebar from "./Sidebar";
-import ScrollToTopButton from "../Admin/Components/ScrollToTopButton";
+import ScrollToTopButton from "@/shared/components/molecules/ScrollToTopButton";
 import { ToastContainer } from "react-toastify";
 // import GithubCheckWrapper from "../../wrappers/GithubCheckWrapper";
 import Header from "./Header";
-import { logoutUser } from "../../hooks/useAuth";
+import { logoutUser } from "@/hooks/useAuth";
 
 const UserMainLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);

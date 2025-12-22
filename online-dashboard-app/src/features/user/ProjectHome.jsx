@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
 import { FaProjectDiagram, FaList, FaMoneyCheckAlt } from "react-icons/fa";
 import axios from "axios";
-import PaymentComponent from "../PaymentComponent.jsx";
+import PaymentComponent from "@/shared/components/organisms/PaymentComponent.jsx";
 import SectionHeading from "./SectionHeading.jsx";
 import ProjectForm from "./ProjectForm";
 import PaymentForm from "./PaymentForm";

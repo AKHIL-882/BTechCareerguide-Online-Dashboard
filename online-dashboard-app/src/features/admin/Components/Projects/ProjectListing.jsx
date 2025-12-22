@@ -8,7 +8,7 @@ import {
   useSaveProject,
   useDeleteProject,
 } from "../../../../hooks/useProject.js";
-import Spinner from "../Spinner";
+import Spinner from "@/shared/components/atoms/Spinner";
 
 const ProjectListing = ({
   projectsListings,

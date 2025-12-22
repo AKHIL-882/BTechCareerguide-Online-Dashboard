@@ -1,5 +1,5 @@
 import React from "react";
-import PaymentComponent from "../PaymentComponent.jsx";
+import PaymentComponent from "@/shared/components/organisms/PaymentComponent.jsx";
 
 // Use the same STATUS_MAP as above
 
