@@ -8,12 +8,13 @@ if (! function_exists('generateAccessToken')) {
 
     function makePsr17Request($user, $password): bool|string
     {
+        info("Making PSR-17 request for user: " . $user->email);
         // Create an instance of AccessTokenController to handle the request
         $accessTokenController = app(AccessTokenController::class);
         info("AccessTokenController instance created");
         // Create a Psr17Factory instance to generate PSR-7 compatible request
         $psr17Factory = new Psr17Factory;
-
+        info("Psr17Factory instance created");
         $oauth_token_uri = config('auth.oauth_token_uri');
         info("OAuth Token URI: " . $oauth_token_uri);
         info('Passport client config', [
@@ -60,6 +61,7 @@ if (! function_exists('generateAccessToken')) {
      */
     function generateAccessToken($user, $password): mixed
     {
+        info("Starting token generation for user: " . $user->email);
         try {
             info("Generating access token for user: " . $user->email);
             $responseContent = makePsr17Request($user, $password);
