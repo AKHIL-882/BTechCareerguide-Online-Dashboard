@@ -37,7 +37,15 @@ if (! function_exists('generateAccessToken')) {
         ]);
         info("Server request created with body: " . json_encode($serverRequest->getParsedBody()));
         // Handle the token request and get the response
-        $response = $accessTokenController->issueToken($serverRequest);
+        try {
+            $response = $accessTokenController->issueToken($serverRequest);
+        } catch (\Throwable $e) {
+            info('issueToken exception', [
+                'message' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+            throw $e;
+        }
         $responseContent = $response->getContent();
         info("Token response content: " . $responseContent);
         return $responseContent;
