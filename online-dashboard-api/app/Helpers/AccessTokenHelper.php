@@ -16,7 +16,7 @@ if (! function_exists('generateAccessToken')) {
 
         $oauth_token_uri = config('auth.oauth_token_uri');
         info("OAuth Token URI: " . $oauth_token_uri);
-        Log::info('Passport client config', [
+        info('Passport client config', [
             'id' => config('passport.password_client.id'),
             'secret' => config('passport.password_client.secret'),
             'uri' => $oauth_token_uri,
@@ -39,7 +39,7 @@ if (! function_exists('generateAccessToken')) {
         // Handle the token request and get the response
         $response = $accessTokenController->issueToken($serverRequest);
         $responseContent = $response->getContent();
-
+        info("Token response content: " . $responseContent);
         return $responseContent;
     }
 
@@ -55,10 +55,10 @@ if (! function_exists('generateAccessToken')) {
         try {
             info("Generating access token for user: " . $user->email);
             $responseContent = makePsr17Request($user, $password);
-            Log::info('Response Content: ' . $responseContent);
+            info('Response Content: ' . $responseContent);
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
-            Log::info('Token Data: ' . json_encode($tokenData));
+            info('Token Data: ' . json_encode($tokenData));
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
         } catch (Throwable $e) {
