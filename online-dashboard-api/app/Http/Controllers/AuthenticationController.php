@@ -22,7 +22,6 @@ class AuthenticationController extends Controller
 {
     public function signUp(SignupRequest $request): JsonResponse
     {
-
         try {
 
             $data = [
@@ -31,40 +30,41 @@ class AuthenticationController extends Controller
                 'password' => $request->password,
             ];
 
-            // creating a new user
+            // Create user
             $user = User::createUser($data);
 
-            // generate access token using helper function
+            // Generate Passport access token
             $tokenData = generateAccessToken($user, $request->password);
-            info($tokenData);
-            // check if token generation failed
-            if (! $tokenData) {
-                // delete the user if token generation fails
+
+            // If token generation fails, rollback user
+            if (! $tokenData || empty($tokenData['access_token'])) {
                 $user->delete();
 
                 return ApiResponse::setMessage('Token generation failed')
                     ->response(Response::HTTP_BAD_REQUEST);
             }
 
-            Auth::login($user);
-
-            // Start a session manually
-            if (! Session::isStarted()) {
-                Session::start();
-            }
-            $tokenData['user_email'] = $user->email;
-
             return ApiResponse::setMessage('Account Created Successfully')
-                ->mergeResults($tokenData)
+                ->mergeResults([
+                    'access_token'  => $tokenData['access_token'],
+                    'refresh_token' => $tokenData['refresh_token'] ?? null,
+                    'expires_in'    => $tokenData['expires_in'],
+                    'token_type'    => $tokenData['token_type'],
+                    'user_email'    => $user->email,
+                ])
                 ->response(Response::HTTP_CREATED);
-
         } catch (Throwable $e) {
 
-            return ApiResponse::setMessage($e->getMessage())
+            info('Signup error', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+
+            return ApiResponse::setMessage('Signup failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
+
 
     public function login(LoginRequest $request): JsonResponse
     {
@@ -105,7 +105,6 @@ class AuthenticationController extends Controller
             return ApiResponse::setMessage('Successfully logged in')
                 ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
                 ->response(Response::HTTP_OK);
-
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage())
                 ->response(Response::HTTP_BAD_REQUEST);
@@ -136,12 +135,10 @@ class AuthenticationController extends Controller
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
-
         } else {
             return ApiResponse::setMessage('No active access token found for the user')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 
     public function refreshAccessToken(RefreshRequest $request)
@@ -156,11 +153,9 @@ class AuthenticationController extends Controller
             return ApiResponse::setMessage('Tokens Successfully created!')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_OK);
-
         } catch (Throwable $e) {
             return ApiResponse::setMessage('The refresh token is invalid or expired')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
-
     }
 }
