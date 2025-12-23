@@ -53,7 +53,7 @@ if (! function_exists('generateAccessToken')) {
     function generateAccessToken($user, $password): mixed
     {
         try {
-
+            info("Generating access token for user: " . $user->email);
             $responseContent = makePsr17Request($user, $password);
             Log::info('Response Content: ' . $responseContent);
             // Decode response into an array
