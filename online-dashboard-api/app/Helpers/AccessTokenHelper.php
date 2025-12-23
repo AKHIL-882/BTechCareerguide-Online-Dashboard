@@ -10,12 +10,12 @@ if (! function_exists('generateAccessToken')) {
     {
         // Create an instance of AccessTokenController to handle the request
         $accessTokenController = app(AccessTokenController::class);
-
+        info("AccessTokenController instance created");
         // Create a Psr17Factory instance to generate PSR-7 compatible request
         $psr17Factory = new Psr17Factory;
 
         $oauth_token_uri = config('auth.oauth_token_uri');
-
+        info("OAuth Token URI: " . $oauth_token_uri);
         Log::info('Passport client config', [
             'id' => config('passport.password_client.id'),
             'secret' => config('passport.password_client.secret'),
@@ -35,7 +35,7 @@ if (! function_exists('generateAccessToken')) {
             'password' => $password,
             'scope' => '',
         ]);
-
+        info("Server request created with body: " . json_encode($serverRequest->getParsedBody()));
         // Handle the token request and get the response
         $response = $accessTokenController->issueToken($serverRequest);
         $responseContent = $response->getContent();
@@ -64,7 +64,7 @@ if (! function_exists('generateAccessToken')) {
         } catch (Throwable $e) {
             // deleteuser when tokengeneration fails
             $user->delete();
-
+            info("Token generation failed for user: " . $user->email . " with error: " . $e->getMessage());
             return null; // in case of exception
         }
     }
