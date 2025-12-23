@@ -59,23 +59,33 @@ if (! function_exists('generateAccessToken')) {
      * @param  string  $password
      * @return array|null
      */
-    function generateAccessToken($user, $password): mixed
+    function generateAccessToken($user, $password)
     {
-        info("Starting token generation for user: " . $user->email);
         try {
-            info("Generating access token for user: " . $user->email);
-            $responseContent = makePsr17Request($user, $password);
-            info('Response Content: ' . $responseContent);
-            // Decode response into an array
-            $tokenData = json_decode($responseContent, true);
-            info('Token Data: ' . json_encode($tokenData));
-            // Return token data or null if an error occurred
-            return isset($tokenData['error']) ? null : $tokenData;
-        } catch (Throwable $e) {
-            // deleteuser when tokengeneration fails
-            $user->delete();
-            info("Token generation failed for user: " . $user->email . " with error: " . $e->getMessage());
-            return null; // in case of exception
+            $response = Http::asForm()->post(config('auth.oauth_token_uri'), [
+                'grant_type' => 'password',
+                'client_id' => config('passport.password_client.id'),
+                'client_secret' => config('passport.password_client.secret'),
+                'username' => $user->email,
+                'password' => $password,
+                'scope' => '',
+            ]);
+
+            info('OAuth response', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+
+            if (! $response->successful()) {
+                return false;
+            }
+
+            return $response->json();
+        } catch (\Throwable $e) {
+            info('Token request failed', [
+                'error' => $e->getMessage(),
+            ]);
+            return false;
         }
     }
 
