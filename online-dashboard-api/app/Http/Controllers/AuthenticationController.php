@@ -69,9 +69,10 @@ class AuthenticationController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-            $credentials = request(['email', 'password']);
 
-            // Validate the user
+            $credentials = $request->only('email', 'password');
+
+            // Validate user credentials
             $user = User::where('email', $credentials['email'])->first();
 
             if (! $user || ! Hash::check($credentials['password'], $user->password)) {
@@ -79,37 +80,45 @@ class AuthenticationController extends Controller
                     ->response(Response::HTTP_UNAUTHORIZED);
             }
 
-            // Generate access token using helper function
-            $tokenData = generateAccessToken($user, $request->password);
+            // Generate Passport access token
+            $tokenData = generateAccessToken($user, $credentials['password']);
 
-            // Checking if token generation failed
-            if (isset($tokenData['error'])) {
-                return ApiResponse::setMessage($tokenData['error'])
+            // Token generation failure
+            if (! $tokenData || empty($tokenData['access_token'])) {
+                return ApiResponse::setMessage('Token generation failed')
                     ->response(Response::HTTP_BAD_REQUEST);
             }
 
-            // Log in the user
-            Auth::login($user);
+            // Log login event (this is fine)
+            // UserEventLog::createLog(
+            //     UserEventLogType::getDescription(UserEventLogType::Login)
+            // );
 
-            // Start a session manually
-            if (! Session::isStarted()) {
-                Session::start();
-            }
+            // Fetch user roles
+            $roles = $user->roles->pluck('name');
 
-            UserEventLog::createLog(UserEventLogType::getDescription(UserEventLogType::Login));
-
-            // Fetch the user's roles
-            $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
-
-            // Success response if tokens are generated successfully
             return ApiResponse::setMessage('Successfully logged in')
-                ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
+                ->mergeResults([
+                    'access_token'  => $tokenData['access_token'],
+                    'refresh_token' => $tokenData['refresh_token'] ?? null,
+                    'expires_in'    => $tokenData['expires_in'],
+                    'token_type'    => $tokenData['token_type'],
+                    'roles'         => $roles->first(),
+                    'user_email'    => $user->email,
+                ])
                 ->response(Response::HTTP_OK);
         } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())
+
+            info('Login error', [
+                'message' => $e->getMessage(),
+                'trace'   => $e->getTraceAsString(),
+            ]);
+
+            return ApiResponse::setMessage('Login failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
+
 
     // Revoke the access token
     public function logout(Request $request)
