@@ -62,7 +62,7 @@ const FadeInStagger = ({
       variants={containerVariants(stagger)}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: false, amount: 0.2 }}
+      viewport={{ once, amount: 0.2 }}
     >
       {React.Children.map(children, (child, i) => (
         <motion.div key={i} variants={item}>

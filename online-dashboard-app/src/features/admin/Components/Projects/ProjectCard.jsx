@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const ProjectCard = ({ currentProjects, handleEdit, openDeletePopup }) => {

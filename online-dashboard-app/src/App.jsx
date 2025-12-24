@@ -15,7 +15,6 @@ import UserMainLayout from "@/features/user/UserMainLayout";
 import AdminMaterials from "@/features/admin/Pages/AdminMaterials";
 import CalendarBooking from "@/features/user/CalendarBooking";
 import AdminSlots from "@/features/admin/Pages/AdminSlots";
-import Testimonials from "@/features/marketing/Testimonials";
 import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
 

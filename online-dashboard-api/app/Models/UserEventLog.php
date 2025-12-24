@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Carbon\Carbon;
 
 /**
  * @property int $id
@@ -15,6 +15,7 @@ use Carbon\Carbon;
  * @property string|null $updated_by_name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog lastMonths(int $months = 3)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog newQuery()
@@ -29,6 +30,7 @@ use Carbon\Carbon;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUpdatedByName($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserEventLog whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class UserEventLog extends Model

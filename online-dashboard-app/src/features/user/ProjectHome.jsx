@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Projects from "./Projects.jsx";
-import { FaProjectDiagram, FaList, FaMoneyCheckAlt } from "react-icons/fa";
 import axios from "axios";
-import PaymentComponent from "@/shared/components/organisms/PaymentComponent.jsx";
-import SectionHeading from "./SectionHeading.jsx";
 import ProjectForm from "./ProjectForm";
-import PaymentForm from "./PaymentForm";
 import ProjectTable from "./ProjectTable";
 import ProjectCards from "./ProjectCards";
 import { API_BASE_URL } from "../../api/apiConfig";
 
-const STATUS_MAP = {
-  0: "Accepted",
-  1: "Pending",
-  2: "Building",
-  3: "Success",
-  4: "Rejected",
-  5: "Payment Success",
-  6: "Refund",
-  7: "Completed",
-};
-
-const ProjectHome = ({ handleLogout }) => {
+const ProjectHome = () => {
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [showProjects, setShowProjects] = useState(true);
-  const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [activeTab, setActiveTab] = useState("projects");
   const [formData, setFormData] = useState({
@@ -107,21 +91,15 @@ const ProjectHome = ({ handleLogout }) => {
     } catch (error) {
       localStorage.clear();
       alert("Session Expired! Re-Login Please");
+      console.error("Failed to fetch projects:", error);
     }
   };
 
   // Handlers for nav
-  const handleUploadPaymentClick = () => {
-    setShowPaymentForm(true);
-    setShowForm(false);
-    setShowProjects(false);
-  };
-
   const handleShowProjectsClick = () => {
     setActiveTab("projects");
     setShowProjects(true);
     setShowForm(false);
-    setShowPaymentForm(false);
     fetchProjects();
   };
 
@@ -129,7 +107,6 @@ const ProjectHome = ({ handleLogout }) => {
     setActiveTab("request");
     setShowForm(true);
     setShowProjects(false);
-    setShowPaymentForm(false);
   };
 
   return (

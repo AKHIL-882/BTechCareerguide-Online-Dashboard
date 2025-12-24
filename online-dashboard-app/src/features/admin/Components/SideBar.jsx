@@ -4,7 +4,6 @@ import {
   FaTasks,
   FaRegComments,
   FaTachometerAlt,
-  FaSubscript,
 } from "react-icons/fa";
 import Logo from "./Logo"; // Assuming you have a separate Logo component
 import { Link } from "react-router-dom"; // Importing Link from react-router-dom

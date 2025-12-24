@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Log;
-use Nyholm\Psr7\Factory\Psr17Factory;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
+use Nyholm\Psr7\Factory\Psr17Factory;
 
 if (! function_exists('generateAccessToken')) {
 
@@ -50,10 +50,11 @@ if (! function_exists('generateAccessToken')) {
         try {
 
             $responseContent = makePsr17Request($user, $password);
-            Log::info('Response Content: ' . $responseContent);
+            Log::info('Response Content: '.$responseContent);
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
-            Log::info('Token Data: ' . json_encode($tokenData));
+            Log::info('Token Data: '.json_encode($tokenData));
+
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
         } catch (Throwable $e) {

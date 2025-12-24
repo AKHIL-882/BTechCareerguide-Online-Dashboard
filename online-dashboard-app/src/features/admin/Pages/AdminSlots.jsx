@@ -36,7 +36,7 @@ const AdminSlots = () => {
             : booking,
         ),
       );
-    } catch (error) {
+    } catch {
       alert("Error updating status");
     }
   };

@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\JobOpportunityRequest;
 use App\Http\Requests\ReportJobRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\JobOpportunity;
+use App\Services\Contracts\JobServiceInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class JobOpportunityController extends Controller
 {
+    public function __construct(private readonly JobServiceInterface $jobs) {}
+
     /**
      * Display a listing of the resource.
      */
     public function index(): JsonResponse
     {
-        $jobsList = JobOpportunity::getAllJobs();
+        $jobsList = $this->jobs->list();
 
         return ApiResponse::setData($jobsList)->response(Response::HTTP_OK);
 
@@ -40,59 +42,25 @@ class JobOpportunityController extends Controller
             $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
         }
 
-        $jobOpportunity = JobOpportunity::createJob((object) $data);
+        $jobOpportunity = $this->jobs->create($data);
 
         return ApiResponse::setMessage('New job created successfully')
             ->mergeResults(['job_id' => $jobOpportunity->id])
             ->response(Response::HTTP_CREATED);
     }
 
-    public function parseJobs($entries)
-    {
-        $jobs = [];
-
-        foreach ($entries as $entry) {
-            $lines = explode("\n", trim($entry));
-            $job = [];
-
-            foreach ($lines as $line) {
-                if (preg_match('/^(.+?):\s*(.+)$/', $line, $matches)) {
-                    $key = strtolower(trim($matches[1]));
-                    $value = trim($matches[2]);
-
-                    foreach (config('standardjobkeys') as $standardKey => $synonyms) {
-                        if (in_array($key, $synonyms)) {
-                            $job[$standardKey] = $value;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (! empty($job)) {
-                $jobs[] = $job;
-            }
-        }
-
-        return $jobs;
-    }
-
     public function bulkInsert(Request $request)
     {
         $input = $request->input('jobs');
-        $entries = preg_split('/\n{2,}/', trim($input));
-        if (empty($entries)) {
+        if (empty($input)) {
             return ApiResponse::setMessage('No jobs found')->response(Response::HTTP_BAD_REQUEST);
         }
         try {
 
-            $jobs = self::parseJobs($entries);
-
-            foreach ($jobs as $data) {
-                JobOpportunity::create($data);
-            }
+            $jobs = $this->jobs->parseBulkJobs($input);
+            $this->jobs->bulkInsert($jobs);
         } catch (\Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())->response(Response::HTTP_BAD_REQUEST);
+            return ApiResponse::setMessage($e->getMessage() ?: 'Unable to bulk insert jobs')->response(Response::HTTP_BAD_REQUEST);
         }
 
         return ApiResponse::setMessage('Jobs created successfully')->response(Response::HTTP_OK);
@@ -103,7 +71,7 @@ class JobOpportunityController extends Controller
      */
     public function show(string $id): JsonResponse
     {
-        $job = JobOpportunity::showJob($id);
+        $job = $this->jobs->show((int) $id);
 
         return ApiResponse::setData($job)->response(Response::HTTP_OK);
     }
@@ -127,7 +95,7 @@ class JobOpportunityController extends Controller
             $data['company_logo'] = $request->file('company_logo')->store('company_logos', 'public');
         }
 
-        JobOpportunity::updateJob((object) $data, $id);
+        $this->jobs->update((int) $id, $data);
 
         return ApiResponse::setMessage('Job updated successfuly')->response(Response::HTTP_OK);
     }
@@ -137,30 +105,21 @@ class JobOpportunityController extends Controller
      */
     public function destroy(string $id)
     {
-        JobOpportunity::destroyJob($id);
+        $this->jobs->delete((int) $id);
 
         return ApiResponse::setMessage('Job deleted successfully')->response(Response::HTTP_OK);
     }
 
     public function getFilterJobs(Request $request)
     {
-        $filters = collect($request->only([
-            'branch', 'batch', 'degree', 'job_type', 'experience',
-        ]))->filter();
+        $filters = $request->only(['branch', 'batch', 'degree', 'job_type', 'experience']);
 
-        $jobs = JobOpportunity::query();
-
-        foreach ($filters as $key => $value) {
-            $jobs->when($value, fn ($q) => $q->where($key, 'LIKE', "%{$value}%"));
-        }
-
-        return ApiResponse::setData($jobs->get())->response(Response::HTTP_OK);
+        return ApiResponse::setData($this->jobs->filter($filters))->response(Response::HTTP_OK);
     }
 
     public function report(ReportJobRequest $request, $id)
     {
-        $job = JobOpportunity::findOrFail($id);
-        $job->reportJob($request->reason, $request->message);
+        $this->jobs->report((int) $id, $request->reason, $request->message);
 
         return ApiResponse::setMessage('Job reported successfully')->response(Response::HTTP_OK);
     }

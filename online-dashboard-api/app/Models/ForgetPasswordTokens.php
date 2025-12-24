@@ -19,6 +19,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens query()
@@ -29,6 +30,7 @@ use Symfony\Component\HttpFoundation\Response;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|ForgetPasswordTokens whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class ForgetPasswordTokens extends Model

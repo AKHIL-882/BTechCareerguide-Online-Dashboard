@@ -6,7 +6,6 @@ const SendResetCodeForm = ({ onBack, isError }) => {
   const [email, setEmail] = useState("");
   const {
     loading: sending,
-    error: sendError,
     sendResetCode,
   } = useSendResetCode();
 

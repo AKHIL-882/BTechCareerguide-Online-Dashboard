@@ -9,7 +9,6 @@ import "swiper/css/autoplay";
 import FadeInStagger from "./FadeInStagger";
 
 const male = "https://cdn-icons-png.flaticon.com/128/4140/4140039.png";
-const female = "https://cdn-icons-png.flaticon.com/128/4140/4140060.png";
 
 const Testimonials = ({ testimonials }) => {
   return (
@@ -17,15 +16,16 @@ const Testimonials = ({ testimonials }) => {
       <FadeInStagger direction="right" delay={0.1} duration={0.8} once={false}>
         <div className="text-center mb-8">
           <h1 className="text-3xl lg:text-4xl text-gray-800 font-sans pb-2">
-            Here's what{" "}
+            Here&apos;s what{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-green-500">
               our users
             </span>{" "}
             are saying about us{" "}
           </h1>
           <p className="text-gray-500 mt-1">
-            We’ve helped thousands of users improve their workflows. But don’t
-            just take our word for it — check out what they have to say!
+            We&apos;ve helped thousands of users improve their workflows. But
+            don&apos;t just take our word for it - check out what they have to
+            say!
           </p>
         </div>
       </FadeInStagger>
@@ -54,13 +54,17 @@ const Testimonials = ({ testimonials }) => {
             <SwiperSlide key={testimonial.id}>
               <div className="bg-gradient-to-tr from-violet-100 to-green-100 p-6 rounded-lg shadow-md max-w-lg mx-auto h-[200px] flex flex-col justify-between">
                 <p className="text-gray-700 italic mb-4 flex-grow text-sm sm:text-base font-sans">
-                  <span className="text-violet-800 text-2xl font-sans">"</span>
+                  <span className="text-violet-800 text-2xl font-sans">
+                    &quot;
+                  </span>
                   <span>
                     {testimonial.feedback.length > 90
                       ? testimonial.feedback.slice(0, 90) + "..."
                       : testimonial.feedback}
                   </span>
-                  <span className="text-violet-800 text-2xl font-sans">"</span>
+                  <span className="text-violet-800 text-2xl font-sans">
+                    &quot;
+                  </span>
                 </p>
                 <div className="flex items-center space-x-4">
                   <img

@@ -32,6 +32,7 @@ use Throwable;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Database\Factories\UserProjectFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject filterBySearch($searchItem)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newModelQuery()
@@ -52,6 +53,7 @@ use Throwable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereYoutubeVideoLink($value)
+ *
  * @mixin \Eloquent
  */
 class UserProject extends Project

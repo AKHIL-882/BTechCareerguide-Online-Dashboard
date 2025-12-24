@@ -27,7 +27,7 @@ const PaymentComponent = () => {
         name: "Venky App",
         description: "Test Razorpay Payment",
         order_id: dataFromAPI.order_id,
-        handler: function (response) {
+        handler: function () {
           alert("Payment Success!");
         },
         prefill: {

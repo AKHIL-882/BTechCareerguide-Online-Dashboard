@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaCheck, FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaTimes } from "react-icons/fa";
 import Spinner from "@/shared/components/atoms/Spinner";
 import FadeInStagger from "./FadeInStagger";
 import SendResetCodeForm from "./SendResetCodeForm";
@@ -166,7 +166,7 @@ const AuthForm = ({
             <span className="text-sm text-gray-700 font-sans">
               {isLogin ? (
                 <>
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <span
                     onClick={() => setIsLogin(!isLogin)}
                     className="text-violet-600 cursor-pointer hover:text-violet-800 transition-colors duration-200"

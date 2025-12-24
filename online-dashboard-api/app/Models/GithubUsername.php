@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername query()
@@ -24,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername whereRepoAccess($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|GithubUsername whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class GithubUsername extends Model

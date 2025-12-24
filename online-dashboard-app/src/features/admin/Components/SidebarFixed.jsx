@@ -5,7 +5,6 @@ import {
   FaTasks,
   FaRegComments,
   FaTachometerAlt,
-  FaSubscript,
 } from "react-icons/fa";
 
 const SidebarFixed = () => {

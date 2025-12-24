@@ -4,17 +4,13 @@ import {
   handleStatusChange,
 } from "../../../hooks/useProject.js";
 
-const UserProjectsPage = ({ isDashboard = true }) => {
-  const { projectsListings, loading, error } = useFetchProjects();
+const UserProjectsPage = () => {
+  const { projectsListings, loading } = useFetchProjects();
   const [currentPage, setCurrentPage] = useState(1);
   const [previewDocument, setPreviewDocument] = useState(null); // State to manage document preview
-  const [selectedProjectId, setSelectedProjectId] = useState(null); // Track the selected project
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
 
   const itemsPerPage = 5;
-
-  const storagePath =
-    import.meta.env.VITE_BACKEND_URL + "/app/storage/userProjectFiles/";
 
   // Filter projects where is_admin_project is 0
   const filteredProjects = projectsListings.filter(

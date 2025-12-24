@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasTable('customer_event_logs')) {
+        if (! Schema::hasTable('customer_event_logs')) {
             Schema::create('customer_event_logs', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('user_id')

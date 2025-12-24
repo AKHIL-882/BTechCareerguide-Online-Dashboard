@@ -4,7 +4,7 @@ import { useFetchJobs } from "../../hooks/useJob.js";
 import Jobfilters from "./Jobfilters.jsx";
 import ShimmerJobs from "./ShimmerJobs.jsx";
 
-const Jobs = ({ handleLogout }) => {
+const Jobs = () => {
   const { jobListings, loading, error } = useFetchJobs();
   const [filteredJobs, setFilteredJobs] = useState(null); // <-- NEW
   const jobsToShow = filteredJobs || jobListings; // <-- prioritize filtered jobs

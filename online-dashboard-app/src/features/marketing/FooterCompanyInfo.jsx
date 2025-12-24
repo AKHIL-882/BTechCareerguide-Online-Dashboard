@@ -20,6 +20,7 @@ const FooterCompanyInfo = () => {
           href="https://www.youtube.com/channel/UCUKsFzZ0pO512-Vf1odeMSw/join"
           className="text-xl hover:text-violet-300 transition-colors duration-300"
           target="_blank"
+          rel="noreferrer"
         >
           <FaYoutube />
         </a>
@@ -27,6 +28,7 @@ const FooterCompanyInfo = () => {
           href="https://t.me/btechcareerguide"
           className="text-xl hover:text-violet-300 transition-colors duration-300"
           target="_blank"
+          rel="noreferrer"
         >
           <FaTelegramPlane />
         </a>
@@ -34,6 +36,7 @@ const FooterCompanyInfo = () => {
           href="https://www.linkedin.com/in/duggirala-akhil-151768187/"
           className="text-xl hover:text-violet-300 transition-colors duration-300"
           target="_blank"
+          rel="noreferrer"
         >
           <FaLinkedinIn />
         </a>
@@ -41,6 +44,7 @@ const FooterCompanyInfo = () => {
           href="https://www.instagram.com/btechcareerguide/?igshid=MzNlNGNkZWQ4Mg%3D%3D"
           className="text-xl hover:text-violet-300 transition-colors duration-300"
           target="_blank"
+          rel="noreferrer"
         >
           <FaInstagram />
         </a>

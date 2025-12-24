@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { FaYoutube, FaCode, FaSearch, FaPlay } from "react-icons/fa";
+import { FaSearch, FaPlay } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import ShimmerProjects from "./ShimmerProjects";
 import SearchProjects from "./SearchProjects";
@@ -90,7 +90,7 @@ const Projects = ({ isDashBoard }) => {
                   <span>No Projects Found</span>
                 </h1>
                 <p className="text-sm text-gray-500 dark:text-gray-400 font-sans">
-                  We couldn't find any projects. Try searching for something else.
+                  We couldn&apos;t find any projects. Try searching for something else.
                 </p>
               </div>
             </div>

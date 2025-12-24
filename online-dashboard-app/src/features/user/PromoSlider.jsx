@@ -45,6 +45,7 @@ const PromoSlider = () => {
       } catch (err) {
         localStorage.clear();
         alert("Session Expired! Re-Login Please");
+        console.error("Failed to fetch slides:", err);
       } finally {
         setLoading(false);
       }

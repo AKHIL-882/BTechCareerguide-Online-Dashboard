@@ -1,224 +1,6 @@
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import { FaSlidersH, FaTimes } from "react-icons/fa";
-// import JobsTable from "./JobsTable";
-// import SectionHeading from "./SectionHeading";
-// import { useNavigate } from "react-router-dom";
-
-// const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
-//   const [showFilters, setShowFilters] = useState(false);
-//   const navigate = useNavigate();
-//   const [formData, setFormData] = useState({
-//     selectedBranch: "",
-//     selectedBatch: "",
-//     selectedDegree: "",
-//     selectedJobType: "",
-//     selectedExperience: "",
-//   });
-//   const [jobs, setJobs] = useState([]);
-//   const [loading, setLoading] = useState(false);
-
-//   // Dropdown options state
-//   const [dropdownOptions, setDropdownOptions] = useState({
-//     branches: {},
-//     degrees: [],
-//     job_types: [],
-//     batches: [],
-//   });
-
-//   const isFilterSelected = Object.values(formData).some(
-//     (value) => value !== "",
-//   );
-
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormData((prevData) => ({
-//       ...prevData,
-//       [name]: value,
-//     }));
-//   };
-
-//   // Fetch standard data on mount
-//   useEffect(() => {
-//     const fetchDropdownData = async () => {
-//       try {
-//         const response = await axios.get(
-//           "http://localhost:8000/api/standard-data",
-//         );
-//         setDropdownOptions(response.data.data);
-//       } catch (error) {
-//         localStorage.clear();
-//         setTimeout(() => {
-//           navigate("/");
-//         }, 1500);
-//         console.error("Session Expired! Relogin Again!!");
-//       }
-//     };
-//     fetchDropdownData();
-//   }, []);
-
-//   const fetchFilteredJobs = async () => {
-//     if (!isFilterSelected) return;
-
-//     setLoading(true);
-//     try {
-//       const response = await axios.get(
-//         "http://localhost:8000/api/jobs/filter",
-//         {
-//           params: {
-//             branch: formData.selectedBranch,
-//             batch: formData.selectedBatch,
-//             degree: formData.selectedDegree,
-//             job_type: formData.selectedJobType,
-//             experience: formData.selectedExperience,
-//           },
-//         },
-//       );
-//       setFilteredJobs(response.data.data);
-//       setShowFilters(false);
-//     } catch (error) {
-//       console.error("Error fetching jobs:", error);
-//     }
-//     setLoading(false);
-//   };
-//   return (
-//     <div className="relative flex flex-col items-center">
-//       <div className="flex space-x-4 mb-4">
-//         <button
-//           className="flex items-center space-x-2 text-gray-700 px-3 py-2 border border-gray-100 bg-white rounded-lg hover:shadow"
-//           onClick={() => setShowFilters(!showFilters)}
-//         >
-//           <FaSlidersH className="text-xl" />
-//           <span>Filters</span>
-//         </button>
-
-//         {filteredJobs && (
-//           <button
-//             onClick={() => setFilteredJobs(null)}
-//             className="flex items-center space-x-2 text-red-500 px-3 py-2 border border-red-300 bg-white rounded-lg hover:shadow"
-//           >
-//             <FaTimes className="text-xl" />
-//             <span>Clear</span>
-//           </button>
-//         )}
-//       </div>
-
-//       {showFilters && (
-//         <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50 z-50">
-//           <div className="relative bg-white p-6 shadow-lg rounded-lg w-80 md:w-6/12">
-//             <button
-//               className="absolute top-2 right-4 text-gray-600 hover:text-gray-800"
-//               onClick={() => setShowFilters(false)}
-//             >
-//               <FaTimes className="text-xl" />
-//             </button>
-//             <SectionHeading text="select your preferences" />
-//             {/* Filters */}
-//             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-//               {/* Branch */}
-//               <select
-//                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//                 name="selectedBranch"
-//                 value={formData.selectedBranch}
-//                 onChange={handleInputChange}
-//               >
-//                 <option value="">Branch</option>
-//                 {Object.entries(dropdownOptions.branches).map(
-//                   ([code, name]) => (
-//                     <option key={code} value={code}>
-//                       {name}
-//                     </option>
-//                   ),
-//                 )}
-//               </select>
-
-//               {/* Batch */}
-//               <select
-//                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//                 name="selectedBatch"
-//                 value={formData.selectedBatch}
-//                 onChange={handleInputChange}
-//               >
-//                 <option value="">Batch</option>
-//                 {dropdownOptions.batches.map((batch) => (
-//                   <option key={batch} value={batch}>
-//                     {batch}
-//                   </option>
-//                 ))}
-//               </select>
-
-//               {/* Degree */}
-//               <select
-//                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//                 name="selectedDegree"
-//                 value={formData.selectedDegree}
-//                 onChange={handleInputChange}
-//               >
-//                 <option value="">Degree</option>
-//                 {dropdownOptions.degrees.map((degree) => (
-//                   <option key={degree} value={degree}>
-//                     {degree}
-//                   </option>
-//                 ))}
-//               </select>
-
-//               {/* Job Type */}
-//               <select
-//                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//                 name="selectedJobType"
-//                 value={formData.selectedJobType}
-//                 onChange={handleInputChange}
-//               >
-//                 <option value="">Job Type</option>
-//                 {dropdownOptions.job_types.map((type) => (
-//                   <option key={type} value={type}>
-//                     {type}
-//                   </option>
-//                 ))}
-//               </select>
-
-//               {/* Experience */}
-//               <select
-//                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400"
-//                 name="selectedExperience"
-//                 value={formData.selectedExperience}
-//                 onChange={handleInputChange}
-//               >
-//                 <option value="">Experience</option>
-//                 {[0, 1, 2, 3, 4, 5].map((exp) => (
-//                   <option key={exp} value={exp}>
-//                     {exp} {exp === 1 ? "year" : "years"}
-//                   </option>
-//                 ))}
-//               </select>
-//             </div>
-
-//             {/* Apply Filters Button */}
-//             <button
-//               className={`w-full py-2 mt-4 rounded ${
-//                 isFilterSelected
-//                   ? "bg-violet-500 text-white hover:bg-violet-700"
-//                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
-//               }`}
-//               onClick={fetchFilteredJobs}
-//               disabled={!isFilterSelected || loading}
-//             >
-//               {loading ? "Loading..." : "Apply Filters"}
-//             </button>
-//           </div>
-//         </div>
-//       )}
-//       {Array.isArray(jobs) && jobs.length > 0 && <JobsTable jobs={jobs} />}
-//     </div>
-//   );
-// };
-
-// export default JobFilters;
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaSlidersH, FaTimes } from "react-icons/fa";
-import JobsTable from "./JobsTable";
 import SectionHeading from "./SectionHeading";
 import { useNavigate } from "react-router-dom";
 
@@ -232,10 +14,8 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
     selectedJobType: "",
     selectedExperience: "",
   });
-  const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Dropdown options state
   const [dropdownOptions, setDropdownOptions] = useState({
     branches: {},
     degrees: [],
@@ -243,7 +23,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
     batches: [],
   });
 
-  // mock filter categories (like YouTube chips)
   const [categories] = useState([
     "All",
     "Jobs for You",
@@ -275,7 +54,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
     }));
   };
 
-  // Fetch standard data on mount
   useEffect(() => {
     const fetchDropdownData = async () => {
       try {
@@ -286,7 +64,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
         setTimeout(() => {
           navigate("/");
         }, 1500);
-        console.error("Session Expired! Relogin Again!!");
+        console.error("Session Expired! Relogin Again!!", error);
       }
     };
     fetchDropdownData();
@@ -317,9 +95,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
   return (
     <div className="relative flex flex-col items-center w-full text-slate-900 dark:text-slate-100">
-      {/* Horizontal Category Filter Bar with Filters + Clear pinned */}
       <div className="flex items-center justify-between w-full mb-4">
-        {/* Scrollable chips */}
         <div className="flex-1 overflow-x-auto scrollbar-hide">
           <div className="flex space-x-3">
             {categories.map((cat) => (
@@ -338,7 +114,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
           </div>
         </div>
 
-        {/* Right side buttons */}
         <div className="ml-3 flex items-center space-x-3 flex-shrink-0">
           <button
             className="flex items-center space-x-2 text-gray-700 px-4 py-2 border border-gray-200 bg-white rounded-lg hover:shadow"
@@ -359,7 +134,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
         </div>
       </div>
 
-      {/* Filter Modal */}
       {showFilters && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative bg-white dark:bg-gray-900 p-6 shadow-lg rounded-lg w-80 md:w-6/12">
@@ -371,9 +145,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
             </button>
             <SectionHeading text="select your preferences" />
 
-            {/* Filters */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
-              {/* Branch */}
               <select
                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedBranch"
@@ -388,7 +160,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
                 ))}
               </select>
 
-              {/* Batch */}
               <select
                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedBatch"
@@ -403,7 +174,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
                 ))}
               </select>
 
-              {/* Degree */}
               <select
                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedDegree"
@@ -418,7 +188,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
                 ))}
               </select>
 
-              {/* Job Type */}
               <select
                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedJobType"
@@ -433,7 +202,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
                 ))}
               </select>
 
-              {/* Experience */}
               <select
                 className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
                 name="selectedExperience"
@@ -449,7 +217,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
               </select>
             </div>
 
-            {/* Apply Filters Button */}
             <button
               className={`w-full py-2 mt-4 rounded ${
                 isFilterSelected || activeCategory !== "All"
@@ -464,8 +231,6 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
           </div>
         </div>
       )}
-
-      {Array.isArray(jobs) && jobs.length > 0 && <JobsTable jobs={jobs} />}
     </div>
   );
 };

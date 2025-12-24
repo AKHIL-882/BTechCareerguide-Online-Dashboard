@@ -154,6 +154,7 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
                 href={job.apply_link}
                 className="text-violet-600 dark:text-violet-400 font-medium hover:underline"
                 target="_blank"
+                rel="noreferrer"
               >
                 Apply
               </a>

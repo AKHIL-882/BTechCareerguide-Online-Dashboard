@@ -1,15 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import SectionHeading from "./SectionHeading";
 
-const CompanyQA = ({ handleLogout }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const companyData = [
-    { projectName: "IBM", techTBU: "12-22-2024", payment: "Paid" },
-    { projectName: "TCS", techTBU: "12-22-2024", payment: "Paid" },
-    { projectName: "Wipro", techTBU: "12-22-2024", payment: "Paid" },
-  ];
-
+const CompanyQA = () => {
   return (
     <div className="m-2 flex-1 pt-14 lg:relative py-2 min-h-screen bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100">
       <div className="max-w-6xl mx-auto bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 overflow-auto h-screen">

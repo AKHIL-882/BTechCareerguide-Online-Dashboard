@@ -28,7 +28,7 @@ const HomePage = () => {
   const [message, setMessage] = useState(null);
   const { handleLogin, loading: loginLoading } = useLogin();
   const { handleSignup, loading: signupLoading } = useSignup();
-  const { data, loading, error } = useHomeData();
+  const { data } = useHomeData();
   const jobs = data?.jobs;
   const social = data?.social;
   const testimonials = data?.testimonials;
