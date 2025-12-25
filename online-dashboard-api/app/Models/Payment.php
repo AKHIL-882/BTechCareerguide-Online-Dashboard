@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserEventLogType;
 use App\Http\Resources\PaymentResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -68,11 +67,7 @@ class Payment extends Model
             'payment_document_name' => $filePath,
         ]);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::PaymentScreenshotUploaded),
-            Auth::user()->id,
-            ['Payment Screenshort uploaded Successfully!!'],
-        );
+        // Event logging removed; add audit logging here if payment uploads should be tracked.
     }
 
     public static function showAllPaymentRequest(): AnonymousResourceCollection

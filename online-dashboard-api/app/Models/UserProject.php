@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserEventLogType;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Resources\UserProjectsResource;
 use App\Http\Responses\ApiResponse;
@@ -84,11 +83,7 @@ class UserProject extends Project
             'is_admin_project' => 0,
         ]);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
-            Auth::id() ?? $request->user_id,
-            ['User Requested for Project !!']
-        );
+        // Event logging removed; add instrumentation here if project submissions should be audited.
 
         return response()->json(['message' => 'Project created successfully!', 'project' => $project], 201);
     }

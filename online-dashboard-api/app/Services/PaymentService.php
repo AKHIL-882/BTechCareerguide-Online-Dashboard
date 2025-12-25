@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use App\Enums\Status;
-use App\Enums\UserEventLogType;
 use App\Models\User;
-use App\Models\UserEventLog;
 use App\Repositories\RazorpayPaymentRepository;
 use App\Services\Contracts\PaymentGatewayInterface;
 use App\Services\Contracts\PaymentServiceInterface;
@@ -40,11 +38,7 @@ class PaymentService implements PaymentServiceInterface
                 'status' => Status::Pending,
             ]);
 
-            UserEventLog::logUserEvent(
-                UserEventLogType::getDescription(UserEventLogType::PaymentInitiated),
-                $user->id,
-                ['Payment Initiated for user']
-            );
+            // Event logging removed; add instrumentation here if payment initiation needs auditing.
 
             return [
                 'order_id' => $order['id'],
@@ -52,11 +46,7 @@ class PaymentService implements PaymentServiceInterface
                 'amount' => $amount,
             ];
         } catch (\Throwable $e) {
-            UserEventLog::logUserEvent(
-                UserEventLogType::getDescription(UserEventLogType::PaymentInitiationFailed),
-                $user->id,
-                ['Payment Initiation failed for user']
-            );
+            // Event logging removed; add instrumentation here if payment initiation failures need auditing.
 
             throw $e;
         }
@@ -79,11 +69,7 @@ class PaymentService implements PaymentServiceInterface
                     ]);
                 }
 
-                UserEventLog::logUserEvent(
-                    UserEventLogType::getDescription(UserEventLogType::PaymentSuccess),
-                    $user->id,
-                    ['Payment Successfully Taken from user']
-                );
+                // Event logging removed; add instrumentation here if payment successes need auditing.
 
                 return ['razorpay_payment_id' => $paymentId];
             }
@@ -95,19 +81,11 @@ class PaymentService implements PaymentServiceInterface
                 ]);
             }
 
-            UserEventLog::logUserEvent(
-                UserEventLogType::getDescription(UserEventLogType::PaymentFailed),
-                $user->id,
-                ['Payment Failed!!']
-            );
+            // Event logging removed; add instrumentation here if payment failures need auditing.
 
             throw new \RuntimeException('Payment failed');
         } catch (\Throwable $e) {
-            UserEventLog::logUserEvent(
-                UserEventLogType::getDescription(UserEventLogType::PaymentVerificationFailed),
-                $user->id,
-                ['Payment verification failed!!  Taken from user']
-            );
+            // Event logging removed; add instrumentation here if payment verification failures need auditing.
 
             throw $e;
         }

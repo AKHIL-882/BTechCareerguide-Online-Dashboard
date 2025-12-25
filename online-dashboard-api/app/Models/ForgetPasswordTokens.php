@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserEventLogType;
 use App\Http\Responses\ApiResponse;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -67,11 +66,7 @@ class ForgetPasswordTokens extends Model
         // delete the token after successful update
         $this->delete();
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::PasswordChanged),
-            $user->id,
-            ['User Password Updated'],
-        );
+        // Event logging removed; add audit logging here if password reset events must be tracked.
 
         return ['status' => true,
             'message' => 'Password updated Succesfully'];

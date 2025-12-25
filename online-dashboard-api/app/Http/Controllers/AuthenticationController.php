@@ -22,33 +22,52 @@ class AuthenticationController extends Controller
         try {
 
             $tokenData = $this->authService->register($request->only('name', 'email', 'password'));
+            $user = auth()?->user();
 
             return ApiResponse::setMessage('Account Created Successfully')
-                ->mergeResults($tokenData)
+                ->mergeResults([
+                    'access_token'  => $tokenData['access_token'],
+                    'refresh_token' => $tokenData['refresh_token'] ?? null,
+                    'expires_in'    => $tokenData['expires_in'],
+                    'token_type'    => $tokenData['token_type'],
+                    'user_email'    => $user?->email ?? $request->email,
+                ])
                 ->response(Response::HTTP_CREATED);
         } catch (Throwable $e) {
 
-            return ApiResponse::setMessage($e->getMessage())
+            // Add logging here if signup failures need diagnostics.
+
+            return ApiResponse::setMessage('Signup failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
+
 
     public function login(LoginRequest $request): JsonResponse
     {
         try {
             $tokenData = $this->authService->login($request->email, $request->password);
 
+            $user = auth()?->user();
+
             return ApiResponse::setMessage('Successfully logged in')
-                ->mergeResults($tokenData)
+                ->mergeResults(array_merge(
+                    $tokenData,
+                    ['user_email' => $user?->email ?? $request->email]
+                ))
                 ->response(Response::HTTP_OK);
         } catch (AuthenticationException $e) {
             return ApiResponse::setMessage('Unauthenticated')
                 ->response(Response::HTTP_UNAUTHORIZED);
         } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())
+
+            // Add logging here if login failures need diagnostics.
+
+            return ApiResponse::setMessage('Login failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
+
 
     // Revoke the access token
     public function logout(Request $request)
@@ -60,6 +79,8 @@ class AuthenticationController extends Controller
 
             $this->authService->logout($user);
 
+            // Event logging removed; reintroduce here if logout auditing is needed.
+
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
         } else {
@@ -70,7 +91,9 @@ class AuthenticationController extends Controller
 
     public function refreshAccessToken(RefreshRequest $request)
     {
+
         $refreshToken = $request->refresh_token;
+
         try {
             $tokenData = $this->authService->refresh($refreshToken);
 

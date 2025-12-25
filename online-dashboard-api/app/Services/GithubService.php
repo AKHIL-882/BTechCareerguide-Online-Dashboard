@@ -4,11 +4,9 @@ namespace App\Services;
 
 use App\Clients\GithubClient;
 use App\Enums\RepoAccessStatus;
-use App\Enums\UserEventLogType;
 use App\Http\Responses\ApiResponse;
 use App\Models\GithubUsername;
 use App\Models\User;
-use App\Models\UserEventLog;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,11 +30,7 @@ class GithubService
             ['github_username' => $githubUsername]
         );
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::Login),
-            $user->id,
-            ['User Github Id Stored Successfully!!']
-        );
+        // Event logging removed; add audit logging here if storing Github IDs should be tracked.
 
         return ApiResponse::setMessage('User Github Id Stored Successfully!!')
             ->response(Response::HTTP_OK);
@@ -59,15 +53,7 @@ class GithubService
             'repo_access' => $repoAccess,
         ]);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(
-                $repoAccess === RepoAccessStatus::AccessGiven
-                    ? UserEventLogType::RepoAccessGiven
-                    : UserEventLogType::RepoAccessFailed
-            ),
-            Auth::id(),
-            [$repoAccess === RepoAccessStatus::AccessGiven ? 'Access Granted' : 'Access Failed']
-        );
+        // Event logging removed; add audit logging here if repository access changes need tracking.
 
         return ApiResponse::setMessage(
             $repoAccess === RepoAccessStatus::AccessGiven

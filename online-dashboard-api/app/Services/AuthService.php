@@ -2,9 +2,7 @@
 
 namespace App\Services;
 
-use App\Enums\UserEventLogType;
 use App\Models\User;
-use App\Models\UserEventLog;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\AuthServiceInterface;
 use App\Services\Contracts\TokenServiceInterface;
@@ -49,11 +47,7 @@ class AuthService implements AuthServiceInterface
 
         $this->loginUser($user);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::Login),
-            $user->id,
-            ['User Logged in']
-        );
+        // Event logging removed; reintroduce here if login auditing is required.
 
         return array_merge($tokenData, [
             'roles' => $user->roles->pluck('name')->first(),
