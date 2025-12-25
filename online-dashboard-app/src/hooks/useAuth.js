@@ -1,70 +1,122 @@
-// src/hooks/useAuth.js
-
 import { useState } from "react";
-import { loginApi, signupApi, logoutApi } from "../api/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {
+  loginApi,
+  signupApi,
+  logoutApi,
+  sendResetCodeApi,
+  resetPasswordApi,
+} from "../api/authApi";
 
+// LOGIN HOOK
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const login = async (formData) => {
+  const handleLogin = async (formData, setValidationError) => {
     setLoading(true);
     try {
-      const data = await loginApi(formData);
+      const response = await loginApi(formData);
+      const data = response.data || response; // axios vs fetch diff
 
-      if (data.status === "success") {
-        localStorage.setItem("data", JSON.stringify(data));
-        toast.success("Login successful!");
-        navigate(data.user.role === "admin" ? "/admin" : "/user");
-      } else {
-        toast.error(data.message || "Invalid credentials");
-      }
+      const { roles } = data;
+      localStorage.setItem("data", JSON.stringify(data));
+      localStorage.setItem("roles", roles);
+
+      if (roles === "admin") navigate("/admin");
+      else if (roles === "user") navigate("/dashboard");
+      else alert("Role not recognized.");
     } catch (error) {
-      toast.error("Something went wrong");
+      setValidationError(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
   };
 
-  return { login, loading };
+  return { handleLogin, loading };
 };
 
+// SIGNUP HOOK
 export const useSignup = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
-  const signup = async (formData) => {
+  const handleSignup = async (formData, setValidationError, setIsLogin) => {
     setLoading(true);
     try {
       const response = await signupApi(formData);
-      if (response.status === 200) {
+
+      if (response.data?.message === "Account Created Successfully") {
         toast.success("Account created successfully!");
-        navigate("/login");
+        setIsLogin(true);
+      } else {
+        setValidationError(response.data.message || "Signup failed.");
       }
     } catch (error) {
-      toast.error(error.response?.data?.message || "Signup failed");
+      if (error.response?.status === 422) {
+        const errors = error.response.data.errors;
+        const errorMessage = Object.keys(errors)
+          .map((key) => errors[key].join(", "))
+          .join(" ");
+        setValidationError(errorMessage);
+      } else {
+        setValidationError("An error occurred. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
-  return { signup, loading };
+  return { handleSignup, loading };
 };
 
-export const useLogout = () => {
-  const logout = async () => {
-    const token = JSON.parse(localStorage.getItem("data"))?.access_token;
+// LOGOUT (utility, not hook)
+export const logoutUser = async (accessToken) => {
+  const response = await logoutApi(accessToken);
+  localStorage.setItem("isLoggedIn", false);
+  return response;
+};
+
+// SEND RESET CODE HOOK
+export const useSendResetCode = () => {
+  const [loading, setLoading] = useState(false);
+
+  const sendResetCode = async (email, isError) => {
+    setLoading(true);
     try {
-      await logoutApi(token);
+      await sendResetCodeApi(email);
+      toast.success("Reset code sent to your email!");
     } catch (error) {
-      console.error("Logout failed", error);
+      const msg = error.response?.data?.message || "Failed to send reset code";
+      isError(msg);
     } finally {
-      localStorage.removeItem("data");
-      window.location.href = "/";
+      setLoading(false);
     }
   };
 
-  return { logout };
+  return { loading, sendResetCode };
+};
+
+// RESET PASSWORD HOOK
+export const useResetPassword = () => {
+  const [loading, setLoading] = useState(false);
+
+  const resetPassword = async ({ token, password }, onSuccess) => {
+    setLoading(true);
+    try {
+      await resetPasswordApi({ token, password });
+      toast.success("Password reset successfully!");
+      onSuccess?.();
+    } catch (error) {
+      const msg =
+        error.response?.data?.errors?.password?.[0] ||
+        error.response?.data?.message ||
+        "Failed to reset password";
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { loading, resetPassword };
 };

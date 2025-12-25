@@ -1,20 +1,77 @@
-// src/api/projectApi.js
+import { get, post, put, del, API_BASE_URL } from "./apiConfig";
+
+// Fetch projects
+export const fetchProjectsApi = (accessToken) =>
+  get("/admin_projects", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+// Fetch admin projects (dash variant with hyphenated path)
+export const fetchAdminProjectsList = (accessToken) =>
+  get("/admin-projects", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+// Create project
+export const createProjectApi = (formData, accessToken) =>
+  post(
+    "/admin_projects/create",
+    {
+      company_name: formData.project_name,
+      youtube_video_link: formData.youtube_link,
+      payment_link: formData.payment_link,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
+// Update project
+export const saveProjectApi = (project, accessToken) =>
+  put(
+    `/admin_projects/${project.id}/update`,
+    {
+      company_name: project.company_name,
+      payment_link: project.payment_link,
+      youtube_video_link: project.youtube_link,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
+// Delete project
+export const deleteProjectApi = (id, accessToken) =>
+  del(`/admin_projects/${id}/delete`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+// Search projects
+export const searchProjectsApi = (searchValue, accessToken) =>
+  post(
+    "/user-projects/search",
+    {
+      search_item: searchValue,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
+// Update project status
+export const updateProjectStatusApi = (projectId, newStatus, accessToken) =>
+  post(
+    "/admin_projects/update-project-status",
+    {
+      project_id: projectId,
+      project_status: newStatus,
+    },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
 
 import axios from "axios";
-
-const API_BASE_URL = "http://127.0.0.1:8000/api";
-
-export const fetchProjectsApi = async (accessToken) => {
-  return axios.get(`${API_BASE_URL}/admin_projects`, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-};
-
-export const createProjectApi = async (accessToken, projectData) => {
-  return axios.post(`${API_BASE_URL}/admin_projects/create`, projectData, {
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
-};
 
 export const paymentInitiator = async (accessToken) => {
   return axios.post(

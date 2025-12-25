@@ -21,8 +21,13 @@ class ConfigServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $jobs = JobOpportunity::getLatestJobs();
+        $testimonials = Testimonial::getLatestTestimonials();
+
         config([
-            'home.jobs' => JobOpportunity::getLatestJobs(),
-            'home.testimonials' => Testimonial::getLatestTestimonials()]);
+            // Cast collections to arrays so config caching can serialize the values.
+            'home.jobs' => $jobs->toArray(),
+            'home.testimonials' => $testimonials->toArray(),
+        ]);
     }
 }

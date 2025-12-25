@@ -85,7 +85,7 @@ class AdminProjectsController extends Controller
 
     public function updateStatus(Request $request)
     {
-        info($request);
+        // Logging removed; add request logging here if project status changes need auditing.
         $request->validate([
             'project_id' => 'required|exists:projects,id',
             'project_status' => 'required|integer|min:0|max:6',

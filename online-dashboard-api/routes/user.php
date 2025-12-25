@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminProjectsController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProjectsController;
@@ -14,12 +15,15 @@ Route::prefix('jobs')->group(function () {
 
     Route::get('/', [JobOpportunityController::class, 'index']);
     Route::get('/filter', [JobOpportunityController::class, 'getFilterJobs']);
-
 });
 
 Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(function () {
 
+    Route::post('/profile', [ProfileController::class, 'store']);
+
     Route::get('/user-details', [UserController::class, 'show']);
+
+    Route::get('/dashboard-stats', [UserController::class, 'showDashboardStats']);
 
     Route::post('/jobs/{id}/report', [JobOpportunityController::class, 'report']);
 

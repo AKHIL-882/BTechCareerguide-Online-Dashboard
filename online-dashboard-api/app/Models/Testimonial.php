@@ -8,6 +8,30 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 use Throwable;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property string $feedback
+ * @property string $job_role
+ * @property string|null $company
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\User|null $user
+ *
+ * @method static \Database\Factories\TestimonialFactory factory($count = null, $state = [])
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereCompany($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereFeedback($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereJobRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereUserId($value)
+ *
+ * @mixin \Eloquent
+ */
 class Testimonial extends Model
 {
     use HasFactory;

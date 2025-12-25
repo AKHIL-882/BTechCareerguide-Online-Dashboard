@@ -2,134 +2,84 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\UserEventLogType;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RefreshRequest;
 use App\Http\Requests\SignupRequest;
 use App\Http\Responses\ApiResponse;
-use App\Models\User;
-use App\Models\UserEventLog;
+use App\Services\Contracts\AuthServiceInterface;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-use Laravel\Passport\RefreshTokenRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class AuthenticationController extends Controller
 {
+    public function __construct(private readonly AuthServiceInterface $authService) {}
+
     public function signUp(SignupRequest $request): JsonResponse
     {
         try {
 
-            $data = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => $request->password,
-            ];
-
-            // creating a new user
-            $user = User::createUser($data);
-
-            // generate access token using helper function
-            $tokenData = generateAccessToken($user, $request->password);
-
-            // check if token generation failed
-            if (! $tokenData) {
-                // delete the user if token generation fails
-                $user->delete();
-
-                return ApiResponse::setMessage('Token generation failed')
-                    ->response(Response::HTTP_BAD_REQUEST);
-            }
-
-            Auth::login($user);
-
-            // Start a session manually
-            if (! Session::isStarted()) {
-                Session::start();
-            }
+            $tokenData = $this->authService->register($request->only('name', 'email', 'password'));
+            $user = auth()?->user();
 
             return ApiResponse::setMessage('Account Created Successfully')
-                ->mergeResults($tokenData)
+                ->mergeResults([
+                    'access_token'  => $tokenData['access_token'],
+                    'refresh_token' => $tokenData['refresh_token'] ?? null,
+                    'expires_in'    => $tokenData['expires_in'],
+                    'token_type'    => $tokenData['token_type'],
+                    'user_email'    => $user?->email ?? $request->email,
+                ])
                 ->response(Response::HTTP_CREATED);
         } catch (Throwable $e) {
 
-            return ApiResponse::setMessage($e->getMessage())
+            // Add logging here if signup failures need diagnostics.
+
+            return ApiResponse::setMessage('Signup failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
+
 
     public function login(LoginRequest $request): JsonResponse
     {
         try {
-            $credentials = request(['email', 'password']);
+            $tokenData = $this->authService->login($request->email, $request->password);
 
-            // Validate the user
-            $user = User::where('email', $credentials['email'])->first();
+            $user = auth()?->user();
 
-            if (! $user || ! Hash::check($credentials['password'], $user->password)) {
-                return ApiResponse::setMessage('Unauthenticated')
-                    ->response(Response::HTTP_UNAUTHORIZED);
-            }
-
-            // Generate access token using helper function
-            $tokenData = generateAccessToken($user, $request->password);
-
-            // Checking if token generation failed
-            if (isset($tokenData['error'])) {
-                return ApiResponse::setMessage($tokenData['error'])
-                    ->response(Response::HTTP_BAD_REQUEST);
-            }
-
-            // Log in the user
-            Auth::login($user);
-
-            // Start a session manually
-            if (! Session::isStarted()) {
-                Session::start();
-            }
-
-            UserEventLog::logUserEvent(
-                UserEventLogType::getDescription(UserEventLogType::Login),
-                $user?->id,
-                ['User Logged in'],
-            );
-
-            // Fetch the user's roles
-            $roles = $user->roles->pluck('name'); // Assuming roles have a 'name' attribute
-
-            // Success response if tokens are generated successfully
             return ApiResponse::setMessage('Successfully logged in')
-                ->mergeResults(array_merge($tokenData, ['roles' => $roles[0]]))
+                ->mergeResults(array_merge(
+                    $tokenData,
+                    ['user_email' => $user?->email ?? $request->email]
+                ))
                 ->response(Response::HTTP_OK);
+        } catch (AuthenticationException $e) {
+            return ApiResponse::setMessage('Unauthenticated')
+                ->response(Response::HTTP_UNAUTHORIZED);
         } catch (Throwable $e) {
-            return ApiResponse::setMessage($e->getMessage())
+
+            // Add logging here if login failures need diagnostics.
+
+            return ApiResponse::setMessage('Login failed')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
 
+
     // Revoke the access token
     public function logout(Request $request)
     {
-        // destroying the session
-        Session::invalidate();
-
-        // regenerate the session ID to prevent session fixation attacks
-        Session::regenerateToken();
-
-        $user = Auth::user();
-        $tokens = Auth::user()->tokens;
+        $user = $request->user();
+        $tokens = $user?->tokens;
         // Check if user exists and has an active token
         if ($user && $tokens) {
 
-            foreach ($tokens as $token) {
-                $token->revoke();
-                $refreshTokenRepository = app(RefreshTokenRepository::class);
-                $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($token->id);
-            }
+            $this->authService->logout($user);
+
+            // Event logging removed; reintroduce here if logout auditing is needed.
 
             return ApiResponse::setMessage('Successfully logged out')
                 ->response(Response::HTTP_OK);
@@ -141,16 +91,18 @@ class AuthenticationController extends Controller
 
     public function refreshAccessToken(RefreshRequest $request)
     {
+
         $refreshToken = $request->refresh_token;
+
         try {
-            $tokenData = refreshAccessToken($refreshToken);
+            $tokenData = $this->authService->refresh($refreshToken);
 
             // Return the response (new access and refresh tokens)
             return ApiResponse::setMessage('Tokens Successfully created!')
                 ->mergeResults($tokenData)
                 ->response(Response::HTTP_OK);
         } catch (Throwable $e) {
-            return ApiResponse::setMessage('The refresh token is invalid or expired')
+            return ApiResponse::setMessage($e->getMessage() ?: 'The refresh token is invalid or expired')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }

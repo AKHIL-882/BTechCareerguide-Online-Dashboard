@@ -1,0 +1,238 @@
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { FaSlidersH, FaTimes } from "react-icons/fa";
+import SectionHeading from "./SectionHeading";
+import { useNavigate } from "react-router-dom";
+
+const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
+  const [showFilters, setShowFilters] = useState(false);
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    selectedBranch: "",
+    selectedBatch: "",
+    selectedDegree: "",
+    selectedJobType: "",
+    selectedExperience: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const [dropdownOptions, setDropdownOptions] = useState({
+    branches: {},
+    degrees: [],
+    job_types: [],
+    batches: [],
+  });
+
+  const [categories] = useState([
+    "All",
+    "Jobs for You",
+    "Fulltime",
+    "Internship",
+    "Walk-in",
+    "B.Tech",
+    "M.Tech",
+    "MBA",
+    "Remote",
+    "Part-time",
+    "Freshers",
+    "Experienced",
+    "High Salary",
+    "Top Companies",
+    "Government",
+    "IT",
+    "Non-IT",
+  ]);
+  const [activeCategory, setActiveCategory] = useState("All");
+
+  const isFilterSelected = Object.values(formData).some((value) => value !== "");
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const fetchDropdownData = async () => {
+      try {
+        const response = await axios.get("http://localhost:8000/api/standard-data");
+        setDropdownOptions(response.data.data);
+      } catch (error) {
+        localStorage.clear();
+        setTimeout(() => {
+          navigate("/");
+        }, 1500);
+        console.error("Session Expired! Relogin Again!!", error);
+      }
+    };
+    fetchDropdownData();
+  }, [navigate]);
+
+  const fetchFilteredJobs = async () => {
+    if (!isFilterSelected && activeCategory === "All") return;
+
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:8000/api/jobs/filter", {
+        params: {
+          branch: formData.selectedBranch,
+          batch: formData.selectedBatch,
+          degree: formData.selectedDegree,
+          job_type: formData.selectedJobType,
+          experience: formData.selectedExperience,
+          category: activeCategory !== "All" ? activeCategory : "",
+        },
+      });
+      setFilteredJobs(response.data.data);
+      setShowFilters(false);
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="relative flex flex-col items-center w-full text-slate-900 dark:text-slate-100">
+      <div className="flex items-center justify-between w-full mb-4">
+        <div className="flex-1 overflow-x-auto scrollbar-hide">
+          <div className="flex space-x-3">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
+                  activeCategory === cat
+                    ? "bg-violet-600 text-white shadow-md"
+                    : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="ml-3 flex items-center space-x-3 flex-shrink-0">
+          <button
+            className="flex items-center space-x-2 text-gray-700 px-4 py-2 border border-gray-200 bg-white rounded-lg hover:shadow"
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <FaSlidersH className="text-lg" />
+            <span>Filters</span>
+          </button>
+          {filteredJobs && (
+            <button
+              onClick={() => setFilteredJobs(null)}
+              className="flex items-center space-x-2 text-red-500 px-4 py-2 border border-red-300 bg-white dark:bg-gray-900 rounded-lg hover:shadow"
+            >
+              <FaTimes className="text-lg" />
+              <span>Clear</span>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {showFilters && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="relative bg-white dark:bg-gray-900 p-6 shadow-lg rounded-lg w-80 md:w-6/12">
+            <button
+              className="absolute top-2 right-4 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
+              onClick={() => setShowFilters(false)}
+            >
+              <FaTimes className="text-xl" />
+            </button>
+            <SectionHeading text="select your preferences" />
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+              <select
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
+                name="selectedBranch"
+                value={formData.selectedBranch}
+                onChange={handleInputChange}
+              >
+                <option value="">Branch</option>
+                {Object.entries(dropdownOptions.branches).map(([code, name]) => (
+                  <option key={code} value={code}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
+                name="selectedBatch"
+                value={formData.selectedBatch}
+                onChange={handleInputChange}
+              >
+                <option value="">Batch</option>
+                {dropdownOptions.batches.map((batch) => (
+                  <option key={batch} value={batch}>
+                    {batch}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
+                name="selectedDegree"
+                value={formData.selectedDegree}
+                onChange={handleInputChange}
+              >
+                <option value="">Degree</option>
+                {dropdownOptions.degrees.map((degree) => (
+                  <option key={degree} value={degree}>
+                    {degree}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
+                name="selectedJobType"
+                value={formData.selectedJobType}
+                onChange={handleInputChange}
+              >
+                <option value="">Job Type</option>
+                {dropdownOptions.job_types.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="w-full p-2 border rounded mt-1 focus:outline-none focus:ring-2 focus:ring-blue-400 dark:bg-gray-900 dark:border-gray-700"
+                name="selectedExperience"
+                value={formData.selectedExperience}
+                onChange={handleInputChange}
+              >
+                <option value="">Experience</option>
+                {[0, 1, 2, 3, 4, 5].map((exp) => (
+                  <option key={exp} value={exp}>
+                    {exp} {exp === 1 ? "year" : "years"}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              className={`w-full py-2 mt-4 rounded ${
+                isFilterSelected || activeCategory !== "All"
+                  ? "bg-violet-500 text-white hover:bg-violet-700"
+                  : "bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed"
+              }`}
+              onClick={fetchFilteredJobs}
+              disabled={(!isFilterSelected && activeCategory === "All") || loading}
+            >
+              {loading ? "Loading..." : "Apply Filters"}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default JobFilters;

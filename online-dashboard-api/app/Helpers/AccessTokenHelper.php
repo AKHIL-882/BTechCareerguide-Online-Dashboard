@@ -4,15 +4,14 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 use Nyholm\Psr7\Factory\Psr17Factory;
 
 if (! function_exists('generateAccessToken')) {
+    // Logging removed; add temporary instrumentation here if token issuance needs debugging.
 
     function makePsr17Request($user, $password): bool|string
     {
         // Create an instance of AccessTokenController to handle the request
         $accessTokenController = app(AccessTokenController::class);
-
         // Create a Psr17Factory instance to generate PSR-7 compatible request
         $psr17Factory = new Psr17Factory;
-
         $oauth_token_uri = config('auth.oauth_token_uri');
 
         // Create a ServerRequestInterface instance with required parameters
@@ -29,12 +28,13 @@ if (! function_exists('generateAccessToken')) {
         ]);
 
         // Handle the token request and get the response
-        $psr17Factory = new Psr17Factory;
-        $responseObj = $psr17Factory->createResponse();
-        $response = $accessTokenController->issueToken($serverRequest, $responseObj);
-        $responseContent = $response->getContent();
+        try {
+            $response = $accessTokenController->issueToken($serverRequest);
+        } catch (\Throwable $e) {
+            throw $e;
+        }
 
-        return $responseContent;
+        return $response->getContent();
     }
 
     /**
@@ -47,19 +47,14 @@ if (! function_exists('generateAccessToken')) {
     function generateAccessToken($user, $password): mixed
     {
         try {
-
             $responseContent = makePsr17Request($user, $password);
-
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
-
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
-
         } catch (Throwable $e) {
             // deleteuser when tokengeneration fails
             $user->delete();
-
             return null; // in case of exception
         }
     }
@@ -93,7 +88,6 @@ if (! function_exists('generateAccessToken')) {
         $responseContent = $response->getContent();
 
         return $responseContent;
-
     }
 
     /**
@@ -114,7 +108,6 @@ if (! function_exists('generateAccessToken')) {
 
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
-
         } catch (Throwable $e) {
 
             return null; // in case of exception

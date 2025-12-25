@@ -4,8 +4,10 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CreateRolesAndPermissionsController;
 use App\Http\Controllers\ForgetPasswordController;
 use App\Http\Controllers\GithubController;
+use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SlideController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:api', 'api'])->group(function () {
@@ -27,8 +29,10 @@ Route::middleware(['auth:api', 'api'])->group(function () {
 
     // bulk insert jobs
 
-    Route::post('bulk-insert-jobs', [\App\Http\Controllers\JobOpportunityController::class, 'bulkInsert']);
+    Route::post('bulk-insert-jobs', [JobOpportunityController::class, 'bulkInsert']);
 
+    Route::get('/slides', [SlideController::class, 'index']);
+    Route::post('/slides', [SlideController::class, 'store']);
 });
 
 Route::middleware(['guest', 'throttle:10,1'])->group(function () {
@@ -39,7 +43,6 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::post('login', [AuthenticationController::class, 'login']);
 
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
-
 });
 
 // Admin routes

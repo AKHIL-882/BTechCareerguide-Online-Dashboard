@@ -47,5 +47,20 @@ return [
         '2024',
         '2025',
         '2026',
+        '2027',
+        '2028',
+        '2029',
+        '2030',
+    ],
+
+    'skills' => [
+        'React',
+        'Node.js',
+        'UI/UX',
+        'JavaScript',
+        'MongoDB',
+        'Tailwind',
+        'Next.js',
+        'Express',
     ],
 ];
