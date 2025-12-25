@@ -55,6 +55,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $tokens_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\UserEventLog> $userEventLogs
  * @property-read int|null $user_event_logs_count
+ *
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
@@ -82,6 +83,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereYear($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutPermission($permissions)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User withoutRole($roles, $guard = null)
+ *
  * @mixin \Eloquent
  */
 class User extends Authenticatable
@@ -235,13 +237,13 @@ class User extends Authenticatable
             'projects' => [
                 'project_requested' => UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
                 'project_completed' => UserEventLogType::getDescription(UserEventLogType::ProjectCompleted),
-                'project_approved'  => UserEventLogType::getDescription(UserEventLogType::ProjectApproved),
-                'project_rejected'  => UserEventLogType::getDescription(UserEventLogType::ProjectRejected),
+                'project_approved' => UserEventLogType::getDescription(UserEventLogType::ProjectApproved),
+                'project_rejected' => UserEventLogType::getDescription(UserEventLogType::ProjectRejected),
             ],
             'interview_scheduled' => [
                 'interview_requested' => UserEventLogType::getDescription(UserEventLogType::InterviewRequestedByUser),
-                'interview_rejected'  => UserEventLogType::getDescription(UserEventLogType::InterviewRejectedByAdmin),
-                'interview_pending'   => UserEventLogType::getDescription(UserEventLogType::InterviewPending),
+                'interview_rejected' => UserEventLogType::getDescription(UserEventLogType::InterviewRejectedByAdmin),
+                'interview_pending' => UserEventLogType::getDescription(UserEventLogType::InterviewPending),
             ],
             'articles_viewed' => UserEventLogType::getDescription(UserEventLogType::ArticlesViewed),
         ];

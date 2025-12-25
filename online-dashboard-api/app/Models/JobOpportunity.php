@@ -32,6 +32,7 @@ use Throwable;
  * @property int $is_fraud
  * @property JobReportReason|null $report_reason
  * @property string|null $report_message
+ *
  * @method static Builder<static>|JobOpportunity batch($batch)
  * @method static Builder<static>|JobOpportunity branch($branch)
  * @method static Builder<static>|JobOpportunity degree($degree)
@@ -58,6 +59,7 @@ use Throwable;
  * @method static Builder<static>|JobOpportunity whereReportReason($value)
  * @method static Builder<static>|JobOpportunity whereRole($value)
  * @method static Builder<static>|JobOpportunity whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class JobOpportunity extends Model

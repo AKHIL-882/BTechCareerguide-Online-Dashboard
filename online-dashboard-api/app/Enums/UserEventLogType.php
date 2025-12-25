@@ -59,7 +59,6 @@ final class UserEventLogType extends BaseEnum
 
     public const InterviewPending = 24;
 
-
     public static function getDescription($value): string
     {
         return match ($value) {

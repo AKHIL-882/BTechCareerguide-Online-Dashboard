@@ -2,10 +2,20 @@
 
 namespace App\Providers;
 
-use Laravel\Passport\Passport;
+use App\Services\AuthService;
+use App\Services\Contracts\AuthServiceInterface;
+use App\Services\Contracts\JobServiceInterface;
+use App\Services\Contracts\PaymentGatewayInterface;
+use App\Services\Contracts\PaymentServiceInterface;
+use App\Services\Contracts\TokenServiceInterface;
+use App\Services\Gateways\RazorpayGateway;
+use App\Services\JobService;
+use App\Services\PaymentService;
+use App\Services\TokenService;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Passport\Passport;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,7 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(TokenServiceInterface::class, TokenService::class);
+        $this->app->bind(AuthServiceInterface::class, AuthService::class);
+        $this->app->bind(JobServiceInterface::class, JobService::class);
+        $this->app->bind(PaymentServiceInterface::class, PaymentService::class);
+        $this->app->bind(PaymentGatewayInterface::class, RazorpayGateway::class);
     }
 
     /**

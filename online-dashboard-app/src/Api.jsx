@@ -1,7 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { API_BASE_URL } from "./api/apiConfig";
 
 // //userlogin
@@ -691,48 +689,40 @@ import { API_BASE_URL } from "./api/apiConfig";
 // };
 
 export const getUserDetails = async (accessToken) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/user-details`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        Accept: "application/json",
-      },
-    });
+  const res = await fetch(`${API_BASE_URL}/user-details`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      Accept: "application/json",
+    },
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.message || "Session Expired! Relogin Again!!");
-    }
-
-    return data;
-  } catch (err) {
-    throw err;
+  if (!res.ok) {
+    throw new Error(data.message || "Session Expired! Relogin Again!!");
   }
+
+  return data;
 };
 
 export const postTestimonial = async (formData, accessToken) => {
-  try {
-    const res = await fetch(`${API_BASE_URL}/testimonials`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+  const res = await fetch(`${API_BASE_URL}/testimonials`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(formData),
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    if (!res.ok) {
-      throw new Error(data.message || "Failed to submit testimonial");
-    }
-
-    return data;
-  } catch (err) {
-    throw err;
+  if (!res.ok) {
+    throw new Error(data.message || "Failed to submit testimonial");
   }
+
+  return data;
 };
 
 //standarddataconfig

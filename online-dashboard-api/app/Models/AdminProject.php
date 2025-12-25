@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject filterBySearch($searchItem)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject newQuery()
@@ -45,6 +46,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|AdminProject whereYoutubeVideoLink($value)
+ *
  * @mixin \Eloquent
  */
 class AdminProject extends Project

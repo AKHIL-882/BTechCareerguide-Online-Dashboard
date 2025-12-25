@@ -25,6 +25,6 @@ class AdminSeeder extends Seeder
         // Assign the admin role
         $admin->assignRole('admin');
 
-        $this->command->info('Admin user created successfully!');
+        // Console info removed; add messaging here if seed feedback is needed.
     }
 }

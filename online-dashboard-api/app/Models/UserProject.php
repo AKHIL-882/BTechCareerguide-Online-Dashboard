@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserEventLogType;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Resources\UserProjectsResource;
 use App\Http\Responses\ApiResponse;
@@ -32,6 +31,7 @@ use Throwable;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Payment> $payments
  * @property-read int|null $payments_count
  * @property-read \App\Models\User $user
+ *
  * @method static \Database\Factories\UserProjectFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject filterBySearch($searchItem)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject newModelQuery()
@@ -52,6 +52,7 @@ use Throwable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|UserProject whereYoutubeVideoLink($value)
+ *
  * @mixin \Eloquent
  */
 class UserProject extends Project
@@ -82,11 +83,7 @@ class UserProject extends Project
             'is_admin_project' => 0,
         ]);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::ProjectRequested),
-            Auth::id() ?? $request->user_id,
-            ['User Requested for Project !!']
-        );
+        // Event logging removed; add instrumentation here if project submissions should be audited.
 
         return response()->json(['message' => 'Project created successfully!', 'project' => $project], 201);
     }

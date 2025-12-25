@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enums\UserEventLogType;
 use App\Http\Resources\PaymentResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -20,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\Project $project
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment query()
@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Auth;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereProjectId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Payment whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Payment extends Model
@@ -66,11 +67,7 @@ class Payment extends Model
             'payment_document_name' => $filePath,
         ]);
 
-        UserEventLog::logUserEvent(
-            UserEventLogType::getDescription(UserEventLogType::PaymentScreenshotUploaded),
-            Auth::user()->id,
-            ['Payment Screenshort uploaded Successfully!!'],
-        );
+        // Event logging removed; add audit logging here if payment uploads should be tracked.
     }
 
     public static function showAllPaymentRequest(): AnonymousResourceCollection

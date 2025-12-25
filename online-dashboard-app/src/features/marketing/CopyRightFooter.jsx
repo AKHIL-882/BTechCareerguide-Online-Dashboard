@@ -1,0 +1,10 @@
+import React from "react";
+const CopyRightFooter = () => {
+  return (
+    <footer className="text-center py-4 bg-violet-700 text-sm text-white mt-auto font-sans">
+      &copy; {new Date().getFullYear()} All rights reserved - ProjPort
+    </footer>
+  );
+};
+
+export default CopyRightFooter;

@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $user
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment query()
@@ -33,6 +34,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class RazorpayPayment extends Model

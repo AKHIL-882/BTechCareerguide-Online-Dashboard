@@ -6,6 +6,12 @@ export const fetchProjectsApi = (accessToken) =>
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 
+// Fetch admin projects (dash variant with hyphenated path)
+export const fetchAdminProjectsList = (accessToken) =>
+  get("/admin-projects", {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
 // Create project
 export const createProjectApi = (formData, accessToken) =>
   post(

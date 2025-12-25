@@ -17,6 +17,7 @@ use Throwable;
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User|null $user
+ *
  * @method static \Database\Factories\TestimonialFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial newQuery()
@@ -28,6 +29,7 @@ use Throwable;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereJobRole($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Testimonial whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Testimonial extends Model
