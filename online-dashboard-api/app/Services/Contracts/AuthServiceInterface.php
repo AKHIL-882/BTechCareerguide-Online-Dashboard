@@ -32,4 +32,18 @@ interface AuthServiceInterface
      * @return array<string, mixed>
      */
     public function refresh(string $refreshToken): array;
+
+    /**
+     * Verify email with OTP and issue tokens.
+     *
+     * @return array<string, mixed>
+     */
+    public function verifyEmail(string $email, string $otp, string $token): array;
+
+    /**
+     * Resend verification OTP for the given email.
+     *
+     * @return array<string, mixed>
+     */
+    public function resendVerification(string $email): array;
 }

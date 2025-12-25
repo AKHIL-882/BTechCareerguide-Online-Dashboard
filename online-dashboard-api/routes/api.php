@@ -41,6 +41,8 @@ Route::middleware(['guest', 'throttle:10,1'])->group(function () {
     Route::post('update-password', [ForgetPasswordController::class, 'updatePassword']);
     Route::post('signup', [AuthenticationController::class, 'signup']);
     Route::post('login', [AuthenticationController::class, 'login']);
+    Route::post('verify-email', [AuthenticationController::class, 'verifyEmail']);
+    Route::post('resend-verification', [AuthenticationController::class, 'resendVerificationEmail']);
 
     Route::get('create-user-admin-role', [CreateRolesAndPermissionsController::class, 'createUserAndAdminRole']);
 });

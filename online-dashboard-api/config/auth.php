@@ -120,4 +120,7 @@ return [
 
     'reset_password_expiry_time_limit' => 5,
 
+    'email_verification_expiry' => env('EMAIL_VERIFICATION_EXPIRY', 15),
+    'email_verification_token_ttl' => env('EMAIL_VERIFICATION_TOKEN_TTL', 1440),
+
 ];

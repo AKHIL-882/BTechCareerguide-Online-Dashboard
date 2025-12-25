@@ -17,6 +17,7 @@ import CalendarBooking from "@/features/user/CalendarBooking";
 import AdminSlots from "@/features/admin/Pages/AdminSlots";
 import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
+import VerifyEmail from "@/features/marketing/VerifyEmail";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         {/* Public Routes */}
         <Route path="/" element={<Home />} />
         <Route path="/new-password" element={<NewPasswordForm />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
 
         {/* Admin Routes */}
         <Route

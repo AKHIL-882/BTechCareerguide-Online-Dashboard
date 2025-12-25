@@ -54,10 +54,7 @@ class TokenService implements TokenServiceInterface
 
     private function issueToken(ServerRequestInterface $request): array
     {
-        $response = $this->accessTokenController->issueToken(
-            $request,
-            $this->psr17Factory->createResponse()
-        );
+        $response = $this->accessTokenController->issueToken($request);
 
         $tokenData = json_decode($response->getContent(), true) ?? [];
 
