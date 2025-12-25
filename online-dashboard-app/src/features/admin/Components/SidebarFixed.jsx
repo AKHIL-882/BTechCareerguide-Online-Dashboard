@@ -1,78 +1,45 @@
 import React from "react";
-import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
+import { NavLink } from "react-router-dom";
 import {
-  FaBriefcase,
-  FaTasks,
-  FaRegComments,
-  FaTachometerAlt,
-} from "react-icons/fa";
+  LayoutDashboard,
+  Briefcase,
+  GitMerge,
+  MessageSquare,
+  FileText,
+  CalendarClock,
+} from "lucide-react";
+
+const items = [
+  { to: "/admin", label: "Dashboard", Icon: LayoutDashboard },
+  { to: "/admin/jobs", label: "Jobs", Icon: Briefcase },
+  { to: "/admin/projects", label: "Projects", Icon: GitMerge },
+  { to: "/admin/companyqa", label: "Company Q/A", Icon: MessageSquare },
+  { to: "/admin/materials", label: "Materials", Icon: FileText },
+  { to: "/admin/slots", label: "Test Slots", Icon: CalendarClock },
+];
 
 const SidebarFixed = () => {
   return (
-    <div className="fixed hidden lg:block w-56 h-full bg-blue-50 top-14">
-      <NavLink
-        to="/admin"
-        end
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200"
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaTachometerAlt className="mr-2" /> DashBoard
-      </NavLink>
-
-      <NavLink
-        to="/admin/jobs"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200"
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaBriefcase className="mr-2" /> Jobs
-      </NavLink>
-
-      <NavLink
-        to="/admin/projects"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200 "
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaTasks className="mr-2" /> Projects
-      </NavLink>
-      <NavLink
-        to="/admin/companyqa"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200"
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaRegComments className="mr-2" /> Company Q/A
-      </NavLink>
-      <NavLink
-        to="/admin/materials"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200"
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaRegComments className="mr-2" /> Materials
-      </NavLink>
-      <NavLink
-        to="/admin/slots"
-        className={({ isActive }) =>
-          isActive
-            ? "flex items-center p-3 text-blue-800 bg-blue-200"
-            : "flex items-center p-3 text-gray-700 hover:bg-blue-100 hover:text-blue-800"
-        }
-      >
-        <FaRegComments className="mr-2" /> Test Slots
-      </NavLink>
+    <div className="fixed hidden lg:block w-56 h-full bg-white dark:bg-gray-950 top-14 border-r border-gray-200 dark:border-gray-800 shadow-sm">
+      <div className="flex flex-col py-3">
+        {items.map(({ to, label, Icon }) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === "/admin"}
+            className={({ isActive }) =>
+              `flex items-center gap-3 px-4 py-3 text-sm font-medium transition ${
+                isActive
+                  ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 border-r-4 border-indigo-500"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+              }`
+            }
+          >
+            <Icon size={18} />
+            <span>{label}</span>
+          </NavLink>
+        ))}
+      </div>
     </div>
   );
 };

@@ -205,3 +205,5 @@ api: Handles API-specific features, such as rate-limiting.
 
 Clear config cache so the change takes effect: php artisan config:clear
 Ensure you have a personal access client (Passport creates one via php artisan passport:install; if missing, run php artisan passport:client --personal and set PASSPORT_PERSONAL_ACCESS_CLIENT_ID / PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET if you hash client secrets).
+
+composer require smalot/pdfparser

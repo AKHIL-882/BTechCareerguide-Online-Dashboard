@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProjectsController;
+use App\Http\Controllers\ResumeAnalysisController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
     Route::get('/dashboard-stats', [UserController::class, 'showDashboardStats']);
 
     Route::post('/jobs/{id}/report', [JobOpportunityController::class, 'report']);
+    Route::post('/jobs/{job}/apply', [ResumeAnalysisController::class, 'markApplied']);
+    Route::post('/resume-based-jobs', [ResumeAnalysisController::class, 'resumeBasedJobs']);
 
     Route::prefix('user-projects')->group(function () {
         Route::get('/', [UserProjectsController::class, 'index']);

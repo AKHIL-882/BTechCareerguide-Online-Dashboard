@@ -53,3 +53,21 @@ export const reportJobApi = (jobId, reason, message, accessToken) =>
       headers: { Authorization: `Bearer ${accessToken}` },
     },
   );
+
+// Resume-based recommendations
+export const fetchResumeJobsApi = (formData, accessToken) =>
+  post("/resume-based-jobs", formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export const markJobAppliedApi = (jobId, accessToken) =>
+  post(
+    `/jobs/${jobId}/apply`,
+    {},
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );

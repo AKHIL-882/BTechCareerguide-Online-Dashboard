@@ -8,9 +8,7 @@ const Header = ({ onLogout }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
 
-  const toggleSidebar = () => {
-    setIsSidebarOpen(!isSidebarOpen);
-  };
+  const toggleSidebar = () => setIsSidebarOpen((open) => !open);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -30,25 +28,33 @@ const Header = ({ onLogout }) => {
 
   return (
     <>
-      <nav className="fixed bg-white shadow-md p-2 flex justify-between items-center w-full z-50">
-        <div className="flex items-center space-x-2">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur border-b border-gray-200 dark:border-gray-800 px-4 py-2 flex items-center justify-between shadow-sm">
+        <div className="flex items-center gap-3">
           <HamburgerMenu toggleSidebar={toggleSidebar} />
-          <Logo />
+          <div className="flex items-center gap-2">
+            <Logo />
+            <div className="hidden sm:flex flex-col leading-tight">
+              <span className="text-xs uppercase tracking-[0.2em] text-gray-500 dark:text-gray-400">
+                Admin
+              </span>
+              <span className="text-sm font-semibold text-slate-900 dark:text-slate-100">
+                Control Center
+              </span>
+            </div>
+          </div>
         </div>
 
-        <div className="lg:flex items-center space-x-6">
+        <div className="flex items-center gap-3">
           <button
-            className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition"
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-rose-500 text-white text-sm font-semibold shadow hover:bg-rose-600 transition"
             onClick={onLogout}
           >
-            <span className="hidden md:block">Logout</span>
-            <span className="sm:hidden">
-              <FaLockOpen />
-            </span>
+            <FaLockOpen />
+            <span className="hidden sm:inline">Logout</span>
           </button>
         </div>
       </nav>
-      {isSidebarOpen && <SideBar toggleSidebar={toggleSidebar} />}
+      {isSidebarOpen && <SideBar ref={sidebarRef} toggleSidebar={toggleSidebar} />}
     </>
   );
 };

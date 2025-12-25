@@ -18,6 +18,7 @@ import AdminSlots from "@/features/admin/Pages/AdminSlots";
 import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
 import VerifyEmail from "@/features/marketing/VerifyEmail";
+import ResumeJobs from "@/features/user/ResumeJobs";
 
 function App() {
   return (
@@ -59,6 +60,7 @@ function App() {
           <Route path="/company-qa" element={<CompanyQA />} />
           <Route path="/calendar" element={<CalendarBooking />} />
           <Route path="/testimonials" element={<UserTestimonials />} />
+          <Route path="/resume-jobs" element={<ResumeJobs />} />
         </Route>
       </Routes>
     </AuthProvider>

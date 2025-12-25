@@ -9,6 +9,7 @@ import {
   Briefcase,
   GitCompareArrows,
   SquareDashedBottomCode,
+  FileSearch,
 } from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
@@ -33,6 +34,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
   const navItems = [
     { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
     { to: "/jobs", icon: Briefcase, label: "Jobs" },
+    { to: "/resume-jobs", icon: FileSearch, label: "Resume Jobs" },
     { to: "/projects", icon: GitCompareArrows, label: "Projects" },
     { to: "/calendar", icon: SquareDashedBottomCode, label: "Mock Interview" },
   ];
