@@ -10,6 +10,7 @@ import {
   GitCompareArrows,
   SquareDashedBottomCode,
   FileSearch,
+  UserCircle,
 } from "lucide-react";
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
@@ -37,6 +38,7 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, handleLogout }) => {
     { to: "/resume-jobs", icon: FileSearch, label: "Resume Jobs" },
     { to: "/projects", icon: GitCompareArrows, label: "Projects" },
     { to: "/calendar", icon: SquareDashedBottomCode, label: "Mock Interview" },
+    { to: "/profile", icon: UserCircle, label: "Profile" },
   ];
 
   return (

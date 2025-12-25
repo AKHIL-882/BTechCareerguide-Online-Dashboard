@@ -22,7 +22,20 @@ class ProfileController extends Controller
             'status',
             'experience_years',
             'skills',
-        ]));
+            'profile_meta',
+        ]) + [
+            'profile_meta' => [
+                'headline' => $request->input('headline'),
+                'summary' => $request->input('summary'),
+                'location' => $request->input('location'),
+                'links' => $request->input('links', []),
+                'education' => $request->input('education_entries', []),
+                'experience' => $request->input('experience_entries', []),
+                'projects' => $request->input('projects', []),
+                'publications' => $request->input('publications', []),
+                'certifications' => $request->input('certifications', []),
+            ],
+        ]);
 
         // if ($request->hasFile('photo')) {
         //     $photoData = $uploader->uploadToGoogle($request->file('photo'), 'Candidates Data', $user->name);
@@ -38,10 +51,19 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return ApiResponse::setMessage('Account Created Successfully')
+        return ApiResponse::setMessage('Profile updated successfully')
             ->mergeResults([
                 'user' => $user->toArray(),
             ])
-            ->response(Response::HTTP_CREATED);
+            ->response(Response::HTTP_OK);
+    }
+
+    public function show()
+    {
+        $user = Auth::user();
+
+        return ApiResponse::setData([
+            'user' => $user,
+        ])->response(Response::HTTP_OK);
     }
 }

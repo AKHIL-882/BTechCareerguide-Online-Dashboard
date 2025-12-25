@@ -20,6 +20,7 @@ Route::prefix('jobs')->group(function () {
 
 Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(function () {
 
+    Route::get('/profile', [ProfileController::class, 'show']);
     Route::post('/profile', [ProfileController::class, 'store']);
 
     Route::get('/user-details', [UserController::class, 'show']);

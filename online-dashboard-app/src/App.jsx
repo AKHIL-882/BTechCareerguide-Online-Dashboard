@@ -19,6 +19,7 @@ import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
 import VerifyEmail from "@/features/marketing/VerifyEmail";
 import ResumeJobs from "@/features/user/ResumeJobs";
+import ProfilePage from "@/features/user/ProfilePage";
 import AdminBulkJobs from "@/features/admin/Pages/AdminBulkJobs";
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
           <Route path="/calendar" element={<CalendarBooking />} />
           <Route path="/testimonials" element={<UserTestimonials />} />
           <Route path="/resume-jobs" element={<ResumeJobs />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </AuthProvider>
