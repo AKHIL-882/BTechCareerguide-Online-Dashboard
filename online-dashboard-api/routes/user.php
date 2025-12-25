@@ -5,10 +5,10 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResumeAnalysisController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProjectsController;
-use App\Http\Controllers\ResumeAnalysisController;
 use App\Http\Middleware\UserRoleMiddleware;
 use Illuminate\Support\Facades\Route;
 

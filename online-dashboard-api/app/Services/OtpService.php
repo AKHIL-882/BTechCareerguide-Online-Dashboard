@@ -6,7 +6,6 @@ use App\Models\OtpCode;
 use App\Models\User;
 use App\Notifications\SendOtpNotification;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class OtpService
 {
@@ -20,10 +19,10 @@ class OtpService
 
         $otp = $this->generateNumericCode($length);
         $otpCode = OtpCode::create([
-            'user_id'     => $user->id,
-            'purpose'     => $purpose,
-            'code_hash'   => Hash::make($otp),
-            'expires_at'  => now()->addMinutes($ttl),
+            'user_id' => $user->id,
+            'purpose' => $purpose,
+            'code_hash' => Hash::make($otp),
+            'expires_at' => now()->addMinutes($ttl),
             'max_attempts' => $maxAttempts,
             'last_sent_at' => now(),
         ]);
@@ -53,6 +52,7 @@ class OtpService
 
         // Re-send same code? Safer to rotate.
         $existing->delete();
+
         return $this->issue($user, $purpose);
     }
 
@@ -85,6 +85,7 @@ class OtpService
 
         // Success -> consume the code
         $code->delete();
+
         return true;
     }
 
@@ -94,6 +95,7 @@ class OtpService
         for ($i = 0; $i < $length; $i++) {
             $digits .= random_int(0, 9);
         }
+
         return $digits;
     }
 }

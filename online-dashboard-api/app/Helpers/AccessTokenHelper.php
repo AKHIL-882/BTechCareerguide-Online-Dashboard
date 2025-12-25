@@ -50,11 +50,13 @@ if (! function_exists('generateAccessToken')) {
             $responseContent = makePsr17Request($user, $password);
             // Decode response into an array
             $tokenData = json_decode($responseContent, true);
+
             // Return token data or null if an error occurred
             return isset($tokenData['error']) ? null : $tokenData;
         } catch (Throwable $e) {
             // deleteuser when tokengeneration fails
             $user->delete();
+
             return null; // in case of exception
         }
     }

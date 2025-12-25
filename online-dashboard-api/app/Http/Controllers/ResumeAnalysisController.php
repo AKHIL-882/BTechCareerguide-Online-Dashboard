@@ -15,7 +15,7 @@ class ResumeAnalysisController extends Controller
     use ParseFileTrait;
 
     /**
-        * Return jobs from last 7 days ranked by relevance to the uploaded resume.
+     * Return jobs from last 7 days ranked by relevance to the uploaded resume.
      */
     public function resumeBasedJobs(Request $request)
     {
