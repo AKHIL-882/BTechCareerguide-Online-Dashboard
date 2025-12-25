@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ResendVerificationRequest;
 use App\Http\Requests\RefreshRequest;
 use App\Http\Requests\SignupRequest;
+use App\Http\Requests\VerifyEmailRequest;
 use App\Http\Responses\ApiResponse;
 use App\Services\Contracts\AuthServiceInterface;
+use App\Exceptions\EmailVerificationRequiredException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -21,17 +24,10 @@ class AuthenticationController extends Controller
     {
         try {
 
-            $tokenData = $this->authService->register($request->only('name', 'email', 'password'));
-            $user = auth()?->user();
+            $verificationData = $this->authService->register($request->only('name', 'email', 'password'));
 
-            return ApiResponse::setMessage('Account Created Successfully')
-                ->mergeResults([
-                    'access_token'  => $tokenData['access_token'],
-                    'refresh_token' => $tokenData['refresh_token'] ?? null,
-                    'expires_in'    => $tokenData['expires_in'],
-                    'token_type'    => $tokenData['token_type'],
-                    'user_email'    => $user?->email ?? $request->email,
-                ])
+            return ApiResponse::setMessage('Verification email sent')
+                ->mergeResults($verificationData)
                 ->response(Response::HTTP_CREATED);
         } catch (Throwable $e) {
 
@@ -56,6 +52,15 @@ class AuthenticationController extends Controller
                     ['user_email' => $user?->email ?? $request->email]
                 ))
                 ->response(Response::HTTP_OK);
+        } catch (EmailVerificationRequiredException $e) {
+            return ApiResponse::setMessage($e->getMessage())
+                ->mergeResults([
+                    'requires_verification' => true,
+                    'email' => $e->email,
+                    'verification_token' => $e->token,
+                    'expires_in' => $e->expiresAt?->diffInSeconds(now()),
+                ])
+                ->response(Response::HTTP_FORBIDDEN);
         } catch (AuthenticationException $e) {
             return ApiResponse::setMessage('Unauthenticated')
                 ->response(Response::HTTP_UNAUTHORIZED);
@@ -103,6 +108,38 @@ class AuthenticationController extends Controller
                 ->response(Response::HTTP_OK);
         } catch (Throwable $e) {
             return ApiResponse::setMessage($e->getMessage() ?: 'The refresh token is invalid or expired')
+                ->response(Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function verifyEmail(VerifyEmailRequest $request): JsonResponse
+    {
+        try {
+            $tokenData = $this->authService->verifyEmail(
+                $request->email,
+                $request->otp,
+                $request->token
+            );
+
+            return ApiResponse::setMessage('Email verified successfully')
+                ->mergeResults($tokenData)
+                ->response(Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return ApiResponse::setMessage($e->getMessage() ?: 'Verification failed')
+                ->response(Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function resendVerificationEmail(ResendVerificationRequest $request): JsonResponse
+    {
+        try {
+            $verificationData = $this->authService->resendVerification($request->email);
+
+            return ApiResponse::setMessage('Verification email resent')
+                ->mergeResults($verificationData)
+                ->response(Response::HTTP_OK);
+        } catch (Throwable $e) {
+            return ApiResponse::setMessage($e->getMessage() ?: 'Unable to resend verification email')
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }

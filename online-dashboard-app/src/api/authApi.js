@@ -34,3 +34,8 @@ export const sendResetCodeApi = (email) => post("/reset-password", { email });
 
 // Reset Password (update password)
 export const resetPasswordApi = (payload) => post("/update-password", payload);
+
+export const verifyEmailApi = (payload) => post("/verify-email", payload);
+
+export const resendVerificationApi = (email) =>
+  post("/resend-verification", { email });

@@ -9,6 +9,12 @@ import {
   resetPasswordApi,
 } from "../api/authApi";
 
+const clearStoredAuth = () => {
+  localStorage.removeItem("data");
+  localStorage.removeItem("roles");
+  localStorage.removeItem("isLoggedIn");
+};
+
 // LOGIN HOOK
 export const useLogin = () => {
   const [loading, setLoading] = useState(false);
@@ -28,7 +34,19 @@ export const useLogin = () => {
       else if (roles === "user") navigate("/dashboard");
       else alert("Role not recognized.");
     } catch (error) {
-      setValidationError(error.response?.data?.message || "Login failed");
+      const resp = error.response?.data;
+
+      if (resp?.requires_verification) {
+        toast.info(resp.message || "Please verify your email to continue.");
+        const params = new URLSearchParams({
+          email: resp.email,
+          token: resp.verification_token,
+        });
+        navigate(`/verify-email?${params.toString()}`);
+        return;
+      }
+
+      setValidationError(resp?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -40,17 +58,29 @@ export const useLogin = () => {
 // SIGNUP HOOK
 export const useSignup = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignup = async (formData, setValidationError, setIsLogin) => {
     setLoading(true);
     try {
       const response = await signupApi(formData);
+      const payload = response.data || response;
 
-      if (response.data?.message === "Account Created Successfully") {
+      if (payload?.verification_required) {
+        toast.success("Verification email sent. Check your inbox.");
+        const params = new URLSearchParams({
+          email: payload.email,
+          token: payload.verification_token,
+        });
+        navigate(`/verify-email?${params.toString()}`);
+        return;
+      }
+
+      if (payload?.message === "Account Created Successfully") {
         toast.success("Account created successfully!");
         setIsLogin(true);
       } else {
-        setValidationError(response.data.message || "Signup failed.");
+        setValidationError(payload?.message || "Signup failed.");
       }
     } catch (error) {
       if (error.response?.status === 422) {
@@ -70,11 +100,44 @@ export const useSignup = () => {
   return { handleSignup, loading };
 };
 
-// LOGOUT (utility, not hook)
+// LOGOUT HOOK (shared across screens)
+export const useLogout = () => {
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const logout = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const stored = JSON.parse(localStorage.getItem("data") || "{}");
+      const accessToken = stored?.access_token;
+
+      if (accessToken) {
+        await logoutApi(accessToken);
+      }
+    } catch (error) {
+      // Swallow errors to ensure user is still logged out locally.
+      console.error("Logout API error:", error);
+    } finally {
+      clearStoredAuth();
+      navigate("/", { replace: true });
+      setLoading(false);
+    }
+  };
+
+  return { logout, loading };
+};
+
+// LEGACY LOGOUT (kept for compatibility)
 export const logoutUser = async (accessToken) => {
-  const response = await logoutApi(accessToken);
-  localStorage.setItem("isLoggedIn", false);
-  return response;
+  try {
+    await logoutApi(accessToken);
+  } catch (error) {
+    console.error("Logout API error:", error);
+  } finally {
+    clearStoredAuth();
+  }
 };
 
 // SEND RESET CODE HOOK

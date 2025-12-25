@@ -6,27 +6,15 @@ import ScrollToTopButton from "@/shared/components/molecules/ScrollToTopButton";
 import { ToastContainer } from "react-toastify";
 // import GithubCheckWrapper from "../../wrappers/GithubCheckWrapper";
 import Header from "./Header";
-import { logoutUser } from "@/hooks/useAuth";
+import { useLogout } from "@/hooks/useAuth";
 
 const UserMainLayout = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const { logout, loading } = useLogout();
 
   const handleLogout = async () => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    const accessToken = data?.access_token;
-
-    if (!accessToken) {
-      alert("No token found. Please log in again.");
-      return;
-    }
-
     try {
-      const isLoggedOut = await logoutUser(accessToken);
-      if (isLoggedOut) {
-        localStorage.removeItem("data");
-        alert("You have logged out successfully!");
-        window.location.href = "/";
-      }
+      await logout();
     } catch (error) {
       console.error("Logout error:", error);
       alert("An error occurred while logging out. Please try again.");
@@ -44,7 +32,7 @@ const UserMainLayout = () => {
           setIsCollapsed={setIsCollapsed}
           handleLogout={handleLogout}
         />
-        <Header handleLogout={handleLogout} isCollapsed={isCollapsed} />
+        <Header handleLogout={handleLogout} isCollapsed={isCollapsed} logoutLoading={loading} />
         <div className={`w-full ${isCollapsed ? "lg:pl-[60px]" : "lg:pl-56"}`}>
           <Outlet />
         </div>
