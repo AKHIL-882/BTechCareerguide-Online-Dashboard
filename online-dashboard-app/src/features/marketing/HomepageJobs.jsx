@@ -3,7 +3,7 @@ import { FaArrowRight } from "react-icons/fa"; // location and salary icons from
 import CompanyMarquee from "./ComapanyMarquee";
 import FadeInStagger from "./FadeInStagger";
 import PopupNotification from "./PopupNotification";
-import JobsTable from "../User/JobsTable";
+import JobsTable from "../user/JobsTable";
 
 const HomepageJobs = ({ jobshome, companies }) => {
   const [showPopup, setShowPopup] = useState(false);
