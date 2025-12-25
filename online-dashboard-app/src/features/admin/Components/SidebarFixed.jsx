@@ -7,11 +7,13 @@ import {
   MessageSquare,
   FileText,
   CalendarClock,
+  UploadCloud,
 } from "lucide-react";
 
 const items = [
   { to: "/admin", label: "Dashboard", Icon: LayoutDashboard },
   { to: "/admin/jobs", label: "Jobs", Icon: Briefcase },
+  { to: "/admin/bulk-jobs", label: "Bulk Jobs", Icon: UploadCloud },
   { to: "/admin/projects", label: "Projects", Icon: GitMerge },
   { to: "/admin/companyqa", label: "Company Q/A", Icon: MessageSquare },
   { to: "/admin/materials", label: "Materials", Icon: FileText },

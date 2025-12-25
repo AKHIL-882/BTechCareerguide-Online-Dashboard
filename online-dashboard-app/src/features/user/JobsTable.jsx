@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import ReportModal from "./ReportModal";
 import RelativeTime from "./RelativeTIme";
 import {
-  FaArrowAltCircleRight,
-  FaArrowAltCircleLeft,
-  FaSearch,
-  FaMapMarkerAlt,
-  FaRegFlag,
-  FaRupeeSign,
-  FaUserTie,
-} from "react-icons/fa";
+  ArrowUpRight,
+  ArrowLeft,
+  ArrowRight,
+  Flag,
+  MapPin,
+  IndianRupee,
+  Briefcase,
+  GraduationCap,
+  Layers,
+  Clock3,
+} from "lucide-react";
 
-const JobsTable = ({ jobs, className = "", isJobshome }) => {
+const JobsTable = ({ jobs, className = "", isJobshome, horizontal = false }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [pageNumbersToShow, setPageNumbersToShow] = useState(3);
@@ -27,7 +30,10 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const totalPages = Math.ceil((jobs?.length || 0) / itemsPerPage);
+  const isHorizontal = !!horizontal;
+  const totalPages = isHorizontal
+    ? 1
+    : Math.ceil((jobs?.length || 0) / itemsPerPage);
   const indexOfLastJob = currentPage * itemsPerPage;
   const indexOfFirstJob = indexOfLastJob - itemsPerPage;
   const currentJobs = jobs?.slice(indexOfFirstJob, indexOfLastJob) || [];
@@ -69,165 +75,213 @@ const JobsTable = ({ jobs, className = "", isJobshome }) => {
   const openReportModal = (job) => setSelectedJob(job);
   const closeReportModal = () => setSelectedJob(null);
 
+  const safeSplit = (value) =>
+    typeof value === "string"
+      ? value
+          .split(",")
+          .map((v) => v.trim())
+          .filter(Boolean)
+      : [];
+
+  const formatExperience = (exp) => {
+    if (exp === 0 || exp === "0") return "Fresher";
+    if (!exp && exp !== 0) return "Experience: NA";
+    return `${exp} ${exp === 1 ? "year" : "years"} experience`;
+  };
+
+  const fallbackLogo =
+    "https://api.dicebear.com/7.x/shapes/svg?seed=role&backgroundColor=b5c7ff,c4b5fd";
+
+  const renderJobs = isHorizontal ? jobs || [] : currentJobs;
+
+  const pageLabel = useMemo(
+    () => `Page ${currentPage} of ${totalPages || 1}`,
+    [currentPage, totalPages],
+  );
+
   return (
-    <div
-      className={`${!isJobshome ? "bg-white dark:bg-gray-900" : ""} rounded-lg ${className} ${!isJobshome ? "border border-gray-300 dark:border-gray-800" : ""} overflow-hidden text-slate-900 dark:text-slate-100`}
-    >
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {currentJobs.map((job) => (
-          <div
-            key={job.id}
-            className="w-full sm:w-auto border border-gray-200 dark:border-gray-800 rounded-lg p-4 py-8 shadow-sm flex flex-col justify-between bg-white dark:bg-gray-900"
-          >
-            <div className="flex items-center space-x-4">
-              <img
-                src={job.company_logo}
-                alt={job.role}
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div className="flex items-start justify-between w-full">
-                <div>
-                  <h3 className="text-lg font-sans">{job.role}</h3>
-                  <p className="text-violet-600 dark:text-violet-400 text-sm font-sans flex items-center gap-1">
-                    {job.company_name}
-                  </p>
+    <div className={`${className} ${!isJobshome ? "text-slate-900 dark:text-slate-100" : ""}`}>
+      <div
+        className={
+          isHorizontal
+            ? "flex gap-4 overflow-x-auto pb-3 min-w-[280px]"
+            : "grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"
+        }
+      >
+        {renderJobs.map((job) => {
+          const branches = safeSplit(job?.branch);
+          const batches = safeSplit(job?.batch);
+          const degrees = safeSplit(job?.degree);
+          return (
+            <div
+              key={job.id}
+              className="min-w-[280px] relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            >
+              <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-indigo-500 via-violet-500 to-fuchsia-500" />
+              <div className="p-4 space-y-3">
+                <div className="flex items-start gap-3">
+                  <img
+                    src={job.company_logo || fallbackLogo}
+                    alt={job.role}
+                    className="w-12 h-12 rounded-full object-cover border border-gray-200 dark:border-gray-800"
+                  />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <p className="text-xs uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
+                          {job.company_name}
+                        </p>
+                        <h3 className="text-lg font-semibold truncate">{job.role}</h3>
+                      </div>
+                      {!isJobshome && (
+                        <button
+                          onClick={() => openReportModal(job)}
+                          className="text-gray-400 hover:text-red-500 transition"
+                          title="Report Job"
+                        >
+                          <Flag size={14} />
+                        </button>
+                      )}
+                    </div>
+                    <div className="flex flex-wrap gap-2 mt-2 text-xs">
+                      {job.job_type ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-200">
+                          <Briefcase size={12} /> {job.job_type}
+                        </span>
+                      ) : null}
+                      {job.location ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-slate-100 text-slate-700 dark:bg-gray-800 dark:text-gray-200">
+                          <MapPin size={12} /> {job.location}
+                        </span>
+                      ) : null}
+                      {job.ctc ? (
+                        <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
+                          <IndianRupee size={12} /> {job.ctc}
+                        </span>
+                      ) : null}
+                      <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-200">
+                        <Clock3 size={12} /> <RelativeTime createdAt={job.created_at} />
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                {!isJobshome && (
-                  <button
-                    onClick={() => openReportModal(job)}
-                    className="ml-1 text-gray-500 dark:text-gray-400 hover:text-red-700"
-                    title="Report Job"
+
+                <div className="flex flex-wrap gap-2 text-xs">
+                  {branches.map((b, idx) => (
+                    <span
+                      key={`branch-${idx}`}
+                      className="px-3 py-1 rounded-full bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/40 dark:text-fuchsia-200"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                  {batches.map((b, idx) => (
+                    <span
+                      key={`batch-${idx}`}
+                      className="px-3 py-1 rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-200"
+                    >
+                      {b}
+                    </span>
+                  ))}
+                  {degrees.map((d, idx) => (
+                    <span
+                      key={`degree-${idx}`}
+                      className="px-3 py-1 rounded-full bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-200 inline-flex items-center gap-1"
+                    >
+                      <GraduationCap size={12} /> {d}
+                    </span>
+                  ))}
+                  <span className="px-3 py-1 rounded-full bg-lime-100 text-lime-700 dark:bg-lime-900/40 dark:text-lime-200 inline-flex items-center gap-1">
+                    <Layers size={12} /> {formatExperience(job?.experience)}
+                  </span>
+                </div>
+
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
+                    {job?.apply_link?.includes("http") ? "External apply" : "Apply now"}
+                  </span>
+                  <a
+                    href={job.apply_link}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-700 dark:text-indigo-200 hover:underline"
                   >
-                    <FaRegFlag size={12} />
-                  </button>
-                )}
+                    Apply <ArrowUpRight size={14} />
+                  </a>
+                </div>
               </div>
             </div>
+          );
+        })}
 
-            <div className="flex flex-wrap gap-2 mt-3">
-              <span className="px-2 md:px-3 py-1 text-xs bg-green-100 text-green-500 rounded-full font-sans">
-                {job.job_type}
-              </span>
-              <span className="px-2 md:px-3 py-1 text-xs bg-orange-100 text-orange-600 rounded-full flex items-center gap-1">
-                <FaRupeeSign size={12} /> {job.ctc}
-              </span>
-              <span className="px-2 md:px-3 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full flex items-center gap-1">
-                <FaMapMarkerAlt size={12} /> {job.location}
-              </span>
-              <span className="px-2 md:px-3 py-1 text-xs bg-lime-100 text-lime-600 rounded-full flex items-center gap-1">
-                <FaUserTie size={12} />{" "}
-                {job.experience == 0
-                  ? "Fresher"
-                  : `${job.experience == 1 ? `${job.experience} year` : `${job.experience} years`} Experience`}
-              </span>
-              {job?.branch.split(",").map((b, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 md:px-3 py-1 text-xs bg-fuchsia-100 text-fuchsia-600 rounded-full font-sans"
-                >
-                  {b.trim()}
-                </span>
-              ))}
-              {job.batch.split(",").map((b, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 md:px-3 py-1 text-xs bg-purple-100 text-purple-600 rounded-full font-sans"
-                >
-                  {b.trim()}
-                </span>
-              ))}
-              {job.degree.split(",").map((d, idx) => (
-                <span
-                  key={idx}
-                  className="px-2 md:px-3 py-1 text-xs bg-blue-100 text-blue-600 rounded-full font-sans"
-                >
-                  {d.trim()}
-                </span>
-              ))}
-            </div>
-
-            <div className="flex justify-between items-center text-sm mt-4 text-gray-500 dark:text-gray-400">
-              <span>
-                <RelativeTime createdAt={job.created_at} />
-              </span>
-              <a
-                href={job.apply_link}
-                className="text-violet-600 dark:text-violet-400 font-medium hover:underline"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Apply
-              </a>
-            </div>
-          </div>
-        ))}
-
-        {selectedJob && (
-          <ReportModal job={selectedJob} onClose={closeReportModal} />
-        )}
+        {selectedJob && <ReportModal job={selectedJob} onClose={closeReportModal} />}
       </div>
-      {/* No Jobs Available */}
-      {jobs.length === 0 && (
+
+      {(renderJobs?.length || 0) === 0 && (
         <div className="text-center py-6 text-gray-500 dark:text-gray-400 font-sans">
           No jobs available at the moment.
         </div>
       )}
 
-      {/* Pagination Controls */}
-      {totalPages > 1 && (
-        <div className="flex justify-center items-center gap-2 py-4">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-            className="px-4 py-2 text-violet-700 dark:text-violet-300 bg-gray-200 dark:bg-gray-800 rounded-full disabled:text-gray-400 disabled:bg-gray-100 dark:disabled:bg-gray-800/60 flex items-center font-sans"
-          >
-            <FaArrowAltCircleLeft className="mr-1" /> Prev
-          </button>
-          {getPageNumbers().map((pageNumber) => (
+      {!isHorizontal && totalPages > 1 && (
+        <div className="flex flex-wrap justify-between items-center gap-3 py-4 mt-2 border-t border-gray-100 dark:border-gray-800">
+          <span className="text-xs text-gray-500 dark:text-gray-400">{pageLabel}</span>
+          <div className="flex items-center gap-2">
             <button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={`px-4 py-2 rounded-full font-sans ${currentPage === pageNumber ? "bg-violet-700 text-white" : "bg-gray-200 dark:bg-gray-800 text-violet-700 dark:text-violet-300 hover:bg-gray-300 dark:hover:bg-gray-700"}`}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-indigo-700 dark:text-indigo-200 bg-white dark:bg-gray-900 disabled:opacity-50"
             >
-              {pageNumber}
+              <ArrowLeft size={14} /> Prev
             </button>
-          ))}
-          {/* Ellipsis for Jump to Page */}
-          {totalPages > pageNumbersToShow && !showJumpInput && (
-            <button
-              onClick={() => setShowJumpInput(true)}
-              className="px-4 py-2 bg-gray-200 dark:bg-gray-800 text-violet-700 dark:text-violet-300 rounded-full font-sans hover:bg-gray-300 dark:hover:bg-gray-700"
-            >
-              ...
-            </button>
-          )}
-          {/* Jump to Page Input */}
-          {showJumpInput && (
-            <form onSubmit={handleJumpToPage} className="flex items-center">
-              <input
-                type="number"
-                min="1"
-                max={totalPages}
-                value={jumpPage}
-                onChange={(e) => setJumpPage(e.target.value)}
-                className="px-1 py-0.5 border-2 border-violet-500 rounded-l-full text-violet-700 dark:text-violet-300 bg-white dark:bg-gray-900 focus:outline-violet-700"
-                placeholder="p.no"
-              />
+            {getPageNumbers().map((pageNumber) => (
               <button
-                type="submit"
-                className="px-2 py-2 bg-violet-700 text-white rounded-r-full"
+                key={pageNumber}
+                onClick={() => handlePageChange(pageNumber)}
+                className={`px-4 py-2 rounded-full text-sm font-semibold ${
+                  currentPage === pageNumber
+                    ? "bg-indigo-600 text-white shadow"
+                    : "bg-gray-100 dark:bg-gray-800 text-indigo-700 dark:text-indigo-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+                }`}
               >
-                <FaSearch />
+                {pageNumber}
               </button>
-            </form>
-          )}
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-            className="px-4 py-2 text-violet-700 dark:text-violet-300 bg-gray-200 dark:bg-gray-800 rounded-full disabled:text-gray-400 disabled:bg-gray-100 dark:disabled:bg-gray-800/60 flex items-center font-sans"
-          >
-            Next <FaArrowAltCircleRight className="ml-1" />
-          </button>
+            ))}
+            {totalPages > pageNumbersToShow && !showJumpInput && (
+              <button
+                onClick={() => setShowJumpInput(true)}
+                className="px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-800 text-indigo-700 dark:text-indigo-200"
+              >
+                ...
+              </button>
+            )}
+            {showJumpInput && (
+              <form onSubmit={handleJumpToPage} className="flex items-center gap-1">
+                <input
+                  type="number"
+                  min="1"
+                  max={totalPages}
+                  value={jumpPage}
+                  onChange={(e) => setJumpPage(e.target.value)}
+                  className="w-16 px-2 py-1 rounded-l-lg border border-indigo-500 text-indigo-700 dark:text-indigo-200 bg-white dark:bg-gray-900 focus:outline-none"
+                  placeholder="Page"
+                />
+                <button
+                  type="submit"
+                  className="px-3 py-1 rounded-r-lg bg-indigo-600 text-white"
+                >
+                  Go
+                </button>
+              </form>
+            )}
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className="inline-flex items-center gap-1 px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-indigo-700 dark:text-indigo-200 bg-white dark:bg-gray-900 disabled:opacity-50"
+            >
+              Next <ArrowRight size={14} />
+            </button>
+          </div>
         </div>
       )}
     </div>

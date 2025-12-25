@@ -29,8 +29,8 @@ export const useFetchNotifications = () => {
     // Initial fetch
     fetchNotifications();
 
-    // Set interval to fetch every 1 minute
-    intervalId = setInterval(fetchNotifications, 2 * 60000);
+    // Refresh at most once per hour to limit network usage
+    intervalId = setInterval(fetchNotifications, 60 * 60 * 1000);
 
     // Clear interval on component unmount
     return () => clearInterval(intervalId);

@@ -19,6 +19,7 @@ import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
 import VerifyEmail from "@/features/marketing/VerifyEmail";
 import ResumeJobs from "@/features/user/ResumeJobs";
+import AdminBulkJobs from "@/features/admin/Pages/AdminBulkJobs";
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="companyqa" element={<AdminCompanyQa />} />
           <Route path="materials" element={<AdminMaterials />} />
           <Route path="slots" element={<AdminSlots />} />
+          <Route path="bulk-jobs" element={<AdminBulkJobs />} />
         </Route>
 
         {/* User Routes */}

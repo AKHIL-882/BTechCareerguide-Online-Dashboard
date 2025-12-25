@@ -38,6 +38,16 @@ export const createJobApi = (formData, accessToken) =>
     },
   );
 
+// Bulk insert jobs
+export const bulkInsertJobsApi = (rawInput, accessToken) =>
+  post(
+    "/bulk-insert-jobs",
+    { jobs: rawInput },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
 // Delete a job
 export const deleteJobApi = (id, accessToken) =>
   del(`/jobs/${id}/delete`, {
