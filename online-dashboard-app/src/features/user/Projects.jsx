@@ -40,7 +40,7 @@ const Projects = ({ isDashBoard }) => {
   useEffect(() => {
     if (!data?.data) return;
     const incoming = Array.isArray(data.data) ? data.data : [];
-    const sliced = isDashBoard ? incoming.slice(0, 3) : incoming;
+    const sliced = isDashBoard ? incoming.slice(0, 4) : incoming;
     setProjects(sliced);
     setNoSearchedProjects(incoming);
   }, [data, isDashBoard]);
@@ -127,9 +127,8 @@ const Projects = ({ isDashBoard }) => {
               return (
                 <div
                   key={index}
-                  className={`relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:shadow-lg ${
-                    isDashBoard ? "min-w-[260px]" : ""
-                  }`}
+                  className={`relative overflow-hidden rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-sm transition hover:-translate-y-1 hover:shadow-lg ${isDashBoard ? "min-w-[260px]" : ""
+                    }`}
                 >
                   <div className="relative w-full h-48 overflow-hidden">
                     <img

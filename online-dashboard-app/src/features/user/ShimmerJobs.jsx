@@ -1,7 +1,7 @@
 import React from "react";
 
 const ShimmerJobs = ({ isDashBoard = false }) => {
-  const count = isDashBoard ? 3 : 6;
+  const count = isDashBoard ? 4 : 6;
   const shimmerCards = Array.from({ length: count });
 
   return (

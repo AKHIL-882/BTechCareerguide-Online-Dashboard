@@ -207,3 +207,10 @@ Clear config cache so the change takes effect: php artisan config:clear
 Ensure you have a personal access client (Passport creates one via php artisan passport:install; if missing, run php artisan passport:client --personal and set PASSPORT_PERSONAL_ACCESS_CLIENT_ID / PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET if you hash client secrets).
 
 composer require smalot/pdfparser
+
+Create the Passport clients in that environment (and copy their IDs/secrets into env vars):
+php artisan passport:keys --force
+php artisan passport:client --personal --name "Personal Access Client" → set PASSPORT_PERSONAL_ACCESS_CLIENT_ID and PASSPORT_PERSONAL_ACCESS_CLIENT_SECRET.
+php artisan passport:client --password --name "Password Grant Client" → set PASSPORT_PASSWORD_CLIENT_ID and PASSPORT_PASSWORD_CLIENT_SECRET (needed for normal login/refresh).
+Update OAUTH_TOKEN_URI in Railway env to your production URL (https://<your-domain>/oauth/token), not localhost.
+Clear caches/restart app (php artisan config:clear or redeploy).

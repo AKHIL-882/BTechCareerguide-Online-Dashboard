@@ -10,7 +10,7 @@ import RelativeTime from "./RelativeTIme";
 const Dashboard = () => {
   const { jobListings, loading, error } = useFetchJobs();
   const highlightJobs = useMemo(
-    () => (jobListings || []).slice(0, 3),
+    () => (jobListings || []).slice(0, 4),
     [jobListings],
   );
 
