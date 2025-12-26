@@ -131,10 +131,6 @@ class AuthService implements AuthServiceInterface
     private function loginUser(User $user): void
     {
         Auth::login($user);
-
-        if (! Session::isStarted()) {
-            Session::start();
-        }
     }
 
     private function issuePersonalAccessToken(User $user): array
