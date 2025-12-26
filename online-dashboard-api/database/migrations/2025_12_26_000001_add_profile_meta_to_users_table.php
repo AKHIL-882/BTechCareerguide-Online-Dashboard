@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->json('profile_meta')->nullable()->after('skills');
+            // Use longText for broad compatibility across MySQL/MariaDB versions that lack native JSON.
+            $table->longText('profile_meta')->nullable()->after('skills');
         });
     }
 
