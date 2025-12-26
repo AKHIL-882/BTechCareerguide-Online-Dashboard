@@ -1,107 +1,85 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, forwardRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import {
-  FaBriefcase,
-  FaTasks,
-  FaRegComments,
-  FaTachometerAlt,
-} from "react-icons/fa";
-import Logo from "./Logo"; // Assuming you have a separate Logo component
-import { Link } from "react-router-dom"; // Importing Link from react-router-dom
+  LayoutDashboard,
+  Briefcase,
+  GitMerge,
+  MessageSquare,
+  FileText,
+  CalendarClock,
+  X,
+  UploadCloud,
+} from "lucide-react";
+import Logo from "./Logo";
 
-const SideBar = ({ toggleSidebar }) => {
-  const sidebarRef = useRef(null);
+const navItems = [
+  { to: "/admin", label: "Dashboard", Icon: LayoutDashboard },
+  { to: "/admin/jobs", label: "Jobs", Icon: Briefcase },
+  { to: "/admin/bulk-jobs", label: "Bulk Jobs", Icon: UploadCloud },
+  { to: "/admin/projects", label: "Projects", Icon: GitMerge },
+  { to: "/admin/companyqa", label: "Company Q/A", Icon: MessageSquare },
+  { to: "/admin/materials", label: "Materials", Icon: FileText },
+  { to: "/admin/slots", label: "Test Slots", Icon: CalendarClock },
+];
 
-  // Detect click outside the sidebar to close it
+const SideBar = forwardRef(function SideBar({ toggleSidebar }, sidebarRef) {
+  const location = useLocation();
+
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
-        toggleSidebar(); // Close the sidebar if clicked outside
+      if (sidebarRef?.current && !sidebarRef.current.contains(event.target)) {
+        toggleSidebar();
       }
     };
 
-    // Adding event listener on mount
     document.addEventListener("mousedown", handleClickOutside);
-
-    // Cleaning up the event listener on unmount
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [toggleSidebar]);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [sidebarRef, toggleSidebar]);
 
   return (
     <div
       ref={sidebarRef}
-      className="lg:hidden fixed inset-y-0 left-0 w-1/2 bg-blue-50 shadow-lg z-50 flex flex-col"
+      className="lg:hidden fixed inset-y-0 left-0 w-72 bg-white dark:bg-gray-950 shadow-xl z-50 flex flex-col border-r border-gray-200 dark:border-gray-800"
     >
-      {/* Top Section with Logo and Close Button */}
-      <div className="flex justify-between items-center p-4">
-        {/* Logo */}
-        <div className="flex items-center">
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 dark:border-gray-800">
+        <div className="flex items-center gap-2">
           <Logo />
+          <span className="font-semibold text-slate-900 dark:text-slate-100">
+            Admin
+          </span>
         </div>
-
-        {/* Close Button */}
         <button
           onClick={toggleSidebar}
-          className="text-gray-700 p-2 rounded-md hover:bg-gray-100"
+          className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-            stroke="currentColor"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
+          <X size={18} />
         </button>
       </div>
 
-      {/* Navigation Links directly below the Logo and Close Button */}
-      <div className="flex flex-col p-4 space-y-4">
-        <Link
-          to="/admin"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaTachometerAlt />
-          <span className="pl-2">DashBoard</span>
-        </Link>
-        <Link
-          to="/admin/jobs"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaBriefcase />
-          <span className="pl-2">Jobs</span>
-        </Link>
-        <Link
-          to="/admin/projects"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaTasks />
-          <span className="pl-2">Projects</span>
-        </Link>
-        <Link
-          to="/admin/companyqa"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaRegComments />
-          <span className="pl-2">Company Q/A</span>
-        </Link>
-        <Link
-          to="/admin/materials"
-          className="flex items-center hover:bg-blue-200 p-2 rounded cursor-pointer"
-        >
-          <FaRegComments />
-          <span className="pl-2">Materials</span>
-        </Link>
-      </div>
+      <nav className="flex-1 overflow-y-auto py-4">
+        <div className="px-3 space-y-1">
+          {navItems.map(({ to, label, Icon }) => {
+            const active = location.pathname === to;
+            return (
+              <Link
+                key={to}
+                to={to}
+                onClick={toggleSidebar}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${
+                  active
+                    ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 border border-indigo-100 dark:border-indigo-800"
+                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                }`}
+              >
+                <Icon size={18} />
+                <span className="text-sm font-medium">{label}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
-};
+});
 
 export default SideBar;

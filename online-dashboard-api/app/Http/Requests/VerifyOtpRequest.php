@@ -10,7 +10,7 @@ class VerifyOtpRequest extends FormRequest
     {
         return [
             'purpose' => 'required|string|in:signup,login',
-            'code'    => 'required|string|digits_between:4,8',
+            'code' => 'required|string|digits_between:4,8',
             'transaction_id' => 'nullable|string',
             'email' => 'nullable|email',
         ];

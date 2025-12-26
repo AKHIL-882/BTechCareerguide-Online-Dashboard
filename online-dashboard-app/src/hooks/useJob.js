@@ -6,6 +6,7 @@ import {
   createJobApi,
   deleteJobApi,
   reportJobApi,
+  bulkInsertJobsApi,
 } from "../api/jobApi";
 
 // GET JOBS
@@ -130,6 +131,44 @@ export const useCreateJob = () => {
   };
 
   return { createJob, loading, error };
+};
+
+// BULK UPLOAD JOBS
+export const useBulkUploadJobs = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const uploadJobs = async (rawInput) => {
+    const data = JSON.parse(localStorage.getItem("data"));
+    const accessToken = data?.access_token;
+    if (!accessToken) {
+      const message = "Access token is missing. Please log in again.";
+      setError(message);
+      toast.error(message);
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await bulkInsertJobsApi(rawInput, accessToken);
+      const successMessage =
+        response?.data?.message || "Jobs uploaded successfully";
+      toast.success(successMessage);
+      return response?.data;
+    } catch (err) {
+      const message =
+        err?.response?.data?.message ||
+        "Failed to upload jobs. Please check the format and try again.";
+      setError(message);
+      toast.error(message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { uploadJobs, loading, error };
 };
 
 // DELETE JOB

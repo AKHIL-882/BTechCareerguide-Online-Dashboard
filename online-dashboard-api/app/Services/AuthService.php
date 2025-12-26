@@ -2,17 +2,16 @@
 
 namespace App\Services;
 
+use App\Exceptions\EmailVerificationRequiredException;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Services\Contracts\AuthServiceInterface;
 use App\Services\Contracts\TokenServiceInterface;
-use App\Services\EmailVerificationService;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Passport\RefreshTokenRepository;
-use App\Exceptions\EmailVerificationRequiredException;
 
 class AuthService implements AuthServiceInterface
 {

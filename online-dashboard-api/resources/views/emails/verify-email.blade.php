@@ -17,6 +17,9 @@
 </head>
 <body>
     <div class="container">
+        <div>
+            <img src="{{ config('app.email_banner_url') ?? asset('images/MiniBanner.png') }}" alt="BTech Career Guide" style="width: 100%; display: block;">
+        </div>
         <div class="header">
             <h1>Verify your email</h1>
         </div>

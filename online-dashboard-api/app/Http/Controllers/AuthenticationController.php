@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\EmailVerificationRequiredException;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\ResendVerificationRequest;
 use App\Http\Requests\RefreshRequest;
+use App\Http\Requests\ResendVerificationRequest;
 use App\Http\Requests\SignupRequest;
 use App\Http\Requests\VerifyEmailRequest;
 use App\Http\Responses\ApiResponse;
 use App\Services\Contracts\AuthServiceInterface;
-use App\Exceptions\EmailVerificationRequiredException;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -37,7 +37,6 @@ class AuthenticationController extends Controller
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
-
 
     public function login(LoginRequest $request): JsonResponse
     {
@@ -72,7 +71,6 @@ class AuthenticationController extends Controller
                 ->response(Response::HTTP_BAD_REQUEST);
         }
     }
-
 
     // Revoke the access token
     public function logout(Request $request)

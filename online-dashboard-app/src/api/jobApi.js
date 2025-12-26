@@ -38,6 +38,16 @@ export const createJobApi = (formData, accessToken) =>
     },
   );
 
+// Bulk insert jobs
+export const bulkInsertJobsApi = (rawInput, accessToken) =>
+  post(
+    "/bulk-insert-jobs",
+    { jobs: rawInput },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
 // Delete a job
 export const deleteJobApi = (id, accessToken) =>
   del(`/jobs/${id}/delete`, {
@@ -49,6 +59,24 @@ export const reportJobApi = (jobId, reason, message, accessToken) =>
   post(
     `/jobs/${jobId}/report`,
     { reason, message },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );
+
+// Resume-based recommendations
+export const fetchResumeJobsApi = (formData, accessToken) =>
+  post("/resume-based-jobs", formData, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+export const markJobAppliedApi = (jobId, accessToken) =>
+  post(
+    `/jobs/${jobId}/apply`,
+    {},
     {
       headers: { Authorization: `Bearer ${accessToken}` },
     },

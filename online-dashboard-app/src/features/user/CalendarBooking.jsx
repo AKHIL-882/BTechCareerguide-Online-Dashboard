@@ -185,7 +185,7 @@
 
 // export default CalendarBooking;
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Calendar, dateFnsLocalizer, Views } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -195,6 +195,7 @@ import addMinutes from "date-fns/addMinutes";
 import enUS from "date-fns/locale/en-US";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { Dialog } from "@headlessui/react";
+import { CalendarDays, Sparkles, Clock4, UserCheck, MessageSquare } from "lucide-react";
 
 const localizer = dateFnsLocalizer({
   format,
@@ -375,12 +376,81 @@ const CalendarBooking = () => {
     rejected: "text-red-600 bg-red-100",
   };
 
+  const statusCounts = useMemo(
+    () => ({
+      total: events.length,
+      accepted: events.filter((e) => e.status === "accepted").length,
+      pending: events.filter((e) => e.status === "sent").length,
+      rejected: events.filter((e) => e.status === "rejected").length,
+    }),
+    [events],
+  );
+
+  const upcomingEvents = useMemo(() => {
+    const now = new Date();
+    return [...events]
+      .filter((e) => e.start > now)
+      .sort((a, b) => a.start - b.start)
+      .slice(0, 4);
+  }, [events]);
+
   return (
-    <div className="p-4 sm:p-6 mt-12 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Calendar */}
-        <div className="lg:col-span-3 bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-800">
-          <h1 className="text-2xl font-bold mb-4 text-slate-900 dark:text-slate-100">Book Interview Slot</h1>
+    <div className="p-4 sm:p-6 mt-12 bg-slate-50 dark:bg-gray-950 text-slate-900 dark:text-slate-100 space-y-6">
+      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-violet-700 to-fuchsia-600 text-white shadow-xl px-6 py-7 border border-white/10">
+        <div className="absolute inset-0 opacity-25 bg-[radial-gradient(circle_at_15%_20%,_#fff_0,_transparent_30%),radial-gradient(circle_at_80%_15%,_#fff_0,_transparent_30%),radial-gradient(circle_at_60%_70%,_#fff_0,_transparent_30%)]" />
+        <div className="relative grid gap-4 lg:grid-cols-12 items-center">
+          <div className="lg:col-span-8 space-y-3">
+            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] bg-white/15 rounded-full px-3 py-1 backdrop-blur">
+              <Sparkles size={14} /> Mock interviews
+            </div>
+            <h1 className="text-3xl md:text-4xl font-semibold leading-tight">Practice with mentors before the real deal.</h1>
+            <p className="text-white/80 max-w-3xl">
+              Drop a slot, select an interviewer, and get actionable feedback. Reschedule or edit requests until they&apos;re accepted.
+            </p>
+          </div>
+          <div className="lg:col-span-4 grid grid-cols-2 gap-2">
+            <div className="rounded-2xl bg-white/15 backdrop-blur border border-white/20 p-3">
+              <p className="text-xs text-white/80">Accepted</p>
+              <p className="text-2xl font-semibold">{statusCounts.accepted}</p>
+            </div>
+            <div className="rounded-2xl bg-white/15 backdrop-blur border border-white/20 p-3">
+              <p className="text-xs text-white/80">Pending</p>
+              <p className="text-2xl font-semibold">{statusCounts.pending}</p>
+            </div>
+            <div className="rounded-2xl bg-white/15 backdrop-blur border border-white/20 p-3">
+              <p className="text-xs text-white/80">Rejected</p>
+              <p className="text-2xl font-semibold">{statusCounts.rejected}</p>
+            </div>
+            <div className="rounded-2xl bg-white/15 backdrop-blur border border-white/20 p-3">
+              <p className="text-xs text-white/80">Total</p>
+              <p className="text-2xl font-semibold">{statusCounts.total}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="grid grid-cols-1 xl:grid-cols-4 gap-6 items-start">
+        <div className="xl:col-span-3 bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-800 space-y-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.25em] text-indigo-700 dark:text-indigo-200">Schedule</p>
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100">Book Interview Slot</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                Click on a date to request a slot. Select an event to edit or cancel if it&apos;s not yet accepted.
+              </p>
+            </div>
+            <div className="hidden md:flex items-center gap-3 text-xs">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700">
+                <CalendarDays size={14} /> Sent
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 text-green-700">
+                <UserCheck size={14} /> Accepted
+              </span>
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 text-red-700">
+                <MessageSquare size={14} /> Rejected
+              </span>
+            </div>
+          </div>
           <Calendar
             localizer={localizer}
             events={events}
@@ -390,35 +460,77 @@ const CalendarBooking = () => {
             defaultView={Views.MONTH}
             views={["day", "week", "month"]}
             step={30}
-            style={{ height: "70vh", minHeight: "400px" }}
+            style={{ height: "65vh", minHeight: "420px" }}
             eventPropGetter={eventPropGetter}
             components={{ event: EventComponent }}
           />
+
+          <div className="grid md:grid-cols-2 gap-3">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 bg-slate-50 dark:bg-gray-900/60">
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <Clock4 size={16} /> Upcoming
+              </p>
+              {upcomingEvents.length ? (
+                <ul className="mt-2 space-y-2 text-sm">
+                  {upcomingEvents.map((e) => (
+                    <li
+                      key={e.id}
+                      className="flex items-center justify-between rounded-lg bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 px-3 py-2"
+                    >
+                      <div>
+                        <p className="font-semibold">{e.rawTitle}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">
+                          {format(e.start, "PPP p")} · {e.interviewer}
+                        </p>
+                      </div>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[e.status] || "bg-slate-100 text-slate-600"}`}
+                      >
+                        {e.status}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">No upcoming sessions yet.</p>
+              )}
+            </div>
+            <div className="rounded-xl border border-gray-200 dark:border-gray-800 p-3 bg-slate-50 dark:bg-gray-900/60">
+              <p className="text-sm font-semibold flex items-center gap-2">
+                <MessageSquare size={16} /> Notes
+              </p>
+              <ul className="mt-2 text-xs text-gray-600 dark:text-gray-400 space-y-1">
+                <li>Accepted slots are view-only.</li>
+                <li>Each slot is 30 minutes by default.</li>
+                <li>Pick an interviewer who best matches your role.</li>
+              </ul>
+            </div>
+          </div>
         </div>
 
-        {/* Interviewers */}
-        <div className="lg:col-span-1 bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 max-h-[70vh] overflow-auto border border-gray-200 dark:border-gray-800">
-          <h2 className="text-xl font-bold mb-4">Interviewers</h2>
-          <ul className="space-y-4">
-            {interviewers.map((i) => (
-              <li
-                key={i.id}
-                className="p-3 border rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center space-x-3 border-gray-200 dark:border-gray-800"
-                onClick={() => setSelectedInterviewer(i)}
-              >
-                <img src={i.profilePic} alt={i.name} className="w-12 h-12 rounded-full" />
-                <div>
-                  <p className="font-semibold">{i.name}</p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">{i.company}</p>
-                  <p className="text-xs text-gray-400 dark:text-gray-500">{i.experience} years exp.</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+        <div className="space-y-4">
+          <div className="bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-4 sm:p-6 border border-gray-200 dark:border-gray-800">
+            <h2 className="text-xl font-bold mb-4">Interviewers</h2>
+            <ul className="space-y-4 max-h-[70vh] overflow-auto pr-1">
+              {interviewers.map((i) => (
+                <li
+                  key={i.id}
+                  className="p-3 border rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center space-x-3 border-gray-200 dark:border-gray-800 transition"
+                  onClick={() => setSelectedInterviewer(i)}
+                >
+                  <img src={i.profilePic} alt={i.name} className="w-12 h-12 rounded-full" />
+                  <div>
+                    <p className="font-semibold">{i.name}</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{i.company}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-500">{i.experience} years exp.</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
 
-      {/* Booking Modal */}
       <Dialog open={isOpen} onClose={() => setIsOpen(false)}>
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 p-4 z-50 overflow-auto">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-800">
@@ -432,7 +544,7 @@ const CalendarBooking = () => {
             )}
             {currentEditingEvent && (
               <div
-                className={`inline-block px-3 py-1 rounded-full text-sm font-medium mb-4 ${statusColors[currentEditingEvent.status]}`}
+                className={`inline-block px-3 py-1 rounded-full text-sm font-medium mb-4 ${statusColors[currentEditingEvent.status] || "bg-slate-100 text-slate-600"}`}
               >
                 Status: {currentEditingEvent.status}
               </div>
@@ -503,7 +615,6 @@ const CalendarBooking = () => {
         </div>
       </Dialog>
 
-      {/* Interviewer Profile Modal */}
       <Dialog open={!!selectedInterviewer} onClose={() => setSelectedInterviewer(null)}>
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-40 z-50 overflow-auto">
           <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-xl w-full max-w-md border border-gray-200 dark:border-gray-800">
@@ -539,4 +650,3 @@ const CalendarBooking = () => {
 };
 
 export default CalendarBooking;
-

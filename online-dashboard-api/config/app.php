@@ -56,6 +56,8 @@ return [
 
     'frontend_url' => env('FRONTEND_URL', env('APP_URL', 'http://localhost')),
 
+    'email_banner_url' => env('EMAIL_MINI_BANNER_URL', null),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

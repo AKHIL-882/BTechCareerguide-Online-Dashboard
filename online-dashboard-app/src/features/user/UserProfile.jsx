@@ -1,15 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import ProfileDropdown from "./ProfileDropdown";
-import ProfileModal from "./ProfileModal";
 import UserTestimonials from "./UserTestimonials"; // import popup
 
 const UserProfile = ({ handleLogout }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // 🔹 new state
+  const [isFeedbackOpen, setIsFeedbackOpen] = useState(false); // dY"1 new state
   const dropdownRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Close dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -33,19 +32,15 @@ const UserProfile = ({ handleLogout }) => {
         <ProfileDropdown
           onClose={() => setIsOpen(false)}
           onViewProfile={() => {
-            setIsProfileModalOpen(true);
+            navigate("/profile");
             setIsOpen(false);
           }}
           onSendFeedback={() => {
-            setIsFeedbackOpen(true); // 🔹 open feedback modal
+            setIsFeedbackOpen(true); // dY"1 open feedback modal
             setIsOpen(false);
           }}
           handleLogout={handleLogout}
         />
-      )}
-
-      {isProfileModalOpen && (
-        <ProfileModal onClose={() => setIsProfileModalOpen(false)} />
       )}
 
       {isFeedbackOpen && (

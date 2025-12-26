@@ -5,6 +5,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResumeAnalysisController;
 use App\Http\Controllers\TestimonialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProjectsController;
@@ -19,6 +20,7 @@ Route::prefix('jobs')->group(function () {
 
 Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(function () {
 
+    Route::get('/profile', [ProfileController::class, 'show']);
     Route::post('/profile', [ProfileController::class, 'store']);
 
     Route::get('/user-details', [UserController::class, 'show']);
@@ -26,6 +28,8 @@ Route::middleware(['auth:api', 'api', UserRoleMiddleware::class])->group(functio
     Route::get('/dashboard-stats', [UserController::class, 'showDashboardStats']);
 
     Route::post('/jobs/{id}/report', [JobOpportunityController::class, 'report']);
+    Route::post('/jobs/{job}/apply', [ResumeAnalysisController::class, 'markApplied']);
+    Route::post('/resume-based-jobs', [ResumeAnalysisController::class, 'resumeBasedJobs']);
 
     Route::prefix('user-projects')->group(function () {
         Route::get('/', [UserProjectsController::class, 'index']);

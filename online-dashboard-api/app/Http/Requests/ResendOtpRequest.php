@@ -10,7 +10,7 @@ class ResendOtpRequest extends FormRequest
     {
         return [
             'purpose' => 'required|string|in:signup,login',
-            'email'   => 'required_without:user_id|email',
+            'email' => 'required_without:user_id|email',
             'user_id' => 'required_without:email|integer|exists:users,id',
         ];
     }

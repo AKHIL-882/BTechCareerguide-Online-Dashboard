@@ -110,6 +110,7 @@ class User extends Authenticatable
         'resume_drive_id',
         'resume_link',
         'drive_folder_id',
+        'profile_meta',
     ];
 
     /**
@@ -133,6 +134,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'skills' => 'array',
+            'profile_meta' => 'array',
         ];
     }
 
@@ -293,6 +295,12 @@ class User extends Authenticatable
 
     public function updateProfile(array $data): void
     {
+        $skillsData = $data['skills'] ?? $this->skills;
+
+        if (is_string($skillsData)) {
+            $skillsData = array_filter(array_map('trim', explode(',', $skillsData)));
+        }
+
         $this->fill([
             'name' => $data['name'] ?? $this->name,
             'email' => $data['email'] ?? $this->email,
@@ -300,7 +308,8 @@ class User extends Authenticatable
             'education' => $data['education'] ?? $this->education,
             'status' => $data['status'] ?? $this->status,
             'experience_years' => $data['experience_years'] ?? $this->experience_years,
-            'skills' => explode(',', $data['skills'] ?? $this->skills),
+            'skills' => $skillsData ?: [],
+            'profile_meta' => array_merge($this->profile_meta ?? [], $data['profile_meta'] ?? []),
         ]);
     }
 }

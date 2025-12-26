@@ -3,8 +3,8 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class SendOtpNotification extends Notification
 {
@@ -24,10 +24,10 @@ class SendOtpNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Your verification code')
-            ->greeting('Hi ' . $notifiable->name . ',')
+            ->greeting('Hi '.$notifiable->name.',')
             ->line('Your one-time verification code is:')
-            ->line('**' . $this->otp . '**')
-            ->line('This code expires in ' . $this->ttlMinutes . ' minutes.')
+            ->line('**'.$this->otp.'**')
+            ->line('This code expires in '.$this->ttlMinutes.' minutes.')
             ->line('If you did not request this, you can ignore this email.');
     }
 }

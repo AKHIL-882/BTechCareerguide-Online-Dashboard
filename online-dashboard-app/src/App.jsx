@@ -18,6 +18,9 @@ import AdminSlots from "@/features/admin/Pages/AdminSlots";
 import UserTestimonials from "@/features/user/UserTestimonials";
 import NewPasswordForm from "@/features/marketing/NewPasswordForm";
 import VerifyEmail from "@/features/marketing/VerifyEmail";
+import ResumeJobs from "@/features/user/ResumeJobs";
+import ProfilePage from "@/features/user/ProfilePage";
+import AdminBulkJobs from "@/features/admin/Pages/AdminBulkJobs";
 
 function App() {
   return (
@@ -43,6 +46,7 @@ function App() {
           <Route path="companyqa" element={<AdminCompanyQa />} />
           <Route path="materials" element={<AdminMaterials />} />
           <Route path="slots" element={<AdminSlots />} />
+          <Route path="bulk-jobs" element={<AdminBulkJobs />} />
         </Route>
 
         {/* User Routes */}
@@ -59,6 +63,8 @@ function App() {
           <Route path="/company-qa" element={<CompanyQA />} />
           <Route path="/calendar" element={<CalendarBooking />} />
           <Route path="/testimonials" element={<UserTestimonials />} />
+          <Route path="/resume-jobs" element={<ResumeJobs />} />
+          <Route path="/profile" element={<ProfilePage />} />
         </Route>
       </Routes>
     </AuthProvider>
