@@ -4,7 +4,7 @@ import { Rocket, Briefcase, CalendarClock, Sparkles, ArrowUpRight } from "lucide
 import Projects from "./Projects";
 import { useFetchJobs } from "../../hooks/useJob.js";
 import ShimmerJobs from "./ShimmerJobs.jsx";
-import StatsOverlayCards from "./StatsOverlayCards.jsx";
+// import StatsOverlayCards from "./StatsOverlayCards.jsx";
 import RelativeTime from "./RelativeTIme";
 
 const Dashboard = () => {
@@ -191,9 +191,9 @@ const Dashboard = () => {
         </div>
       </section>
 
-      <section className="mt-2">
+      {/* <section className="mt-2">
         <StatsOverlayCards />
-      </section>
+      </section> */}
     </main>
   );
 };
