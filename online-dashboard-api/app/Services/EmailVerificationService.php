@@ -25,9 +25,7 @@ class EmailVerificationService
     public function send(User $user): EmailVerificationCode
     {
         $challenge = $this->createChallenge($user);
-
-        Mail::to($user->email)->send(new VerifyEmailOtpMail($user, $challenge));
-
+        Mail::to($user->email)->queue(new VerifyEmailOtpMail($user, $challenge));
         return $challenge;
     }
 

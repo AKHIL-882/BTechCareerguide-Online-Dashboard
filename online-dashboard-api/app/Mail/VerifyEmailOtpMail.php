@@ -6,11 +6,12 @@ use App\Models\EmailVerificationCode;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmailOtpMail extends Mailable
+class VerifyEmailOtpMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
