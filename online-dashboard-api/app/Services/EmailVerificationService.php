@@ -25,7 +25,13 @@ class EmailVerificationService
     public function send(User $user): EmailVerificationCode
     {
         $challenge = $this->createChallenge($user);
-        Mail::to($user->email)->queue(new VerifyEmailOtpMail($user, $challenge));
+        try {
+            // Queue email to avoid blocking signup and swallow provider errors like MailerSend trial limits.
+            Mail::to($user->email)->queue(new VerifyEmailOtpMail($user, $challenge));
+        } catch (\Throwable $e) {
+            info('Email queue failed', ['error' => $e->getMessage()]);
+        }
+
         return $challenge;
     }
 
