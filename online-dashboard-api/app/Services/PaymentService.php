@@ -20,6 +20,10 @@ class PaymentService implements PaymentServiceInterface
         try {
             $amount = (int) $payload['amount'];
 
+            if ($amount <= 0) {
+                throw new \InvalidArgumentException('Amount must be greater than zero.');
+            }
+
             $order = $this->gateway->createOrder([
                 'receipt' => uniqid(),
                 'amount' => $amount * 100,
@@ -44,6 +48,7 @@ class PaymentService implements PaymentServiceInterface
                 'order_id' => $order['id'],
                 'key' => config('razorpay.key'),
                 'amount' => $amount,
+                'currency' => 'INR',
             ];
         } catch (\Throwable $e) {
             // Event logging removed; add instrumentation here if payment initiation failures need auditing.

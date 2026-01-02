@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, forwardRef } from "react";
+import React, { useEffect, forwardRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   LayoutDashboard,
   Briefcase,
   GitMerge,
+  Users,
   MessageSquare,
   FileText,
   CalendarClock,
@@ -17,6 +18,7 @@ const navItems = [
   { to: "/admin/jobs", label: "Jobs", Icon: Briefcase },
   { to: "/admin/bulk-jobs", label: "Bulk Jobs", Icon: UploadCloud },
   { to: "/admin/projects", label: "Projects", Icon: GitMerge },
+  { to: "/admin/user-projects", label: "User Projects", Icon: Users },
   { to: "/admin/companyqa", label: "Company Q/A", Icon: MessageSquare },
   { to: "/admin/materials", label: "Materials", Icon: FileText },
   { to: "/admin/slots", label: "Test Slots", Icon: CalendarClock },
@@ -65,11 +67,10 @@ const SideBar = forwardRef(function SideBar({ toggleSidebar }, sidebarRef) {
                 key={to}
                 to={to}
                 onClick={toggleSidebar}
-                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${
-                  active
-                    ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 border border-indigo-100 dark:border-indigo-800"
-                    : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                }`}
+                className={`flex items-center gap-3 px-3 py-2 rounded-lg transition ${active
+                  ? "bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-200 border border-indigo-100 dark:border-indigo-800"
+                  : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  }`}
               >
                 <Icon size={18} />
                 <span className="text-sm font-medium">{label}</span>

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminProjectsRequest;
+use App\Http\Requests\UpdateProjectStatusRequest;
 use App\Http\Responses\ApiResponse;
 use App\Models\AdminProject;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -83,16 +83,17 @@ class AdminProjectsController extends Controller
         // write code here
     }
 
-    public function updateStatus(Request $request)
+    public function updateStatus(UpdateProjectStatusRequest $request)
     {
-        // Logging removed; add request logging here if project status changes need auditing.
-        $request->validate([
-            'project_id' => 'required|exists:projects,id',
-            'project_status' => 'required|integer|min:0|max:6',
-        ]);
+        $payload = $request->validated();
 
-        $project = Project::find($request->project_id);
-        $project->project_status = $request->project_status;
+        $project = Project::findOrFail($payload['project_id']);
+        $project->project_status = (int) $payload['project_status'];
+
+        if (array_key_exists('payment_amount', $payload)) {
+            $project->payment_amount = (int) $payload['payment_amount'];
+        }
+
         $project->save();
 
         return response()->json(['message' => 'Project status updated successfully!', 'project' => $project]);

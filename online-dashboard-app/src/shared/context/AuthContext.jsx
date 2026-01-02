@@ -1,5 +1,6 @@
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { clearAuthStorage } from "@/utils/auth";
 
 export const AuthContext = createContext();
 
@@ -16,8 +17,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(() => {
     setAuth({ token: null, expiresIn: null });
-    localStorage.removeItem("data");
-    localStorage.removeItem("roles"); // Also remove role if stored separately
+    clearAuthStorage();
     navigate("/", { replace: true });
   }, [navigate]);
 

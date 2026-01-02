@@ -21,6 +21,7 @@ import VerifyEmail from "@/features/marketing/VerifyEmail";
 import ResumeJobs from "@/features/user/ResumeJobs";
 import ProfilePage from "@/features/user/ProfilePage";
 import AdminBulkJobs from "@/features/admin/Pages/AdminBulkJobs";
+import UserProjectsPage from "@/features/admin/Pages/UserProjectsPage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route index element={<AdminDashBoard />} />
           <Route path="jobs" element={<AdminJobs />} />
           <Route path="projects" element={<AdminProjects />} />
+          <Route path="user-projects" element={<UserProjectsPage />} />
           <Route path="companyqa" element={<AdminCompanyQa />} />
           <Route path="materials" element={<AdminMaterials />} />
           <Route path="slots" element={<AdminSlots />} />
