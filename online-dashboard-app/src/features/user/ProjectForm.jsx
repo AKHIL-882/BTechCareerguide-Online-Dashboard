@@ -5,8 +5,7 @@ const ProjectForm = ({
   handleInputChange,
   handleFileChange,
   handleSubmit,
-  setShowForm,
-  setShowProjects,
+  onCancel,
 }) => (
   <div className="mt-8 border p-4 rounded-lg bg-white dark:bg-gray-900 shadow-lg mx-auto w-full border-gray-200 dark:border-gray-800 text-slate-900 dark:text-slate-100">
     <h2 className="text-lg font-semibold text-violet-800 dark:text-violet-400 font-display">
@@ -96,10 +95,7 @@ const ProjectForm = ({
         <button
           type="button"
           className="bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 py-2 px-4 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 font-sans"
-          onClick={() => {
-            setShowForm(false);
-            setShowProjects(true);
-          }}
+          onClick={onCancel}
         >
           Cancel
         </button>

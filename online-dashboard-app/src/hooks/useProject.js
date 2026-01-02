@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { toast } from "react-toastify";
 import {
   fetchProjectsApi,
@@ -8,14 +8,29 @@ import {
   searchProjectsApi,
   updateProjectStatusApi,
 } from "../api/projectApi";
+import {
+  getStatusLabel,
+  normalizeProjectStatus,
+} from "@/constants/projectStatus";
+
+const getStatusValue = (status) => normalizeProjectStatus(status);
 
 // FETCH PROJECTS
 export const useFetchProjects = (isDashboard) => {
   const [projectsListings, setProjectsListings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const fetchedRef = useRef({});
 
   useEffect(() => {
+    const fetchKey = isDashboard ? "dashboard" : "full";
+    if (fetchedRef.current[fetchKey]) {
+      return;
+    }
+    fetchedRef.current[fetchKey] = true;
+
+    let cancelled = false;
+
     const fetchProjects = async () => {
       const data = JSON.parse(localStorage.getItem("data"));
       const accessToken = data?.access_token;
@@ -24,20 +39,33 @@ export const useFetchProjects = (isDashboard) => {
         const response = await fetchProjectsApi(accessToken);
         const responseData = response.data;
         const projectsData = Array.isArray(responseData.data)
-          ? responseData.data
+          ? responseData.data.map((project) => ({
+              ...project,
+              project_status: getStatusValue(project.project_status),
+            }))
           : [];
-        setProjectsListings(
-          isDashboard ? projectsData.slice(0, 3) : projectsData,
-        );
+        if (!cancelled) {
+          setProjectsListings(
+            isDashboard ? projectsData.slice(0, 3) : projectsData,
+          );
+        }
       } catch (err) {
         localStorage.clear();
-        setError("Session Expired! Relogin Again!!");
+        if (!cancelled) {
+          setError("Session Expired! Relogin Again!!");
+        }
         console.error(err);
       } finally {
-        setLoading(false);
+        if (!cancelled) {
+          setLoading(false);
+        }
       }
     };
     fetchProjects();
+
+    return () => {
+      cancelled = true;
+    };
   }, [isDashboard]);
 
   return { projectsListings, setProjectsListings, loading, error };
@@ -195,27 +223,36 @@ export const useSearchProjects = () => {
 };
 
 // UPDATE STATUS (not hook, simple fn)
-export const handleStatusChange = async (projectId, newStatus) => {
+export const handleStatusChange = async (
+  projectId,
+  newStatus,
+  paymentAmount,
+) => {
   const data = JSON.parse(localStorage.getItem("data"));
   const accessToken = data?.access_token;
 
   try {
     const response = await updateProjectStatusApi(
       projectId,
-      newStatus,
+      Number(newStatus),
       accessToken,
+      paymentAmount,
     );
     if (response.status === 200) {
-      alert("Status updated successfully!");
-      window.location.reload();
-    } else {
-      alert(
-        "Failed to update status: " +
-          (response.data.message || "Unknown error"),
+      const updatedProject = response.data.project;
+      const normalizedProject = {
+        ...updatedProject,
+        project_status: getStatusValue(updatedProject?.project_status),
+      };
+      toast.success(
+        `Status updated to ${getStatusLabel(normalizedProject.project_status)}`,
       );
+      return normalizedProject;
+    } else {
+      toast.error(response.data.message || "Failed to update status");
     }
   } catch (error) {
     console.error("Error updating status:", error);
-    alert("An error occurred while updating the status.");
+    toast.error("An error occurred while updating the status.");
   }
 };

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { API_BASE_URL } from "./api/apiConfig";
+import { logoutAndRedirect } from "@/utils/auth";
 
 // //userlogin
 // export const useLogin = () => {
@@ -699,6 +700,9 @@ export const getUserDetails = async (accessToken) => {
   const data = await res.json();
 
   if (!res.ok) {
+    if ([401, 403, 419].includes(res.status)) {
+      logoutAndRedirect();
+    }
     throw new Error(data.message || "Session Expired! Relogin Again!!");
   }
 

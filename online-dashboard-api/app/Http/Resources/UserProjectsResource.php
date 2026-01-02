@@ -23,6 +23,7 @@ class UserProjectsResource extends JsonResource
             'document_name' => $this->getFile($this->document_name),
             'project_status' => $this->project_status,
             'payment_status' => $this->payment_status,
+            'payment_amount' => $this->payment_amount,
             'id' => $this->id,
             'company_name' => $this->company_name,
             'youtube_video_link' => $this->youtube_video_link,
@@ -35,11 +36,29 @@ class UserProjectsResource extends JsonResource
 
     public function getFile($document_name): mixed
     {
-        $fileName = basename($document_name);
-        if (Storage::disk('public')->exists('userProjectFiles/'.$fileName)) {
-            return Storage::disk('public')->url('userProjectFiles/'.$fileName);
-        } else {
-            return 'File Not Found';
+        if (! $document_name) {
+            return null;
         }
+
+        $fileName = basename($document_name);
+        $publicPath = 'userProjectFiles/'.$fileName;
+
+        if (Storage::disk('public')->exists($publicPath)) {
+            return Storage::disk('public')->url($publicPath);
+        }
+
+        if (Storage::disk('public')->exists($document_name)) {
+            return Storage::disk('public')->url($document_name);
+        }
+
+        try {
+            if (Storage::disk('google')->exists($document_name)) {
+                return Storage::disk('google')->url($document_name);
+            }
+        } catch (\Throwable $e) {
+            // If the driver cannot generate a URL, fall through to the raw path.
+        }
+
+        return $document_name;
     }
 }

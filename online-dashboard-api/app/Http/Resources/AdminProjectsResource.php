@@ -19,6 +19,7 @@ class AdminProjectsResource extends JsonResource
             'company_name' => $this->company_name,
             'youtube_video_link' => $this->youtube_video_link,
             'payment_link' => $this->payment_link,
+            'payment_amount' => $this->payment_amount,
             'created_at' => $this->created_at,
             'user_id' => $this->user->id,
             'is_admin_project' => $this->is_admin_project,

@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
 
         Passport::tokensExpireIn(now()->addMinutes(1440));
         Passport::refreshTokensExpireIn(now()->addMinutes(1440));
-        // $this->getGoogleDriveStorage();
+        $this->getGoogleDriveStorage();
         Schema::defaultStringLength(191);
     }
 

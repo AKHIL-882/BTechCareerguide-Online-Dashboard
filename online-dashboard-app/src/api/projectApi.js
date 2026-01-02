@@ -59,12 +59,18 @@ export const searchProjectsApi = (searchValue, accessToken) =>
   );
 
 // Update project status
-export const updateProjectStatusApi = (projectId, newStatus, accessToken) =>
+export const updateProjectStatusApi = (
+  projectId,
+  newStatus,
+  accessToken,
+  paymentAmount,
+) =>
   post(
     "/admin_projects/update-project-status",
     {
       project_id: projectId,
       project_status: newStatus,
+      payment_amount: paymentAmount,
     },
     {
       headers: { Authorization: `Bearer ${accessToken}` },
@@ -73,12 +79,25 @@ export const updateProjectStatusApi = (projectId, newStatus, accessToken) =>
 
 import axios from "axios";
 
-export const paymentInitiator = async (accessToken) => {
+export const paymentInitiator = async (accessToken, { amount, projectId, projectStatus }) => {
+  const normalizedAmount = Number(amount);
+  const normalizedProjectId = Number(projectId);
+
   return axios.post(
     `${API_BASE_URL}/create-order`,
-    { amount: 500 },
+    {
+      amount: normalizedAmount,
+      project_id: normalizedProjectId,
+      ...(projectStatus !== undefined ? { project_status: projectStatus } : {}),
+    },
     {
       headers: { Authorization: `Bearer ${accessToken}` },
     },
   );
+};
+
+export const verifyPaymentApi = async (accessToken, payload) => {
+  return axios.post(`${API_BASE_URL}/verify-payment`, payload, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
 };

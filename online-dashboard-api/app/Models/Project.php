@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\BaseEnum;
 use App\Enums\ProjectStatus;
 use App\Http\Resources\AllProjectsResource;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -62,6 +63,7 @@ class Project extends Model
         'company_name',
         'youtube_video_link',
         'payment_link',
+        'payment_amount',
         'user_id',
         'is_admin_project',
         'project_name',
@@ -76,8 +78,72 @@ class Project extends Model
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'payment_amount' => 'integer',
+        'project_status' => ProjectStatus::class,
         'status' => ProjectStatus::class,
     ];
+
+    public function projectStatusValue(): int
+    {
+        $status = $this->project_status ?? $this->status;
+
+        if ($status instanceof BaseEnum) {
+            return (int) $status->value;
+        }
+
+        if (is_object($status) && property_exists($status, 'value')) {
+            return (int) $status->value;
+        }
+
+        if (is_array($status) && array_key_exists('value', $status)) {
+            return (int) $status['value'];
+        }
+
+        return (int) $status;
+    }
+
+    public function isAwaitingPayment(): bool
+    {
+        return $this->projectStatusValue() === ProjectStatus::AwaitingPayment;
+    }
+
+    public function isNotAwaitingPayment(): bool
+    {
+        return ! $this->isAwaitingPayment();
+    }
+
+    public function isPaymentSuccess(): bool
+    {
+        return $this->projectStatusValue() === ProjectStatus::PaymentSuccess;
+    }
+
+    public function ensureAwaitingPaymentOrFail(string $message = 'Payment is not enabled for this project.'): void
+    {
+        if ($this->isNotAwaitingPayment()) {
+            throw new \RuntimeException($message);
+        }
+    }
+
+    public function ensureAwaitingPaymentOrPaidOrFail(string $message = 'Payment is not expected for this project.'): void
+    {
+        if (! $this->isAwaitingPayment() && ! $this->isPaymentSuccess()) {
+            throw new \RuntimeException($message);
+        }
+    }
+
+    public function ensurePaymentAmountMatches(int $amount): void
+    {
+        if ($this->payment_amount !== null && (int) $this->payment_amount !== $amount) {
+            throw new \RuntimeException('Payment amount mismatch for this project.');
+        }
+    }
+
+    public function markPaymentSuccess(int $amount): void
+    {
+        $this->payment_amount = $this->payment_amount ?? $amount;
+        $this->project_status = ProjectStatus::PaymentSuccess;
+        $this->save();
+    }
 
     public function user(): BelongsTo
     {

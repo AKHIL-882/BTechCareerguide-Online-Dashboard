@@ -8,12 +8,7 @@ import {
   sendResetCodeApi,
   resetPasswordApi,
 } from "../api/authApi";
-
-const clearStoredAuth = () => {
-  localStorage.removeItem("data");
-  localStorage.removeItem("roles");
-  localStorage.removeItem("isLoggedIn");
-};
+import { clearAuthStorage } from "@/utils/auth";
 
 // LOGIN HOOK
 export const useLogin = () => {
@@ -120,7 +115,7 @@ export const useLogout = () => {
       // Swallow errors to ensure user is still logged out locally.
       console.error("Logout API error:", error);
     } finally {
-      clearStoredAuth();
+      clearAuthStorage();
       navigate("/", { replace: true });
       setLoading(false);
     }
@@ -136,7 +131,7 @@ export const logoutUser = async (accessToken) => {
   } catch (error) {
     console.error("Logout API error:", error);
   } finally {
-    clearStoredAuth();
+    clearAuthStorage();
   }
 };
 

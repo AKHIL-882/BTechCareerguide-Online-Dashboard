@@ -71,7 +71,7 @@ class UserProject extends Project
         }
 
         $fileName = time().'-'.$file->getClientOriginalName();
-        $filePath = $file->storeAs('ProjPort', $fileName, 'google');
+        $filePath = $file->storeAs('userProjectFiles', $fileName, 'public');
 
         $project = self::create([
             'project_name' => $request->project_name,
