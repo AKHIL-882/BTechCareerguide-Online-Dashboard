@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminProjectsController;
-use App\Http\Controllers\BookingController;
 use App\Http\Controllers\AdminTransactionController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\JobOpportunityController;
 use App\Http\Controllers\PaymentsController;
 use App\Http\Controllers\ProjectAccessController;

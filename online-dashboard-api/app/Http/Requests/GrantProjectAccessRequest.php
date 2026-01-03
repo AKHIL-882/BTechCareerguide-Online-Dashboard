@@ -14,7 +14,7 @@ class GrantProjectAccessRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'repo' => ['required', 'string', 'min:3'],
+            'repo' => ['required', 'string', 'min:3'],
         ];
     }
 }

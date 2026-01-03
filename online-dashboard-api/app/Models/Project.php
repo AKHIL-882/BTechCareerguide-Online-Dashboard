@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Enums\BaseEnum;
 use App\Enums\ProjectStatus;
 use App\Http\Resources\AllProjectsResource;
-use App\Models\ProjectAccess;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
