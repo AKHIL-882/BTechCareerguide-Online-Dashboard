@@ -9,6 +9,7 @@ import {
   FileText,
   CalendarClock,
   UploadCloud,
+  CreditCard,
 } from "lucide-react";
 
 const items = [
@@ -17,6 +18,7 @@ const items = [
   { to: "/admin/bulk-jobs", label: "Bulk Jobs", Icon: UploadCloud },
   { to: "/admin/projects", label: "Projects", Icon: GitMerge },
   { to: "/admin/user-projects", label: "User Projects", Icon: Users },
+  { to: "/admin/transactions", label: "Transactions", Icon: CreditCard },
   { to: "/admin/companyqa", label: "Company Q/A", Icon: MessageSquare },
   { to: "/admin/materials", label: "Materials", Icon: FileText },
   { to: "/admin/slots", label: "Test Slots", Icon: CalendarClock },

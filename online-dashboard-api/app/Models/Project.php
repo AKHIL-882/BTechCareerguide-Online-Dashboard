@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\BaseEnum;
 use App\Enums\ProjectStatus;
 use App\Http\Resources\AllProjectsResource;
+use App\Models\ProjectAccess;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -153,6 +154,11 @@ class Project extends Model
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function projectAccesses(): HasMany
+    {
+        return $this->hasMany(ProjectAccess::class);
     }
 
     public static function showAllProjects($userId)

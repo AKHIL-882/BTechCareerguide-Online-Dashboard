@@ -25,6 +25,10 @@ class GithubController extends Controller
 
     public function addCollaboratorToRepo(Request $request)
     {
-        return $this->githubService->addCollaborator($request->username, $request->email);
+        return $this->githubService->addCollaborator(
+            $request->username,
+            $request->email,
+            $request->repo
+        );
     }
 }

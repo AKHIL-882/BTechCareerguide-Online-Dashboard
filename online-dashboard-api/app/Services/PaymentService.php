@@ -37,6 +37,7 @@ class PaymentService implements PaymentServiceInterface
                 'user_id' => $user->id,
                 'phone' => $user?->phone,
                 'amount' => $amount,
+                'project_id' => $payload['project_id'] ?? null,
                 'razorpay_order_id' => $order['id'],
                 'razorpay_payment_id' => null,
                 'status' => Status::Pending,
@@ -71,6 +72,8 @@ class PaymentService implements PaymentServiceInterface
                     $this->payments->updateStatus($paymentRecord, [
                         'razorpay_payment_id' => $paymentId,
                         'status' => Status::Success,
+                        'payment_method' => $paymentData['method'] ?? null,
+                        'meta' => $paymentData,
                     ]);
                 }
 

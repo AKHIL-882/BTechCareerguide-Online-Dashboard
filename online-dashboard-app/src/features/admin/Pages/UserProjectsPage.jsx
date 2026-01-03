@@ -5,6 +5,10 @@ import {
   handleStatusChange,
 } from "../../../hooks/useProject.js";
 import {
+  fetchProjectAccessContextApi,
+  grantProjectAccessApi,
+} from "@/api/projectApi";
+import {
   PROJECT_STATUS,
   getStatusLabel,
   isPayableStatus,
@@ -25,6 +29,14 @@ const UserProjectsPage = ({ isDashboard = false }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [previewDocument, setPreviewDocument] = useState(null); // State to manage document preview
   const [isModalOpen, setIsModalOpen] = useState(false); // Manage modal visibility
+  const [grantModal, setGrantModal] = useState({
+    open: false,
+    project: null,
+    context: null,
+    repo: "",
+    loading: false,
+    submitting: false,
+  });
 
   const itemsPerPage = 5;
 
@@ -74,6 +86,92 @@ const UserProjectsPage = ({ isDashboard = false }) => {
       ...prev,
       [projectId]: amount,
     }));
+  };
+
+  const openGrantModal = async (project) => {
+    const accessToken = JSON.parse(localStorage.getItem("data"))?.access_token;
+    if (!accessToken) {
+      toast.error("Session expired. Please log in again.");
+      return;
+    }
+
+    setGrantModal({
+      open: true,
+      project,
+      context: null,
+      repo: "",
+      loading: true,
+      submitting: false,
+    });
+
+    try {
+      const res = await fetchProjectAccessContextApi(project.id, accessToken);
+      const payload = res.data?.data || res.data || {};
+      setGrantModal((prev) => ({
+        ...prev,
+        context: payload,
+        loading: false,
+      }));
+    } catch (error) {
+      console.error("Failed to fetch access context", error);
+      toast.error("Unable to load access details for this project.");
+      setGrantModal({
+        open: false,
+        project: null,
+        context: null,
+        repo: "",
+        loading: false,
+        submitting: false,
+      });
+    }
+  };
+
+  const closeGrantModal = () => {
+    setGrantModal({
+      open: false,
+      project: null,
+      context: null,
+      repo: "",
+      loading: false,
+      submitting: false,
+    });
+  };
+
+  const handleGrantAccess = async () => {
+    if (!grantModal.project) return;
+    const repo = grantModal.repo.trim();
+    if (!repo) {
+      toast.error("Enter a GitHub repo (owner/repo or full URL).");
+      return;
+    }
+    const accessToken = JSON.parse(localStorage.getItem("data"))?.access_token;
+    if (!accessToken) {
+      toast.error("Session expired. Please log in again.");
+      return;
+    }
+
+    setGrantModal((prev) => ({ ...prev, submitting: true }));
+
+    try {
+      await grantProjectAccessApi(grantModal.project.id, repo, accessToken);
+      toast.success("Access granted and recorded.");
+      setProjectsListings((prev) =>
+        prev.map((p) =>
+          p.id === grantModal.project.id
+            ? { ...p, project_status: PROJECT_STATUS.DELIVERED }
+            : p,
+        ),
+      );
+      closeGrantModal();
+    } catch (error) {
+      console.error("Failed to grant access", error);
+      toast.error(
+        error?.response?.data?.message ||
+          "Could not grant GitHub access. Please retry.",
+      );
+    } finally {
+      setGrantModal((prev) => ({ ...prev, submitting: false }));
+    }
   };
 
   const handleStatusSave = async (project) => {
@@ -428,6 +526,14 @@ const UserProjectsPage = ({ isDashboard = false }) => {
                           <div className="mt-2 flex justify-center">
                             <StatusBadge status={resolvedStatus} />
                           </div>
+                          {resolvedStatus === PROJECT_STATUS.PAYMENT_SUCCESS && (
+                            <button
+                              onClick={() => openGrantModal(project)}
+                              className="mt-2 inline-flex items-center justify-center w-full px-3 py-2 rounded-lg bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition"
+                            >
+                              Grant GitHub access
+                            </button>
+                          )}
                         </td>
                       </tr>
                     );
@@ -455,6 +561,91 @@ const UserProjectsPage = ({ isDashboard = false }) => {
           </>
         )}
       </div>
+
+      {grantModal.open && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/50 px-4">
+          <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg p-6 space-y-4 border border-gray-200 dark:border-gray-800">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                  Grant GitHub access
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  Add the user as a collaborator after successful payment.
+                </p>
+              </div>
+              <button
+                onClick={closeGrantModal}
+                className="text-sm text-gray-500 hover:text-gray-800 dark:hover:text-gray-200"
+              >
+                Close
+              </button>
+            </div>
+
+            {grantModal.loading ? (
+              <p className="text-sm text-gray-500">Loading payment details...</p>
+            ) : (
+              <>
+                <div className="rounded-lg bg-gray-50 dark:bg-gray-800/50 p-3 space-y-1 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Project</span>
+                    <span className="font-semibold">
+                      {grantModal.context?.project_name || grantModal.project?.project_name}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">User GitHub</span>
+                    <span className="font-semibold">
+                      {grantModal.context?.user?.github_username || "Missing"}
+                    </span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-500">Payment ID</span>
+                    <span className="font-semibold">
+                      {grantModal.context?.razorpay_payment_id || "—"}
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-slate-900 dark:text-slate-100">
+                    Repository (owner/repo or full URL)
+                  </label>
+                  <input
+                    type="text"
+                    value={grantModal.repo}
+                    onChange={(e) =>
+                      setGrantModal((prev) => ({ ...prev, repo: e.target.value }))
+                    }
+                    className="w-full rounded-lg border border-gray-200 dark:border-gray-700 px-3 py-2 bg-white dark:bg-gray-800 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    placeholder="e.g. my-org/cool-project"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-2">
+                  <button
+                    onClick={closeGrantModal}
+                    className="px-4 py-2 rounded-lg text-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleGrantAccess}
+                    disabled={
+                      grantModal.submitting ||
+                      !grantModal.context?.user?.github_username ||
+                      !grantModal.repo.trim()
+                    }
+                    className="px-4 py-2 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {grantModal.submitting ? "Granting..." : "Grant access"}
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Modal for document preview */}
       {isModalOpen && previewDocument && (

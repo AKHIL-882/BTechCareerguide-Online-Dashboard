@@ -32,10 +32,11 @@ class GithubClient
         }
     }
 
-    public function addCollaborator(string $username): bool
+    public function addCollaborator(string $username, ?string $repoSlug = null): bool
     {
         try {
-            $url = config('github.add_collaborator_url').'/'.env('GITHUB_REPO').'/collaborators/'.$username;
+            $slug = $repoSlug ?: (env('GITHUB_OWNER').'/'.env('GITHUB_REPO'));
+            $url = rtrim(config('github.add_collaborator_url'), '/').'/'.$slug.'/collaborators/'.$username;
 
             $this->client->put($url, [
                 'headers' => [
