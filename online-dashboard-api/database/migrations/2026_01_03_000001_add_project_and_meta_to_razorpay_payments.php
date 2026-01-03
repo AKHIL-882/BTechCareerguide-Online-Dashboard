@@ -10,25 +10,22 @@ return new class extends Migration
     {
         Schema::table('razorpay_payments', function (Blueprint $table) {
 
-            if (! Schema::hasColumn('razorpay_payments', 'project_id')) {
-                $table->foreignId('project_id')
-                    ->nullable()
-                    ->after('user_id')
-                    ->constrained()
-                    ->nullOnDelete();
-            }
+            // Add project_id with foreign key
+            $table->foreignId('project_id')
+                ->nullable()
+                ->after('user_id')
+                ->constrained()
+                ->nullOnDelete();
 
-            if (! Schema::hasColumn('razorpay_payments', 'payment_method')) {
-                $table->string('payment_method')
-                    ->nullable()
-                    ->after('amount');
-            }
+            // Add payment method
+            $table->string('payment_method')
+                ->nullable()
+                ->after('amount');
 
-            if (! Schema::hasColumn('razorpay_payments', 'meta')) {
-                $table->longText('meta')
-                    ->nullable()
-                    ->after('status');
-            }
+            // Add meta column
+            $table->longText('meta')
+                ->nullable()
+                ->after('status');
         });
     }
 
@@ -36,17 +33,15 @@ return new class extends Migration
     {
         Schema::table('razorpay_payments', function (Blueprint $table) {
 
-            if (Schema::hasColumn('razorpay_payments', 'project_id')) {
-                $table->dropConstrainedForeignId('project_id');
-            }
+            // Drop foreign key first
+            $table->dropForeign(['project_id']);
 
-            if (Schema::hasColumn('razorpay_payments', 'payment_method')) {
-                $table->dropColumn('payment_method');
-            }
-
-            if (Schema::hasColumn('razorpay_payments', 'meta')) {
-                $table->dropColumn('meta');
-            }
+            // Drop columns
+            $table->dropColumn([
+                'project_id',
+                'payment_method',
+                'meta',
+            ]);
         });
     }
 };
