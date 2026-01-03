@@ -35,6 +35,7 @@ class AuthService implements AuthServiceInterface
         return [
             'verification_required' => true,
             'email' => $user->email,
+            'verification_code' => $challenge->code,
             'verification_token' => $challenge->token,
             'expires_in' => $challenge->expires_at?->diffInSeconds(now()),
         ];
