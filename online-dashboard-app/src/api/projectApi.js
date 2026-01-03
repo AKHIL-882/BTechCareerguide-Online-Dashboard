@@ -101,3 +101,17 @@ export const verifyPaymentApi = async (accessToken, payload) => {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
 };
+
+export const fetchProjectAccessContextApi = (projectId, accessToken) =>
+  get(`/projects/${projectId}/access-context`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+
+export const grantProjectAccessApi = (projectId, repo, accessToken) =>
+  post(
+    `/projects/${projectId}/grant-access`,
+    { repo },
+    {
+      headers: { Authorization: `Bearer ${accessToken}` },
+    },
+  );

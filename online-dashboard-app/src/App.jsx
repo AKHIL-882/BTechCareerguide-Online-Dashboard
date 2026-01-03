@@ -22,6 +22,7 @@ import ResumeJobs from "@/features/user/ResumeJobs";
 import ProfilePage from "@/features/user/ProfilePage";
 import AdminBulkJobs from "@/features/admin/Pages/AdminBulkJobs";
 import UserProjectsPage from "@/features/admin/Pages/UserProjectsPage";
+import AdminTransactions from "@/features/admin/Pages/AdminTransactions";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
           <Route path="materials" element={<AdminMaterials />} />
           <Route path="slots" element={<AdminSlots />} />
           <Route path="bulk-jobs" element={<AdminBulkJobs />} />
+          <Route path="transactions" element={<AdminTransactions />} />
         </Route>
 
         {/* User Routes */}

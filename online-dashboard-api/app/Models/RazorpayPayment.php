@@ -15,9 +15,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $amount
  * @property string|null $razorpay_payment_id
  * @property string|null $razorpay_order_id
+ * @property int|null $project_id
+ * @property string|null $payment_method
+ * @property array|null $meta
  * @property \BenSampo\Enum\Enum $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Project|null $project
  * @property-read \App\Models\User $user
  *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|RazorpayPayment newModelQuery()
@@ -48,15 +52,24 @@ class RazorpayPayment extends Model
         'razorpay_order_id',
         'status',
         'user_id',
+        'project_id',
+        'payment_method',
+        'meta',
     ];
 
     protected $casts = [
         'status' => Status::class,
+        'meta' => 'array',
     ];
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function project(): BelongsTo
+    {
+        return $this->belongsTo(Project::class);
     }
 
     public function getStatusAttribute($value)

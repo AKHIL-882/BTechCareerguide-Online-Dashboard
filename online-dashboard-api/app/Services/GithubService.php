@@ -36,13 +36,13 @@ class GithubService
             ->response(Response::HTTP_OK);
     }
 
-    public function addCollaborator(string $username, string $email)
+    public function addCollaborator(string $username, string $email, ?string $repo = null)
     {
         if (! $this->client->userExists($username)) {
             return ApiResponse::setMessage('Github username not found')->response(Response::HTTP_NOT_FOUND);
         }
 
-        $repoAccess = $this->client->addCollaborator($username)
+        $repoAccess = $this->addCollaboratorToRepo($username, $repo)
             ? RepoAccessStatus::AccessGiven
             : RepoAccessStatus::AccessFailed;
 
@@ -64,5 +64,36 @@ class GithubService
                 ? Response::HTTP_OK
                 : Response::HTTP_BAD_REQUEST
         );
+    }
+
+    public function addCollaboratorToRepo(string $username, ?string $repo = null): bool
+    {
+        $repoSlug = $this->normalizeRepoSlug($repo);
+
+        return $this->client->addCollaborator($username, $repoSlug);
+    }
+
+    private function normalizeRepoSlug(?string $repo): string
+    {
+        if ($repo && str_contains($repo, 'github.com')) {
+            $parsed = parse_url($repo);
+            $path = $parsed['path'] ?? '';
+            $segments = array_values(array_filter(explode('/', $path)));
+            if (count($segments) >= 2) {
+                return $segments[0].'/'.$segments[1];
+            }
+        }
+
+        if ($repo && str_contains($repo, '/')) {
+            $parts = array_values(array_filter(explode('/', $repo)));
+            if (count($parts) >= 2) {
+                return $parts[0].'/'.$parts[1];
+            }
+        }
+
+        $owner = env('GITHUB_OWNER');
+        $defaultRepo = env('GITHUB_REPO');
+
+        return trim($owner.'/'.$defaultRepo, '/');
     }
 }

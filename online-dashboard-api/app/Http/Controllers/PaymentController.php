@@ -31,6 +31,7 @@ class PaymentController extends Controller
             info('Creating RazorPay order for project ID '.$project->id.' with amount '.$trustedAmount);
             $payload = $this->payments->createOrder($request->user(), [
                 'amount' => $trustedAmount,
+                'project_id' => $project->id,
             ]);
 
             return ApiResponse::setData($payload)->mergeEnumsIntoResults([Status::class])->response(Response::HTTP_OK);
