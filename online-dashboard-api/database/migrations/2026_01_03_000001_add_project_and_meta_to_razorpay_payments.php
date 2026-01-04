@@ -58,6 +58,8 @@ return new class extends Migration
 
     private function columnExists(string $table, string $column): bool
     {
-        return !empty(DB::select("SHOW COLUMNS FROM `{$table}` LIKE ?", [$column]));
+        // Older MySQL/MariaDB releases don't handle bindings with SHOW COLUMNS reliably
+        $column = str_replace('`', '``', $column);
+        return !empty(DB::select("SHOW COLUMNS FROM `{$table}` LIKE '{$column}'"));
     }
 };
