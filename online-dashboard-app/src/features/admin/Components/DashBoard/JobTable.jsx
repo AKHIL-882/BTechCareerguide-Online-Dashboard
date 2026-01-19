@@ -2,6 +2,17 @@ import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
+  const safeSplit = (value) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      return value
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
+    }
+    return [];
+  };
+
   return (
     <div className="overflow-x-auto rounded-lg">
       <table className="min-w-full bg-white border-none hidden sm:table">
@@ -21,7 +32,7 @@ const JobTable = ({ currentJobs, handleEdit, openDeletePopup }) => {
               <td className="py-2 px-4">{job.company_name}</td>
               <td className="py-2 px-4">{job.role}</td>
               <td className="py-2 px-4">{job.degree}</td>
-              <td className="py-2 px-4">{job.batch.split(",").join(", ")}</td>
+              <td className="py-2 px-4">{safeSplit(job.batch).join(", ")}</td>
               <td className="py-2 px-4">
                 <a
                   href={job.apply_link}

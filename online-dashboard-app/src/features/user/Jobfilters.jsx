@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { FaSlidersH, FaTimes } from "react-icons/fa";
 import SectionHeading from "./SectionHeading";
 import { useNavigate } from "react-router-dom";
 
-const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
+const JobFilters = ({ setFilteredJobs, filteredJobs, allJobs = [] }) => {
   const [showFilters, setShowFilters] = useState(false);
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
     selectedBranch: "",
     selectedBatch: "",
     selectedDegree: "",
     selectedJobType: "",
     selectedExperience: "",
-  });
+  };
+  const [formData, setFormData] = useState(defaultFormData);
   const [loading, setLoading] = useState(false);
+  const [resumeJobs, setResumeJobs] = useState([]);
+  const [resumeJobsReady, setResumeJobsReady] = useState(false);
 
   const [dropdownOptions, setDropdownOptions] = useState({
     branches: {},
@@ -45,6 +48,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const isFilterSelected = Object.values(formData).some((value) => value !== "");
+  const isJobsForYouDisabled = !resumeJobsReady;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,26 +74,242 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
     fetchDropdownData();
   }, [navigate]);
 
-  const fetchFilteredJobs = async () => {
-    if (!isFilterSelected && activeCategory === "All") return;
+  useEffect(() => {
+    const syncResumeJobs = () => {
+      const cachedReady = localStorage.getItem("resumeJobsReady") === "true";
+      setResumeJobsReady(cachedReady);
+      if (cachedReady) {
+        try {
+          const cached = JSON.parse(localStorage.getItem("resumeJobsCache") || "[]");
+          setResumeJobs(Array.isArray(cached) ? cached : []);
+        } catch (error) {
+          setResumeJobs([]);
+        }
+      } else {
+        setResumeJobs([]);
+      }
+    };
+
+    syncResumeJobs();
+    window.addEventListener("resumeJobsUpdated", syncResumeJobs);
+    return () => window.removeEventListener("resumeJobsUpdated", syncResumeJobs);
+  }, []);
+
+  const normalizeText = (value) => String(value || "").toLowerCase();
+
+  const includesValue = (jobValue, selectedValue) => {
+    if (!selectedValue) return true;
+    const jobTokens = normalizeText(jobValue)
+      .split(",")
+      .map((token) => token.trim())
+      .filter(Boolean);
+    const selected = normalizeText(selectedValue);
+    if (!jobTokens.length) return false;
+    return jobTokens.some((token) => token === selected || token.includes(selected));
+  };
+
+  const matchesExperience = (jobValue, selectedValue) => {
+    if (!selectedValue) return true;
+    const selected = normalizeText(selectedValue);
+    const selectedNumber = Number(selected);
+    const jobText = normalizeText(jobValue);
+    if (!jobText) return false;
+
+    if (jobText.includes("-")) {
+      const [minRaw, maxRaw] = jobText.split("-").map((value) => Number(value.trim()));
+      if (!Number.isNaN(selectedNumber) && !Number.isNaN(minRaw) && !Number.isNaN(maxRaw)) {
+        return selectedNumber >= minRaw && selectedNumber <= maxRaw;
+      }
+    }
+
+    const jobNumber = Number(jobText);
+    if (!Number.isNaN(selectedNumber) && !Number.isNaN(jobNumber)) {
+      return selectedNumber === jobNumber;
+    }
+
+    return jobText.includes(selected);
+  };
+
+  const containsAny = (value, keywords) =>
+    keywords.some((keyword) => normalizeText(value).includes(keyword));
+
+  const parseHighSalary = (ctc) => {
+    const text = normalizeText(ctc);
+    if (!text) return false;
+    const matches = text.match(/[\d.]+/g);
+    if (!matches) return false;
+    const value = Number(matches[0]);
+    if (Number.isNaN(value)) return false;
+
+    if (text.includes("lpa") || text.includes("lakh")) {
+      return value >= 10;
+    }
+
+    if (text.includes("crore")) {
+      return value >= 0.1;
+    }
+
+    if (value >= 1000000) {
+      return true;
+    }
+
+    if (value >= 100000 && (text.includes("year") || text.includes("annual"))) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const topCompanies = [
+    "tcs",
+    "infosys",
+    "wipro",
+    "accenture",
+    "ibm",
+    "cognizant",
+    "capgemini",
+    "hcl",
+    "tech mahindra",
+    "deloitte",
+    "amazon",
+    "google",
+    "microsoft",
+    "oracle",
+    "sap",
+    "ey",
+    "kpmg",
+    "pwc",
+  ];
+
+  const itKeywords = [
+    "developer",
+    "engineer",
+    "software",
+    "data",
+    "cloud",
+    "devops",
+    "qa",
+    "tester",
+    "frontend",
+    "backend",
+    "full stack",
+    "security",
+    "analyst",
+    "it",
+  ];
+
+  const isITJob = (job) =>
+    containsAny(`${job?.role} ${job?.job_type} ${job?.company_name}`, itKeywords);
+
+  const matchesCategory = (job) => {
+    switch (activeCategory) {
+      case "Fulltime":
+        return containsAny(job?.job_type, ["full"]);
+      case "Internship":
+        return containsAny(job?.job_type, ["intern"]);
+      case "Walk-in":
+        return containsAny(`${job?.job_type} ${job?.role}`, ["walk"]);
+      case "B.Tech":
+        return containsAny(job?.degree, ["b.tech", "btech", "b tech"]);
+      case "M.Tech":
+        return containsAny(job?.degree, ["m.tech", "mtech", "m tech"]);
+      case "MBA":
+        return containsAny(job?.degree, ["mba"]);
+      case "Remote":
+        return containsAny(job?.location, ["remote", "work from home", "wfh"]);
+      case "Part-time":
+        return containsAny(job?.job_type, ["part"]);
+      case "Freshers":
+        return containsAny(job?.experience, ["fresher", "0"]);
+      case "Experienced": {
+        const expNumber = Number(job?.experience);
+        if (!Number.isNaN(expNumber)) {
+          return expNumber > 0;
+        }
+        return containsAny(job?.experience, ["1", "2", "3", "4", "5", "+"]);
+      }
+      case "High Salary":
+        return parseHighSalary(job?.ctc);
+      case "Top Companies":
+        return containsAny(job?.company_name, topCompanies);
+      case "Government":
+        return containsAny(`${job?.company_name} ${job?.role}`, ["gov", "government", "psu"]);
+      case "IT":
+        return isITJob(job);
+      case "Non-IT":
+        return !isITJob(job);
+      case "Jobs for You":
+      case "All":
+      default:
+        return true;
+    }
+  };
+
+  const applyFilters = (closeModal = false) => {
+    if (!isFilterSelected && activeCategory === "All") {
+      setFilteredJobs(null);
+      return;
+    }
+
+    const baseJobs = activeCategory === "Jobs for You" ? resumeJobs : allJobs;
+    if (activeCategory === "Jobs for You" && baseJobs.length === 0) {
+      setFilteredJobs([]);
+      return;
+    }
 
     setLoading(true);
-    try {
-      const response = await axios.get("http://localhost:8000/api/jobs/filter", {
-        params: {
-          branch: formData.selectedBranch,
-          batch: formData.selectedBatch,
-          degree: formData.selectedDegree,
-          job_type: formData.selectedJobType,
-          experience: formData.selectedExperience,
-          category: activeCategory !== "All" ? activeCategory : "",
-        },
-      });
-      setFilteredJobs(response.data.data);
+    const filtered = (baseJobs || []).filter((job) => {
+      const matchesFilters =
+        includesValue(job?.branch, formData.selectedBranch) &&
+        includesValue(job?.batch, formData.selectedBatch) &&
+        includesValue(job?.degree, formData.selectedDegree) &&
+        includesValue(job?.job_type, formData.selectedJobType) &&
+        matchesExperience(job?.experience, formData.selectedExperience);
+
+      const matchesCategoryFilter =
+        activeCategory === "All" || activeCategory === "Jobs for You"
+          ? true
+          : matchesCategory(job);
+
+      return matchesFilters && matchesCategoryFilter;
+    });
+
+    setFilteredJobs(filtered);
+    if (closeModal) {
       setShowFilters(false);
-    } catch (error) {
-      console.error("Error fetching jobs:", error);
     }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (activeCategory === "All" && !isFilterSelected) {
+      setFilteredJobs(null);
+      return;
+    }
+    applyFilters(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeCategory]);
+
+  const handleCategoryClick = (category) => {
+    if (category === "Jobs for You" && isJobsForYouDisabled) return;
+    setActiveCategory(category);
+  };
+
+  const handleClear = () => {
+    setFilteredJobs(null);
+    setActiveCategory("All");
+    setFormData(defaultFormData);
+  };
+
+  const canApplyFilters = useMemo(
+    () => isFilterSelected || activeCategory !== "All",
+    [isFilterSelected, activeCategory],
+  );
+
+  const fetchFilteredJobs = () => {
+    if (!canApplyFilters) return;
+    setLoading(true);
+    applyFilters(true);
     setLoading(false);
   };
 
@@ -101,12 +321,13 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
             {categories.map((cat) => (
               <button
                 key={cat}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryClick(cat)}
+                disabled={cat === "Jobs for You" && isJobsForYouDisabled}
                 className={`px-5 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all ${
                   activeCategory === cat
                     ? "bg-violet-600 text-white shadow-md"
                     : "bg-gray-200 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
-                }`}
+                } ${cat === "Jobs for You" && isJobsForYouDisabled ? "opacity-60 cursor-not-allowed" : ""}`}
               >
                 {cat}
               </button>
@@ -124,7 +345,7 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
           </button>
           {filteredJobs && (
             <button
-              onClick={() => setFilteredJobs(null)}
+              onClick={handleClear}
               className="flex items-center space-x-2 text-red-500 px-4 py-2 border border-red-300 bg-white dark:bg-gray-900 rounded-lg hover:shadow"
             >
               <FaTimes className="text-lg" />
@@ -219,12 +440,12 @@ const JobFilters = ({ setFilteredJobs, filteredJobs }) => {
 
             <button
               className={`w-full py-2 mt-4 rounded ${
-                isFilterSelected || activeCategory !== "All"
+                canApplyFilters
                   ? "bg-violet-500 text-white hover:bg-violet-700"
                   : "bg-gray-300 dark:bg-gray-800 text-gray-500 cursor-not-allowed"
               }`}
               onClick={fetchFilteredJobs}
-              disabled={(!isFilterSelected && activeCategory === "All") || loading}
+              disabled={!canApplyFilters || loading}
             >
               {loading ? "Loading..." : "Apply Filters"}
             </button>

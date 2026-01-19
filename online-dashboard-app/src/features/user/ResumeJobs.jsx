@@ -32,6 +32,9 @@ const ResumeJobs = () => {
       const response = await fetchResumeJobsApi(formData, accessToken);
       const list = response.data?.data || response.data || [];
       setJobs(list);
+      localStorage.setItem("resumeJobsReady", "true");
+      localStorage.setItem("resumeJobsCache", JSON.stringify(list));
+      window.dispatchEvent(new Event("resumeJobsUpdated"));
       toast.success("Matched jobs generated from your resume.");
     } catch (error) {
       const msg =

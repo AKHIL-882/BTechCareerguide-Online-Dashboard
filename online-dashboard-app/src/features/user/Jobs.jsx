@@ -50,7 +50,11 @@ const Jobs = () => {
               Click “Filters” to open the panel; use categories for quick presets.
             </div>
           </div>
-          <Jobfilters setFilteredJobs={setFilteredJobs} filteredJobs={filteredJobs} />
+          <Jobfilters
+            setFilteredJobs={setFilteredJobs}
+            filteredJobs={filteredJobs}
+            allJobs={jobListings}
+          />
         </div>
 
         <div className="rounded-3xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-md p-4">
