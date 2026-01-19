@@ -7,6 +7,7 @@ use App\Models\JobApplication;
 use App\Models\JobOpportunity;
 use App\Traits\ParseFileTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -50,7 +51,7 @@ class ResumeAnalysisController extends Controller
                 'experience' => $job->experience,
                 'ctc' => $job->ctc,
                 'apply_link' => $job->apply_link,
-                'company_logo' => $job->company_logo,
+                'company_logo' => $this->resolveLogoUrl($job->company_logo),
                 'created_at' => $job->created_at,
                 'match_score' => $score,
                 'applied' => in_array($job->id, $appliedJobIds, true),
@@ -94,5 +95,18 @@ class ResumeAnalysisController extends Controller
         }
 
         return $score;
+    }
+
+    private function resolveLogoUrl(?string $logo): ?string
+    {
+        if (! $logo) {
+            return null;
+        }
+
+        if (Str::startsWith($logo, ['http://', 'https://'])) {
+            return $logo;
+        }
+
+        return Storage::disk('public')->url($logo);
     }
 }

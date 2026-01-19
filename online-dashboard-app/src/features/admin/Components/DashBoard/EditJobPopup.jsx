@@ -3,6 +3,17 @@ import InputField from "./InputField";
 import DropDownCheckBox from "./DropDownCheckBox";
 
 const EditJobPopup = ({ job, handleClose, handleSave }) => {
+  const toArray = (value) => {
+    if (Array.isArray(value)) return value;
+    if (typeof value === "string") {
+      return value
+        .split(",")
+        .map((v) => v.trim())
+        .filter(Boolean);
+    }
+    return [];
+  };
+
   const [formData, setFormData] = useState({
     company_name: "",
     role: "",
@@ -17,11 +28,11 @@ const EditJobPopup = ({ job, handleClose, handleSave }) => {
     if (job) {
       setFormData({
         id: job.id,
-        company_name: job.company_name,
-        role: job.role,
-        degree: job.degree || [], // Ensure degree are set correctly
-        batch: job.batch.split(",") || [],
-        apply_link: job.apply_link,
+        company_name: job.company_name || "",
+        role: job.role || "",
+        degree: toArray(job.degree),
+        batch: toArray(job.batch),
+        apply_link: job.apply_link || "",
       });
     }
   }, [job]);
